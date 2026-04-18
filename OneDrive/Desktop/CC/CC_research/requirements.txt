@@ -1,0 +1,21 @@
+# RAASA v1 — Python Dependencies
+# Python 3.13.5
+#
+# Core runtime (no third-party deps in raasa.core — runs on stdlib only)
+# All packages below are required for experiments, analysis, and testing.
+
+# ── Plotting & analysis ────────────────────────────────────────────────────────
+matplotlib==3.10.0
+seaborn==0.13.2
+numpy==2.4.4
+scikit-learn==1.6.1
+joblib==1.4.2
+
+# ── YAML configuration (Step 9 will migrate config.py to use this) ─────────────
+PyYAML==6.0.2
+
+# ── Testing ────────────────────────────────────────────────────────────────────
+pytest==8.4.1
+
+# ── Dev / type checking (optional, not required to run experiments) ────────────
+# types-PyYAML==6.0.12.20250915   # uncomment if using mypy
