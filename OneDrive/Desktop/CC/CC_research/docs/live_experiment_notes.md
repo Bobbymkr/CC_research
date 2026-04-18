@@ -289,3 +289,156 @@ The `RAASA` prototype is fully mature, spanning:
 - **Phase 3**: Edge-case resolution with bounded LLM intervention and production K8s deployment decoupling.
 
 The system proves that an autonomous agent can deterministically secure another agent's infrastructure safely, with non-deterministic reasoning gracefully isolated entirely inside "ambiguous" safety margins.
+
+---
+
+## Submission-Critical Follow-Up (April 18, 2026)
+
+This section records the paper-blocking evaluation gaps that were closed after the earlier live notes.
+
+### A/B â€” Scale gate + ML ablation
+
+The planned learned-model story did **not** hold under direct live comparison.
+
+Current comparable `small_tuned` ablation artifacts:
+
+- Linear arm mean:
+  [ablation_small_tuned_linear_vs_ml.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/ablation_small_tuned_linear_vs_ml.json)
+- ML run artifacts:
+  [run_small_tuned_raasa_ml_r1.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_small_tuned_raasa_ml_r1.summary.json),
+  [run_small_tuned_raasa_ml_r2.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_small_tuned_raasa_ml_r2.summary.json),
+  [run_small_tuned_raasa_ml_r3.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_small_tuned_raasa_ml_r3.summary.json)
+- Linear run artifacts:
+  [run_small_tuned_raasa_linear_r1.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_small_tuned_raasa_linear_r1.summary.json),
+  [run_small_tuned_raasa_linear_r2.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_small_tuned_raasa_linear_r2.summary.json),
+  [run_small_tuned_raasa_linear_r3.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_small_tuned_raasa_linear_r3.summary.json)
+
+Mean ablation result:
+
+| Controller | Precision | Recall | FPR | Switching Rate |
+|------------|-----------|--------|-----|----------------|
+| Isolation Forest | 0.333 | 0.278 | 0.111 | 0.0556 |
+| Linear tuned | 0.867 | 1.000 | 0.111 | 0.0185 |
+
+Decision:
+
+- The claim **"Isolation Forest improves over linear" must be removed**.
+- For the submission-quality scale evaluation, the stronger controller is the tuned linear profile:
+  [config_tuned_small_linear.yaml](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/configs/config_tuned_small_linear.yaml)
+
+Medium scale (10 containers) was therefore re-run with the stronger linear controller:
+
+- Mean metrics:
+  [medium_raasa_linear_mean.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/medium_raasa_linear_mean.json)
+- Per-run summaries:
+  [run_medium_raasa_linear_r1.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_medium_raasa_linear_r1.summary.json),
+  [run_medium_raasa_linear_r2.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_medium_raasa_linear_r2.summary.json),
+  [run_medium_raasa_linear_r3.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_medium_raasa_linear_r3.summary.json)
+
+Mean result across the 3 linear medium repeats:
+
+- Precision: `0.9524`
+- Recall: `1.0000`
+- FPR: `0.0370`
+- Benign restriction rate: `0.0370`
+- Malicious containment rate: `1.0000`
+- Switching rate: `0.0111`
+
+Interpretation:
+
+- The earlier medium-scale collapse was a **controller-selection problem**, not a platform-scale failure.
+- With the stronger tuned linear controller, RAASA scales to 10 containers with near-perfect detection and low benign cost.
+
+### C â€” Large scenario (20 containers)
+
+Large-scale completion artifact:
+
+- [run_large_raasa_linear_r1.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_large_raasa_linear_r1.summary.json)
+
+Observed result:
+
+- Total records: `120` (`20 containers x 6 ticks`)
+- Precision: `0.8727`
+- Recall: `1.0000`
+- FPR: `0.0972`
+- Benign restriction rate: `0.0972`
+- Malicious containment rate: `1.0000`
+
+Supportable paper wording:
+
+- RAASA was evaluated live at `3`, `10`, and `20` containers.
+- The 20-container run completed end-to-end with full audit logs and bounded benign cost.
+
+### G â€” Monitor overhead
+
+Formal overhead artifact:
+
+- [benign_only_overhead_linear.overhead.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/benign_only_overhead_linear.overhead.json)
+
+Key numbers:
+
+- RAASA process CPU mean: `2.47%`
+- RAASA process CPU p95: `5.58%`
+- Controller loop duration mean: `2.80s`
+- Controller loop duration p95: `3.54s`
+
+Important interpretation rule:
+
+- The host CPU delta is negative because adaptive containment reduces workload pressure relative to the no-controller benign baseline.
+- Therefore, the **process CPU** and **loop duration** numbers are the cleanest direct monitor-overhead evidence.
+- Do not overclaim host-level efficiency from this single benign-only setup.
+
+### D â€” Syscall-enriched coverage
+
+Repeated syscall artifacts:
+
+- Mean metrics:
+  [syscall_raasa_linear_mean.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/syscall_raasa_linear_mean.json)
+- Per-run summaries:
+  [run_syscall_raasa_linear_r1.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_syscall_raasa_linear_r1.summary.json),
+  [run_syscall_raasa_linear_r2.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/run_syscall_raasa_linear_r2.summary.json)
+
+Mean result across 2 runs:
+
+- Precision: `1.0000`
+- Recall: `1.0000`
+- FPR: `0.0000`
+- Malicious containment rate: `1.0000`
+
+Scope note for the paper:
+
+- This is **Docker/Desktop syscall-enriched signal evaluation**, not a claim of production eBPF capture.
+
+### E â€” Detection-only formal metrics
+
+Canonical detection-only summaries:
+
+- Applied-tier summary:
+  [detection_only_canonical.applied.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/detection_only_canonical.applied.summary.json)
+- Proposed-tier summary:
+  [detection_only_canonical.proposed.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/detection_only_canonical.proposed.summary.json)
+
+This gives the paper the exact contrast it needs:
+
+- Applied-tier metrics show detection-only is operationally equivalent to an undefended `L1` baseline.
+- Proposed-tier metrics show the reasoner *would* have escalated correctly, proving the value of closing the loop.
+
+### F/H â€” Tier trajectories + benign workload split
+
+New trajectory figures:
+
+- Small representative:
+  [fig5_tier_trajectory_small_linear.png](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/plots/fig5_tier_trajectory_small_linear.png)
+- Medium representative:
+  [fig5_tier_trajectory_medium_linear.png](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/plots_medium/fig5_tier_trajectory_medium_linear.png)
+
+Grouped medium workload breakdown:
+
+- [medium_raasa_linear.grouped.summary.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/logs/medium_raasa_linear.grouped.summary.json)
+
+Reviewer-facing takeaway:
+
+- `benign_steady` remains fully in `L1`
+- `benign_bursty` accounts for the small residual FPR / benign restriction cost
+- `malicious_pattern` is held at `L3`
+- `suspicious` is almost always elevated, often to `L3`, under the current tuned linear controller

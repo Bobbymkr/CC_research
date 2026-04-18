@@ -24,12 +24,16 @@ from __future__ import annotations
 import argparse
 import json
 import statistics
+from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
+
+from raasa.analysis.metrics import TIER_ORDER, load_records
 
 # ── Style ──────────────────────────────────────────────────────────────────────
 matplotlib.use("Agg")  # non-interactive backend — safe for headless/Windows CI
@@ -234,6 +238,61 @@ def plot_tier_occupancy(
     fig.savefig(path, dpi=_FIGURE_DPI)
     plt.close(fig)
     return path
+
+
+def plot_tier_trajectory(
+    records_or_path: str | Path | list[dict],
+    output_path: str | Path,
+    tier_field: str = "new_tier",
+    title: str | None = None,
+) -> Path:
+    records = (
+        load_records(records_or_path)
+        if isinstance(records_or_path, (str, Path))
+        else list(records_or_path)
+    )
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    if not records:
+        raise ValueError("Tier trajectory plot requires at least one record.")
+
+    grouped: defaultdict[str, list[dict]] = defaultdict(list)
+    for row in records:
+        grouped[row["container_id"]].append(row)
+
+    first_timestamp = min(datetime.fromisoformat(row["timestamp"]) for row in records)
+    fig, ax = plt.subplots(figsize=(9, 5))
+
+    for container_id, container_rows in sorted(grouped.items()):
+        sorted_rows = sorted(container_rows, key=lambda row: row["timestamp"])
+        xs = [
+            (datetime.fromisoformat(row["timestamp"]) - first_timestamp).total_seconds()
+            for row in sorted_rows
+        ]
+        ys = [TIER_ORDER.get(str(row.get(tier_field) or "L1"), 1) for row in sorted_rows]
+        metadata = sorted_rows[-1].get("metadata", {})
+        workload_key = metadata.get("workload_key", "workload")
+        label = f"{workload_key}:{container_id[-4:]}"
+        ax.step(xs, ys, where="post", label=label, linewidth=2.0)
+
+    ax.set_yticks([1, 2, 3])
+    ax.set_yticklabels(["L1", "L2", "L3"])
+    ax.set_xlabel("Time (seconds)", fontsize=11)
+    ax.set_ylabel(f"Tier ({tier_field})", fontsize=11)
+    ax.set_title(
+        title or f"Tier Trajectory Over Time ({tier_field})",
+        fontsize=12,
+        fontweight="bold",
+        pad=10,
+    )
+    ax.grid(axis="both", linestyle="--", alpha=0.45)
+    ax.legend(fontsize=8, framealpha=0.85, loc="best")
+    sns.despine(ax=ax, left=False, bottom=False)
+
+    fig.tight_layout()
+    fig.savefig(output, dpi=_FIGURE_DPI)
+    plt.close(fig)
+    return output
 
 
 # ── Master entrypoint ──────────────────────────────────────────────────────────

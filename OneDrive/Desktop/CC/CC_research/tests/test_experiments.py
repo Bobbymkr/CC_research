@@ -1,5 +1,6 @@
 import unittest
 
+from raasa.core.config import load_config
 from raasa.core.app import _apply_mode_override
 from raasa.core.models import PolicyDecision, Tier
 from raasa.experiments.scenarios import build_scenario
@@ -20,6 +21,18 @@ class ScenarioTests(unittest.TestCase):
         items = build_scenario("small_tuned", "demo")
         self.assertEqual(len(items), 3)
         self.assertEqual(items[-1].workload.key, "malicious_pattern_heavy")
+
+    def test_benign_only_scenario_has_expected_mix(self) -> None:
+        items = build_scenario("benign_only", "demo")
+        self.assertEqual(len(items), 3)
+        self.assertEqual([item.workload.key for item in items].count("benign_steady"), 2)
+        self.assertEqual([item.workload.key for item in items].count("benign_bursty"), 1)
+
+
+class ConfigTests(unittest.TestCase):
+    def test_linear_tuned_config_disables_ml_model(self) -> None:
+        config = load_config("raasa/configs/config_tuned_small_linear.yaml")
+        self.assertFalse(config.use_ml_model)
 
 
 class ModeOverrideTests(unittest.TestCase):

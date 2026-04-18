@@ -12,11 +12,10 @@ from raasa.core.models import Assessment, ContainerTelemetry, FeatureVector, Pol
 class AuditLogger:
     """Persists evidence, reasoning, and actions for every loop iteration."""
 
-    def __init__(self, directory: str | Path) -> None:
+    def __init__(self, directory: str | Path, run_label: str | None = None) -> None:
         self.directory = Path(directory)
         self.directory.mkdir(parents=True, exist_ok=True)
-        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        self.output_path = self.directory / f"run_{timestamp}.jsonl"
+        self.output_path = self.directory / build_run_filename(run_label)
 
     def log_tick(
         self,
@@ -65,3 +64,25 @@ class AuditLogger:
         with self.output_path.open("a", encoding="utf-8") as handle:
             for record in records:
                 handle.write(json.dumps(record) + "\n")
+
+
+def build_run_filename(run_label: str | None = None) -> str:
+    if run_label:
+        label = _sanitize_run_label(run_label)
+        if label.endswith(".jsonl"):
+            return label
+        if label.startswith("run_"):
+            return f"{label}.jsonl"
+        return f"run_{label}.jsonl"
+
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return f"run_{timestamp}.jsonl"
+
+
+def build_run_path(directory: str | Path, run_label: str | None = None) -> Path:
+    return Path(directory) / build_run_filename(run_label)
+
+
+def _sanitize_run_label(run_label: str) -> str:
+    cleaned = "".join(ch if ch.isalnum() or ch in {"-", "_", "."} else "_" for ch in run_label.strip())
+    return cleaned.strip("._") or "unnamed_run"

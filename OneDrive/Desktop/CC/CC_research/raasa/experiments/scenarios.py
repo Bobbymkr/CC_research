@@ -31,6 +31,10 @@ SCENARIO_LAYOUTS = {
         "benign_steady": 1,
         "malicious_syscall_heavy": 1,
     },
+    "benign_only": {
+        "benign_steady": 2,
+        "benign_bursty": 1,
+    },
     "medium": {
         "benign_steady": 4,
         "benign_bursty": 2,

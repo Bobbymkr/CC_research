@@ -10,6 +10,7 @@ seaborn==0.13.2
 numpy==2.4.4
 scikit-learn==1.6.1
 joblib==1.4.2
+psutil==6.1.1
 
 # ── YAML configuration (Step 9 will migrate config.py to use this) ─────────────
 PyYAML==6.0.2

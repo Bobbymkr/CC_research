@@ -53,7 +53,7 @@ class AuditLoggerTests(unittest.TestCase):
             shutil.rmtree(tempdir)
         tempdir.mkdir(parents=True, exist_ok=True)
         try:
-            logger = AuditLogger(tempdir)
+            logger = AuditLogger(tempdir, run_label="demo_run")
             now = datetime.now(timezone.utc)
             logger.log_tick(
                 telemetry_batch=[
@@ -99,6 +99,7 @@ class AuditLoggerTests(unittest.TestCase):
 
             contents = Path(logger.output_path).read_text(encoding="utf-8").strip().splitlines()
             self.assertEqual(len(contents), 1)
+            self.assertEqual(Path(logger.output_path).name, "run_demo_run.jsonl")
             payload = json.loads(contents[0])
             self.assertEqual(payload["container_id"], "c1")
             self.assertEqual(payload["risk"], 0.13)

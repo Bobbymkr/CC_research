@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -8,9 +9,11 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
+from raasa.analysis.metrics import write_metrics_summary
 from raasa.core.config import load_config
 from raasa.core.app import run_controller
-from raasa.experiments.scenarios import build_scenario
+from raasa.core.logger import build_run_path
+from raasa.experiments.scenarios import SCENARIO_LAYOUTS, build_scenario
 
 
 @dataclass(slots=True)
@@ -28,7 +31,7 @@ def _docker_runner(command: list[str]) -> subprocess.CompletedProcess[str]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run a RAASA experiment scenario")
     parser.add_argument("--mode", choices=["static_L1", "static_L3", "detection_only", "raasa"], required=True)
-    parser.add_argument("--scenario", choices=["small", "small_tuned", "network_test", "syscall_test", "medium", "large"], required=True)
+    parser.add_argument("--scenario", choices=sorted(SCENARIO_LAYOUTS.keys()), required=True)
     parser.add_argument("--duration", type=int, default=None)
     parser.add_argument("--poll-interval", type=int, default=5)
     parser.add_argument("--run-id", default=None)
@@ -46,6 +49,7 @@ def main() -> int:
 
     run_id = args.run_id or str(int(time.time()))
     items = build_scenario(args.scenario, run_id)
+    log_path = build_run_path(config.log_directory, run_id)
     duration = (
         args.duration
         if args.duration is not None
@@ -68,12 +72,32 @@ def main() -> int:
                 controller_mode,
                 "--iterations",
                 str(iterations),
+                "--run-label",
+                run_id,
                 "--containers",
                 *[item.name for item in started],
             ]
         )
     finally:
         cleanup_scenario(started)
+
+    summary_path = write_metrics_summary(log_path)
+    manifest_path = Path(config.log_directory) / "experiment_manifest.jsonl"
+    _write_manifest_row(
+        manifest_path,
+        {
+            "run_id": run_id,
+            "mode": args.mode,
+            "scenario": args.scenario,
+            "config": args.config,
+            "duration_seconds": duration,
+            "poll_interval_seconds": args.poll_interval,
+            "iterations": iterations,
+            "log_path": str(log_path),
+            "summary_path": str(summary_path),
+            "container_count": len(started),
+        },
+    )
     return 0
 
 
@@ -121,6 +145,12 @@ def cleanup_scenario(items: list[StartedContainer]) -> None:
             _docker_runner(["docker", "rm", "-f", item.name])
         except subprocess.CalledProcessError:
             continue
+
+
+def _write_manifest_row(path: Path, payload: dict[str, object]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(payload) + "\n")
 
 
 if __name__ == "__main__":
