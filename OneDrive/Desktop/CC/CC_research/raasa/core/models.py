@@ -57,6 +57,8 @@ class PolicyDecision:
     reason: str
     action_required: bool
     cooldown_active: bool = False
+    approval_required: bool = False
+    approval_state: str = "not_needed"
 
 
 @dataclass(slots=True)

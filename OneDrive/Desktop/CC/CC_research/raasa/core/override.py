@@ -1,5 +1,6 @@
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -15,7 +16,7 @@ def load_overrides(path: Optional[Path] = None) -> Dict[str, str]:
     if not target.exists():
         return {}
     try:
-        with open(target, "r") as f:
+        with open(target, "r", encoding="utf-8") as f:
             return json.load(f)
     except (json.JSONDecodeError, IOError):
         return {}
@@ -23,22 +24,23 @@ def load_overrides(path: Optional[Path] = None) -> Dict[str, str]:
 
 def save_overrides(overrides: Dict[str, str], path: Optional[Path] = None) -> None:
     target = path or get_override_path()
-    with open(target, "w") as f:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with open(target, "w", encoding="utf-8") as f:
         json.dump(overrides, f, indent=2)
 
 
-def set_override(container_id: str, tier: str) -> None:
-    overrides = load_overrides()
+def set_override(container_id: str, tier: str, path: Optional[Path] = None) -> None:
+    overrides = load_overrides(path)
     overrides[container_id] = tier.upper()
-    save_overrides(overrides)
+    save_overrides(overrides, path)
     print(f"Set override: {container_id} -> {tier.upper()}")
 
 
-def clear_override(container_id: str) -> None:
-    overrides = load_overrides()
+def clear_override(container_id: str, path: Optional[Path] = None) -> None:
+    overrides = load_overrides(path)
     if container_id in overrides:
         del overrides[container_id]
-        save_overrides(overrides)
+        save_overrides(overrides, path)
         print(f"Cleared override for {container_id}")
     else:
         print(f"No active override for {container_id}")
@@ -46,6 +48,11 @@ def clear_override(container_id: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Manage RAASA operator overrides")
+    
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return 0
+        
     subparsers = parser.add_subparsers(dest="command", required=True)
     
     set_parser = subparsers.add_parser("set", help="Force a container to a specific tier")

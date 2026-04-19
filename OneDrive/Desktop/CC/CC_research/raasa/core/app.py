@@ -29,6 +29,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--iterations", type=int, default=1, help="Number of controller iterations to run")
     parser.add_argument("--containers", nargs="*", default=[], help="Container IDs to inspect")
     parser.add_argument("--run-label", default=None, help="Optional label used for the audit log filename")
+    parser.add_argument("--scenario", default=None, help="Optional scenario label for audit metadata")
+    parser.add_argument("--controller-variant", default=None, help="Optional controller variant label")
     parser.add_argument(
         "--timing-output",
         default=None,
@@ -43,8 +45,13 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
 
     config = load_config(args.config)
     mode = args.mode or config.default_mode
+    controller_variant = args.controller_variant or config.controller_variant
 
-    observer = Observer()
+    observer = Observer(
+        syscall_source=config.syscall_source,
+        syscall_probe_dir=config.syscall_probe_directory,
+        syscall_probe_max_age_seconds=config.syscall_probe_max_age_seconds,
+    )
     extractor = FeatureExtractor(network_cap=config.network_cap, syscall_cap=config.syscall_cap)
     assessor = RiskAssessor(
         weights=config.risk_weights,
@@ -59,10 +66,20 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
         cooldown_seconds=config.cooldown_seconds,
         l3_min_confidence=config.l3_min_confidence,
         low_risk_streak_required=config.low_risk_streak_required,
+        l3_requires_approval=config.l3_requires_approval,
         use_llm_advisor=config.use_llm_advisor,
     )
     enforcer = ActionEnforcer(cpus_by_tier=config.cpus_by_tier)
-    logger = AuditLogger(config.log_directory, run_label=args.run_label)
+    logger = AuditLogger(
+        config.log_directory,
+        run_label=args.run_label,
+        run_metadata={
+            "mode": mode,
+            "scenario": args.scenario or "",
+            "controller_variant": controller_variant,
+            "config_path": str(args.config),
+        },
+    )
     iteration_timings: list[dict[str, float | int]] = []
 
     print(f"[RAASA] Starting controller in {mode!r} mode for {args.iterations} iteration(s).")
@@ -113,6 +130,8 @@ def _apply_mode_override(decisions, mode):
                     reason=f"{mode} override -> force {forced_tier}",
                     action_required=decision.previous_tier != target_tier,
                     cooldown_active=False,
+                    approval_required=False,
+                    approval_state="forced",
                 )
             )
         return updated
@@ -126,6 +145,8 @@ def _apply_mode_override(decisions, mode):
                     applied_tier=decision.previous_tier,
                     reason=f"{decision.reason} (detection_only mode — no action)",
                     action_required=False,
+                    approval_required=False,
+                    approval_state="not_needed",
                 )
             )
         return updated

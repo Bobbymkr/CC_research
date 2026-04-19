@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 import shutil
 import subprocess
 from datetime import datetime, timezone
@@ -122,10 +123,19 @@ def _parse_top_output(output: str) -> int:
 class Observer(BaseObserver):
     """Docker CLI-based telemetry collector. Used in prototype and Docker Desktop."""
 
-    def __init__(self, runner: CommandRunner | None = None) -> None:
+    def __init__(
+        self,
+        runner: CommandRunner | None = None,
+        syscall_source: str = "simulated",
+        syscall_probe_dir: str | Path = "raasa/runtime/syscalls",
+        syscall_probe_max_age_seconds: int = 15,
+    ) -> None:
         self.runner = runner or _default_runner
         self._previous_rx: Dict[str, float] = {}
         self._previous_tx: Dict[str, float] = {}
+        self.syscall_source = syscall_source.lower()
+        self.syscall_probe_dir = Path(syscall_probe_dir)
+        self.syscall_probe_max_age_seconds = max(int(syscall_probe_max_age_seconds), 1)
 
     def collect(self, container_ids: Iterable[str]) -> List[ContainerTelemetry]:
         timestamp = datetime.now(timezone.utc)
@@ -146,7 +156,7 @@ class Observer(BaseObserver):
         batch: List[ContainerTelemetry] = []
         for container_id in container_list:
             container_stats = stats.get(container_id, {})
-            container_details = inspect.get(container_id, {})
+            container_details = dict(inspect.get(container_id, {}))
             
             raw_rx = container_stats.get("network_rx_bytes", 0.0)
             raw_tx = container_stats.get("network_tx_bytes", 0.0)
@@ -157,7 +167,13 @@ class Observer(BaseObserver):
             self._previous_rx[container_id] = raw_rx
             self._previous_tx[container_id] = raw_tx
 
-            syscall_rate = self._estimate_syscall_rate(container_details, container_stats)
+            syscall_rate, syscall_status = self._collect_syscall_rate(
+                container_id,
+                container_details,
+                container_stats,
+            )
+            container_details["syscall_source"] = self.syscall_source
+            container_details["syscall_status"] = syscall_status
 
             batch.append(
                 ContainerTelemetry(
@@ -173,6 +189,16 @@ class Observer(BaseObserver):
                 )
             )
         return batch
+
+    def _collect_syscall_rate(
+        self,
+        container_id: str,
+        container_details: Dict[str, str],
+        container_stats: Dict[str, float],
+    ) -> tuple[float, str]:
+        if self.syscall_source == "probe":
+            return self._read_probe_syscall_rate(container_id, container_details)
+        return self._estimate_syscall_rate(container_details, container_stats), "simulated"
 
     def _collect_stats(self, container_ids: List[str]) -> Dict[str, Dict[str, float]]:
         command = [
@@ -242,3 +268,34 @@ class Observer(BaseObserver):
             # Benign: normal web/compute activity
             base = 5.0
             return base + (cpu / 100.0) * 45.0
+
+    def _read_probe_syscall_rate(
+        self,
+        container_id: str,
+        container_details: Dict[str, str],
+    ) -> tuple[float, str]:
+        identifiers = [container_id]
+        name = container_details.get("name", "").strip()
+        if name and name not in identifiers:
+            identifiers.append(name)
+
+        for identifier in identifiers:
+            probe_path = self.syscall_probe_dir / identifier / "syscall_rate"
+            if not probe_path.exists():
+                continue
+            try:
+                age_seconds = max(0.0, datetime.now(timezone.utc).timestamp() - probe_path.stat().st_mtime)
+            except OSError:
+                return 0.0, "probe_stat_failed"
+            if age_seconds > self.syscall_probe_max_age_seconds:
+                return 0.0, "probe_stale"
+            try:
+                raw_value = probe_path.read_text(encoding="utf-8").strip()
+                value = float(raw_value)
+            except (OSError, ValueError):
+                return 0.0, "probe_invalid"
+            if value < 0.0:
+                return 0.0, "probe_negative"
+            return value, "probe_ok"
+
+        return 0.0, "probe_missing"

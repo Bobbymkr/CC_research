@@ -12,10 +12,16 @@ from raasa.core.models import Assessment, ContainerTelemetry, FeatureVector, Pol
 class AuditLogger:
     """Persists evidence, reasoning, and actions for every loop iteration."""
 
-    def __init__(self, directory: str | Path, run_label: str | None = None) -> None:
+    def __init__(
+        self,
+        directory: str | Path,
+        run_label: str | None = None,
+        run_metadata: dict[str, object] | None = None,
+    ) -> None:
         self.directory = Path(directory)
         self.directory.mkdir(parents=True, exist_ok=True)
         self.output_path = self.directory / build_run_filename(run_label)
+        self.run_metadata = dict(run_metadata or {})
 
     def log_tick(
         self,
@@ -34,6 +40,7 @@ class AuditLogger:
             assessment = assessment_map.get(decision.container_id)
             records.append(
                 {
+                    **self.run_metadata,
                     "container_id": decision.container_id,
                     "timestamp": decision.timestamp.isoformat(),
                     "cpu": None if telemetry is None else telemetry.cpu_percent,
@@ -57,6 +64,8 @@ class AuditLogger:
                     "reason": decision.reason,
                     "action_required": decision.action_required,
                     "cooldown_active": decision.cooldown_active,
+                    "approval_required": decision.approval_required,
+                    "approval_state": decision.approval_state,
                     "metadata": {} if telemetry is None else telemetry.metadata,
                 }
             )

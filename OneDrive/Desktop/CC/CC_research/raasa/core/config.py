@@ -43,6 +43,19 @@ class AppConfig:
         return float(self.raw.get("telemetry", {}).get("syscall_cap", 500.0))
 
     @property
+    def syscall_source(self) -> str:
+        return str(self.raw.get("telemetry", {}).get("syscall_source", "simulated")).lower()
+
+    @property
+    def syscall_probe_directory(self) -> Path:
+        value = self.raw.get("telemetry", {}).get("syscall_probe_directory", "raasa/runtime/syscalls")
+        return Path(str(value))
+
+    @property
+    def syscall_probe_max_age_seconds(self) -> int:
+        return int(self.raw.get("telemetry", {}).get("syscall_probe_max_age_seconds", 15))
+
+    @property
     def use_ml_model(self) -> bool:
         return bool(self.raw.get("ml", {}).get("use_ml_model", False))
 
@@ -83,6 +96,10 @@ class AppConfig:
         return int(self.raw.get("policy", {}).get("low_risk_streak_required", 2))
 
     @property
+    def l3_requires_approval(self) -> bool:
+        return bool(self.raw.get("policy", {}).get("l3_requires_approval", False))
+
+    @property
     def cpus_by_tier(self) -> Dict[str, float]:
         return {
             tier: float(value)
@@ -92,6 +109,13 @@ class AppConfig:
     @property
     def live_run_guardrails(self) -> Dict[str, Any]:
         return dict(self.raw["enforcement"]["live_run_guardrails"])
+
+    @property
+    def controller_variant(self) -> str:
+        configured = self.raw.get("evaluation", {}).get("controller_variant")
+        if configured:
+            return str(configured)
+        return "ml_iforest" if self.use_ml_model else "linear_tuned"
 
 
 def load_config(path: str | Path = "raasa/configs/config.yaml") -> AppConfig:
