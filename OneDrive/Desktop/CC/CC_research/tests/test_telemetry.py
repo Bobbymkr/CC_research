@@ -1,3 +1,5 @@
+from pathlib import Path
+import shutil
 import subprocess
 import unittest
 
@@ -83,6 +85,24 @@ class ObserverTests(unittest.TestCase):
     def test_empty_container_list_returns_empty_batch(self) -> None:
         observer = Observer(runner=FakeRunner())
         self.assertEqual(observer.collect([]), [])
+
+    def test_probe_syscall_source_reads_workspace_file(self) -> None:
+        probe_root = Path("tests/.tmp_syscalls")
+        shutil.rmtree(probe_root, ignore_errors=True)
+        (probe_root / "c1").mkdir(parents=True, exist_ok=True)
+        (probe_root / "c1" / "syscall_rate").write_text("321.5\n", encoding="utf-8")
+        try:
+            observer = Observer(
+                runner=FakeRunner(),
+                syscall_source="probe",
+                syscall_probe_dir=probe_root,
+                syscall_probe_max_age_seconds=30,
+            )
+            batch = observer.collect(["c1"])
+            self.assertAlmostEqual(batch[0].syscall_rate, 321.5, places=1)
+            self.assertEqual(batch[0].metadata["syscall_status"], "probe_ok")
+        finally:
+            shutil.rmtree(probe_root, ignore_errors=True)
 
 
 if __name__ == "__main__":

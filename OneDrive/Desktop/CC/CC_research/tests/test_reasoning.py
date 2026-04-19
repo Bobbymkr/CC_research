@@ -1,6 +1,9 @@
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+import shutil
 import unittest
 
+from raasa.core.approval import set_approval
 from raasa.core.features import FeatureExtractor
 from raasa.core.models import Assessment, ContainerTelemetry, FeatureVector, Tier
 from raasa.core.policy import PolicyReasoner
@@ -169,6 +172,39 @@ class PolicyReasonerTests(unittest.TestCase):
             ]
         )[0]
         self.assertEqual(final_relax.applied_tier, Tier.L1)
+
+    def test_l3_requires_explicit_approval(self) -> None:
+        import raasa.core.approval as approval_module
+
+        temp_dir = Path("tests/.tmp_approval")
+        approval_path = temp_dir / "approvals.json"
+        original_path_func = approval_module.get_approval_path
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        temp_dir.mkdir(parents=True, exist_ok=True)
+        approval_module.get_approval_path = lambda workspace_dir=".": approval_path
+        try:
+            reasoner = PolicyReasoner(l3_requires_approval=True)
+            now = datetime.now(timezone.utc)
+            assessment = Assessment(
+                container_id="c1",
+                timestamp=now,
+                risk_score=0.95,
+                confidence_score=0.90,
+                reasons=[],
+            )
+
+            pending = reasoner.decide([assessment])[0]
+            self.assertEqual(pending.applied_tier, Tier.L1)
+            self.assertTrue(pending.approval_required)
+            self.assertEqual(pending.approval_state, "pending")
+
+            set_approval("c1", "approve", path=approval_path)
+            approved = reasoner.decide([assessment])[0]
+            self.assertEqual(approved.applied_tier, Tier.L3)
+            self.assertEqual(approved.approval_state, "approved")
+        finally:
+            approval_module.get_approval_path = original_path_func
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
 class LLMPolicyAdvisorTests(unittest.TestCase):
     def test_llm_called_on_l1_l2_ambiguity(self) -> None:

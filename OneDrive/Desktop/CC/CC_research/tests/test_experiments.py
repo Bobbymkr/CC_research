@@ -28,11 +28,18 @@ class ScenarioTests(unittest.TestCase):
         self.assertEqual([item.workload.key for item in items].count("benign_steady"), 2)
         self.assertEqual([item.workload.key for item in items].count("benign_bursty"), 1)
 
+    def test_mixed_adversarial_scenario_has_expected_mix(self) -> None:
+        items = build_scenario("mixed_adversarial", "demo")
+        self.assertEqual(len(items), 6)
+        self.assertEqual([item.workload.key for item in items].count("malicious_network_heavy"), 1)
+        self.assertEqual([item.workload.key for item in items].count("malicious_syscall_heavy"), 1)
+
 
 class ConfigTests(unittest.TestCase):
     def test_linear_tuned_config_disables_ml_model(self) -> None:
         config = load_config("raasa/configs/config_tuned_small_linear.yaml")
         self.assertFalse(config.use_ml_model)
+        self.assertEqual(config.controller_variant, "linear_tuned")
 
 
 class ModeOverrideTests(unittest.TestCase):

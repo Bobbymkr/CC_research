@@ -24,6 +24,7 @@ class AnalysisTests(unittest.TestCase):
                 "memory": 20.0,
                 "new_tier": "L1",
                 "reason": "hold",
+                "controller_variant": "linear_tuned",
                 "metadata": {"workload_class": "benign", "expected_tier": "L1"},
             },
             {
@@ -33,10 +34,12 @@ class AnalysisTests(unittest.TestCase):
                 "memory": 40.0,
                 "new_tier": "L3",
                 "reason": "escalate",
+                "controller_variant": "linear_tuned",
                 "metadata": {"workload_class": "malicious", "expected_tier": "L3"},
             },
         ]
         summary = compute_metrics(records)
+        self.assertEqual(summary["controller_variant"], "linear_tuned")
         self.assertIn("precision", summary)
         self.assertIn("recall", summary)
         self.assertIn("tier_occupancy", summary)

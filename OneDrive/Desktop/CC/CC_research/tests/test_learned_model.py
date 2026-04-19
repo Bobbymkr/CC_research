@@ -1,7 +1,8 @@
 """Unit tests for the Isolation Forest ML risk scoring path in RiskAssessor."""
 from datetime import datetime, timezone
 import os
-import tempfile
+from pathlib import Path
+import shutil
 import unittest
 
 import joblib
@@ -24,9 +25,15 @@ class IsolationForestRiskTests(unittest.TestCase):
         model = IsolationForest(n_estimators=50, contamination=0.01, random_state=42)
         model.fit(benign)
 
-        cls._tmp_dir = tempfile.mkdtemp()
-        cls._model_path = os.path.join(cls._tmp_dir, "test_iforest.pkl")
+        cls._tmp_dir = Path("tests/.tmp_ml_model")
+        shutil.rmtree(cls._tmp_dir, ignore_errors=True)
+        cls._tmp_dir.mkdir(parents=True, exist_ok=True)
+        cls._model_path = os.path.join(str(cls._tmp_dir), "test_iforest.pkl")
         joblib.dump(model, cls._model_path)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        shutil.rmtree(cls._tmp_dir, ignore_errors=True)
 
     # ── ML Model Loading ──────────────────────────────────────────────────
 

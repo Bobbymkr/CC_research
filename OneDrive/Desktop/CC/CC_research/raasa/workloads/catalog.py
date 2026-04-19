@@ -73,6 +73,46 @@ WORKLOAD_CATALOG = {
         description="CPU abuse plus bounded process fan-out under guardrails",
         expected_tier="L3",
     ),
+    "malicious_low_slow_cpu": WorkloadSpec(
+        key="malicious_low_slow_cpu",
+        category="malicious",
+        image="python:3.12-alpine",
+        command=[
+            "sh",
+            "-c",
+            (
+                "while true; do "
+                "python - <<'PY'\n"
+                "for _ in range(400000):\n"
+                "    pass\n"
+                "PY\n"
+                "sleep 1; "
+                "done"
+            ),
+        ],
+        description="Low-and-slow CPU abuse designed to stay below burst-focused thresholds",
+        expected_tier="L2",
+    ),
+    "malicious_burst_hide": WorkloadSpec(
+        key="malicious_burst_hide",
+        category="malicious",
+        image="python:3.12-alpine",
+        command=[
+            "sh",
+            "-c",
+            (
+                "while true; do "
+                "python - <<'PY'\n"
+                "for _ in range(2500000):\n"
+                "    pass\n"
+                "PY\n"
+                "sleep 6; "
+                "done"
+            ),
+        ],
+        description="Burst-and-hide CPU abuse targeting hysteresis boundaries",
+        expected_tier="L2",
+    ),
     "malicious_network_heavy": WorkloadSpec(
         key="malicious_network_heavy",
         category="malicious",
