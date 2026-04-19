@@ -10,6 +10,7 @@ policy:
   hysteresis_band: 0.05
   cooldown_seconds: 15
   l3_min_confidence: 0.65
+  l3_requires_approval: false
 
 risk:
   weights:
@@ -23,6 +24,9 @@ risk:
 telemetry:
   network_cap: 500000.0
   syscall_cap: 500.0
+  syscall_source: simulated
+  syscall_probe_directory: raasa/runtime/syscalls
+  syscall_probe_max_age_seconds: 15
 
 ml:
   use_ml_model: true
@@ -46,3 +50,6 @@ experiments:
     small: 3
     medium: 10
     large: 20
+
+evaluation:
+  controller_variant: ml_iforest

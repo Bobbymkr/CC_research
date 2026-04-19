@@ -25,12 +25,12 @@ risk:
 telemetry:
   network_cap: 500000.0
   syscall_cap: 500.0
-  syscall_source: simulated
+  syscall_source: probe
   syscall_probe_directory: raasa/runtime/syscalls
   syscall_probe_max_age_seconds: 15
 
 ml:
-  use_ml_model: true
+  use_ml_model: false
   model_path: "raasa/models/iforest_latest.pkl"
 
 enforcement:
@@ -53,4 +53,4 @@ experiments:
     large: 20
 
 evaluation:
-  controller_variant: ml_iforest
+  controller_variant: linear_tuned

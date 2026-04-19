@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse
 import json
 import statistics
+import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
@@ -390,6 +391,11 @@ def _cli() -> None:
     parser = argparse.ArgumentParser(
         description="Generate paper-ready plots from RAASA experiment summaries."
     )
+    
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return
+        
     parser.add_argument(
         "--adaptive", nargs="+", metavar="SUMMARY_JSON",
         help="Summary JSON files for adaptive (RAASA) runs",

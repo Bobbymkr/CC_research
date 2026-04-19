@@ -1,0 +1,362 @@
+[
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\analyze_latest.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "Analyzing: raasa/logs\\run_syscall_raasa_linear_r2.jsonl\n\nType            CPU%   f_cpu    risk    conf prev  new  reason\n--------------------------------------------------------------------------------------------------------------\nbenign           0.0   0.000  0.2680  0.2000   L1   L1  risk within current tier band -> hold\nMALICIOUS       51.6   0.516  0.8974  0.2000   L1   L3  risk and confidence high -> escalate to L3\nbenign           0.0   0.000  0.2680  0.4000   L1   L1  risk within current tier band -> hold\nMALICIOUS       20.3   0.203  0.6166  0.1753   L3   L3  risk within current tier band -> hold\nbenign           0.0   0.000  0.2680  0.6000   L1   L1  risk within current tier band -> hold\nMALICIOUS       20.8   0.208  0.6225  0.3036   L3   L3  risk within current tier band -> hold\nbenign           0.0   0.000  0.2680  0.7999   L1   L1  risk within current tier band -> hold\nMALICIOUS       27.8   0.278  0.6994  0.4985   L3   L3  risk within current tier band -> hold\nbenign           0.0   0.000  0.2680  0.9999   L1   L1  risk within current tier band -> hold\nMALICIOUS       20.0   0.200  0.6128  0.6522   L3   L3  risk within current tier band -> hold\nbenign           0.0   0.000  0.2680  0.9999   L1   L1  risk within current tier band -> hold\nMALICIOUS       25.0   0.250  0.6685  0.8720   L3   L3  risk within current tier band -> hold\n",
+    "stderr": "",
+    "duration": 0.11551403999328613,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\compute_means.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "Computing mean over:\n  raasa/logs\\run_small_tuned_raasa_ml_r3.jsonl\n  raasa/logs\\run_syscall_raasa_linear_r1.jsonl\n  raasa/logs\\run_syscall_raasa_linear_r2.jsonl\n\n=== PER-RUN RESULTS ===\n\nRun 1:\n  precision: 0.0000\n  recall: 0.0000\n  false_positive_rate: 0.0000\n  unnecessary_escalations: 0\n  benign_restriction_rate: 0.0000\n  malicious_containment_rate: 0.0000\n  switching_rate: 0.0000\n  explanation_coverage: 1.0000\n  tier_occupancy: {'L1': 1.0}\n  mean_time_to_safe_containment: 0.00s\n\nRun 2:\n  precision: 1.0000\n  recall: 1.0000\n  false_positive_rate: 0.0000\n  unnecessary_escalations: 0\n  benign_restriction_rate: 0.0000\n  malicious_containment_rate: 1.0000\n  switching_rate: 0.0000\n  explanation_coverage: 1.0000\n  tier_occupancy: {'L1': 0.5, 'L3': 0.5}\n  mean_time_to_safe_containment: 0.00s\n\nRun 3:\n  precision: 1.0000\n  recall: 1.0000\n  false_positive_rate: 0.0000\n  unnecessary_escalations: 0\n  benign_restriction_rate: 0.0000\n  malicious_containment_rate: 1.0000\n  switching_rate: 0.0000\n  explanation_coverage: 1.0000\n  tier_occupancy: {'L1': 0.5, 'L3': 0.5}\n  mean_time_to_safe_containment: 0.00s\n\n=== MEAN ACROSS 3 RUNS ===\n  mean_precision: 0.6667\n  mean_recall: 0.6667\n  mean_false_positive_rate: 0.0000\n  mean_unnecessary_escalations: 0.0000\n  mean_benign_restriction_rate: 0.0000\n  mean_malicious_containment_rate: 0.6667\n  mean_switching_rate: 0.0000\n  mean_explanation_coverage: 1.0000\n\n=== ACCEPTANCE CRITERIA CHECK ===\n  Precision == 1.0: \u274c FAIL (0.6667)\n  Recall >= 0.85:   \u274c FAIL (0.6667)\n  FPR == 0.0:       \u2705 PASS (0.0000)\n",
+    "stderr": "",
+    "duration": 0.15574908256530762,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\main.py",
+    "status": "TIMEOUT",
+    "exit_code": null,
+    "stdout": "",
+    "stderr": "",
+    "duration": 10.098397254943848,
+    "timed_out": true
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\__init__.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.09252405166625977,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\metrics.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.2032790184020996,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\overhead.py",
+    "status": "FAILED",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\overhead.py\", line 232, in <module>\n    _cli()\n    ~~~~^^\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\overhead.py\", line 219, in _cli\n    output = measure_benign_only_overhead(\n        config_path=args.config,\n    ...<5 lines>...\n        output_path=args.output,\n    )\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\overhead.py\", line 70, in measure_benign_only_overhead\n    baseline_host_cpu = _measure_baseline_cpu(baseline_items, config, duration_seconds, sample_interval_seconds)\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\overhead.py\", line 103, in _measure_baseline_cpu\n    started = start_scenario(items, config.live_run_guardrails)\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\experiments\\run_experiment.py\", line 139, in start_scenario\n    _docker_runner(command)\n    ~~~~~~~~~~~~~~^^^^^^^^^\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\experiments\\run_experiment.py\", line 28, in _docker_runner\n    return subprocess.run(command, capture_output=True, text=True, check=True)\n           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\subprocess.py\", line 577, in run\n    raise CalledProcessError(retcode, process.args,\n                             output=stdout, stderr=stderr)\nsubprocess.CalledProcessError: Command '['docker', 'run', '-d', '--cpus', '0.5', '--memory', '256m', '--pids-limit', '64', '--name', 'raasa-benign_only_overhead_baseline-benign_steady-1', '--label', 'raasa.class=benign', '--label', 'raasa.workload=benign_steady', '--label', 'raasa.expected_tier=L1', '--label', 'raasa.managed=true', 'nginx:1.27-alpine']' returned non-zero exit status 125.\n",
+    "duration": 0.832862377166748,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\plots.py",
+    "status": "FAILED",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\plots.py\", line 434, in <module>\n    _cli()\n    ~~~~^^\n  File \"c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\plots.py\", line 394, in _cli\n    if len(sys.argv) == 1:\n           ^^^\nNameError: name 'sys' is not defined. Did you mean: 'sns'? Or did you forget to import 'sys'?\n",
+    "duration": 7.219288110733032,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\analysis\\__init__.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.11153268814086914,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\app.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "[RAASA] Starting controller in 'adaptive' mode for 1 iteration(s).\n[RAASA] Tracking 0 container(s).\n[RAASA] Iteration 1/1\n[RAASA] Controller loop completed.\n",
+    "stderr": "",
+    "duration": 3.4229815006256104,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\approval.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "usage: approval.py [-h]\n\nManage RAASA approval decisions\n\noptions:\n  -h, --help  show this help message and exit\n",
+    "stderr": "",
+    "duration": 0.14690136909484863,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\base_observer.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.18763279914855957,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\config.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.15831542015075684,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\enforcement.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.13892173767089844,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\features.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.25292348861694336,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\llm_advisor.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.2670598030090332,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\logger.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.1894829273223877,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\models.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.12453913688659668,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\override.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "usage: override.py [-h]\n\nManage RAASA operator overrides\n\noptions:\n  -h, --help  show this help message and exit\n",
+    "stderr": "",
+    "duration": 0.11886715888977051,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\policy.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.12554430961608887,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\review.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "usage: review.py [-h]\n\nRAASA CLI review and operator actions\n\noptions:\n  -h, --help  show this help message and exit\n",
+    "stderr": "",
+    "duration": 0.10130786895751953,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\risk_model.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.13098502159118652,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\telemetry.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.18049883842468262,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\core\\__init__.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.049524784088134766,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\experiments\\run_experiment.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "usage: run_experiment.py [-h]\n                         --mode {static_L1,static_L3,detection_only,raasa}\n                         --scenario {benign_only,burst_hide_test,large,low_slow_test,medium,mixed_adversarial,network_test,small,small_tuned,syscall_test}\n                         [--duration DURATION] [--poll-interval POLL_INTERVAL]\n                         [--run-id RUN_ID] [--config CONFIG]\n\nRun a RAASA experiment scenario\n\noptions:\n  -h, --help            show this help message and exit\n  --mode {static_L1,static_L3,detection_only,raasa}\n  --scenario {benign_only,burst_hide_test,large,low_slow_test,medium,mixed_adversarial,network_test,small,small_tuned,syscall_test}\n  --duration DURATION\n  --poll-interval POLL_INTERVAL\n  --run-id RUN_ID\n  --config CONFIG\n",
+    "stderr": "",
+    "duration": 0.3432497978210449,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\experiments\\scenarios.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.14203190803527832,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\experiments\\__init__.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.07533526420593262,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\k8s\\observer_k8s.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.1741619110107422,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\k8s\\__init__.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.04761338233947754,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\ml\\train_iforest.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "2026-04-19 10:21:50,689 [INFO] Loaded 830 benign records for training.\n2026-04-19 10:21:50,689 [INFO] Training Isolation Forest...\n2026-04-19 10:21:51,274 [INFO] Saved trained Isolation Forest to raasa\\models\\iforest_latest.pkl\n",
+    "duration": 3.2416136264801025,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\workloads\\catalog.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.20213770866394043,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\raasa\\workloads\\__init__.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "duration": 0.10856246948242188,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\conftest.py",
+    "status": "FAILED",
+    "exit_code": 5,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 0 items\n\n============================ no tests ran in 0.04s ============================\n",
+    "stderr": "",
+    "duration": 4.964411497116089,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_analysis.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 8 items\n\ntests\\test_analysis.py ........                                          [100%]\n\n============================== warnings summary ===============================\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:64\n  C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:64: PyparsingDeprecationWarning: 'oneOf' deprecated - use 'one_of'\n    prop = Group((name + Suppress(\"=\") + comma_separated(value)) | oneOf(_CONSTANTS))\n\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:85\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:85\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:85\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:85\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:85\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:85\n  C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:85: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'\n    parse = parser.parseString(pattern)\n\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:89\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:89\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:89\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:89\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:89\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:89\n  C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_fontconfig_pattern.py:89: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'\n    parser.resetCache()\n\n..\\..\\..\\..\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_mathtext.py:45\n  C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\matplotlib\\_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'\n    ParserElement.enablePackrat()\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n======================= 8 passed, 14 warnings in 5.64s ========================\n",
+    "stderr": "",
+    "duration": 8.476224899291992,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_enforcement_logger.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 2 items\n\ntests\\test_enforcement_logger.py ..                                      [100%]\n\n============================== 2 passed in 0.08s ==============================\n",
+    "stderr": "",
+    "duration": 2.8471901416778564,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_experiments.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 7 items\n\ntests\\test_experiments.py .......                                        [100%]\n\n============================== 7 passed in 0.11s ==============================\n",
+    "stderr": "",
+    "duration": 2.5821280479431152,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_k8s_observer.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 14 items\n\ntests\\test_k8s_observer.py ..............                                [100%]\n\n============================= 14 passed in 0.09s ==============================\n",
+    "stderr": "",
+    "duration": 2.948786973953247,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_learned_model.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 9 items\n\ntests\\test_learned_model.py .........                                    [100%]\n\n============================== 9 passed in 2.83s ==============================\n",
+    "stderr": "",
+    "duration": 5.8475096225738525,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_override.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 1 item\n\ntests\\test_override.py .                                                 [100%]\n\n============================== 1 passed in 0.13s ==============================\n",
+    "stderr": "",
+    "duration": 4.499548673629761,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_reasoning.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 10 items\n\ntests\\test_reasoning.py ..........                                       [100%]\n\n============================= 10 passed in 0.20s ==============================\n",
+    "stderr": "",
+    "duration": 5.421127557754517,
+    "timed_out": false
+  },
+  {
+    "file": "c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\tests\\test_telemetry.py",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.5, pytest-8.4.1, pluggy-1.6.0\ncachedir: tests\\.pytest_cache\nrootdir: c:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\nconfigfile: pytest.ini\nplugins: anyio-4.9.0, langsmith-0.5.2, asyncio-1.3.0, cov-7.0.0, typeguard-4.4.4\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 6 items\n\ntests\\test_telemetry.py ......                                           [100%]\n\n============================== 6 passed in 0.28s ==============================\n",
+    "stderr": "",
+    "duration": 6.976099967956543,
+    "timed_out": false
+  }
+]

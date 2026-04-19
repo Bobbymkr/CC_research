@@ -1,7 +1,12 @@
 """Compute mean metrics across the 3 latest tuned adaptive runs."""
 import glob
 import json
+import sys
 from pathlib import Path
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from raasa.analysis.metrics import load_records, compute_metrics, write_metrics_summary
 
 

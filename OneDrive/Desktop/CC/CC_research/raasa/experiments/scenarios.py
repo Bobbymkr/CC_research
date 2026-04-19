@@ -31,6 +31,21 @@ SCENARIO_LAYOUTS = {
         "benign_steady": 1,
         "malicious_syscall_heavy": 1,
     },
+    "low_slow_test": {
+        "benign_steady": 1,
+        "malicious_low_slow_cpu": 1,
+    },
+    "burst_hide_test": {
+        "benign_bursty": 1,
+        "malicious_burst_hide": 1,
+    },
+    "mixed_adversarial": {
+        "benign_steady": 2,
+        "benign_bursty": 1,
+        "malicious_low_slow_cpu": 1,
+        "malicious_network_heavy": 1,
+        "malicious_syscall_heavy": 1,
+    },
     "benign_only": {
         "benign_steady": 2,
         "benign_bursty": 1,

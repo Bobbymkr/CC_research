@@ -110,7 +110,12 @@ def compute_metrics(
             remaining_expected_hits.pop(container_id, None)
 
     total_rows = len(rows)
+    first_row = rows[0]
     return {
+        "controller_variant": str(first_row.get("controller_variant", "")),
+        "mode": str(first_row.get("mode", "")),
+        "scenario": str(first_row.get("scenario", "")),
+        "config_path": str(first_row.get("config_path", "")),
         "tier_field": tier_field,
         "precision": _safe_divide(tp, tp + fp),
         "recall": _safe_divide(tp, tp + fn),

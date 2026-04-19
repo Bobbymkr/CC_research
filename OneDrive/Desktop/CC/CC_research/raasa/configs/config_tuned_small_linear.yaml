@@ -30,7 +30,7 @@ telemetry:
   syscall_probe_max_age_seconds: 15
 
 ml:
-  use_ml_model: true
+  use_ml_model: false
   model_path: "raasa/models/iforest_latest.pkl"
 
 enforcement:
@@ -53,4 +53,4 @@ experiments:
     large: 20
 
 evaluation:
-  controller_variant: ml_iforest
+  controller_variant: linear_tuned

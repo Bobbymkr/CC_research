@@ -35,12 +35,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--duration", type=int, default=None)
     parser.add_argument("--poll-interval", type=int, default=5)
     parser.add_argument("--run-id", default=None)
-    parser.add_argument("--config", default="raasa/configs/config.yaml")
+    parser.add_argument("--config", default="raasa/configs/config_tuned_small_linear.yaml")
     return parser
 
 
 def main() -> int:
     parser = build_parser()
+    
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return 0
+        
     args = parser.parse_args()
     config = load_config(args.config)
     if shutil.which("docker") is None:
@@ -63,17 +68,20 @@ def main() -> int:
             f"[RAASA] Running mode={args.mode}, scenario={args.scenario}, "
             f"containers={len(started)}, iterations={iterations}"
         )
-        controller_mode = "adaptive" if args.mode == "raasa" else args.mode
         run_controller(
             [
                 "--config",
                 args.config,
                 "--mode",
-                controller_mode,
+                args.mode,
                 "--iterations",
                 str(iterations),
                 "--run-label",
                 run_id,
+                "--scenario",
+                args.scenario,
+                "--controller-variant",
+                config.controller_variant,
                 "--containers",
                 *[item.name for item in started],
             ]
@@ -89,6 +97,7 @@ def main() -> int:
             "run_id": run_id,
             "mode": args.mode,
             "scenario": args.scenario,
+            "controller_variant": config.controller_variant,
             "config": args.config,
             "duration_seconds": duration,
             "poll_interval_seconds": args.poll_interval,
