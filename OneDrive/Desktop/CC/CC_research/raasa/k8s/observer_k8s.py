@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 from datetime import datetime, timezone
 from typing import Dict, Iterable, List, Optional
 
@@ -41,6 +42,7 @@ from raasa.core.base_observer import BaseObserver
 from raasa.core.models import ContainerTelemetry
 
 logger = logging.getLogger(__name__)
+_PROMETHEUS_LINE_RE = re.compile(r'^(?P<metric>[a-zA-Z_:][a-zA-Z0-9_:]*)(?:\{(?P<labels>[^}]*)\})?\s+(?P<value>[-+0-9.eE]+)$')
 
 
 def _read_proc_file(path: str) -> Optional[str]:
@@ -50,6 +52,13 @@ def _read_proc_file(path: str) -> Optional[str]:
             return f.read().strip()
     except OSError:
         return None
+
+
+def _parse_prometheus_labels(raw_labels: str) -> dict[str, str]:
+    if not raw_labels:
+        return {}
+    matches = re.findall(r'([a-zA-Z_][a-zA-Z0-9_]*)="([^"]*)"', raw_labels)
+    return {key: value for key, value in matches}
 
 
 class ObserverK8s(BaseObserver):
@@ -130,12 +139,18 @@ class ObserverK8s(BaseObserver):
         if self._k8s_client is None:
             return self._fallback_batch(pod_ids, timestamp, "k8s client unavailable")
 
+        network_counter_map = self._build_network_counter_map(self._fetch_cadvisor_metrics())
         results: List[ContainerTelemetry] = []
         for pod_ref in pod_ids:
-            results.append(self._collect_pod(pod_ref, timestamp))
+            results.append(self._collect_pod(pod_ref, timestamp, network_counter_map))
         return results
 
-    def _collect_pod(self, pod_ref: str, timestamp: datetime) -> ContainerTelemetry:
+    def _collect_pod(
+        self,
+        pod_ref: str,
+        timestamp: datetime,
+        network_counter_map: dict[tuple[str, str], tuple[float, float]],
+    ) -> ContainerTelemetry:
         """Collect telemetry for a single pod."""
         # Parse namespace/pod-name
         if "/" in pod_ref:
@@ -151,8 +166,8 @@ class ObserverK8s(BaseObserver):
             expected_tier = labels.get("raasa.expected_tier", "")
 
             cpu_percent, memory_percent = self._get_pod_metrics(namespace, pod_name)
-            delta_rx, delta_tx = self._get_network_delta(pod_ref)
-            syscall_rate = self._get_syscall_rate(uid)
+            delta_rx, delta_tx, network_status = self._get_network_delta(namespace, pod_name, uid, network_counter_map)
+            syscall_rate, syscall_status = self._get_syscall_rate(uid)
 
             return ContainerTelemetry(
                 container_id=pod_ref,
@@ -169,6 +184,10 @@ class ObserverK8s(BaseObserver):
                     "expected_tier": expected_tier,
                     "namespace": namespace,
                     "node": self.node_name,
+                    "network_source": "cadvisor",
+                    "network_status": network_status,
+                    "syscall_source": "probe",
+                    "syscall_status": syscall_status,
                 },
             )
         except Exception as exc:
@@ -217,19 +236,80 @@ class ObserverK8s(BaseObserver):
         except Exception:
             return 0.0, 0.0
 
-    def _get_network_delta(self, pod_ref: str) -> tuple[float, float]:
+    def _fetch_cadvisor_metrics(self) -> str:
         """
-        Return per-tick network I/O delta (bytes) for the pod.
+        Read raw cAdvisor metrics text through the Kubernetes node proxy.
 
-        In production, this reads from cAdvisor metrics exposed at
-        ``/api/v1/nodes/{node}/proxy/metrics/cadvisor`` (scraped via Prometheus).
-        For the prototype, we return 0.0 deltas and rely on the ML model's
-        4 other dimensions for scoring.
+        Returns an empty string when the endpoint is unavailable.
         """
-        # TODO (Step 12d): integrate cAdvisor Prometheus scrape for real network I/O
-        return 0.0, 0.0
+        if self._k8s_client is None or not self.node_name:
+            return ""
+        try:
+            return str(self._k8s_client.connect_get_node_proxy_with_path(self.node_name, "metrics/cadvisor"))
+        except Exception:
+            return ""
 
-    def _get_syscall_rate(self, pod_uid: str) -> float:
+    def _build_network_counter_map(
+        self,
+        metrics_text: str,
+    ) -> dict[tuple[str, str], tuple[float, float]]:
+        counters: dict[tuple[str, str], list[float]] = {}
+        if not metrics_text:
+            return {}
+
+        for raw_line in metrics_text.splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            match = _PROMETHEUS_LINE_RE.match(line)
+            if match is None:
+                continue
+            metric_name = match.group("metric")
+            if metric_name not in {
+                "container_network_receive_bytes_total",
+                "container_network_transmit_bytes_total",
+            }:
+                continue
+
+            labels = _parse_prometheus_labels(match.group("labels") or "")
+            namespace = labels.get("namespace", "")
+            pod_name = labels.get("pod", "") or labels.get("pod_name", "")
+            if not namespace or not pod_name:
+                continue
+            try:
+                value = max(0.0, float(match.group("value")))
+            except ValueError:
+                continue
+
+            key = (namespace, pod_name)
+            if key not in counters:
+                counters[key] = [0.0, 0.0]
+            if metric_name == "container_network_receive_bytes_total":
+                counters[key][0] = value
+            else:
+                counters[key][1] = value
+
+        return {key: (values[0], values[1]) for key, values in counters.items()}
+
+    def _get_network_delta(
+        self,
+        namespace: str,
+        pod_name: str,
+        pod_uid: str,
+        network_counter_map: dict[tuple[str, str], tuple[float, float]],
+    ) -> tuple[float, float, str]:
+        key = (namespace, pod_name)
+        raw_rx, raw_tx = network_counter_map.get(key, (0.0, 0.0))
+        if key not in network_counter_map:
+            return 0.0, 0.0, "metrics_unavailable"
+
+        delta_rx = max(0.0, raw_rx - self._previous_rx.get(pod_uid, raw_rx))
+        delta_tx = max(0.0, raw_tx - self._previous_tx.get(pod_uid, raw_tx))
+        self._previous_rx[pod_uid] = raw_rx
+        self._previous_tx[pod_uid] = raw_tx
+        return delta_rx, delta_tx, "metrics_ok"
+
+    def _get_syscall_rate(self, pod_uid: str) -> tuple[float, str]:
         """
         Read syscall rate from the eBPF sidecar probe file.
 
@@ -242,11 +322,14 @@ class ObserverK8s(BaseObserver):
         probe_path = os.path.join(self.syscall_probe_dir, pod_uid, "syscall_rate")
         raw = _read_proc_file(probe_path)
         if raw is None:
-            return 0.0
+            return 0.0, "probe_missing"
         try:
-            return max(0.0, float(raw))
+            value = float(raw)
         except ValueError:
-            return 0.0
+            return 0.0, "probe_invalid"
+        if value < 0.0:
+            return 0.0, "probe_negative"
+        return value, "probe_ok"
 
     def _estimate_process_count(self, cpu_percent: float) -> int:
         """

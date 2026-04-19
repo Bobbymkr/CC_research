@@ -27,6 +27,10 @@ wheels/
 .pytest_cache/
 .coverage
 htmlcov/
+tests/.pytest_cache/
+tests/.pytest_tmp/
+tests/.tmp_runtime/
+tests/.tmp_*/
 
 # Type checking
 .mypy_cache/
@@ -35,6 +39,7 @@ dmypy.json
 
 # Logs
 logs/
+raasa/runtime/
 
 # IDE
 .vscode/
