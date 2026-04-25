@@ -13,6 +13,7 @@ dependencies = [
     "numpy==2.4.4",
     "PyYAML==6.0.2",
     "psutil==6.1.1",
+    "prometheus_client>=0.20.0",
 ]
 
 [project.optional-dependencies]

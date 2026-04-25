@@ -1,8 +1,9 @@
-# RAASA v1 — Python Dependencies
-# Python 3.13.5
+# RAASA v2 — Python Dependencies
+# Python 3.12+ / 3.13+
 #
 # Core runtime (no third-party deps in raasa.core — runs on stdlib only)
 # All packages below are required for experiments, analysis, and testing.
+# v2 adds the kubernetes client for the K8s/eBPF backend (--backend k8s).
 
 # ── Plotting & analysis ────────────────────────────────────────────────────────
 matplotlib==3.10.0
@@ -17,6 +18,12 @@ PyYAML==6.0.2
 
 # ── Testing ────────────────────────────────────────────────────────────────────
 pytest==8.4.1
+
+# ── Kubernetes backend (v2 — K8s observer + enforcement) ──────────────────────
+# Required only when running with --backend k8s on a Linux host with K3s/K8s.
+# Safe to install on Windows/macOS; the imports are guarded by try/except.
+kubernetes>=29.0.0
+prometheus_client>=0.20.0
 
 # ── Dev / type checking (optional, not required to run experiments) ────────────
 # types-PyYAML==6.0.12.20250915   # uncomment if using mypy

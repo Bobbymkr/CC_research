@@ -8,12 +8,13 @@ from pathlib import Path
 from typing import Sequence
 
 from raasa.core.config import load_config
-from raasa.core.enforcement import ActionEnforcer
 from raasa.core.features import FeatureExtractor
 from raasa.core.logger import AuditLogger
+from raasa.core.metrics import record_iteration, start_metrics_server
 from raasa.core.policy import PolicyReasoner
 from raasa.core.risk_model import RiskAssessor
-from raasa.core.telemetry import Observer
+# NOTE: Observer and ActionEnforcer are imported lazily inside _build_backend()
+# so that the 'kubernetes' package is NOT required when running --backend docker.
 
 
 STATIC_MODE_TO_TIER = {
@@ -26,11 +27,27 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="RAASA v1 controller entrypoint")
     parser.add_argument("--config", default="raasa/configs/config.yaml", help="Path to the config file")
     parser.add_argument("--mode", default=None, help="Override controller mode from config")
+    parser.add_argument(
+        "--backend",
+        default="docker",
+        choices=["docker", "k8s"],
+        help=(
+            "Telemetry and enforcement backend. "
+            "'docker' (v1 default — uses docker stats + docker update, works on Windows/Mac/Linux). "
+            "'k8s' (v2 — uses Kubernetes Metrics API + Linux tc/cgroups, requires Linux + root)."
+        ),
+    )
     parser.add_argument("--iterations", type=int, default=1, help="Number of controller iterations to run")
     parser.add_argument("--containers", nargs="*", default=[], help="Container IDs to inspect")
     parser.add_argument("--run-label", default=None, help="Optional label used for the audit log filename")
     parser.add_argument("--scenario", default=None, help="Optional scenario label for audit metadata")
     parser.add_argument("--controller-variant", default=None, help="Optional controller variant label")
+    parser.add_argument(
+        "--metrics-port",
+        type=int,
+        default=9090,
+        help="Port for the Prometheus metrics HTTP server (0 = disabled)",
+    )
     parser.add_argument(
         "--timing-output",
         default=None,
@@ -47,11 +64,8 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
     mode = args.mode or config.default_mode
     controller_variant = args.controller_variant or config.controller_variant
 
-    observer = Observer(
-        syscall_source=config.syscall_source,
-        syscall_probe_dir=config.syscall_probe_directory,
-        syscall_probe_max_age_seconds=config.syscall_probe_max_age_seconds,
-    )
+    observer, enforcer = _build_backend(args.backend, config)
+    print(f"[RAASA] Backend: {args.backend!r}")
     extractor = FeatureExtractor(network_cap=config.network_cap, syscall_cap=config.syscall_cap)
     assessor = RiskAssessor(
         weights=config.risk_weights,
@@ -69,7 +83,6 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
         l3_requires_approval=config.l3_requires_approval,
         use_llm_advisor=config.use_llm_advisor,
     )
-    enforcer = ActionEnforcer(cpus_by_tier=config.cpus_by_tier)
     logger = AuditLogger(
         config.log_directory,
         run_label=args.run_label,
@@ -81,12 +94,23 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
         },
     )
     iteration_timings: list[dict[str, float | int]] = []
+    run_forever = args.iterations == 0
 
-    print(f"[RAASA] Starting controller in {mode!r} mode for {args.iterations} iteration(s).")
+    if run_forever:
+        print(f"[RAASA] Starting controller in {mode!r} mode (daemon — runs indefinitely).")
+    else:
+        print(f"[RAASA] Starting controller in {mode!r} mode for {args.iterations} iteration(s).")
     print(f"[RAASA] Tracking {len(args.containers)} container(s).")
 
-    for index in range(args.iterations):
-        print(f"[RAASA] Iteration {index + 1}/{args.iterations}")
+    # Start Prometheus metrics server (daemon thread, non-blocking)
+    if args.metrics_port > 0:
+        start_metrics_server(port=args.metrics_port)
+
+    index = 0
+    while run_forever or index < args.iterations:
+        index += 1
+        label = f"{index}" if run_forever else f"{index}/{args.iterations}"
+        print(f"[RAASA] Iteration {label}")
         loop_started = time.perf_counter()
         telemetry_batch = observer.collect(args.containers)
         features = extractor.extract(telemetry_batch)
@@ -97,15 +121,15 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
             reasoner.current_tiers[decision.container_id] = decision.applied_tier
         enforcer.apply(decisions)
         logger.log_tick(telemetry_batch, features, assessments, decisions)
+        record_iteration(decisions, telemetry_batch)
         iteration_timings.append(
             {
-                "iteration": index + 1,
+                "iteration": index,
                 "duration_seconds": time.perf_counter() - loop_started,
             }
         )
 
-        if index + 1 < args.iterations:
-            time.sleep(config.poll_interval_seconds)
+        time.sleep(config.poll_interval_seconds)
 
     if args.timing_output:
         timing_path = Path(args.timing_output)
@@ -152,6 +176,43 @@ def _apply_mode_override(decisions, mode):
         return updated
 
     return decisions
+
+
+def _build_backend(backend: str, config):
+    """
+    Factory function: selects and initialises the Observer + Enforcer pair
+    that matches the requested backend.
+
+    docker (v1 — default)
+        Uses ``Observer`` (docker stats) and ``ActionEnforcer`` (docker update).
+        Works on Windows, macOS, and Linux without root.
+        Use this for local development, CI, and Docker Desktop testing.
+
+    k8s (v2 — cloud native)
+        Uses ``ObserverK8s`` (Kubernetes Metrics API + cAdvisor + eBPF sidecar)
+        and ``EnforcerK8s`` (Linux tc + cgroups v2).
+        Requires: Linux kernel 5.8+, K3s/Kubernetes running, root privileges.
+        Use this on AWS EC2 after running bootstrap_k8s_ebpf.sh.
+    """
+    if backend == "k8s":
+        from raasa.k8s.observer_k8s import ObserverK8s          # type: ignore[import]
+        from raasa.k8s.enforcement_k8s import EnforcerK8s       # type: ignore[import]
+        observer = ObserverK8s(
+            namespace_filter=getattr(config, "k8s_namespace", None),
+            syscall_probe_dir=getattr(config, "syscall_probe_directory", "/var/run/raasa"),
+        )
+        enforcer = EnforcerK8s(cpus_by_tier=getattr(config, "cpus_by_tier", None))
+    else:
+        # Default: Docker backend (v1) — always safe to use
+        from raasa.core.telemetry import Observer                # type: ignore[import]
+        from raasa.core.enforcement import ActionEnforcer        # type: ignore[import]
+        observer = Observer(
+            syscall_source=config.syscall_source,
+            syscall_probe_dir=config.syscall_probe_directory,
+            syscall_probe_max_age_seconds=config.syscall_probe_max_age_seconds,
+        )
+        enforcer = ActionEnforcer(cpus_by_tier=config.cpus_by_tier)
+    return observer, enforcer
 
 
 if __name__ == "__main__":

@@ -36,6 +36,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--poll-interval", type=int, default=5)
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--config", default="raasa/configs/config_tuned_small_linear.yaml")
+    parser.add_argument(
+        "--backend",
+        default="docker",
+        choices=["docker", "k8s"],
+        help=(
+            "'docker' (v1 default): spins up Docker containers and monitors via docker stats. "
+            "'k8s' (v2 eBPF): monitors existing Kubernetes pods via Metrics API + eBPF sidecar. "
+            "The Docker container lifecycle is skipped when using k8s backend."
+        ),
+    )
     return parser
 
 
@@ -48,8 +58,11 @@ def main() -> int:
         
     args = parser.parse_args()
     config = load_config(args.config)
-    if shutil.which("docker") is None:
-        print("[RAASA] Docker is required to run experiments.", file=sys.stderr)
+
+    # Docker availability is only required for the Docker backend.
+    # The K8s backend watches existing cluster pods via the Kubernetes API.
+    if args.backend == "docker" and shutil.which("docker") is None:
+        print("[RAASA] Docker is required to run experiments with --backend docker.", file=sys.stderr)
         return 1
 
     run_id = args.run_id or str(int(time.time()))
@@ -60,20 +73,35 @@ def main() -> int:
         if args.duration is not None
         else int(config.live_run_guardrails["default_smoke_duration_seconds"])
     )
-    started = start_scenario(items, config.live_run_guardrails)
     iterations = max(duration // max(args.poll_interval, 1), 1)
 
-    try:
+    # For the K8s backend, containers are Kubernetes Pods already running
+    # in the cluster. We skip the Docker run/rm lifecycle entirely and
+    # pass an empty container list — ObserverK8s discovers pods via the K8s API.
+    if args.backend == "k8s":
+        started = []
+        container_args: list[str] = []
+        print(
+            f"[RAASA] Running mode={args.mode}, scenario={args.scenario}, "
+            f"backend=k8s, iterations={iterations}"
+        )
+    else:
+        started = start_scenario(items, config.live_run_guardrails)
+        container_args = ["--containers", *[item.name for item in started]]
         print(
             f"[RAASA] Running mode={args.mode}, scenario={args.scenario}, "
             f"containers={len(started)}, iterations={iterations}"
         )
+
+    try:
         run_controller(
             [
                 "--config",
                 args.config,
                 "--mode",
                 args.mode,
+                "--backend",
+                args.backend,
                 "--iterations",
                 str(iterations),
                 "--run-label",
@@ -82,12 +110,12 @@ def main() -> int:
                 args.scenario,
                 "--controller-variant",
                 config.controller_variant,
-                "--containers",
-                *[item.name for item in started],
+                *container_args,
             ]
         )
     finally:
-        cleanup_scenario(started)
+        if args.backend == "docker":
+            cleanup_scenario(started)
 
     summary_path = write_metrics_summary(log_path)
     manifest_path = Path(config.log_directory) / "experiment_manifest.jsonl"
@@ -97,6 +125,7 @@ def main() -> int:
             "run_id": run_id,
             "mode": args.mode,
             "scenario": args.scenario,
+            "backend": args.backend,
             "controller_variant": config.controller_variant,
             "config": args.config,
             "duration_seconds": duration,

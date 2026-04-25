@@ -48,11 +48,9 @@ class ActionEnforcerTests(unittest.TestCase):
 
 class AuditLoggerTests(unittest.TestCase):
     def test_writes_jsonl_records(self) -> None:
-        tempdir = Path("tests/.tmp_logger")
-        if tempdir.exists():
-            shutil.rmtree(tempdir)
-        tempdir.mkdir(parents=True, exist_ok=True)
-        try:
+        import tempfile
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as temp_dir_name:
+            tempdir = Path(temp_dir_name)
             logger = AuditLogger(tempdir, run_label="demo_run")
             now = datetime.now(timezone.utc)
             logger.log_tick(
@@ -104,8 +102,6 @@ class AuditLoggerTests(unittest.TestCase):
             self.assertEqual(payload["container_id"], "c1")
             self.assertEqual(payload["risk"], 0.13)
             self.assertEqual(payload["metadata"]["status"], "running")
-        finally:
-            shutil.rmtree(tempdir, ignore_errors=True)
 
 
 if __name__ == "__main__":
