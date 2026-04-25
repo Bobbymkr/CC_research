@@ -28,7 +28,10 @@ LABEL description="Risk-Adaptive Autonomous Security Agent — DaemonSet Agent"
 LABEL version="1.0.0"
 
 # Non-root user for security (matches securityContext.runAsUser: 1000 in DaemonSet)
-RUN groupadd -g 1000 raasa && useradd -u 1000 -g raasa -s /bin/sh -m raasa
+# Install iproute2 for the Enforcer Sidecar's `tc` (Traffic Control) commands
+RUN apt-get update && apt-get install -y --no-install-recommends iproute2 \
+ && rm -rf /var/lib/apt/lists/* \
+ && groupadd -g 1000 raasa && useradd -u 1000 -g raasa -s /bin/sh -m raasa
 
 WORKDIR /app
 
