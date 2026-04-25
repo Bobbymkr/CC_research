@@ -133,17 +133,59 @@ class ObserverK8s(BaseObserver):
         """
         timestamp = datetime.now(timezone.utc)
         pod_ids = list(container_ids)
-        if not pod_ids:
-            return []
 
         if self._k8s_client is None:
+            if not pod_ids:
+                return []
             return self._fallback_batch(pod_ids, timestamp, "k8s client unavailable")
+
+        # Auto-discover pods when no explicit IDs are given (DaemonSet mode)
+        if not pod_ids:
+            pod_ids = self._discover_pods()
+            if not pod_ids:
+                return []
 
         network_counter_map = self._build_network_counter_map(self._fetch_cadvisor_metrics())
         results: List[ContainerTelemetry] = []
         for pod_ref in pod_ids:
             results.append(self._collect_pod(pod_ref, timestamp, network_counter_map))
         return results
+
+    # ── Auto-discovery ────────────────────────────────────────────────────────
+
+    _SYSTEM_NAMESPACES = frozenset({"kube-system", "kube-public", "kube-node-lease", "raasa-system"})
+
+    def _discover_pods(self) -> List[str]:
+        """
+        List all Running pods across the cluster, excluding system namespaces.
+
+        Returns a list of ``namespace/pod-name`` strings suitable for
+        passing to ``_collect_pod()``.  This is the DaemonSet auto-discovery
+        path — when no explicit ``--containers`` are provided, the controller
+        watches everything outside the Kubernetes control plane.
+        """
+        try:
+            if self.namespace_filter:
+                pods = self._k8s_client.list_namespaced_pod(
+                    namespace=self.namespace_filter,
+                    field_selector="status.phase=Running",
+                )
+            else:
+                pods = self._k8s_client.list_pod_for_all_namespaces(
+                    field_selector="status.phase=Running",
+                )
+            discovered = []
+            for pod in pods.items:
+                ns = pod.metadata.namespace
+                if ns in self._SYSTEM_NAMESPACES:
+                    continue
+                discovered.append(f"{ns}/{pod.metadata.name}")
+            if discovered:
+                logger.info(f"[ObserverK8s] Auto-discovered {len(discovered)} pod(s): {discovered}")
+            return discovered
+        except Exception as exc:
+            logger.warning(f"[ObserverK8s] Pod discovery failed: {exc}")
+            return []
 
     def _collect_pod(
         self,
@@ -174,7 +216,7 @@ class ObserverK8s(BaseObserver):
                 timestamp=timestamp,
                 cpu_percent=cpu_percent,
                 memory_percent=memory_percent,
-                process_count=self._estimate_process_count(cpu_percent),
+                process_count=self._read_process_count(uid, cpu_percent),
                 network_rx_bytes=delta_rx,
                 network_tx_bytes=delta_tx,
                 syscall_rate=syscall_rate,
@@ -331,12 +373,39 @@ class ObserverK8s(BaseObserver):
             return 0.0, "probe_negative"
         return value, "probe_ok"
 
-    def _estimate_process_count(self, cpu_percent: float) -> int:
+    def _read_process_count(self, pod_uid: str, cpu_percent: float) -> int:
         """
-        Estimate process count from CPU pressure when PID counting is unavailable.
-        In production, this is replaced by reading ``/proc/<pid>/status`` counts
-        from the pod's cgroup on the host.
+        Read the live PID count for a pod from its cgroup v2 ``pids.current`` file.
+
+        On a real Kubernetes (K3s/EKS/GKE) node the kubelet creates a cgroup slice
+        for each pod under::
+
+            /sys/fs/cgroup/kubepods.slice/<uid>/pids.current
+
+        This file is written by the kernel and is always up to date. Reading it
+        requires no special privileges beyond read access to the cgroup filesystem,
+        which the DaemonSet gets via the ``/sys`` hostPath volume mount.
+
+        Falls back to a CPU-proportional estimate when:
+          - Not running on a real node (development / CI)
+          - The cgroup path does not exist yet (pod still starting)
+          - Any OS error occurs (fail-safe, never raises)
         """
+        # Build candidate cgroup paths for this pod UID
+        uid_short = pod_uid[:12]
+        cgroup_patterns = [
+            f"/sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod{pod_uid}.slice/pids.current",
+            f"/sys/fs/cgroup/kubepods.slice/kubepods-pod{pod_uid}.slice/pids.current",
+            f"/sys/fs/cgroup/kubepods/{uid_short}/pids.current",
+        ]
+        for path_str in cgroup_patterns:
+            raw = _read_proc_file(path_str)
+            if raw is not None:
+                try:
+                    return max(0, int(raw.strip()))
+                except ValueError:
+                    pass
+        # Fallback: CPU-proportional estimate (reproducible in dev/CI)
         return max(1, int(cpu_percent / 10))
 
     def _fallback_pod(self, pod_ref: str, timestamp: datetime, reason: str) -> ContainerTelemetry:
