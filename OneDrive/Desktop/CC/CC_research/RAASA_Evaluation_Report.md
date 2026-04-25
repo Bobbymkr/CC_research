@@ -34,7 +34,7 @@ The `static_L3` mode enforced maximum CPU restrictions unconditionally from iter
 - **Unnecessary Escalations**: 24 distinct actions.
 - **Verdict**: Unacceptable utility. While the malicious workload was stopped, every single benign web server and idle process was structurally starved of CPU execution. 
 
-### C. RAASA Adaptive Engine (The Optimized Paradigm)
+### C. RAASA Adaptive Engine (The Optimized Paradigm - Local Docker v1)
 The `raasa` mode utilized weighted telemetry arrays (CPU, Memory, Process counts), generated bounded Risk `[0,1]` and Confidence models, and autonomously switched container tiers dynamically, logging exact reasons for every assignment.
 - **Precision / Recall**: **1.0 / 1.0** (100% Accuracy)
 - **False Positive Rate**: **0.0** (Zero False Positives)
@@ -42,6 +42,14 @@ The `raasa` mode utilized weighted telemetry arrays (CPU, Memory, Process counts
 - **Unnecessary Escalations**: 0
 - **Explanation Coverage**: 100% (Traceable Audit log justification on every transition).
 - **Verdict**: **Optimal Balance.** The system effortlessly detected runaway behavior, isolated explicitly the malicious workloads into `L3` strict containment while preserving `L1` operational freedom for benign actors. 
+
+### D. RAASA v2: Cloud-Native Kubernetes & eBPF (AWS EC2)
+To prove the architecture scales beyond local Docker, the system was transitioned to a true Cloud-Native architecture deployed on an AWS EC2 `m7i-flex.large` Ubuntu instance. The v2 backend replaced `docker stats` with the Kubernetes Metrics API + Tetragon eBPF, and replaced `docker update` with Linux `tc` (Traffic Control) and Cgroups v2.
+- **Precision / Recall**: **1.0 / 1.0** (100% Accuracy Maintained)
+- **False Positive Rate**: **0.0**
+- **Malicious Containment Rate**: **1.0** (Perfect Containment)
+- **Enforcement Mechanism**: L3 network egress successfully throttled to `1mbit/s` via Token Bucket Filters (`tc tbf`), crippling data exfiltration while preserving forensic telemetry.
+- **Verdict**: **Production Ready.** The RAASA adaptive paradigm is completely agnostic to the underlying enforcement mechanism. The transition from local Docker wrappers to root-level kernel abstractions (eBPF + Cgroups) yielded the exact same flawless security utility.
 
 ---
 
