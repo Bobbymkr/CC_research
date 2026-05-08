@@ -36,6 +36,7 @@ import logging
 import os
 import re
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
 from raasa.core.base_observer import BaseObserver
@@ -207,7 +208,7 @@ class ObserverK8s(BaseObserver):
             workload_class = labels.get("raasa.class", "")
             expected_tier = labels.get("raasa.expected_tier", "")
 
-            cpu_percent, memory_percent = self._get_pod_metrics(namespace, pod_name)
+            cpu_percent, memory_percent = self._get_pod_metrics(namespace, pod_name, uid)
             delta_rx, delta_tx, network_status = self._get_network_delta(namespace, pod_name, uid, network_counter_map)
             syscall_rate, syscall_status = self._get_syscall_rate(uid)
 
@@ -236,13 +237,53 @@ class ObserverK8s(BaseObserver):
             logger.warning(f"K8s observer: failed to collect pod {pod_ref}: {exc}")
             return self._fallback_pod(pod_ref, timestamp, str(exc))
 
-    def _get_pod_metrics(self, namespace: str, pod_name: str) -> tuple[float, float]:
+    def _get_pod_metrics(self, namespace: str, pod_name: str, pod_uid: str = "") -> tuple[float, float]:
         """
-        Fetch CPU and memory usage from the Kubernetes Metrics API.
+        Fetch CPU and memory usage.
 
-        Returns ``(cpu_percent, memory_percent)`` normalized to [0, 100].
-        Falls back to (0.0, 0.0) if the Metrics Server is not available.
+        Since K3s Metrics API times out under load, this directly reads the 
+        `.cpu_usec` written by the RAASA syscall probe sidecar.
         """
+        cpu_percent = 0.0
+        memory_percent = 0.0
+        cpu_from_probe = False
+        
+        # 1. Try reading direct cgroup CPU stats from the probe sidecar
+        if pod_uid:
+            try:
+                probe_dir = Path("/var/run/raasa") / pod_uid
+                cpu_file = probe_dir / ".cpu_usec"
+                if cpu_file.exists():
+                    current_usec = int(cpu_file.read_text(encoding="utf-8").strip())
+                    
+                    import time
+                    current_time = time.time()
+                    
+                    # Track previous usec and time to compute delta
+                    if not hasattr(self, "_prev_cpu_usec"):
+                        self._prev_cpu_usec = {}
+                        self._prev_cpu_time = {}
+                        
+                    prev_usec = self._prev_cpu_usec.get(pod_uid, current_usec)
+                    prev_time = self._prev_cpu_time.get(pod_uid, current_time - 1.0)
+                    
+                    delta_usec = max(0, current_usec - prev_usec)
+                    delta_time = max(0.1, current_time - prev_time)
+                    
+                    self._prev_cpu_usec[pod_uid] = current_usec
+                    self._prev_cpu_time[pod_uid] = current_time
+                    
+                    # delta_usec is in microseconds. delta_time is in seconds.
+                    # CPU cores used = (delta_usec / 1_000_000) / delta_time
+                    cpu_cores = (delta_usec / 1_000_000.0) / delta_time
+                    cpu_percent = min(cpu_cores * 100.0, 100.0)
+                    cpu_from_probe = True
+                    
+            except Exception as e:
+                logger.warning(f"[ObserverK8s] Direct CPU read failed for {pod_uid}: {e}")
+
+        # 2. Try K8s Metrics API for memory and as a CPU fallback when direct
+        # probe data is absent.
         try:
             metrics = self._metrics_client.get_namespaced_custom_object(
                 group="metrics.k8s.io",
@@ -258,25 +299,57 @@ class ObserverK8s(BaseObserver):
                 usage = c.get("usage", {})
                 cpu_raw = str(usage.get("cpu", "0"))
                 mem_raw = str(usage.get("memory", "0"))
-                # CPU in nanocores → percent (assuming 1 vCPU = 1e9 nanocores = 100%)
-                if cpu_raw.endswith("n"):
-                    total_cpu_nano += int(cpu_raw[:-1])
-                elif cpu_raw.endswith("m"):
-                    total_cpu_nano += int(cpu_raw[:-1]) * 1_000_000
-                # Memory in Ki/Mi/Gi → bytes
+                if not cpu_from_probe:
+                    if cpu_raw.endswith("n"):
+                        total_cpu_nano += int(cpu_raw[:-1])
+                    elif cpu_raw.endswith("m"):
+                        total_cpu_nano += int(cpu_raw[:-1]) * 1_000_000
+                    else:
+                        try:
+                            total_cpu_nano += int(cpu_raw)
+                        except ValueError:
+                            pass
+
+                # ── Parse Memory ────────────────────────────────────────────
                 if mem_raw.endswith("Ki"):
                     total_memory_bytes += int(mem_raw[:-2]) * 1024
                 elif mem_raw.endswith("Mi"):
                     total_memory_bytes += int(mem_raw[:-2]) * 1024 ** 2
                 elif mem_raw.endswith("Gi"):
                     total_memory_bytes += int(mem_raw[:-2]) * 1024 ** 3
+                else:
+                    try:
+                        total_memory_bytes += int(mem_raw)
+                    except ValueError:
+                        pass
 
-            cpu_percent = min((total_cpu_nano / 1e9) * 100.0, 100.0)
-            # Assume 4GiB node memory for normalization (configurable in production)
-            memory_percent = min((total_memory_bytes / (4 * 1024 ** 3)) * 100.0, 100.0)
-            return cpu_percent, memory_percent
-        except Exception:
-            return 0.0, 0.0
+            if not cpu_from_probe:
+                raw_percent = min((total_cpu_nano / 1e9) * 100.0, 100.0)
+                
+                if not hasattr(self, "_prev_k8s_cpu"):
+                    self._prev_k8s_cpu = {}
+                    
+                prev_val = self._prev_k8s_cpu.get(pod_name, 0.0)
+                
+                # If metrics API returns 0.0 but it was previously high, it's likely a sampling artifact.
+                # Smooth it by retaining the previous value if we just got a 0 drop.
+                if raw_percent == 0.0 and prev_val > 10.0:
+                    cpu_percent = prev_val
+                else:
+                    cpu_percent = raw_percent
+                    self._prev_k8s_cpu[pod_name] = raw_percent
+
+            node_memory_bytes = 8 * 1024 ** 3
+            memory_percent = min((total_memory_bytes / node_memory_bytes) * 100.0, 100.0)
+
+        except Exception as exc:
+            logger.warning(f"[ObserverK8s] Metrics API failed for {namespace}/{pod_name}: {exc}")
+
+        logger.info(
+            f"[ObserverK8s] Metrics {namespace}/{pod_name}: "
+            f"cpu={cpu_percent:.2f}%, mem={memory_percent:.2f}%"
+        )
+        return cpu_percent, memory_percent
 
     def _fetch_cadvisor_metrics(self) -> str:
         """
@@ -285,10 +358,15 @@ class ObserverK8s(BaseObserver):
         Returns an empty string when the endpoint is unavailable.
         """
         if self._k8s_client is None or not self.node_name:
+            logger.warning("[ObserverK8s] cAdvisor: no k8s client or node_name")
             return ""
         try:
-            return str(self._k8s_client.connect_get_node_proxy_with_path(self.node_name, "metrics/cadvisor"))
-        except Exception:
+            result = str(self._k8s_client.connect_get_node_proxy_with_path(self.node_name, "metrics/cadvisor"))
+            if result:
+                logger.info(f"[ObserverK8s] cAdvisor: fetched {len(result)} bytes from {self.node_name}")
+            return result
+        except Exception as exc:
+            logger.warning(f"[ObserverK8s] cAdvisor proxy failed for {self.node_name}: {exc}")
             return ""
 
     def _build_network_counter_map(

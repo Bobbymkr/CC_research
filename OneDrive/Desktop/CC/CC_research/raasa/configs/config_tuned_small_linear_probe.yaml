@@ -6,10 +6,10 @@ controller:
 policy:
   thresholds:
     l1_max: 0.35
-    l2_max: 0.50
+    l2_max: 0.60
   hysteresis_band: 0.04
   cooldown_seconds: 25
-  l3_min_confidence: 0.15
+  l3_min_confidence: 0.05
   low_risk_streak_required: 4
   l3_requires_approval: false
 
@@ -24,9 +24,9 @@ risk:
 
 telemetry:
   network_cap: 500000.0
-  syscall_cap: 500.0
+  syscall_cap: 5000.0
   syscall_source: probe
-  syscall_probe_directory: raasa/runtime/syscalls
+  syscall_probe_directory: /var/run/raasa
   syscall_probe_max_age_seconds: 15
 
 ml:

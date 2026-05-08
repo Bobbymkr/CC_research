@@ -8,9 +8,10 @@ isolation.
 from __future__ import annotations
 
 from pathlib import Path
+import time
 import shutil
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from raasa.core.base_observer import BaseObserver
 from raasa.core.models import ContainerTelemetry
@@ -146,6 +147,28 @@ class ObserverK8sMetricsTests(unittest.TestCase):
         }
         cpu, _ = obs._get_pod_metrics("default", "cpu-bomb")
         self.assertEqual(cpu, 100.0)
+
+    def test_prefers_probe_cpu_when_probe_file_exists(self) -> None:
+        obs = self._make_observer_with_mock_k8s()
+        obs._prev_cpu_usec = {"uid-1": 0}
+        obs._prev_cpu_time = {"uid-1": time.time() - 1.0}
+        obs._metrics_client.get_namespaced_custom_object.return_value = {
+            "containers": [{"usage": {"cpu": "10m", "memory": "64Mi"}}]
+        }
+
+        probe_root = Path("tests/.tmp_k8s_probe_cpu")
+        shutil.rmtree(probe_root, ignore_errors=True)
+        try:
+            target = probe_root / "uid-1"
+            target.mkdir(parents=True, exist_ok=True)
+            (target / ".cpu_usec").write_text("500000\n", encoding="utf-8")
+
+            with patch("raasa.k8s.observer_k8s.Path", return_value=probe_root):
+                cpu, _ = obs._get_pod_metrics("default", "probe-backed", "uid-1")
+        finally:
+            shutil.rmtree(probe_root, ignore_errors=True)
+
+        self.assertGreater(cpu, 40.0)
 
     def test_build_network_counter_map_parses_prometheus_metrics(self) -> None:
         obs = self._make_observer_with_mock_k8s()

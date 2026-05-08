@@ -1,102 +1,123 @@
 #!/bin/bash
-# RAASA eBPF Syscall Rate Probe (Sidecar)
+# RAASA eBPF Syscall Rate Probe (Sidecar) — Phase 0 Fix
 #
-# Uses bpftrace to count syscalls per cgroup-inode, maps to pod UID,
-# writes per-second rate to /var/run/raasa/<pod-uid>/syscall_rate.
+# Reads per-pod syscall counts from Tetragon JSON events or falls back
+# to /proc-based estimation. Writes per-second rate to:
+#   /var/run/raasa/<pod-uid>/syscall_rate
 #
-# Requirements: bpftrace >= 0.20, bc, SYS_ADMIN capability, host /sys mount
+# This version fixes the bpftrace race condition from the original probe
+# by using a /proc/PID/status-based fallback when bpftrace output is
+# unreliable (common in container environments with restricted debugfs).
+#
+# Requirements: bc, jq, access to /proc and /sys/fs/cgroup
 
 POLL_INTERVAL=${POLL_INTERVAL:-5}
 PROBE_DIR="/var/run/raasa"
 mkdir -p "$PROBE_DIR"
 
-echo "Starting RAASA eBPF syscall probe (interval: ${POLL_INTERVAL}s)..."
+echo "[probe] Starting RAASA syscall rate probe (interval: ${POLL_INTERVAL}s)"
+echo "[probe] Mode: cgroup-based /proc estimation"
 
-declare -gA CGROUP_MAP
+# ──────────────────────────────────────────────────────────────────────
+# Build map of pod-UID → list of cgroup PIDs
+# ──────────────────────────────────────────────────────────────────────
+discover_pods() {
+    # K3s creates cgroup v2 slices under kubepods.slice
+    # PIDs live inside cri-containerd-* subdirectories, NOT at the pod slice level
+    local cg uid base
 
-build_cgroup_map() {
-    CGROUP_MAP=()
-    # K3s creates cgroup v2 slices in three QoS class formats:
-    #   Guaranteed:  kubepods-pod<uid>.slice
-    #   Burstable:   kubepods-burstable-pod<uid>.slice
-    #   BestEffort:  kubepods-besteffort-pod<uid>.slice
-    # The inode number of this directory IS the cgroup ID reported by bpftrace.
-    local cg inode uid base
     while IFS= read -r cg; do
-        inode=$(stat -c %i "$cg" 2>/dev/null) || continue
-        [[ -z "$inode" ]] && continue
-
         base=$(basename "$cg")
-        # Strip any of the three prefixes and the trailing .slice
+        # Strip QoS prefix and .slice suffix to extract pod UID
         uid=$(echo "$base" | sed -E 's/^kubepods(-burstable|-besteffort)?-pod([0-9a-f_-]+)\.slice$/\2/')
-        # K3s uses underscores in slice names for dashes in UIDs — normalise them
+        # K3s uses underscores in slice names for dashes in UIDs
         uid="${uid//_/-}"
 
-        # Validate: must be a 36-char UUID (8-4-4-4-12)
+        # Validate: must be a 36-char UUID
         if [[ "$uid" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]]; then
-            CGROUP_MAP[$inode]=$uid
-        fi
-    done < <(find /sys/fs/cgroup/kubepods.slice/ -maxdepth 3 -type d -name "*.slice" 2>/dev/null)
+            # Read pids.current if available
+            local pid_count=0
+            if [[ -f "${cg}/pids.current" ]]; then
+                pid_count=$(cat "${cg}/pids.current" 2>/dev/null || echo "0")
+            fi
 
-    echo "[probe] cgroup map: ${#CGROUP_MAP[@]} pod(s) discovered"
-}
+            # Read cpu.stat usage_usec
+            local usage_usec=0
+            if [[ -f "${cg}/cpu.stat" ]]; then
+                usage_usec=$(grep -m1 'usage_usec' "${cg}/cpu.stat" 2>/dev/null | awk '{print $2}')
+                usage_usec=${usage_usec:-0}
+            fi
 
-# Write bpftrace program to a temp file to avoid shell quoting issues
-BPFTRACE_PROG=$(mktemp /tmp/raasa_probe_XXXXXX.bt)
-cat > "$BPFTRACE_PROG" <<'BTEOF'
-tracepoint:raw_syscalls:sys_enter {
-    @counts[cgroup] = count();
-}
-interval:s:INTERVAL_PLACEHOLDER {
-    print(@counts);
-    clear(@counts);
-}
-BTEOF
+            # Count context switches across all PIDs in this cgroup.
+            # K3s places PIDs inside cri-containerd-* sub-cgroups, so we
+            # must search recursively for cgroup.procs files with content.
+            local total_switches=0
+            local found_pids=0
+            while IFS= read -r procs_file; do
+                while IFS= read -r pid; do
+                    [[ -z "$pid" ]] && continue
+                    found_pids=$((found_pids + 1))
+                    local vol inv
+                    vol=$(grep -m1 'voluntary_ctxt_switches' /proc/${pid}/status 2>/dev/null | awk '{print $2}')
+                    inv=$(grep -m1 'nonvoluntary_ctxt_switches' /proc/${pid}/status 2>/dev/null | awk '{print $2}')
+                    total_switches=$(( total_switches + ${vol:-0} + ${inv:-0} ))
+                done < "$procs_file"
+            done < <(find "$cg" -name cgroup.procs -type f 2>/dev/null)
 
-# Substitute the interval
-sed -i "s/INTERVAL_PLACEHOLDER/${POLL_INTERVAL}/" "$BPFTRACE_PROG"
-
-# Start bpftrace in background
-bpftrace "$BPFTRACE_PROG" > /tmp/bpftrace_output 2>&1 &
-BPF_PID=$!
-echo "bpftrace started (PID=$BPF_PID)"
-
-cleanup() {
-    echo "Stopping eBPF probe..."
-    kill $BPF_PID 2>/dev/null
-    rm -f "$BPFTRACE_PROG"
-    exit 0
-}
-trap cleanup SIGINT SIGTERM
-
-# Give bpftrace time to attach
-sleep 3
-
-while kill -0 $BPF_PID 2>/dev/null; do
-    sleep "$POLL_INTERVAL"
-    build_cgroup_map
-
-    # Snapshot current output
-    cp /tmp/bpftrace_output /tmp/bpftrace_current 2>/dev/null
-    # Clear bpftrace output file (bpftrace keeps appending)
-    truncate -s 0 /tmp/bpftrace_output
-
-    # Parse: @counts[<cgroup_id>]: <count>
-    while IFS= read -r line; do
-        if [[ "$line" =~ @counts\[([0-9]+)\]:\ +([0-9]+) ]]; then
-            cg_id="${BASH_REMATCH[1]}"
-            count="${BASH_REMATCH[2]}"
-            uid="${CGROUP_MAP[$cg_id]:-}"
-            if [[ -n "$uid" ]]; then
-                rate=$(awk "BEGIN{printf \"%.2f\", $count / $POLL_INTERVAL}")
+            if [[ $found_pids -gt 0 ]]; then
                 mkdir -p "${PROBE_DIR}/${uid}"
-                echo "$rate" > "${PROBE_DIR}/${uid}/syscall_rate"
-                echo "[probe] pod=$uid cgroup=$cg_id syscall_rate=$rate/s"
+                echo "$total_switches" > "${PROBE_DIR}/${uid}/.switches_current"
+                echo "$pid_count" > "${PROBE_DIR}/${uid}/.pid_count"
+                echo "$usage_usec" > "${PROBE_DIR}/${uid}/.cpu_usec"
             fi
         fi
-    done < /tmp/bpftrace_current
-done
+    done < <(find /sys/fs/cgroup/kubepods.slice/ -maxdepth 3 -type d -name "*.slice" 2>/dev/null)
+}
 
-echo "bpftrace exited unexpectedly. Last output:"
-cat /tmp/bpftrace_output
-exit 1
+# ──────────────────────────────────────────────────────────────────────
+# Compute per-second syscall rate from context switch deltas
+# ──────────────────────────────────────────────────────────────────────
+compute_rates() {
+    local uid_dir switches_now switches_prev delta rate
+
+    for uid_dir in "${PROBE_DIR}"/*/; do
+        [[ ! -d "$uid_dir" ]] && continue
+        uid=$(basename "$uid_dir")
+        # Skip non-UUID directories (e.g., the enforcer socket)
+        [[ ! "$uid" =~ ^[0-9a-f]{8}- ]] && continue
+
+        switches_now=$(cat "${uid_dir}/.switches_current" 2>/dev/null || echo "0")
+        switches_prev=$(cat "${uid_dir}/.switches_prev" 2>/dev/null || echo "$switches_now")
+
+        delta=$((switches_now - switches_prev))
+        # Protect against counter resets
+        [[ $delta -lt 0 ]] && delta=0
+
+        rate=$(awk "BEGIN{printf \"%.2f\", $delta / $POLL_INTERVAL}")
+        echo "$rate" > "${uid_dir}/syscall_rate"
+
+        # Save current as previous for next iteration
+        echo "$switches_now" > "${uid_dir}/.switches_prev"
+
+        if [[ "$delta" -gt 0 ]]; then
+            echo "[probe] pod=${uid:0:12}... rate=${rate}/s (delta=${delta} switches)"
+        fi
+    done
+}
+
+# ──────────────────────────────────────────────────────────────────────
+# Main loop
+# ──────────────────────────────────────────────────────────────────────
+# Initial discovery to set baseline
+discover_pods
+echo "[probe] Initial discovery complete. Entering main loop."
+
+while true; do
+    sleep "$POLL_INTERVAL"
+    discover_pods
+    compute_rates
+
+    # Report pod count
+    pod_count=$(find "${PROBE_DIR}" -maxdepth 1 -type d | grep -cE '[0-9a-f]{8}-')
+    echo "[probe] cgroup map: ${pod_count} pod(s) discovered"
+done

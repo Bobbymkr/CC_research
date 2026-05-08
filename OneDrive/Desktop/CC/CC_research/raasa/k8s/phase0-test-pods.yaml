@@ -1,0 +1,84 @@
+---
+# Phase 0 — Properly labeled test pods for RAASA telemetry validation
+# Each pod carries raasa.class and raasa.expected_tier labels so the
+# observer can track them correctly in audit JSONL.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raasa-test-benign-steady
+  namespace: default
+  labels:
+    app: raasa-test
+    raasa.class: benign
+    raasa.expected_tier: L1
+spec:
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command: ["sleep", "infinity"]
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "32Mi"
+        limits:
+          cpu: "500m"
+          memory: "128Mi"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raasa-test-benign-compute
+  namespace: default
+  labels:
+    app: raasa-test
+    raasa.class: benign
+    raasa.expected_tier: L2
+spec:
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          apt-get update -qq && apt-get install -y -qq stress-ng >/dev/null 2>&1
+          # Sustained 5% CPU — benign compute workload, should NOT hit L3
+          stress-ng --cpu 1 --cpu-load 5 --timeout 0
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "64Mi"
+        limits:
+          cpu: "500m"
+          memory: "256Mi"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raasa-test-malicious-cpu
+  namespace: default
+  labels:
+    app: raasa-test
+    raasa.class: malicious
+    raasa.expected_tier: L3
+spec:
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          apt-get update -qq && apt-get install -y -qq stress-ng >/dev/null 2>&1
+          # 100% CPU on 1 core + process fan-out: high enough to hit L3 threshold
+          stress-ng --cpu 1 --vm 1 --fork 8 --timeout 0
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "64Mi"
+        limits:
+          cpu: "1000m"
+          memory: "512Mi"

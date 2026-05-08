@@ -26,6 +26,21 @@ class FeatureExtractorTests(unittest.TestCase):
         self.assertEqual(features[0].memory_signal, 0.2)
         self.assertEqual(features[0].process_signal, 1.0)
 
+    def test_respects_custom_syscall_cap_without_forcing_saturation(self) -> None:
+        telemetry = [
+            ContainerTelemetry(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_percent=0.0,
+                memory_percent=1.0,
+                process_count=1,
+                syscall_rate=3720.6,
+            )
+        ]
+        features = FeatureExtractor(process_cap=20, syscall_cap=5000.0).extract(telemetry)
+        self.assertAlmostEqual(features[0].syscall_signal, 3720.6 / 5000.0, places=6)
+        self.assertLess(features[0].syscall_signal, 1.0)
+
 
 class RiskAssessorTests(unittest.TestCase):
     def test_computes_bounded_risk_and_confidence(self) -> None:
