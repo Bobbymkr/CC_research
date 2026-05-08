@@ -1,0 +1,1 @@
+configmap/raasa-config configured

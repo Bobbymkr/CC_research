@@ -1,0 +1,68 @@
+{
+    "fallback_lines":  [
+
+                       ],
+    "demo_client":  {
+                        "container_ref":  "raasa-demo/raasa-net-client-669f7c4cf8-2d9w8",
+                        "fallback":  false,
+                        "resolved_line":  "2026-04-26 10:07:37,509 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to host interface vethb9f7d033 via PID 2195.",
+                        "fallback_line":  null,
+                        "resolved":  true
+                    },
+    "l1":  {
+               "avg_speed_bytes_per_sec":  656132503.33333337,
+               "raw":  [
+                           {
+                               "time_total_sec":  0.005938,
+                               "speed_bytes_per_sec":  706349612
+                           },
+                           {
+                               "time_total_sec":  0.004131,
+                               "speed_bytes_per_sec":  1015324134
+                           },
+                           {
+                               "time_total_sec":  0.017,
+                               "speed_bytes_per_sec":  246723764
+                           }
+                       ],
+               "samples":  3,
+               "avg_time_total_sec":  0.0090230000000000015
+           },
+    "demo_server":  {
+                        "container_ref":  "raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2",
+                        "fallback":  false,
+                        "resolved_line":  "2026-04-26 10:07:24,105 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to host interface veth3018bd1d via PID 2108.",
+                        "fallback_line":  null,
+                        "resolved":  true
+                    },
+    "comparison":  {
+                       "time_ratio_l3_vs_l1":  549.81584099892848,
+                       "speed_ratio_l3_vs_l1":  0
+                   },
+    "bench_client":  {
+                         "container_ref":  "raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28",
+                         "fallback":  false,
+                         "resolved_line":  "2026-04-26 10:07:49,205 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to host interface veth04a1b488 via PID 3438752.",
+                         "fallback_line":  null,
+                         "resolved":  true
+                     },
+    "l3":  {
+               "avg_speed_bytes_per_sec":  0,
+               "raw":  [
+                           {
+                               "time_total_sec":  4.986853,
+                               "speed_bytes_per_sec":  0
+                           },
+                           {
+                               "time_total_sec":  4.943993,
+                               "speed_bytes_per_sec":  0
+                           },
+                           {
+                               "time_total_sec":  4.952119,
+                               "speed_bytes_per_sec":  0
+                           }
+                       ],
+               "samples":  3,
+               "avg_time_total_sec":  4.9609883333333329
+           }
+}

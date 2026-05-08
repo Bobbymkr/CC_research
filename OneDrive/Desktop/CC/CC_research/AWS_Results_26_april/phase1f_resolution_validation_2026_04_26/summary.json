@@ -1,0 +1,155 @@
+{
+    "l3":  {
+               "service_ip":  {
+                                  "avg_speed_bytes_per_sec":  0,
+                                  "raw":  [
+                                              {
+                                                  "time_total_sec":  3.078526,
+                                                  "speed_bytes_per_sec":  0
+                                              },
+                                              {
+                                                  "time_total_sec":  3.100491,
+                                                  "speed_bytes_per_sec":  0
+                                              },
+                                              {
+                                                  "time_total_sec":  3.100053,
+                                                  "speed_bytes_per_sec":  0
+                                              }
+                                          ],
+                                  "samples":  3,
+                                  "avg_time_total_sec":  3.0930233333333335
+                              },
+               "service":  {
+                               "avg_speed_bytes_per_sec":  0,
+                               "raw":  [
+                                           {
+                                               "time_total_sec":  4.982555,
+                                               "speed_bytes_per_sec":  0
+                                           },
+                                           {
+                                               "time_total_sec":  4.843524,
+                                               "speed_bytes_per_sec":  0
+                                           },
+                                           {
+                                               "time_total_sec":  4.963901,
+                                               "speed_bytes_per_sec":  0
+                                           }
+                                       ],
+                               "samples":  3,
+                               "avg_time_total_sec":  4.929993333333333
+                           },
+               "pod_ip":  {
+                              "avg_speed_bytes_per_sec":  0,
+                              "raw":  [
+                                          {
+                                              "time_total_sec":  14.255138,
+                                              "speed_bytes_per_sec":  0
+                                          },
+                                          {
+                                              "time_total_sec":  3.087223,
+                                              "speed_bytes_per_sec":  0
+                                          },
+                                          {
+                                              "time_total_sec":  3.087243,
+                                              "speed_bytes_per_sec":  0
+                                          }
+                                      ],
+                              "samples":  3,
+                              "avg_time_total_sec":  6.8098680000000007
+                          }
+           },
+    "l1":  {
+               "service_ip":  {
+                                  "avg_speed_bytes_per_sec":  890234220,
+                                  "raw":  [
+                                              {
+                                                  "time_total_sec":  0.004263,
+                                                  "speed_bytes_per_sec":  983885526
+                                              },
+                                              {
+                                                  "time_total_sec":  0.004491,
+                                                  "speed_bytes_per_sec":  933935426
+                                              },
+                                              {
+                                                  "time_total_sec":  0.005571,
+                                                  "speed_bytes_per_sec":  752881708
+                                              }
+                                          ],
+                                  "samples":  3,
+                                  "avg_time_total_sec":  0.0047750000000000006
+                              },
+               "service":  {
+                               "avg_speed_bytes_per_sec":  818068347,
+                               "raw":  [
+                                           {
+                                               "time_total_sec":  0.035357,
+                                               "speed_bytes_per_sec":  118627259
+                                           },
+                                           {
+                                               "time_total_sec":  0.003749,
+                                               "speed_bytes_per_sec":  1118779407
+                                           },
+                                           {
+                                               "time_total_sec":  0.003447,
+                                               "speed_bytes_per_sec":  1216798375
+                                           }
+                                       ],
+                               "samples":  3,
+                               "avg_time_total_sec":  0.014184333333333334
+                           },
+               "pod_ip":  {
+                              "avg_speed_bytes_per_sec":  1162421101,
+                              "raw":  [
+                                          {
+                                              "time_total_sec":  0.058456,
+                                              "speed_bytes_per_sec":  71751471
+                                          },
+                                          {
+                                              "time_total_sec":  0.002594,
+                                              "speed_bytes_per_sec":  1616925212
+                                          },
+                                          {
+                                              "time_total_sec":  0.002332,
+                                              "speed_bytes_per_sec":  1798586620
+                                          }
+                                      ],
+                              "samples":  3,
+                              "avg_time_total_sec":  0.021127333333333331
+                          }
+           },
+    "benchmark_targets":  {
+                              "service_ip":  "10.43.176.11",
+                              "service_host":  "raasa-bench-server.raasa-bench.svc.cluster.local",
+                              "pod_ip":  "10.42.0.41"
+                          },
+    "bench_client":  {
+                         "container_ref":  "raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28",
+                         "fallback":  false,
+                         "resolved_line":  "2026-04-26 10:25:34,001 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to host interface veth04a1b488 via PID 3438752.",
+                         "fallback_line":  null,
+                         "resolved":  true
+                     },
+    "comparison":  {
+                       "service":  {
+                                       "time_ratio_l3_vs_l1":  347.56609404742318,
+                                       "speed_ratio_l3_vs_l1":  0
+                                   }
+                   },
+    "demo_client":  {
+                        "container_ref":  "raasa-demo/raasa-net-client-669f7c4cf8-2d9w8",
+                        "fallback":  false,
+                        "resolved_line":  "2026-04-26 10:25:22,905 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to host interface vethb9f7d033 via PID 2195.",
+                        "fallback_line":  null,
+                        "resolved":  true
+                    },
+    "fallback_lines":  [
+
+                       ],
+    "demo_server":  {
+                        "container_ref":  "raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2",
+                        "fallback":  false,
+                        "resolved_line":  "2026-04-26 10:25:11,806 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to host interface veth3018bd1d via PID 2108.",
+                        "fallback_line":  null,
+                        "resolved":  true
+                    }
+}

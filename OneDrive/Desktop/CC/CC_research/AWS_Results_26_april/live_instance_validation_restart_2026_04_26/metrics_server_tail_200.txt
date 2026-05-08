@@ -1,0 +1,36 @@
+I0426 05:31:51.560042       1 handler.go:288] Adding GroupVersion metrics.k8s.io v1beta1 to ResourceManager
+I0426 05:31:51.675518       1 secure_serving.go:211] Serving securely on [::]:10250
+I0426 05:31:51.676498       1 dynamic_serving_content.go:135] "Starting controller" name="serving-cert::/tmp/apiserver.crt::/tmp/apiserver.key"
+I0426 05:31:51.676531       1 requestheader_controller.go:180] Starting RequestHeaderAuthRequestController
+I0426 05:31:51.676547       1 shared_informer.go:350] "Waiting for caches to sync" controller="RequestHeaderAuthRequestController"
+I0426 05:31:51.676594       1 tlsconfig.go:243] "Starting DynamicServingCertificateController"
+I0426 05:31:51.676621       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0426 05:31:51.676625       1 shared_informer.go:350] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0426 05:31:51.676650       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0426 05:31:51.676653       1 shared_informer.go:350] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0426 05:31:51.682689       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:31:51.777401       1 shared_informer.go:357] "Caches are synced" controller="RequestHeaderAuthRequestController"
+I0426 05:31:51.777602       1 shared_informer.go:357] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0426 05:31:51.777638       1 shared_informer.go:357] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0426 05:31:52.593511       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:31:54.597183       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:31:56.597162       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:31:58.600201       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:32:00.600830       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:32:02.598945       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:32:04.597067       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0426 05:32:06.598326       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+E0426 05:34:42.474469       1 webhook.go:269] Failed to make webhook authorizer request: Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+E0426 05:34:42.474550       1 errors.go:83] "Unhandled Error" err="Post \"https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)" logger="UnhandledError"
+E0426 05:34:52.493198       1 webhook.go:269] Failed to make webhook authorizer request: Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+E0426 05:34:52.493523       1 errors.go:83] "Unhandled Error" err="Post \"https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)" logger="UnhandledError"
+E0426 05:35:10.722242       1 webhook.go:269] Failed to make webhook authorizer request: Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+E0426 05:35:10.722568       1 errors.go:83] "Unhandled Error" err="Post \"https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)" logger="UnhandledError"
+E0426 05:35:19.720996       1 webhook.go:269] Failed to make webhook authorizer request: Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+E0426 05:35:19.721314       1 errors.go:83] "Unhandled Error" err="Post \"https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)" logger="UnhandledError"
+E0426 05:35:19.735946       1 webhook.go:269] Failed to make webhook authorizer request: Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+E0426 05:35:19.736284       1 errors.go:83] "Unhandled Error" err="Post \"https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s\": context deadline exceeded" logger="UnhandledError"
+E0426 05:35:20.736351       1 webhook.go:269] Failed to make webhook authorizer request: Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+E0426 05:35:20.736575       1 errors.go:83] "Unhandled Error" err="Post \"https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)" logger="UnhandledError"
+E0426 05:35:37.875592       1 webhook.go:269] Failed to make webhook authorizer request: Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+E0426 05:35:37.876090       1 errors.go:83] "Unhandled Error" err="Post \"https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)" logger="UnhandledError"

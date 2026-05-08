@@ -1,0 +1,22 @@
+{
+  "tier_field": "new_tier",
+  "precision": 0.8727272727272727,
+  "recall": 1.0,
+  "false_positive_rate": 0.09722222222222222,
+  "adaptation_latency_seconds_mean": 8.940707944444444,
+  "average_observed_load": 14.586000000000011,
+  "average_cpu_budget": 0.648333333333334,
+  "containment_pressure": 0.351666666666666,
+  "switching_rate": 0.008333333333333333,
+  "unnecessary_escalations": 7,
+  "benign_restriction_rate": 0.09722222222222222,
+  "malicious_containment_rate": 1.0,
+  "tier_occupancy": {
+    "L1": 0.5416666666666666,
+    "L2": 0.05,
+    "L3": 0.4083333333333333
+  },
+  "explanation_coverage": 1.0,
+  "mean_time_to_safe_containment": 0.0,
+  "total_records": 120
+}

@@ -1,0 +1,4 @@
+namespace/raasa-bench created
+deployment.apps/raasa-bench-server created
+service/raasa-bench-server created
+deployment.apps/raasa-bench-client created

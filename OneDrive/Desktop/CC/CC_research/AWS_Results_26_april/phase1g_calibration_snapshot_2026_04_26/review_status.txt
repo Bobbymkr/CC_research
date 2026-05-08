@@ -1,0 +1,8 @@
+Log: raasa/logs/run_20260426T103750Z.jsonl
+container=default/raasa-test-benign-compute | tier=L1 | risk=0.055 | confidence=0.767 | variant=linear_tuned | approval=not_needed | reason=risk within current tier band -> hold
+container=default/raasa-test-benign-steady | tier=L1 | risk=0.028 | confidence=0.800 | variant=linear_tuned | approval=not_needed | reason=risk within current tier band -> hold
+container=default/raasa-test-malicious-cpu | tier=L1 | risk=0.781 | confidence=0.000 | variant=linear_tuned | approval=not_needed | reason=risk high but confidence below L3 threshold -> hold
+container=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 | tier=L1 | risk=0.028 | confidence=0.800 | variant=linear_tuned | approval=not_needed | reason=risk within current tier band -> hold
+container=raasa-bench/raasa-bench-server-7c49558994-2nmcp | tier=L1 | risk=0.028 | confidence=0.800 | variant=linear_tuned | approval=not_needed | reason=risk within current tier band -> hold
+container=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 | tier=L1 | risk=0.050 | confidence=0.772 | variant=linear_tuned | approval=not_needed | reason=risk within current tier band -> hold
+container=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 | tier=L1 | risk=0.029 | confidence=0.798 | variant=linear_tuned | approval=not_needed | reason=risk within current tier band -> hold

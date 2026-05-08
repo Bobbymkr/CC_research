@@ -1,0 +1,32 @@
+[
+  {
+    "container_id": "c1",
+    "timestamp": "2026-04-18T04:46:57.996307+00:00",
+    "cpu": 0.0,
+    "memory": 0.0,
+    "proc": 0,
+    "f_cpu": 0.0,
+    "f_mem": 0.0,
+    "f_proc": 0.0,
+    "risk": 0.0,
+    "confidence": 0.2,
+    "prev_tier": "L1",
+    "new_tier": "L1",
+    "reason": "risk within current tier band -> hold"
+  },
+  {
+    "container_id": "c2",
+    "timestamp": "2026-04-18T04:46:57.996307+00:00",
+    "cpu": 0.0,
+    "memory": 0.0,
+    "proc": 0,
+    "f_cpu": 0.0,
+    "f_mem": 0.0,
+    "f_proc": 0.0,
+    "risk": 0.0,
+    "confidence": 0.2,
+    "prev_tier": "L1",
+    "new_tier": "L1",
+    "reason": "risk within current tier band -> hold"
+  }
+]

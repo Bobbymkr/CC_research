@@ -1,0 +1,12 @@
+NAMESPACE      NAME                                      UID
+default        raasa-test-benign-compute                 e2ba0e69-d3cb-46cf-a6ae-6c1701888c20
+default        raasa-test-benign-steady                  b4d6b5ba-3e17-4cf3-84d1-96103f3d9ce8
+default        raasa-test-malicious-cpu                  fb426540-0948-4317-9851-0c0e2a3d2a31
+kube-system    coredns-76c974cb66-r864s                  82fb38fe-26e2-4ea3-b899-b2de6dbc7a25
+kube-system    local-path-provisioner-8686667995-r649k   d6147313-60f2-4656-a0d1-f6db9f685b23
+kube-system    metrics-server-7bbbb75f47-8c6kx           bb0677c6-356a-47b5-9bcc-028111f9b469
+kube-system    tetragon-6fk5g                            d22b920c-3490-4b20-a309-114e9b83dce6
+kube-system    tetragon-operator-79c87675d6-d8rkl        2a76cfd1-fe95-471b-8989-1e7604d82b57
+raasa-demo     raasa-net-client-669f7c4cf8-2d9w8         2cd3da09-ad6b-4d09-b925-26ecbfdd48c5
+raasa-demo     raasa-net-server-79c9b5b7d6-5jfk2         7afc0060-90b9-468a-af15-5cc38cda0778
+raasa-system   raasa-agent-jg9g6                         2439094d-f813-437b-a772-b7243fa9c4a0

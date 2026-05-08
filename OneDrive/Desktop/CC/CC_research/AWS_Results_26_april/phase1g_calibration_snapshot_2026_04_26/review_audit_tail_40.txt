@@ -1,0 +1,29 @@
+Log: raasa/logs/run_20260426T103750Z.jsonl
+2026-04-26T10:37:50.784320+00:00 | container=default/raasa-test-benign-compute | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:37:50.784320+00:00 | container=default/raasa-test-benign-steady | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:37:50.784320+00:00 | container=default/raasa-test-malicious-cpu | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:37:50.784320+00:00 | container=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:37:50.784320+00:00 | container=raasa-bench/raasa-bench-server-7c49558994-2nmcp | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:37:50.784320+00:00 | container=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:37:50.784320+00:00 | container=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:39:22.245842+00:00 | container=default/raasa-test-benign-compute | prev=L1 | new=L1 | risk=0.054 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:39:22.245842+00:00 | container=default/raasa-test-benign-steady | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:39:22.245842+00:00 | container=default/raasa-test-malicious-cpu | prev=L1 | new=L1 | risk=0.786 | approval=not_needed | reason=risk high but confidence below L3 threshold -> hold
+2026-04-26T10:39:22.245842+00:00 | container=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:39:22.245842+00:00 | container=raasa-bench/raasa-bench-server-7c49558994-2nmcp | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:39:22.245842+00:00 | container=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 | prev=L1 | new=L1 | risk=0.051 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:39:22.245842+00:00 | container=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 | prev=L1 | new=L1 | risk=0.029 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:40:59.179695+00:00 | container=default/raasa-test-benign-compute | prev=L1 | new=L1 | risk=0.056 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:40:59.179695+00:00 | container=default/raasa-test-benign-steady | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:40:59.179695+00:00 | container=default/raasa-test-malicious-cpu | prev=L1 | new=L1 | risk=0.825 | approval=not_needed | reason=risk high but confidence below L3 threshold -> hold
+2026-04-26T10:40:59.179695+00:00 | container=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:40:59.179695+00:00 | container=raasa-bench/raasa-bench-server-7c49558994-2nmcp | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:40:59.179695+00:00 | container=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 | prev=L1 | new=L1 | risk=0.051 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:40:59.179695+00:00 | container=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 | prev=L1 | new=L1 | risk=0.029 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:42:30.072319+00:00 | container=default/raasa-test-benign-compute | prev=L1 | new=L1 | risk=0.055 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:42:30.072319+00:00 | container=default/raasa-test-benign-steady | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:42:30.072319+00:00 | container=default/raasa-test-malicious-cpu | prev=L1 | new=L1 | risk=0.781 | approval=not_needed | reason=risk high but confidence below L3 threshold -> hold
+2026-04-26T10:42:30.072319+00:00 | container=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:42:30.072319+00:00 | container=raasa-bench/raasa-bench-server-7c49558994-2nmcp | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:42:30.072319+00:00 | container=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 | prev=L1 | new=L1 | risk=0.050 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:42:30.072319+00:00 | container=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 | prev=L1 | new=L1 | risk=0.029 | approval=not_needed | reason=risk within current tier band -> hold

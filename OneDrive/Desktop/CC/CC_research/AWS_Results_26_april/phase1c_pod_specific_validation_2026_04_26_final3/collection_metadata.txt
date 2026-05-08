@@ -1,0 +1,7 @@
+Host=54.227.40.170
+User=ubuntu
+CollectedAtLocal=
+2026-04-26T12:50:33.5341501+05:30
+ManifestPath=C:\Users\Admin\OneDrive\Desktop\CC\CC_research\raasa\k8s\phase1b-network-benchmark.yaml
+AgentPod=raasa-agent-xbtwc
+ContainerRef=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28

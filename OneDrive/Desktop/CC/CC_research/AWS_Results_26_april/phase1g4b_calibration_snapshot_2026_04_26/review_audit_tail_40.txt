@@ -1,0 +1,15 @@
+Log: /app/raasa/logs/run_20260426T105328Z.jsonl
+2026-04-26T10:53:28.915792+00:00 | container=default/raasa-test-benign-compute | prev=L1 | new=L1 | risk=0.101 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:53:28.915792+00:00 | container=default/raasa-test-benign-steady | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:53:28.915792+00:00 | container=default/raasa-test-malicious-cpu | prev=L1 | new=L2 | risk=0.578 | approval=not_needed | reason=risk above L2 hysteresis threshold -> escalate
+2026-04-26T10:53:28.915792+00:00 | container=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:53:28.915792+00:00 | container=raasa-bench/raasa-bench-server-7c49558994-2nmcp | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:53:28.915792+00:00 | container=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 | prev=L1 | new=L1 | risk=0.032 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:53:28.915792+00:00 | container=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:55:03.810603+00:00 | container=default/raasa-test-benign-compute | prev=L1 | new=L1 | risk=0.115 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:55:03.810603+00:00 | container=default/raasa-test-benign-steady | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:55:03.810603+00:00 | container=default/raasa-test-malicious-cpu | prev=L2 | new=L3 | risk=1.000 | approval=not_needed | reason=risk and confidence high -> escalate to L3 (accelerated by positive risk trend)
+2026-04-26T10:55:03.810603+00:00 | container=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:55:03.810603+00:00 | container=raasa-bench/raasa-bench-server-7c49558994-2nmcp | prev=L1 | new=L1 | risk=0.028 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:55:03.810603+00:00 | container=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 | prev=L1 | new=L1 | risk=0.055 | approval=not_needed | reason=risk within current tier band -> hold
+2026-04-26T10:55:03.810603+00:00 | container=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 | prev=L1 | new=L1 | risk=0.029 | approval=not_needed | reason=risk within current tier band -> hold

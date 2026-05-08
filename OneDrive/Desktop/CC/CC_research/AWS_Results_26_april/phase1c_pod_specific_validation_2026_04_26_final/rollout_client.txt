@@ -1,0 +1,1 @@
+deployment "raasa-bench-client" successfully rolled out

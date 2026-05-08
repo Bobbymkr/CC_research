@@ -1,0 +1,119 @@
+{
+  "purpose": "Curated RAASA research packet for writing a defensible paper from this folder alone.",
+  "recommended_reading_order": [
+    "01_research_snapshot.md",
+    "02_architecture_and_project_flow.md",
+    "03_implementation_map.md",
+    "04_results_and_evidence.md",
+    "07_latest_v2_validation_2026_04_26.md",
+    "09_live_aws_instance_log_validation_2026_04_26.md",
+    "10_phase1_development_direction_2026_04_26.md",
+    "11_phase1_ablation_ml_vs_linear_2026_04_26.md",
+    "12_phase1b_blast_radius_and_calibration_2026_04_26.md",
+    "13_phase1c_pod_specific_enforcement_2026_04_26.md",
+    "14_phase1d_universal_resolution_2026_04_26.md",
+    "06_paper_alignment_and_claim_boundaries.md",
+    "05_future_work_and_further_testing.md",
+    "paper_draft/RAASA_Final_v2.docx",
+    "paper_draft/RAASA_Final_v2_extracted.txt"
+  ],
+  "sections": {
+    "paper_draft": {
+      "description": "Original draft paper and extracted text for search.",
+      "paths": [
+        "paper_draft/RAASA_Final_v2.docx",
+        "paper_draft/RAASA_Final_v2_extracted.txt"
+      ]
+    },
+    "guides": {
+      "description": "New packet-level writing guides and claim-boundary notes.",
+      "paths": [
+        "README.md",
+        "01_research_snapshot.md",
+        "02_architecture_and_project_flow.md",
+        "03_implementation_map.md",
+        "04_results_and_evidence.md",
+        "07_latest_v2_validation_2026_04_26.md",
+        "09_live_aws_instance_log_validation_2026_04_26.md",
+        "10_phase1_development_direction_2026_04_26.md",
+        "11_phase1_ablation_ml_vs_linear_2026_04_26.md",
+        "12_phase1b_blast_radius_and_calibration_2026_04_26.md",
+        "13_phase1c_pod_specific_enforcement_2026_04_26.md",
+        "14_phase1d_universal_resolution_2026_04_26.md",
+        "05_future_work_and_further_testing.md",
+        "06_paper_alignment_and_claim_boundaries.md",
+        "reproduction_commands.txt",
+        "paper_section_map.json"
+      ]
+    },
+    "docs": {
+      "description": "Copied supporting notes from the repository.",
+      "paths": [
+        "docs/project_documentation.md",
+        "docs/live_experiment_notes.md",
+        "docs/threat_matrix.md",
+        "docs/next_generation_roadmap.md",
+        "docs/tuning_notes.md",
+        "docs/PLAN.md",
+        "docs/repo_README.md",
+        "docs/future_implementation.md",
+        "docs/RAASA_Evaluation_Report.md",
+        "docs/RAASA_Evolution_and_Achievements.md",
+        "docs/execution_errors.md"
+      ]
+    },
+    "configs": {
+      "description": "Controller and experiment configuration profiles.",
+      "paths": [
+        "configs/config.yaml",
+        "configs/config_tuned_small.yaml",
+        "configs/config_tuned_small_linear.yaml",
+        "configs/config_tuned_small_linear_probe.yaml",
+        "configs/config_tuned_small_linear_probe_approval.yaml"
+      ]
+    },
+    "code": {
+      "description": "Essential source files for architecture, experiments, analysis, and the K8s path.",
+      "paths": [
+        "code/core/",
+        "code/experiments/",
+        "code/analysis/",
+        "code/workloads/catalog.py",
+        "code/k8s/",
+        "code/ml/train_iforest.py"
+      ]
+    },
+    "results": {
+      "description": "Representative raw logs and summaries covering baselines, adaptive runs, ablations, scale, overhead, syscall-enriched runs, April 26 cloud-native validation, direct live AWS log evidence, and the final Phase 1D universal pod-resolution validation.",
+      "paths": [
+        "results/local/",
+        "results/aws_v2/",
+        "results/aws_v2_2026_04_26/",
+        "results/aws_v2_2026_04_26/phase1_ablation_ml_vs_linear_2026_04_26/",
+        "results/aws_v2_2026_04_26/phase1b_blast_radius_2026_04_26_refined/",
+        "results/aws_v2_2026_04_26/phase1c3_deploy_2026_04_26/",
+        "results/aws_v2_2026_04_26/phase1c3_pod_specific_validation_2026_04_26_complete/",
+        "results/aws_v2_2026_04_26/phase1d2_deploy_2026_04_26/",
+        "results/aws_v2_2026_04_26/phase1d2_resolution_validation_2026_04_26/"
+      ]
+    },
+    "figures": {
+      "description": "Paper-ready small and medium scenario plots.",
+      "paths": [
+        "figures/small/",
+        "figures/medium/"
+      ]
+    },
+    "verification": {
+      "description": "Unit test source files and environment metadata.",
+      "paths": [
+        "verification/tests/",
+        "environment/requirements.txt",
+        "environment/pyproject.toml",
+        "environment/pytest.ini",
+        "environment/iforest_latest.pkl"
+      ]
+    }
+  },
+  "main_claim_boundary": "Use 06_paper_alignment_and_claim_boundaries.md before finalizing paper text."
+}

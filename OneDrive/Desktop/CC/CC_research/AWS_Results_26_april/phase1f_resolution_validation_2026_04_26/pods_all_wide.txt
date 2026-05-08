@@ -1,0 +1,14 @@
+NAMESPACE      NAME                                      READY   STATUS    RESTARTS        AGE     IP              NODE               NOMINATED NODE   READINESS GATES
+default        raasa-test-benign-compute                 1/1     Running   1 (4h52m ago)   5h46m   10.42.0.37      ip-172-31-16-234   <none>           <none>
+default        raasa-test-benign-steady                  1/1     Running   1 (4h49m ago)   5h46m   10.42.0.34      ip-172-31-16-234   <none>           <none>
+default        raasa-test-malicious-cpu                  1/1     Running   1 (4h52m ago)   5h46m   10.42.0.38      ip-172-31-16-234   <none>           <none>
+kube-system    coredns-76c974cb66-r864s                  1/1     Running   2 (4h52m ago)   6h59m   10.42.0.33      ip-172-31-16-234   <none>           <none>
+kube-system    local-path-provisioner-8686667995-r649k   1/1     Running   2 (4h52m ago)   6h59m   10.42.0.36      ip-172-31-16-234   <none>           <none>
+kube-system    metrics-server-7bbbb75f47-8c6kx           1/1     Running   1 (4h52m ago)   6h28m   10.42.0.32      ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-6fk5g                            2/2     Running   4 (4h52m ago)   6h59m   172.31.16.234   ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-operator-79c87675d6-d8rkl        1/1     Running   2 (4h52m ago)   6h59m   10.42.0.35      ip-172-31-16-234   <none>           <none>
+raasa-bench    raasa-bench-client-5fd64dcfbf-hvl28       1/1     Running   0               3h39m   10.42.0.39      ip-172-31-16-234   <none>           <none>
+raasa-bench    raasa-bench-server-7c49558994-2nmcp       1/1     Running   0               3h31m   10.42.0.41      ip-172-31-16-234   <none>           <none>
+raasa-demo     raasa-net-client-669f7c4cf8-2d9w8         1/1     Running   2 (4h49m ago)   6h58m   10.42.0.31      ip-172-31-16-234   <none>           <none>
+raasa-demo     raasa-net-server-79c9b5b7d6-5jfk2         1/1     Running   2 (4h52m ago)   6h58m   10.42.0.30      ip-172-31-16-234   <none>           <none>
+raasa-system   raasa-agent-nlzh9                         3/3     Running   0               17m     172.31.16.234   ip-172-31-16-234   <none>           <none>
