@@ -1,0 +1,140 @@
+
+====================================================
+
+[0;32m[RAASA-EXP][0m PRE-FLIGHT CHECKS
+[0;32m[RAASA-EXP][0m Kernel:  6.17.0-1012-aws
+[0;32m[RAASA-EXP][0m Config:    use_ml_model: false
+[0;32m[RAASA-EXP][0m Backend: k8s (Tetragon eBPF + cadvisor)
+[0;32m[RAASA-EXP][0m Disk free: 4.5G
+[0;32m[RAASA-EXP][0m Memory free: 972Mi
+[0;32m[RAASA-EXP][0m Pods:
+default        raasa-test-benign-compute                 1/1   Running   0             18s
+default        raasa-test-benign-steady                  1/1   Running   0             18s
+default        raasa-test-malicious-cpu                  1/1   Running   0             18s
+kube-system    coredns-76c974cb66-r864s                  1/1   Running   2 (11d ago)   12d
+kube-system    local-path-provisioner-8686667995-r649k   1/1   Running   2 (11d ago)   12d
+kube-system    metrics-server-7bbbb75f47-8c6kx           1/1   Running   1 (11d ago)   12d
+kube-system    tetragon-6fk5g                            2/2   Running   4 (11d ago)   12d
+kube-system    tetragon-operator-79c87675d6-d8rkl        1/1   Running   2 (11d ago)   12d
+raasa-bench    raasa-bench-client-5fd64dcfbf-hvl28       1/1   Running   0             11d
+raasa-bench    raasa-bench-server-7c49558994-2nmcp       1/1   Running   0             11d
+raasa-demo     raasa-net-client-669f7c4cf8-2d9w8         1/1   Running   2 (11d ago)   12d
+raasa-demo     raasa-net-server-79c9b5b7d6-5jfk2         1/1   Running   2 (11d ago)   12d
+raasa-system   raasa-agent-pdxgt                         3/3   Running   0             11d
+
+====================================================
+
+[0;32m[RAASA-EXP][0m use_ml_model: false CONFIRMED
+
+====================================================
+
+[0;32m[RAASA-EXP][0m PHASE 1 — BASELINES: static_L1 and static_L3 on K8s eBPF
+
+====================================================
+
+
+====================================================
+
+[0;32m[RAASA-EXP][0m START: mode=static_L1 | scenario=small_tuned | run_id=aws_k8s_baseline_L1_r1 | duration=90s
+[0;32m[RAASA-EXP][0m Timestamp: 2026-05-08T05:08:11Z
+Exception in thread raasa-metrics:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/ubuntu/CC_research/raasa/core/metrics.py", line 95, in _serve
+    start_http_server(port)
+  File "/home/ubuntu/CC_research/venv/lib/python3.12/site-packages/prometheus_client/exposition.py", line 251, in start_wsgi_server
+    httpd = make_server(addr, port, app, TmpServer, handler_class=_SilentHandler)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/wsgiref/simple_server.py", line 154, in make_server
+    server = server_class((host, port), handler_class)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/wsgiref/simple_server.py", line 50, in server_bind
+    HTTPServer.server_bind(self)
+  File "/usr/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+[RAASA] Running mode=static_L1, scenario=small_tuned, backend=k8s, iterations=18
+[RAASA] Backend: 'k8s'
+[RAASA] Starting controller in 'static_L1' mode for 18 iteration(s).
+[RAASA] Tracking 0 container(s).
+[RAASA] Iteration 1/18
+[RAASA] Iteration 2/18
+[RAASA] Iteration 3/18
+[RAASA] Iteration 4/18
+[RAASA] Iteration 5/18
+[RAASA] Iteration 6/18
+[RAASA] Iteration 7/18
+[RAASA] Iteration 8/18
+[RAASA] Iteration 9/18
+[RAASA] Iteration 10/18
+[RAASA] Iteration 11/18
+[RAASA] Iteration 12/18
+[RAASA] Iteration 13/18
+[RAASA] Iteration 14/18
+[RAASA] Iteration 15/18
+[RAASA] Iteration 16/18
+[RAASA] Iteration 17/18
+[RAASA] Iteration 18/18
+[RAASA] Controller loop completed.
+[0;32m[RAASA-EXP][0m DONE: aws_k8s_baseline_L1_r1 at 2026-05-08T05:09:50Z
+[0;32m[RAASA-EXP][0m Cooldown 25s...
+
+====================================================
+
+[0;32m[RAASA-EXP][0m START: mode=static_L3 | scenario=small_tuned | run_id=aws_k8s_baseline_L3_r1 | duration=90s
+[0;32m[RAASA-EXP][0m Timestamp: 2026-05-08T05:10:15Z
+Exception in thread raasa-metrics:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/ubuntu/CC_research/raasa/core/metrics.py", line 95, in _serve
+    start_http_server(port)
+  File "/home/ubuntu/CC_research/venv/lib/python3.12/site-packages/prometheus_client/exposition.py", line 251, in start_wsgi_server
+    httpd = make_server(addr, port, app, TmpServer, handler_class=_SilentHandler)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/wsgiref/simple_server.py", line 154, in make_server
+    server = server_class((host, port), handler_class)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/wsgiref/simple_server.py", line 50, in server_bind
+    HTTPServer.server_bind(self)
+  File "/usr/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+[RAASA] Running mode=static_L3, scenario=small_tuned, backend=k8s, iterations=18
+[RAASA] Backend: 'k8s'
+[RAASA] Starting controller in 'static_L3' mode for 18 iteration(s).
+[RAASA] Tracking 0 container(s).
+[RAASA] Iteration 1/18
+[RAASA] Iteration 2/18
+[RAASA] Iteration 3/18
+[RAASA] Iteration 4/18
+[RAASA] Iteration 5/18
+[RAASA] Iteration 6/18
+[RAASA] Iteration 7/18
+[RAASA] Iteration 8/18
+[RAASA] Iteration 9/18
+[RAASA] Iteration 10/18
+[RAASA] Iteration 11/18
+[RAASA] Iteration 12/18
+[RAASA] Iteration 13/18
+[RAASA] Iteration 14/18
+[RAASA] Iteration 15/18
+[RAASA] Iteration 16/18
+[RAASA] Iteration 17/18
+[RAASA] Iteration 18/18
+[RAASA] Controller loop completed.
+[0;32m[RAASA-EXP][0m DONE: aws_k8s_baseline_L3_r1 at 2026-05-08T05:11:55Z
+[0;32m[RAASA-EXP][0m Cooldown 25s...
