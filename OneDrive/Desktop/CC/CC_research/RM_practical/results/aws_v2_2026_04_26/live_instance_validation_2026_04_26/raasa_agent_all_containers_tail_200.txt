@@ -1,0 +1,409 @@
+2026-04-26 04:56:28,003 [INFO] raasa-enforcer: Starting Privileged Enforcer Sidecar
+2026-04-26 04:56:28,004 [INFO] raasa.core.ipc: [IPC Server] Listening on /var/run/raasa/enforcer.sock
+2026-04-26 04:56:54,803 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (cni0) ? L2 at 100mbit
+2026-04-26 04:56:54,907 [INFO] raasa-enforcer: tc: raasa-test-benign-steady (cni0) ? L1 at 1000mbit
+2026-04-26 04:56:54,980 [INFO] raasa-enforcer: tc: raasa-test-malicious-cpu (cni0) ? L1 at 1000mbit
+2026-04-26 04:56:55,082 [INFO] raasa-enforcer: tc: raasa-net-client-669f7c4cf8-2d9w8 (cni0) ? L1 at 1000mbit
+2026-04-26 04:56:55,180 [INFO] raasa-enforcer: tc: raasa-net-server-79c9b5b7d6-5jfk2 (cni0) ? L1 at 1000mbit
+2026-04-26 04:57:10,765 [INFO] raasa-enforcer: tc: raasa-test-malicious-cpu (cni0) ? L3 at 1mbit
+2026-04-26 04:57:27,260 [INFO] raasa-enforcer: tc: raasa-net-client-669f7c4cf8-2d9w8 (cni0) ? L2 at 100mbit
+[probe] pod=2439094d-f81... rate=262.60/s (delta=1313 switches)
+[probe] pod=2cd3da09-ad6... rate=32.20/s (delta=161 switches)
+[probe] pod=82fb38fe-26e... rate=2.20/s (delta=11 switches)
+[probe] pod=d22b920c-349... rate=10394.20/s (delta=51971 switches)
+[probe] pod=e2ba0e69-d3c... rate=330.40/s (delta=1652 switches)
+[probe] pod=fb426540-094... rate=7338.00/s (delta=36690 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=155.20/s (delta=776 switches)
+[probe] pod=2cd3da09-ad6... rate=24.80/s (delta=124 switches)
+[probe] pod=82fb38fe-26e... rate=148.60/s (delta=743 switches)
+[probe] pod=d22b920c-349... rate=5975.40/s (delta=29877 switches)
+[probe] pod=e2ba0e69-d3c... rate=253.40/s (delta=1267 switches)
+[probe] pod=fb426540-094... rate=6889.60/s (delta=34448 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=163.80/s (delta=819 switches)
+[probe] pod=2cd3da09-ad6... rate=44.00/s (delta=220 switches)
+[probe] pod=82fb38fe-26e... rate=186.00/s (delta=930 switches)
+[probe] pod=d22b920c-349... rate=9042.40/s (delta=45212 switches)
+[probe] pod=e2ba0e69-d3c... rate=378.60/s (delta=1893 switches)
+[probe] pod=fb426540-094... rate=6830.20/s (delta=34151 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=181.40/s (delta=907 switches)
+[probe] pod=2cd3da09-ad6... rate=41.80/s (delta=209 switches)
+[probe] pod=82fb38fe-26e... rate=240.60/s (delta=1203 switches)
+[probe] pod=d22b920c-349... rate=12746.80/s (delta=63734 switches)
+[probe] pod=e2ba0e69-d3c... rate=158.80/s (delta=794 switches)
+[probe] pod=fb426540-094... rate=7250.80/s (delta=36254 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=349.20/s (delta=1746 switches)
+[probe] pod=2cd3da09-ad6... rate=37.60/s (delta=188 switches)
+[probe] pod=82fb38fe-26e... rate=256.20/s (delta=1281 switches)
+[probe] pod=d22b920c-349... rate=10587.80/s (delta=52939 switches)
+[probe] pod=e2ba0e69-d3c... rate=385.00/s (delta=1925 switches)
+[probe] pod=fb426540-094... rate=6957.60/s (delta=34788 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=186.00/s (delta=930 switches)
+[probe] pod=2cd3da09-ad6... rate=34.20/s (delta=171 switches)
+[probe] pod=82fb38fe-26e... rate=224.60/s (delta=1123 switches)
+[probe] pod=d22b920c-349... rate=8871.00/s (delta=44355 switches)
+[probe] pod=e2ba0e69-d3c... rate=252.00/s (delta=1260 switches)
+[probe] pod=fb426540-094... rate=7009.60/s (delta=35048 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=274.80/s (delta=1374 switches)
+[probe] pod=2cd3da09-ad6... rate=29.00/s (delta=145 switches)
+[probe] pod=82fb38fe-26e... rate=177.00/s (delta=885 switches)
+[probe] pod=d22b920c-349... rate=6459.80/s (delta=32299 switches)
+[probe] pod=e2ba0e69-d3c... rate=477.60/s (delta=2388 switches)
+[probe] pod=fb426540-094... rate=7183.80/s (delta=35919 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=429.20/s (delta=2146 switches)
+[probe] pod=2cd3da09-ad6... rate=32.20/s (delta=161 switches)
+[probe] pod=82fb38fe-26e... rate=199.40/s (delta=997 switches)
+[probe] pod=d22b920c-349... rate=9623.00/s (delta=48115 switches)
+[probe] pod=e2ba0e69-d3c... rate=131.60/s (delta=658 switches)
+[probe] pod=fb426540-094... rate=7238.40/s (delta=36192 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=194.20/s (delta=971 switches)
+[probe] pod=2cd3da09-ad6... rate=38.80/s (delta=194 switches)
+[probe] pod=82fb38fe-26e... rate=183.60/s (delta=918 switches)
+[probe] pod=d22b920c-349... rate=7874.20/s (delta=39371 switches)
+[probe] pod=e2ba0e69-d3c... rate=209.00/s (delta=1045 switches)
+[probe] pod=fb426540-094... rate=7182.80/s (delta=35914 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=195.00/s (delta=975 switches)
+[probe] pod=2cd3da09-ad6... rate=47.20/s (delta=236 switches)
+[probe] pod=82fb38fe-26e... rate=125.20/s (delta=626 switches)
+[probe] pod=d22b920c-349... rate=7843.80/s (delta=39219 switches)
+[probe] pod=e2ba0e69-d3c... rate=245.00/s (delta=1225 switches)
+[probe] pod=fb426540-094... rate=6854.80/s (delta=34274 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=153.40/s (delta=767 switches)
+[probe] pod=2cd3da09-ad6... rate=39.20/s (delta=196 switches)
+[probe] pod=82fb38fe-26e... rate=30.60/s (delta=153 switches)
+[probe] pod=d22b920c-349... rate=8999.00/s (delta=44995 switches)
+[probe] pod=e2ba0e69-d3c... rate=315.80/s (delta=1579 switches)
+[probe] pod=fb426540-094... rate=7191.00/s (delta=35955 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=138.60/s (delta=693 switches)
+[probe] pod=2cd3da09-ad6... rate=29.20/s (delta=146 switches)
+[probe] pod=82fb38fe-26e... rate=124.00/s (delta=620 switches)
+[probe] pod=d22b920c-349... rate=8956.80/s (delta=44784 switches)
+[probe] pod=e2ba0e69-d3c... rate=229.20/s (delta=1146 switches)
+[probe] pod=fb426540-094... rate=7150.80/s (delta=35754 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=216.40/s (delta=1082 switches)
+[probe] pod=2cd3da09-ad6... rate=38.40/s (delta=192 switches)
+[probe] pod=d22b920c-349... rate=14107.80/s (delta=70539 switches)
+[probe] pod=e2ba0e69-d3c... rate=299.20/s (delta=1496 switches)
+[probe] pod=fb426540-094... rate=7001.60/s (delta=35008 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=289.20/s (delta=1446 switches)
+[probe] pod=2cd3da09-ad6... rate=30.40/s (delta=152 switches)
+[probe] pod=82fb38fe-26e... rate=170.60/s (delta=853 switches)
+[probe] pod=d22b920c-349... rate=7113.00/s (delta=35565 switches)
+[probe] pod=e2ba0e69-d3c... rate=226.60/s (delta=1133 switches)
+[probe] pod=fb426540-094... rate=7737.20/s (delta=38686 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=200.60/s (delta=1003 switches)
+[probe] pod=2cd3da09-ad6... rate=49.80/s (delta=249 switches)
+[probe] pod=82fb38fe-26e... rate=171.40/s (delta=857 switches)
+[probe] pod=d22b920c-349... rate=7751.40/s (delta=38757 switches)
+[probe] pod=e2ba0e69-d3c... rate=428.60/s (delta=2143 switches)
+[probe] pod=fb426540-094... rate=6804.80/s (delta=34024 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=236.40/s (delta=1182 switches)
+[probe] pod=2cd3da09-ad6... rate=30.20/s (delta=151 switches)
+[probe] pod=d22b920c-349... rate=9966.60/s (delta=49833 switches)
+[probe] pod=e2ba0e69-d3c... rate=442.40/s (delta=2212 switches)
+[probe] pod=fb426540-094... rate=6648.60/s (delta=33243 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=341.80/s (delta=1709 switches)
+[probe] pod=2cd3da09-ad6... rate=42.60/s (delta=213 switches)
+[probe] pod=d22b920c-349... rate=9341.00/s (delta=46705 switches)
+[probe] pod=e2ba0e69-d3c... rate=137.60/s (delta=688 switches)
+[probe] pod=fb426540-094... rate=6365.40/s (delta=31827 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=202.80/s (delta=1014 switches)
+[probe] pod=2cd3da09-ad6... rate=29.80/s (delta=149 switches)
+[probe] pod=82fb38fe-26e... rate=70.80/s (delta=354 switches)
+[probe] pod=d22b920c-349... rate=9664.20/s (delta=48321 switches)
+[probe] pod=e2ba0e69-d3c... rate=539.40/s (delta=2697 switches)
+[probe] pod=fb426540-094... rate=6790.60/s (delta=33953 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=149.00/s (delta=745 switches)
+[probe] pod=2cd3da09-ad6... rate=34.00/s (delta=170 switches)
+[probe] pod=82fb38fe-26e... rate=174.20/s (delta=871 switches)
+[probe] pod=d22b920c-349... rate=9358.00/s (delta=46790 switches)
+[probe] pod=e2ba0e69-d3c... rate=154.60/s (delta=773 switches)
+[probe] pod=fb426540-094... rate=7241.40/s (delta=36207 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=167.00/s (delta=835 switches)
+[probe] pod=2cd3da09-ad6... rate=57.20/s (delta=286 switches)
+[probe] pod=82fb38fe-26e... rate=186.40/s (delta=932 switches)
+[probe] pod=d22b920c-349... rate=10706.20/s (delta=53531 switches)
+[probe] pod=e2ba0e69-d3c... rate=361.60/s (delta=1808 switches)
+[probe] pod=fb426540-094... rate=6893.00/s (delta=34465 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=166.80/s (delta=834 switches)
+[probe] pod=2cd3da09-ad6... rate=32.60/s (delta=163 switches)
+[probe] pod=82fb38fe-26e... rate=204.00/s (delta=1020 switches)
+[probe] pod=d22b920c-349... rate=8896.00/s (delta=44480 switches)
+[probe] pod=e2ba0e69-d3c... rate=183.60/s (delta=918 switches)
+[probe] pod=fb426540-094... rate=7149.00/s (delta=35745 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=194.40/s (delta=972 switches)
+[probe] pod=2cd3da09-ad6... rate=56.60/s (delta=283 switches)
+[probe] pod=82fb38fe-26e... rate=156.40/s (delta=782 switches)
+[probe] pod=d22b920c-349... rate=9381.60/s (delta=46908 switches)
+[probe] pod=e2ba0e69-d3c... rate=364.60/s (delta=1823 switches)
+[probe] pod=fb426540-094... rate=7383.80/s (delta=36919 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=260.00/s (delta=1300 switches)
+[probe] pod=2cd3da09-ad6... rate=28.20/s (delta=141 switches)
+[probe] pod=82fb38fe-26e... rate=196.60/s (delta=983 switches)
+[probe] pod=d22b920c-349... rate=9330.80/s (delta=46654 switches)
+[probe] pod=e2ba0e69-d3c... rate=480.60/s (delta=2403 switches)
+[probe] pod=fb426540-094... rate=7106.40/s (delta=35532 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=225.40/s (delta=1127 switches)
+[probe] pod=2cd3da09-ad6... rate=37.20/s (delta=186 switches)
+[probe] pod=82fb38fe-26e... rate=163.20/s (delta=816 switches)
+[probe] pod=d22b920c-349... rate=8754.60/s (delta=43773 switches)
+[probe] pod=e2ba0e69-d3c... rate=270.20/s (delta=1351 switches)
+[probe] pod=fb426540-094... rate=6987.40/s (delta=34937 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=373.20/s (delta=1866 switches)
+[probe] pod=2cd3da09-ad6... rate=32.60/s (delta=163 switches)
+[probe] pod=82fb38fe-26e... rate=214.20/s (delta=1071 switches)
+[probe] pod=d22b920c-349... rate=8181.80/s (delta=40909 switches)
+[probe] pod=e2ba0e69-d3c... rate=286.20/s (delta=1431 switches)
+[probe] pod=fb426540-094... rate=7365.00/s (delta=36825 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=170.40/s (delta=852 switches)
+[probe] pod=2cd3da09-ad6... rate=28.20/s (delta=141 switches)
+[probe] pod=82fb38fe-26e... rate=213.40/s (delta=1067 switches)
+[probe] pod=d22b920c-349... rate=10612.40/s (delta=53062 switches)
+[probe] pod=e2ba0e69-d3c... rate=128.60/s (delta=643 switches)
+[probe] pod=fb426540-094... rate=6976.40/s (delta=34882 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=175.20/s (delta=876 switches)
+[probe] pod=2cd3da09-ad6... rate=47.20/s (delta=236 switches)
+[probe] pod=82fb38fe-26e... rate=54.20/s (delta=271 switches)
+[probe] pod=d22b920c-349... rate=12451.80/s (delta=62259 switches)
+[probe] pod=e2ba0e69-d3c... rate=457.80/s (delta=2289 switches)
+[probe] pod=fb426540-094... rate=6990.60/s (delta=34953 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=187.00/s (delta=935 switches)
+[probe] pod=2cd3da09-ad6... rate=46.20/s (delta=231 switches)
+[probe] pod=82fb38fe-26e... rate=77.60/s (delta=388 switches)
+[probe] pod=d22b920c-349... rate=7427.00/s (delta=37135 switches)
+[probe] pod=e2ba0e69-d3c... rate=814.00/s (delta=4070 switches)
+[probe] pod=fb426540-094... rate=7427.20/s (delta=37136 switches)
+[probe] cgroup map: 23 pod(s) discovered
+[probe] pod=2439094d-f81... rate=228.60/s (delta=1143 switches)
+[probe] pod=2cd3da09-ad6... rate=39.40/s (delta=197 switches)
+[probe] pod=82fb38fe-26e... rate=202.80/s (delta=1014 switches)
+[probe] pod=d22b920c-349... rate=7141.00/s (delta=35705 switches)
+[probe] pod=e2ba0e69-d3c... rate=173.00/s (delta=865 switches)
+[probe] pod=fb426540-094... rate=6905.80/s (delta=34529 switches)
+[probe] cgroup map: 23 pod(s) discovered
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '5e78742e-8c34-4d1b-a2e7-25b5a8449016, 5e78742e-8c34-4d1b-a2e7-25b5a8449016', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '256', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 04:58:15 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": http2: client connection force closed via ClientConn.Close
+
+
+[RAASA] Iteration 9
+[RAASA] Iteration 10
+[RAASA] Iteration 11
+[RAASA] Iteration 12
+[RAASA] Iteration 13
+[RAASA] Iteration 14
+[RAASA] Iteration 15
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '2ee05675-2ad5-4919-934d-95f29ca255cf, 2ee05675-2ad5-4919-934d-95f29ca255cf', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '273', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 04:59:03 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'accec745-3c61-4de0-b8a2-918cda7ffa0e, accec745-3c61-4de0-b8a2-918cda7ffa0e', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '222', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 04:59:13 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+[RAASA] Iteration 16
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '2a448a12-b6f3-416b-a51d-47ef4feaadb3, 2a448a12-b6f3-416b-a51d-47ef4feaadb3', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '223', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 04:59:37 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+[RAASA] Iteration 17
+[RAASA] Iteration 18
+[RAASA] Iteration 19
+[RAASA] Iteration 20
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '05962fea-6f40-4907-be09-eacd5ba41ae5, 05962fea-6f40-4907-be09-eacd5ba41ae5', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:00:09 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-malicious-cpu: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '06951add-4411-449a-a12b-ca72d98f812a, 06951add-4411-449a-a12b-ca72d98f812a', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:00:19 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-malicious-cpu": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 21
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '531afe37-ccea-421d-b245-61a8a933fff2, 531afe37-ccea-421d-b245-61a8a933fff2', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '273', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:00:41 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 22
+[RAASA] Iteration 23
+[RAASA] Iteration 24
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '633ca367-5049-4b26-af3f-2a1d1a773a2b, 633ca367-5049-4b26-af3f-2a1d1a773a2b', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '273', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:01:08 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'e5c10972-e116-4652-8c1c-5964f47c399f, e5c10972-e116-4652-8c1c-5964f47c399f', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:01:18 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 25
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'a35700af-3d4c-4c6c-b602-47494559ff57, a35700af-3d4c-4c6c-b602-47494559ff57', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '273', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:01:41 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 26
+[RAASA] Iteration 27
+[RAASA] Iteration 28
+[RAASA] Iteration 29
+[RAASA] Iteration 30
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'ed2123a1-2f3e-4569-a19a-284fd393b5d2, ed2123a1-2f3e-4569-a19a-284fd393b5d2', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '273', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:02:18 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '1008664d-dc7b-4d49-8fc1-0f246b334da2, 1008664d-dc7b-4d49-8fc1-0f246b334da2', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:02:28 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 31
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '5011b5b4-d898-4d13-a48c-ecf79eb566ef, 5011b5b4-d898-4d13-a48c-ecf79eb566ef', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '223', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:02:51 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+[RAASA] Iteration 32
+[RAASA] Iteration 33
+[RAASA] Iteration 34
+[RAASA] Iteration 35
+[RAASA] Iteration 36
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '02777eea-ce2a-41ee-a501-1ba8290e2d70, 02777eea-ce2a-41ee-a501-1ba8290e2d70', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '223', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:03:29 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '85594983-6160-4cd5-bcc3-ae8838a357cb, 85594983-6160-4cd5-bcc3-ae8838a357cb', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:03:39 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 37
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'd43230d0-4c62-4f8d-9d40-136599c7bc88, d43230d0-4c62-4f8d-9d40-136599c7bc88', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '223', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:04:01 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+[RAASA] Iteration 38
+[RAASA] Iteration 39
+[RAASA] Iteration 40
+[RAASA] Iteration 41
+[RAASA] Iteration 42
+[RAASA] Iteration 43
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'cbe03bf1-80e2-44bf-9f6f-b0112c6b98ac, cbe03bf1-80e2-44bf-9f6f-b0112c6b98ac', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:04:44 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-malicious-cpu: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '1a44805a-4f1a-47af-b8d9-a85f1a916b65, 1a44805a-4f1a-47af-b8d9-a85f1a916b65', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '271', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:04:54 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-malicious-cpu": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 44
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'e572c1be-5501-407b-a0f6-ca27f8e7772f, e572c1be-5501-407b-a0f6-ca27f8e7772f', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '223', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:05:16 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+[RAASA] Iteration 45
+[RAASA] Iteration 46
+[RAASA] Iteration 47
+[RAASA] Iteration 48
+[RAASA] Iteration 49
+[RAASA] Iteration 50
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'ac9a4b11-11b9-4369-a9bc-9a455c08c9cb, ac9a4b11-11b9-4369-a9bc-9a455c08c9cb', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '222', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:05:59 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-malicious-cpu: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '0ce7e4d9-53f5-465f-81b5-20741061ae9a, 0ce7e4d9-53f5-465f-81b5-20741061ae9a', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:06:09 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-malicious-cpu": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 51
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '427640cd-fec6-4ac1-88fc-e83b837673cc, 427640cd-fec6-4ac1-88fc-e83b837673cc', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '223', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:06:32 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+
+[RAASA] Iteration 52
+[RAASA] Iteration 53
+[RAASA] Iteration 54
+[RAASA] Iteration 55
+[RAASA] Iteration 56
+[RAASA] Iteration 57
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '219ec4f9-3959-4e77-8e99-d7d6bab37dc4, 219ec4f9-3959-4e77-8e99-d7d6bab37dc4', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:07:15 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-steady": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-malicious-cpu: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'e89d3a03-b249-45ef-9749-dc530596c245, e89d3a03-b249-45ef-9749-dc530596c245', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '272', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:07:25 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-malicious-cpu": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+
+
+[RAASA] Iteration 58
+WARNING:raasa.k8s.observer_k8s:[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (500)
+Reason: Internal Server Error
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '4604544e-4520-409b-91d4-2b8ab99b95d8, 4604544e-4520-409b-91d4-2b8ab99b95d8', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '223', 'Content-Type': 'text/plain; charset=utf-8', 'Date': 'Sun, 26 Apr 2026 05:07:48 GMT', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: Internal Server Error: "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/raasa-test-benign-compute": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": context deadline exceeded
+
+

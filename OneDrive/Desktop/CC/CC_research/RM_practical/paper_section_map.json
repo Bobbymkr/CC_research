@@ -1,0 +1,68 @@
+{
+  "abstract": [
+    "01_research_snapshot.md",
+    "04_results_and_evidence.md"
+  ],
+  "introduction_and_problem": [
+    "01_research_snapshot.md",
+    "docs/project_documentation.md",
+    "docs/threat_matrix.md",
+    "paper_draft/RAASA_Final_v2_extracted.txt"
+  ],
+  "architecture": [
+    "02_architecture_and_project_flow.md",
+    "03_implementation_map.md",
+    "code/core/",
+    "code/k8s/"
+  ],
+  "methodology": [
+    "03_implementation_map.md",
+    "configs/",
+    "code/experiments/",
+    "code/workloads/catalog.py"
+  ],
+  "results": [
+    "04_results_and_evidence.md",
+    "07_latest_v2_validation_2026_04_26.md",
+    "09_live_aws_instance_log_validation_2026_04_26.md",
+    "10_phase1_development_direction_2026_04_26.md",
+    "11_phase1_ablation_ml_vs_linear_2026_04_26.md",
+    "12_phase1b_blast_radius_and_calibration_2026_04_26.md",
+    "13_phase1c_pod_specific_enforcement_2026_04_26.md",
+    "14_phase1d_universal_resolution_2026_04_26.md",
+    "results/aws_v2/",
+    "results/aws_v2_2026_04_26/",
+    "figures/small/",
+    "figures/medium/"
+  ],
+  "discussion_and_limitations": [
+    "06_paper_alignment_and_claim_boundaries.md",
+    "07_latest_v2_validation_2026_04_26.md",
+    "09_live_aws_instance_log_validation_2026_04_26.md",
+    "10_phase1_development_direction_2026_04_26.md",
+    "11_phase1_ablation_ml_vs_linear_2026_04_26.md",
+    "12_phase1b_blast_radius_and_calibration_2026_04_26.md",
+    "13_phase1c_pod_specific_enforcement_2026_04_26.md",
+    "14_phase1d_universal_resolution_2026_04_26.md",
+    "05_future_work_and_further_testing.md",
+    "docs/execution_errors.md",
+    "docs/live_experiment_notes.md"
+  ],
+  "future_work": [
+    "05_future_work_and_further_testing.md",
+    "docs/next_generation_roadmap.md",
+    "docs/future_implementation.md"
+  ],
+  "reproducibility": [
+    "reproduction_commands.txt",
+    "code/k8s/collect_aws_live_validation.ps1",
+    "code/k8s/phase1b-network-benchmark.yaml",
+    "code/k8s/run_phase1b_blast_radius.ps1",
+    "code/k8s/deploy_agent_image_to_aws.ps1",
+    "code/k8s/run_phase1c_pod_specific_validation.ps1",
+    "code/k8s/run_phase1d_resolution_validation.ps1",
+    "environment/requirements.txt",
+    "environment/pyproject.toml",
+    "verification/tests/"
+  ]
+}

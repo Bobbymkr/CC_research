@@ -1,0 +1,25 @@
+{
+  "baseline": {
+    "sample_count": 58,
+    "host_cpu_percent_mean": 94.5896551724138,
+    "host_cpu_percent_p95": 100.0
+  },
+  "adaptive": {
+    "sample_count": 86,
+    "host_cpu_percent_mean": 70.0453488372093,
+    "host_cpu_percent_p95": 99.125,
+    "process_cpu_percent_mean": 2.4658823529411764,
+    "process_cpu_percent_p95": 5.579999999999991,
+    "loop_duration_seconds_mean": 2.797373933333347,
+    "loop_duration_seconds_p95": 3.541311425000231
+  },
+  "delta": {
+    "host_cpu_percent_mean": -24.544306335204496,
+    "host_cpu_percent_p95": -0.875
+  },
+  "artifacts": {
+    "controller_log_path": "raasa\\logs\\run_benign_only_overhead_linear_adaptive.jsonl",
+    "timing_path": "raasa\\logs\\benign_only_overhead_linear_controller_timings.json",
+    "config_path": "raasa/configs/config_tuned_small_linear.yaml"
+  }
+}

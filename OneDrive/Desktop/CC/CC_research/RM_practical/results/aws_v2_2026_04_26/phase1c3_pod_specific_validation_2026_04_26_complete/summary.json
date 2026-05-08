@@ -1,0 +1,44 @@
+{
+    "l1":  {
+               "avg_speed_bytes_per_sec":  191817444.66666666,
+               "raw":  [
+                           {
+                               "time_total_sec":  0.073392,
+                               "speed_bytes_per_sec":  57149335
+                           },
+                           {
+                               "time_total_sec":  0.026402,
+                               "speed_bytes_per_sec":  158863116
+                           },
+                           {
+                               "time_total_sec":  0.011669,
+                               "speed_bytes_per_sec":  359439883
+                           }
+                       ],
+               "samples":  3,
+               "avg_time_total_sec":  0.037154333333333331
+           },
+    "l3":  {
+               "avg_speed_bytes_per_sec":  0,
+               "raw":  [
+                           {
+                               "time_total_sec":  121.976374,
+                               "speed_bytes_per_sec":  0
+                           },
+                           {
+                               "time_total_sec":  123.222834,
+                               "speed_bytes_per_sec":  0
+                           },
+                           {
+                               "time_total_sec":  122.95588,
+                               "speed_bytes_per_sec":  0
+                           }
+                       ],
+               "samples":  3,
+               "avg_time_total_sec":  122.71836266666666
+           },
+    "comparison":  {
+                       "time_ratio_l3_vs_l1":  3302.9353956021282,
+                       "speed_ratio_l3_vs_l1":  0
+                   }
+}

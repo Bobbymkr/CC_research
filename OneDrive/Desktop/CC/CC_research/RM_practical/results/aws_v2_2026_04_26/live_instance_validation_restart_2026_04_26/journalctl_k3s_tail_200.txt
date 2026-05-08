@@ -1,0 +1,200 @@
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.594046     647 controller.go:173] "Starting ephemeral volume controller" logger="ephemeral-volume-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.594061     647 shared_informer.go:349] "Waiting for caches to sync" controller="ephemeral"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.626121     647 controllermanager.go:781] "Started controller" controller="resourceclaim-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.627050     647 controller.go:397] "Starting resource claim controller" logger="resourceclaim-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.627131     647 shared_informer.go:349] "Waiting for caches to sync" controller="resource_claim"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.775331     647 controller.go:667] quota admission added evaluator for: rolebindings.rbac.authorization.k8s.io
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.788409     647 event.go:389] "Event occurred" object="kube-system/ccm" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/ccm.yaml\""
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.797191     647 controller.go:667] quota admission added evaluator for: addons.k3s.cattle.io
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: E0426 05:31:48.821513     647 resource_quota_controller.go:175] "Unhandled Error" err="initial discovery check failure, continuing and counting on future sync update: unable to retrieve the complete list of server APIs: metrics.k8s.io/v1beta1: stale GroupVersion discovery: metrics.k8s.io/v1beta1" logger="UnhandledError"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.822392     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="roles.rbac.authorization.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.822595     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="podtemplates"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.822614     647 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="21h17m43.609010883s" resyncCheckPeriod="21h58m55.556928019s"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.826209     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="limitranges"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829105     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="statefulsets.apps"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829214     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="tracingpoliciesnamespaced.cilium.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829236     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="poddisruptionbudgets.policy"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829267     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="rolebindings.rbac.authorization.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829304     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="horizontalpodautoscalers.autoscaling"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829320     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="cronjobs.batch"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829333     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="jobs.batch"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829348     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="resourceclaimtemplates.resource.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829383     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="addons.k3s.cattle.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829395     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="deployments.apps"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829412     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="networkpolicies.networking.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829470     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="replicasets.apps"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829488     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="helmchartconfigs.helm.cattle.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829504     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="csistoragecapacities.storage.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829516     647 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="17h9m56.91577651s" resyncCheckPeriod="21h58m55.556928019s"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829603     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="serviceaccounts"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829649     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="controllerrevisions.apps"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829664     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="endpointslices.discovery.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829688     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="daemonsets.apps"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829716     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="leases.coordination.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829739     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="helmcharts.helm.cattle.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829752     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="endpoints"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829766     647 resource_quota_monitor.go:228] "QuotaMonitor created object count evaluator" logger="resourcequota-controller" resource="ingresses.networking.k8s.io"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829780     647 controllermanager.go:781] "Started controller" controller="resourcequota-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.829985     647 resource_quota_controller.go:300] "Starting resource quota controller" logger="resourcequota-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.830001     647 shared_informer.go:349] "Waiting for caches to sync" controller="resource quota"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.830142     647 resource_quota_monitor.go:309] "QuotaMonitor running" logger="resourcequota-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.844079     647 event.go:389] "Event occurred" object="kube-system/coredns" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/coredns.yaml\""
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.854306     647 network_policy_controller.go:179] Starting network policy controller full sync goroutine
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.857231     647 controllermanager.go:781] "Started controller" controller="cronjob-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.857247     647 controllermanager.go:739] "Skipping a cloud provider controller" controller="cloud-node-lifecycle-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.858437     647 cronjob_controllerv2.go:145] "Starting cronjob controller v2" logger="cronjob-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.858598     647 shared_informer.go:349] "Waiting for caches to sync" controller="cronjob"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: E0426 05:31:48.862474     647 resource_quota_controller.go:446] "Unhandled Error" err="unable to retrieve the complete list of server APIs: metrics.k8s.io/v1beta1: stale GroupVersion discovery: metrics.k8s.io/v1beta1" logger="UnhandledError"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.869551     647 controllermanager.go:781] "Started controller" controller="persistentvolume-attach-detach-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.880836     647 attach_detach_controller.go:336] "Starting attach detach controller" logger="persistentvolume-attach-detach-controller"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.880869     647 shared_informer.go:349] "Waiting for caches to sync" controller="attach detach"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.927756     647 shared_informer.go:349] "Waiting for caches to sync" controller="resource quota"
+Apr 26 05:31:48 ip-172-31-16-234 k3s[647]: I0426 05:31:48.997534     647 shared_informer.go:356] "Caches are synced" controller="PV protection"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.023742     647 shared_informer.go:356] "Caches are synced" controller="namespace"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.031798     647 actual_state_of_world.go:541] "Failed to update statusUpdateNeeded field in actual state of world" logger="persistentvolume-attach-detach-controller" err="Failed to set statusUpdateNeeded to needed true, because nodeName=\"ip-172-31-16-234\" does not exist"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.036132     647 shared_informer.go:356] "Caches are synced" controller="TTL"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.038193     647 shared_informer.go:356] "Caches are synced" controller="certificate-csrapproving"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.042713     647 shared_informer.go:356] "Caches are synced" controller="validatingadmissionpolicy-status"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.052740     647 shared_informer.go:356] "Caches are synced" controller="service account"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.065833     647 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-kubelet-serving"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.065876     647 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-kubelet-client"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.065895     647 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-kube-apiserver-client"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.065910     647 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-legacy-unknown"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.077274     647 shared_informer.go:356] "Caches are synced" controller="VAC protection"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.100075     647 shared_informer.go:356] "Caches are synced" controller="crt configmap"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.119111     647 shared_informer.go:356] "Caches are synced" controller="ClusterRoleAggregator"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.124954     647 shared_informer.go:356] "Caches are synced" controller="expand"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.104012     647 shared_informer.go:356] "Caches are synced" controller="TTL after finished"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.110552     647 shared_informer.go:356] "Caches are synced" controller="node"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.141172     647 range_allocator.go:177] "Sending events to api server" logger="node-ipam-controller"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.141204     647 range_allocator.go:183] "Starting range CIDR allocator" logger="node-ipam-controller"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.141211     647 shared_informer.go:349] "Waiting for caches to sync" controller="cidrallocator"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.141219     647 shared_informer.go:356] "Caches are synced" controller="cidrallocator"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.181034     647 shared_informer.go:356] "Caches are synced" controller="attach detach"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.194333     647 shared_informer.go:356] "Caches are synced" controller="deployment"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.194803     647 shared_informer.go:356] "Caches are synced" controller="ephemeral"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.199217     647 shared_informer.go:356] "Caches are synced" controller="taint-eviction-controller"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.206608     647 shared_informer.go:356] "Caches are synced" controller="endpoint_slice"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.215578     647 shared_informer.go:356] "Caches are synced" controller="GC"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.220246     647 shared_informer.go:356] "Caches are synced" controller="HPA"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.234412     647 shared_informer.go:356] "Caches are synced" controller="legacy-service-account-token-cleaner"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.236220     647 shared_informer.go:356] "Caches are synced" controller="job"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.241878     647 shared_informer.go:356] "Caches are synced" controller="ReplicationController"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.242290     647 shared_informer.go:356] "Caches are synced" controller="service-cidr-controller"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.248745     647 shared_informer.go:356] "Caches are synced" controller="disruption"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.251692     647 shared_informer.go:356] "Caches are synced" controller="ReplicaSet"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.254760     647 shared_informer.go:356] "Caches are synced" controller="PVC protection"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.255681     647 shared_informer.go:349] "Waiting for caches to sync" controller="garbage collector"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.263603     647 shared_informer.go:356] "Caches are synced" controller="persistent volume"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.347660     647 shared_informer.go:356] "Caches are synced" controller="resource_claim"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.364600     647 controller.go:667] quota admission added evaluator for: endpointslices.discovery.k8s.io
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.371304     647 shared_informer.go:356] "Caches are synced" controller="endpoint_slice_mirroring"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.414404     647 shared_informer.go:356] "Caches are synced" controller="taint"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.414680     647 node_lifecycle_controller.go:1221] "Initializing eviction metric for zone" logger="node-lifecycle-controller" zone=""
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.414754     647 node_lifecycle_controller.go:873] "Missing timestamp for Node. Assuming now as a timestamp" logger="node-lifecycle-controller" node="ip-172-31-16-234"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.415114     647 node_lifecycle_controller.go:1067] "Controller detected that zone is now in new state" logger="node-lifecycle-controller" zone="" newState="Normal"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.371333     647 shared_informer.go:356] "Caches are synced" controller="endpoint"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.460681     647 shared_informer.go:356] "Caches are synced" controller="cronjob"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.487392     647 shared_informer.go:356] "Caches are synced" controller="daemon sets"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.510207     647 shared_informer.go:356] "Caches are synced" controller="stateful set"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.527875     647 shared_informer.go:356] "Caches are synced" controller="resource quota"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.532831     647 shared_informer.go:356] "Caches are synced" controller="resource quota"
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.579844     647 controller.go:667] quota admission added evaluator for: replicasets.apps
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.727357     647 controller.go:667] quota admission added evaluator for: endpoints
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.783316     647 controller.go:667] quota admission added evaluator for: deployments.apps
+Apr 26 05:31:49 ip-172-31-16-234 k3s[647]: I0426 05:31:49.817733     647 controller.go:667] quota admission added evaluator for: daemonsets.apps
+Apr 26 05:31:50 ip-172-31-16-234 k3s[647]: I0426 05:31:50.058999     647 shared_informer.go:356] "Caches are synced" controller="garbage collector"
+Apr 26 05:31:50 ip-172-31-16-234 k3s[647]: I0426 05:31:50.099210     647 shared_informer.go:356] "Caches are synced" controller="garbage collector"
+Apr 26 05:31:50 ip-172-31-16-234 k3s[647]: I0426 05:31:50.099244     647 garbagecollector.go:154] "Garbage collector: all resource monitors have synced" logger="garbage-collector-controller"
+Apr 26 05:31:50 ip-172-31-16-234 k3s[647]: I0426 05:31:50.104422     647 garbagecollector.go:157] "Proceeding to collect garbage" logger="garbage-collector-controller"
+Apr 26 05:31:50 ip-172-31-16-234 k3s[647]: I0426 05:31:50.473176     647 event.go:389] "Event occurred" object="kube-system/coredns" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/coredns.yaml\""
+Apr 26 05:31:50 ip-172-31-16-234 k3s[647]: I0426 05:31:50.508742     647 event.go:389] "Event occurred" object="kube-system/local-storage" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/local-storage.yaml\""
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:57772: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:38926: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:38944: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:38938: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:38900: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:38914: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:38880: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:53250: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.046427     647 controller.go:113] "Unhandled Error" err="loading OpenAPI spec for \"v1beta1.metrics.k8s.io\" failed with: Error, could not get list of group versions for APIService" logger="UnhandledError"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: I0426 05:31:51.046462     647 controller.go:126] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:53238: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:53242: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:53264: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:53234: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:57792: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:57796: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:57836: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:57794: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:57816: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:57818: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: time="2026-04-26T05:31:51Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:38894: dial tcp 10.42.0.18:10250: connect: no route to host"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.049648     647 controller.go:146] "Unhandled Error" err=<
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         Error updating APIService "v1beta1.metrics.k8s.io" with err: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: error trying to reach service: proxy error from 127.0.0.1:6443 while dialing 10.42.0.18:10250, code 502: 502 Bad Gateway
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:  > logger="UnhandledError"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: W0426 05:31:51.049935     647 handler_proxy.go:99] no RequestInfo found in the context
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.050021     647 controller.go:146] "Unhandled Error" err=<
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         Error updating APIService "v1beta1.metrics.k8s.io" with err: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:  > logger="UnhandledError"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: W0426 05:31:51.050167     647 handler_proxy.go:99] no RequestInfo found in the context
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.050237     647 controller.go:102] "Unhandled Error" err=<
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         loading OpenAPI spec for "v1beta1.metrics.k8s.io" failed with: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:  > logger="UnhandledError"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.050378     647 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: I0426 05:31:51.053280     647 controller.go:109] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.053375     647 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.055969     647 remote_available_controller.go:462] "Unhandled Error" err="v1beta1.metrics.k8s.io failed with: failing or missing response from https://10.42.0.18:10250/apis/metrics.k8s.io/v1beta1: Get \"https://10.42.0.18:10250/apis/metrics.k8s.io/v1beta1\": proxy error from 127.0.0.1:6443 while dialing 10.42.0.18:10250, code 502: 502 Bad Gateway" logger="UnhandledError"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: W0426 05:31:51.057170     647 handler_proxy.go:99] no RequestInfo found in the context
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.058550     647 controller.go:146] "Unhandled Error" err=<
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         Error updating APIService "v1beta1.metrics.k8s.io" with err: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:  > logger="UnhandledError"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.062085     647 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: W0426 05:31:51.069057     647 handler_proxy.go:99] no RequestInfo found in the context
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.070307     647 controller.go:146] "Unhandled Error" err=<
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         Error updating APIService "v1beta1.metrics.k8s.io" with err: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]:  > logger="UnhandledError"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: E0426 05:31:51.070545     647 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: I0426 05:31:51.445771     647 event.go:389] "Event occurred" object="ip-172-31-16-234" fieldPath="" kind="Node" apiVersion="" type="Normal" reason="NodePasswordValidationComplete" message="Deferred node password secret validation complete"
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: I0426 05:31:51.555859     647 event.go:389] "Event occurred" object="kube-system/local-storage" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/local-storage.yaml\""
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: I0426 05:31:51.565064     647 event.go:389] "Event occurred" object="kube-system/aggregated-metrics-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/aggregated-metrics-reader.yaml\""
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: I0426 05:31:51.695309     647 event.go:389] "Event occurred" object="kube-system/aggregated-metrics-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/aggregated-metrics-reader.yaml\""
+Apr 26 05:31:51 ip-172-31-16-234 k3s[647]: I0426 05:31:51.707238     647 event.go:389] "Event occurred" object="kube-system/auth-delegator" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-delegator.yaml\""
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: W0426 05:31:52.050344     647 handler_proxy.go:99] no RequestInfo found in the context
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: E0426 05:31:52.050393     647 controller.go:113] "Unhandled Error" err="loading OpenAPI spec for \"v1beta1.metrics.k8s.io\" failed with: Error, could not get list of group versions for APIService" logger="UnhandledError"
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.050408     647 controller.go:126] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: W0426 05:31:52.053602     647 handler_proxy.go:99] no RequestInfo found in the context
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: E0426 05:31:52.053665     647 controller.go:102] "Unhandled Error" err=<
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]:         loading OpenAPI spec for "v1beta1.metrics.k8s.io" failed with: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]:  > logger="UnhandledError"
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.053720     647 controller.go:109] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.425544     647 event.go:389] "Event occurred" object="kube-system/auth-delegator" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-delegator.yaml\""
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.433676     647 event.go:389] "Event occurred" object="kube-system/auth-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-reader.yaml\""
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.606970     647 event.go:389] "Event occurred" object="kube-system/auth-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-reader.yaml\""
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.615981     647 event.go:389] "Event occurred" object="kube-system/metrics-apiservice" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-apiservice.yaml\""
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.898456     647 event.go:389] "Event occurred" object="kube-system/metrics-apiservice" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-apiservice.yaml\""
+Apr 26 05:31:52 ip-172-31-16-234 k3s[647]: I0426 05:31:52.905483     647 event.go:389] "Event occurred" object="kube-system/metrics-server-deployment" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-deployment.yaml\""
+Apr 26 05:31:53 ip-172-31-16-234 k3s[647]: I0426 05:31:53.513064     647 event.go:389] "Event occurred" object="kube-system/metrics-server-deployment" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-deployment.yaml\""
+Apr 26 05:31:53 ip-172-31-16-234 k3s[647]: I0426 05:31:53.526231     647 event.go:389] "Event occurred" object="kube-system/metrics-server-service" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-service.yaml\""
+Apr 26 05:31:54 ip-172-31-16-234 k3s[647]: I0426 05:31:54.422811     647 event.go:389] "Event occurred" object="kube-system/metrics-server-service" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-service.yaml\""
+Apr 26 05:31:54 ip-172-31-16-234 k3s[647]: I0426 05:31:54.426933     647 event.go:389] "Event occurred" object="kube-system/resource-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/resource-reader.yaml\""
+Apr 26 05:31:55 ip-172-31-16-234 k3s[647]: I0426 05:31:55.422289     647 event.go:389] "Event occurred" object="kube-system/resource-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/resource-reader.yaml\""
+Apr 26 05:31:55 ip-172-31-16-234 k3s[647]: I0426 05:31:55.427607     647 event.go:389] "Event occurred" object="kube-system/rolebindings" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/rolebindings.yaml\""
+Apr 26 05:31:56 ip-172-31-16-234 k3s[647]: I0426 05:31:56.424733     647 event.go:389] "Event occurred" object="kube-system/rolebindings" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/rolebindings.yaml\""
+Apr 26 05:31:56 ip-172-31-16-234 k3s[647]: I0426 05:31:56.430465     647 event.go:389] "Event occurred" object="kube-system/runtimes" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/runtimes.yaml\""
+Apr 26 05:31:56 ip-172-31-16-234 k3s[647]: I0426 05:31:56.615746     647 event.go:389] "Event occurred" object="kube-system/runtimes" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/runtimes.yaml\""
+Apr 26 05:31:57 ip-172-31-16-234 k3s[647]: I0426 05:31:57.421010     647 event.go:389] "Event occurred" object="kube-system/traefik" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="DeletingManifest" message="Deleting manifest at \"/var/lib/rancher/k3s/server/manifests/traefik.yaml\""
+Apr 26 05:32:08 ip-172-31-16-234 k3s[647]: I0426 05:32:08.703713     647 handler.go:285] Adding GroupVersion metrics.k8s.io v1beta1 to ResourceManager
+Apr 26 05:35:19 ip-172-31-16-234 k3s[647]: E0426 05:35:19.723044     647 controller.go:102] "Unhandled Error" err=<
+Apr 26 05:35:19 ip-172-31-16-234 k3s[647]:         loading OpenAPI spec for "v1beta1.metrics.k8s.io" failed with: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 500, Body: Internal Server Error: "/openapi/v2": Post "https://10.43.0.1:443/apis/authorization.k8s.io/v1/subjectaccessreviews?timeout=10s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+Apr 26 05:35:19 ip-172-31-16-234 k3s[647]:         , Header: map[Audit-Id:[b66cfaa9-4f95-42f6-a9ce-84d82c179ff0] Cache-Control:[no-cache, private] Content-Length:[206] Content-Type:[text/plain; charset=utf-8] Date:[Sun, 26 Apr 2026 05:35:19 GMT] X-Content-Type-Options:[nosniff]]
+Apr 26 05:35:19 ip-172-31-16-234 k3s[647]:  > logger="UnhandledError"
+Apr 26 05:35:19 ip-172-31-16-234 k3s[647]: I0426 05:35:19.723076     647 controller.go:109] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+Apr 26 05:35:19 ip-172-31-16-234 k3s[647]: E0426 05:35:19.738008     647 controller.go:113] "Unhandled Error" err="loading OpenAPI spec for \"v1beta1.metrics.k8s.io\" failed with: Error, could not get list of group versions for APIService" logger="UnhandledError"
+Apr 26 05:35:19 ip-172-31-16-234 k3s[647]: I0426 05:35:19.738213     647 controller.go:126] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.

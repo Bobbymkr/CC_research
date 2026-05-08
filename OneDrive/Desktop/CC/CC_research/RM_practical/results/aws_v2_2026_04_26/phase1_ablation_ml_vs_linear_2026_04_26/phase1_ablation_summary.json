@@ -1,0 +1,99 @@
+{
+  "date": "2026-04-26",
+  "target_host": "54.227.40.170",
+  "baseline_artifacts": {
+    "before_config": "before_configmap_ml_on.yaml",
+    "before_audit": "before_audit_ml_on.jsonl",
+    "after_config": "after_configmap_linear.yaml",
+    "after_audit_initial": "after_audit_linear.jsonl",
+    "after_audit_refreshed": "after_audit_linear_refreshed.jsonl",
+    "post_linear_bundle": "post_linear_live_validation/"
+  },
+  "pre_ablation": {
+    "controller_label": "linear_tuned",
+    "ml_enabled": true,
+    "evidence_of_ml_path": true,
+    "evidence_marker": "assessment_reasons include ml_score=..."
+  },
+  "post_ablation": {
+    "controller_label": "linear_tuned",
+    "ml_enabled": false,
+    "label_matches_behavior": true,
+    "evidence_marker": "assessment_reasons include weighted cpu/mem/proc/net/sys terms"
+  },
+  "last_state_comparison": {
+    "default/raasa-test-benign-compute": {
+      "before": {
+        "tier": "L3",
+        "risk": 0.474015884590824,
+        "syscall_rate": 172.4
+      },
+      "after": {
+        "tier": "L3",
+        "risk": 0.28263183563947436,
+        "syscall_rate": 176.4,
+        "reason": "low-risk streak not long enough -> hold"
+      }
+    },
+    "default/raasa-test-benign-steady": {
+      "before": {
+        "tier": "L1",
+        "risk": 0.3180310790427418,
+        "syscall_rate": 0.0
+      },
+      "after": {
+        "tier": "L1",
+        "risk": 0.02764712810516358,
+        "syscall_rate": 0.0,
+        "reason": "risk within current tier band -> hold"
+      }
+    },
+    "default/raasa-test-malicious-cpu": {
+      "before": {
+        "tier": "L3",
+        "risk": 0.5962084201731608,
+        "syscall_rate": 6001.6
+      },
+      "after": {
+        "tier": "L3",
+        "risk": 1.0,
+        "syscall_rate": 6822.4,
+        "reason": "risk within current tier band -> hold"
+      }
+    },
+    "raasa-demo/raasa-net-client-669f7c4cf8-2d9w8": {
+      "before": {
+        "tier": "L2",
+        "risk": 0.4114203171910392,
+        "syscall_rate": 40.0
+      },
+      "after": {
+        "tier": "L1",
+        "risk": 0.0969630561744934,
+        "syscall_rate": 33.6,
+        "reason": "risk within current tier band -> hold"
+      }
+    },
+    "raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2": {
+      "before": {
+        "tier": "L1",
+        "risk": 0.3474831291776133,
+        "syscall_rate": 0.0
+      },
+      "after": {
+        "tier": "L1",
+        "risk": 0.030720761019153178,
+        "syscall_rate": 0.0,
+        "reason": "risk within current tier band -> hold"
+      }
+    }
+  },
+  "key_interpretation": {
+    "controller_truthfulness_fixed": true,
+    "malicious_workload_preserved_at_L3": true,
+    "net_client_unnecessary_escalation_removed": true,
+    "metrics_api_still_unstable": true,
+    "benign_compute_is_not_a_pure_ml_problem": true,
+    "benign_compute_current_blocker": "spiky syscall signal plus low-risk-streak de-escalation guardrail"
+  }
+}

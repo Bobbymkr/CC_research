@@ -1,146 +1,131 @@
-# RAASA v1 Plan: Lightweight Agentic Prototype With Results and Research Roadmap
+# RAASA Current Plan: Phase 1D Baseline, Cloud-Native Correctness, and Paper Alignment
 
 ## Summary
-Build RAASA v1 as a **single-host Ubuntu prototype** that demonstrates a modern autonomous containment loop for container workloads. The artifact is not positioned as a complete cloud-security product; it is positioned as a **research prototype** that proves a new direction: workloads can be monitored continuously, assessed through bounded risk logic, acted on through adaptive containment, and evaluated with reproducible evidence.
 
-The system should be framed as a **lightweight agentic security controller** with explicit components for observation, reasoning, action, and audit. The paper should present this as a proof-of-concept with measurable benefits over static baselines and a clear roadmap for stronger future systems.
+RAASA is no longer at the early "single-host v1 prototype" planning stage. The repo now contains a stronger evidence base:
 
-## Key Changes
-### 1. System framing and claim discipline
-The v1 paper must make only these claims:
-- A lightweight autonomous control loop for container containment can be built and run on real workloads.
-- The system can observe runtime behavior, compute bounded risk/confidence values, and adapt containment without manual intervention.
-- Adaptive containment can improve the trade-off between permissive and overly restrictive static policies in the tested environment.
-- The prototype establishes a practical starting point for future adaptive sandboxing research.
+- solid local Docker evaluation for the adaptive-vs-static story,
+- a tuned linear controller that is stronger than the current ML arm,
+- live AWS/K3s evidence through Phase 1D showing pod-specific host-veth containment across the tested demo and benchmark pods,
+- and fresh operational evidence that the cloud-native control-plane telemetry path is still fragile under stress.
 
-The v1 paper must not claim:
-- production-ready cloud defense
-- complete sandbox allocation across all attack classes
-- strong syscall-level threat detection
-- comprehensive protection against escape, exfiltration, or lateral movement
-- cluster-scale validation
+The plan from this point forward should be evidence-led and paper-safe. The next goal is not to make the ML story bigger. The next goal is to keep the cloud-native path correct, reproducible, and aligned with the claims we can already defend.
 
-### 2. Lightweight agentic architecture
-Implement the controller as five logical modules:
-- `Observer`: collects runtime evidence per container.
-- `Risk Assessor`: converts evidence into normalized features, risk score, and confidence score.
-- `Policy Reasoner`: chooses `L1/L2/L3` using thresholds plus safety rules.
-- `Action Enforcer`: applies containment changes through runtime CPU control.
-- `Audit Logger`: records evidence, reasoning, action, and justification for each decision.
+## Current project position
 
-Internal decision record per loop should include:
-- current signals
-- normalized features
-- risk score
-- confidence score
-- previous tier
-- proposed tier
-- final applied tier
-- reason for action or non-action
+### What is strong now
 
-### 3. Threat-to-signal-to-action design
-Define a compact v1 threat matrix covering only what the prototype can honestly test:
-- benign steady workload -> low resource/runtime deviation -> remain `L1`
-- benign bursty workload -> temporary CPU/process deviation -> maybe `L2`, avoid repeated overreaction
-- suspicious workload -> sustained abnormal CPU/process behavior -> `L2`
-- malicious-pattern workload -> strong sustained abnormal behavior -> `L3`
+- Adaptive RAASA clearly improves on static `L1` and static `L3` in the curated local evaluation story.
+- The tuned linear controller is the primary controller the paper should trust today.
+- The AWS/K8s path now has meaningful live evidence, culminating in Phase 1D universal pod resolution with `fallback_lines = []`.
+- The AWS/K8s controller path now also has a calibrated live snapshot where benign compute stays in `L1` while malicious CPU reaches `L3`, despite continued Metrics API instability.
+- The best current cloud-native claim is pod-specific host-veth containment across the tested pods, not just node-scoped `cni0` shaping.
 
-For each class, specify:
-- observable signals
-- expected risk pattern
-- intended tier response
-- expected residual limitation of v1
+### What still needs discipline
 
-### 4. Runtime signals and enforcement scope
-Use only signals that are reliable in a first prototype:
-- CPU utilization
-- memory utilization
-- process count or process growth behavior
-- limited container/runtime metadata if easy to collect
+- The Metrics API path is still operationally unstable under restart and stress.
+- The ML path exists, but it is not the strongest controller in the evidence base.
+- The draft paper still overstates feature semantics, enforcement maturity, and some cloud-native guarantees.
+- The current source must stay synchronized with the curated packet and the live deployment artifacts.
+- The live probe config and the live K8s shared-probe directory can drift if config is rolled out from the wrong source file, so live config application now needs an explicit config-only path.
 
-Use a bounded linear model in v1:
-- `risk = weighted sum of normalized features`
-- `confidence = stability/consistency of recent evidence`
-- clamp both to `[0,1]`
+## Active claims
 
-Containment for v1:
-- `L1`: baseline runtime
-- `L2`: moderate CPU restriction
-- `L3`: strict CPU restriction
+### Safe claims to center
 
-Do not implement seccomp, CRIU, or advanced network controls in v1. Reserve them for future phases and state that clearly.
+- RAASA is a research prototype for adaptive containment of containerized workloads.
+- The strongest overall evidence comes from the local Docker evaluation.
+- The strongest current controller is the tuned linear controller.
+- The cloud-native path is a meaningful prototype with live pod-specific containment evidence on AWS/K3s.
+- The latest live evidence also shows telemetry fragility, so the cloud-native path should be described as promising but still maturing.
+- The latest calibrated controller snapshot is `phase1g4b_calibration_snapshot_2026_04_26/`, where `default/raasa-test-benign-compute` stays `L1` and `default/raasa-test-malicious-cpu` escalates to `L3`.
 
-### 5. Safe autonomy rules
-The policy reasoner must include:
-- hysteresis to avoid oscillation near thresholds
-- cooldown window before relaxing containment
-- minimum evidence consistency before escalation to `L3`
-- safe default when signals are missing or inconsistent
-- rollback/relaxation rule after sustained low-risk observations
+### Claims to avoid unless re-evidenced
 
-This is required so the prototype demonstrates not only adaptation, but **safe autonomous adaptation**.
+- ML superiority over the tuned linear controller.
+- Fully mature dynamic seccomp relaxation or CRIU-backed downgrade behavior.
+- Full multi-signal telemetry integrity in the K8s path.
+- Broad production-grade Kubernetes enforcement claims beyond the tested workloads and artifact bundle.
 
-### 6. Experiment design
-Use three operating modes:
-- static `L1`
-- static `L3`
-- adaptive RAASA v1
+## Immediate engineering plan
 
-Use workload groups:
-- benign steady
-- benign bursty
-- suspicious
-- malicious-pattern
+1. Rebuild and deploy a fresh image from the corrected local source, using a new tag after `phase1d`.
+2. Include the K8s observer telemetry-hardening patch so CPU stays truthful both when direct probe files exist and when the observer must fall back to Metrics API usage strings.
+3. Re-run `raasa/scripts/run_phase1d_resolution_validation.ps1` against the live AWS node and confirm the same clean pod-resolution result still reproduces.
+4. Treat that rerun as the first end-to-end regression gate for the current enforcer and observer implementation.
+5. Only after that rerun succeeds, decide whether the next live loop should target controller calibration or a fresh ML ablation.
 
-Run experiments at small scale first, then moderate scale:
-- `3` containers
-- `10` containers
-- `20` containers
+## Current implementation priorities
 
-Repeat each scenario at least `3` times under identical config.
+### Priority 1: Keep the Phase 1D enforcement path correct
 
-### 7. Result metrics
-Core metrics:
-- precision
-- recall
-- false positive rate
-- adaptation latency
-- average resource cost
-- tier occupancy over time
-- switching rate / oscillation rate
+- Preserve the pod UID -> host PID -> peer ifindex -> host veth resolution path.
+- Keep `L1`, `L2`, and `L3` network behavior tied to explicit tier profiles in the enforcer.
+- Continue treating `L3` as hard containment in paper wording unless new evidence proves graceful QoS semantics.
+- Current live `phase1e` evidence strengthens that wording: `L3` now produces fast-fail `0 B/s` behavior in about `5 s`, not graceful bandwidth degradation.
 
-Autonomy-specific metrics:
-- unnecessary escalations per benign container-hour
-- mean time to safe containment for malicious-pattern workloads
-- percentage of actions with a clear audit explanation
-- rollback correctness after transient spikes
+### Priority 2: Harden regression coverage around the enforcer
 
-### 8. Research-roadmap integration
-The paper must include a short “next-generation RAASA” roadmap tied directly to v1 limits:
-- syscall-derived behavioral signals
-- network-aware anomaly signals
-- richer enforcement backends
-- stronger policy reasoning
-- cluster/Kubernetes deployment
-- integration with runtime detection tools
+- Keep focused local tests around `_apply_network_throttle()`.
+- Expand targeted tests around resolver fallbacks and profile selection before making new K8s enforcement changes.
+- Use the live Phase 1D rerun as the next practical validation step.
 
-This roadmap should be presented as a direct extension of the v1 architecture, not as disconnected future ideas.
+### Priority 2A: Keep telemetry fallback behavior truthful
 
-## Test Plan
-- Observer collects valid metrics repeatedly for all running containers.
-- Risk and confidence always remain within `[0,1]`.
-- Tier transitions obey hysteresis and cooldown rules.
-- Benign steady workloads stay mostly in `L1`.
-- Benign bursty workloads do not thrash repeatedly between tiers.
-- Suspicious workloads trigger moderate containment.
-- Malicious-pattern workloads escalate to strict containment faster than benign workloads.
-- Audit logs explain every escalation and relaxation decision.
-- Adaptive mode shows a better trade-off than static `L1` and static `L3` in at least one meaningful scenario.
+- Preserve direct `.cpu_usec` probe reads as the preferred CPU source when available.
+- Preserve Metrics API CPU parsing as the fallback source when probe data is absent.
+- Keep the K8s observer tests covering both the mocked Metrics API path and the direct probe path.
+- Keep the live probe configs aligned with the actual K8s shared volume path (`/var/run/raasa`), not the older local relative path.
 
-## Assumptions and Defaults
-- Target environment is a single Ubuntu VM using Docker.
-- v1 is a **prototype + roadmap** paper, not a production system paper.
-- v1 uses **resource + basic runtime signals** only.
-- v1 implements a **lightweight agentic controller**, not a full LLM-based or planner-heavy autonomous system.
-- CPU-based containment is the only required enforcement mechanism in v1.
-- Stronger security semantics are future work and must be treated that way in the paper.
+### Priority 2B: Separate hard containment from DNS/test-harness effects
+
+- The latest live rerun preserved clean pod resolution but showed `L3` failing fast with `0 B/s` and `curl` name-resolution errors for the benchmark service.
+- The next validation refinement should distinguish "payload path blocked" from "service DNS blocked" by adding one direct-IP or non-DNS benchmark path alongside the current service-name path.
+- Paper wording should continue to treat the observed result as successful hard containment, not bandwidth QoS.
+
+### Priority 2C: Use the refined Phase 1F interpretation going forward
+
+- The refined live run now shows that `L3` disrupts all three tested benchmark paths: service DNS name, service `ClusterIP`, and direct pod IP.
+- That means the current live AWS evidence no longer supports a "maybe only DNS broke" interpretation.
+- From this point on, the paper and implementation notes should describe the observed `L3` result as full hard containment in the tested benchmark setup.
+
+### Priority 3: Only revisit ML after correctness is locked down
+
+- If a new ML-vs-linear comparison is run, it must be truthful and isolated.
+- The comparison should not be mixed with unresolved enforcement changes or ambiguous telemetry conditions.
+- The tuned linear controller remains the default baseline unless ML wins on a clearly stated selection rule.
+
+### Priority 4: Stabilize the K8s control-plane telemetry path
+
+- The current calibrated controller still depends on a degraded telemetry environment where `metrics.k8s.io` calls frequently fail with `subjectaccessreviews` timeouts.
+- That instability stretches controller iterations and depresses confidence, which is why the live `L3` confidence floor now has to stay low (`0.05`) to keep malicious CPU escalation truthful.
+- The next engineering phase should therefore target Metrics Server / API authorization / timeout stability, not another threshold sweep.
+
+## Paper plan
+
+1. Revise the draft so the feature semantics match the current repo-backed implementation.
+2. Keep the adaptive-vs-static trade-off as the center of the quantitative story.
+3. Present the K8s/AWS path as a concrete prototype extension with live pod-specific containment evidence.
+4. Use the April 26 artifacts to show both progress and honest limitations.
+5. Treat richer enforcement semantics and stronger telemetry guarantees as future work unless re-implemented and re-tested.
+
+## Next engineering move
+
+1. Keep the current containment semantics stable rather than changing `L3` behavior immediately.
+2. Treat `phase1g4b_calibration_snapshot_2026_04_26/` as the current live controller baseline: `l2_max=0.60`, `l3_min_confidence=0.05`, `syscall_cap=5000.0`, probe path `/var/run/raasa`.
+3. Shift the next code-facing effort toward Metrics API and control-plane stabilization, because controller calibration is now in a much better place than telemetry reliability.
+4. After that stabilization work, rerun both the calibrated controller snapshot and the refined Phase 1F containment validation.
+
+## Verification plan
+
+- Focused regression guard: `tests/test_enforcer_sidecar.py`
+- Live end-to-end guard: rerun the Phase 1D validation script on AWS
+- Paper-alignment guard: `RM_practical/06_paper_alignment_and_claim_boundaries.md`
+
+## Environment note
+
+The bundled local runtime is enough to run the focused `unittest` coverage for the enforcer, but not the full broader test suite without additional packages such as `PyYAML`, `joblib`, and `pytest`. Until that environment is filled out, the safest verification sequence is:
+
+1. targeted local unit coverage for the touched enforcement logic,
+2. live AWS rerun for the Phase 1D path,
+3. paper text updates only after those two stay aligned.

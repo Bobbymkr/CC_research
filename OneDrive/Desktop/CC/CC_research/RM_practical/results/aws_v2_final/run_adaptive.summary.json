@@ -1,0 +1,25 @@
+{
+  "controller_variant": "linear_tuned",
+  "mode": "raasa",
+  "scenario": "small_tuned",
+  "config_path": "raasa/configs/config_tuned_small_linear.yaml",
+  "tier_field": "new_tier",
+  "precision": 1.0,
+  "recall": 1.0,
+  "false_positive_rate": 0.0,
+  "adaptation_latency_seconds_mean": 0.0,
+  "average_observed_load": 10.860555555555555,
+  "average_cpu_budget": 0.7333333333333332,
+  "containment_pressure": 0.26666666666666683,
+  "switching_rate": 0.0,
+  "unnecessary_escalations": 0,
+  "benign_restriction_rate": 0.0,
+  "malicious_containment_rate": 1.0,
+  "tier_occupancy": {
+    "L1": 0.6666666666666666,
+    "L3": 0.3333333333333333
+  },
+  "explanation_coverage": 1.0,
+  "mean_time_to_safe_containment": 0.0,
+  "total_records": 36
+}

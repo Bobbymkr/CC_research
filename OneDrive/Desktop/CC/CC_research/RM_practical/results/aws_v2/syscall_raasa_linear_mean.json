@@ -1,0 +1,8 @@
+{
+  "precision": 1.0,
+  "recall": 1.0,
+  "false_positive_rate": 0.0,
+  "switching_rate": 0.0,
+  "benign_restriction_rate": 0.0,
+  "malicious_containment_rate": 1.0
+}

@@ -1,0 +1,77 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: raasa-demo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: raasa-net-server
+  namespace: raasa-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: raasa-net-server
+  template:
+    metadata:
+      labels:
+        app: raasa-net-server
+        raasa.class: benign
+        raasa.expected_tier: L1
+    spec:
+      containers:
+        - name: server
+          image: hashicorp/http-echo:1.0.0
+          args:
+            - "-listen=:5678"
+            - "-text=raasa network validation"
+          ports:
+            - containerPort: 5678
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: raasa-net-server
+  namespace: raasa-demo
+spec:
+  selector:
+    app: raasa-net-server
+  ports:
+    - port: 5678
+      targetPort: 5678
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: raasa-net-client
+  namespace: raasa-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: raasa-net-client
+  template:
+    metadata:
+      labels:
+        app: raasa-net-client
+        raasa.class: suspicious
+        raasa.expected_tier: L2
+    spec:
+      containers:
+        - name: client
+          image: curlimages/curl:8.7.1
+          command:
+            - sh
+            - -c
+            - |
+              while true; do
+                for i in 1 2 3 4 5 6 7 8 9 10; do
+                  curl -fsS http://raasa-net-server.raasa-demo.svc.cluster.local:5678 >/dev/null || true
+                done
+                sleep 1
+              done
