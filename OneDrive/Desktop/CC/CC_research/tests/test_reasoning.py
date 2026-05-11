@@ -131,6 +131,265 @@ class PolicyReasonerTests(unittest.TestCase):
         self.assertEqual(decision.applied_tier, Tier.L1)
         self.assertIn("confidence", decision.reason)
 
+    def test_extreme_multi_signal_anomaly_requires_confirmation_from_l1(self) -> None:
+        reasoner = PolicyReasoner()
+        timestamp = datetime.now(timezone.utc)
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.95,
+                    confidence_score=0.0,
+                    risk_trend=0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=1.0,
+                        memory_signal=0.05,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.60,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+        self.assertIn("needs confirmation", first.reason)
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp + timedelta(seconds=5),
+                    risk_score=0.95,
+                    confidence_score=0.0,
+                    risk_trend=0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp + timedelta(seconds=5),
+                        cpu_signal=1.0,
+                        memory_signal=0.05,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.60,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(second.applied_tier, Tier.L3)
+        self.assertIn("confirmed extreme multi-signal anomaly", second.reason)
+
+    def test_low_confidence_high_risk_without_multi_signal_support_still_holds(self) -> None:
+        reasoner = PolicyReasoner()
+        timestamp = datetime.now(timezone.utc)
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.90,
+                    confidence_score=0.0,
+                    risk_trend=0.0,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=0.20,
+                        memory_signal=0.90,
+                        process_signal=0.05,
+                        network_signal=0.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(decision.applied_tier, Tier.L1)
+        self.assertIn("confidence", decision.reason)
+
+    def test_extreme_confirmation_resets_after_non_extreme_sample(self) -> None:
+        reasoner = PolicyReasoner(cooldown_seconds=0, low_risk_streak_required=1)
+        timestamp = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.95,
+                    confidence_score=0.0,
+                    risk_trend=0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=1.0,
+                        memory_signal=0.05,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.60,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+
+        reset = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp + timedelta(seconds=5),
+                    risk_score=0.10,
+                    confidence_score=0.9,
+                    risk_trend=-0.20,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp + timedelta(seconds=5),
+                        cpu_signal=0.10,
+                        memory_signal=0.05,
+                        process_signal=0.05,
+                        network_signal=0.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(reset.applied_tier, Tier.L1)
+
+        third = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp + timedelta(seconds=10),
+                    risk_score=0.95,
+                    confidence_score=0.0,
+                    risk_trend=0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp + timedelta(seconds=10),
+                        cpu_signal=1.0,
+                        memory_signal=0.05,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.60,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(third.applied_tier, Tier.L2)
+        self.assertIn("needs confirmation", third.reason)
+
+    def test_sustained_high_risk_after_extreme_l2_can_finish_l3_escalation(self) -> None:
+        reasoner = PolicyReasoner(l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.95,
+                    confidence_score=0.0,
+                    risk_trend=0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=1.0,
+                        memory_signal=0.05,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.60,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp + timedelta(seconds=5),
+                    risk_score=0.90,
+                    confidence_score=0.12,
+                    risk_trend=0.08,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp + timedelta(seconds=5),
+                        cpu_signal=0.80,
+                        memory_signal=0.05,
+                        process_signal=0.20,
+                        network_signal=0.0,
+                        syscall_signal=0.10,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(second.applied_tier, Tier.L3)
+        self.assertIn("sustained high risk after extreme anomaly", second.reason)
+
+    def test_near_boundary_normal_l3_escalation_caps_at_l2_when_confidence_is_only_moderate(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.6536,
+                    confidence_score=0.2590,
+                    risk_trend=0.3278,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=0.6429,
+                        memory_signal=0.0147,
+                        process_signal=0.30,
+                        network_signal=0.0,
+                        syscall_signal=0.2308,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(decision.applied_tier, Tier.L2)
+        self.assertIn("cap at L2", decision.reason)
+
+    def test_near_boundary_normal_l3_escalation_still_triggers_with_strong_confidence(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.70,
+                    confidence_score=0.45,
+                    risk_trend=0.15,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=0.70,
+                        memory_signal=0.02,
+                        process_signal=0.30,
+                        network_signal=0.0,
+                        syscall_signal=0.24,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(decision.applied_tier, Tier.L3)
+        self.assertIn("risk and confidence high", decision.reason)
+
     def test_relaxation_requires_cooldown_and_sustained_low_risk(self) -> None:
         reasoner = PolicyReasoner(cooldown_seconds=10, low_risk_streak_required=2)
         now = datetime.now(timezone.utc)

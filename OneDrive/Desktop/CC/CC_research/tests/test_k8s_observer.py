@@ -136,9 +136,24 @@ class ObserverK8sMetricsTests(unittest.TestCase):
     def test_returns_zero_when_metrics_api_unavailable(self) -> None:
         obs = self._make_observer_with_mock_k8s()
         obs._metrics_client.get_namespaced_custom_object.side_effect = Exception("metrics unavailable")
+        obs._metrics_client.list_namespaced_custom_object.side_effect = Exception("metrics unavailable")
         cpu, mem = obs._get_pod_metrics("default", "test-pod")
         self.assertEqual(cpu, 0.0)
         self.assertEqual(mem, 0.0)
+
+    def test_uses_cadvisor_memory_when_metrics_api_unavailable(self) -> None:
+        obs = self._make_observer_with_mock_k8s()
+        obs._metrics_client.get_namespaced_custom_object.side_effect = Exception("metrics unavailable")
+        obs._metrics_client.list_namespaced_custom_object.side_effect = Exception("metrics unavailable")
+
+        cpu, mem = obs._get_pod_metrics(
+            "default",
+            "test-pod",
+            memory_usage_map={("default", "test-pod"): 512 * 1024 ** 2},
+        )
+
+        self.assertEqual(cpu, 0.0)
+        self.assertGreater(mem, 6.0)
 
     def test_cpu_capped_at_100_percent(self) -> None:
         obs = self._make_observer_with_mock_k8s()
@@ -170,6 +185,46 @@ class ObserverK8sMetricsTests(unittest.TestCase):
 
         self.assertGreater(cpu, 40.0)
 
+    def test_falls_back_to_namespace_metrics_list_when_direct_lookup_404s(self) -> None:
+        obs = self._make_observer_with_mock_k8s()
+        obs._metrics_client.get_namespaced_custom_object.side_effect = Exception("404 not found")
+        obs._metrics_client.list_namespaced_custom_object.return_value = {
+            "items": [
+                {
+                    "metadata": {"name": "test-pod"},
+                    "containers": [{"usage": {"cpu": "250m", "memory": "128Mi"}}],
+                }
+            ]
+        }
+
+        cpu, mem = obs._get_pod_metrics("default", "test-pod")
+
+        self.assertAlmostEqual(cpu, 25.0, places=0)
+        self.assertGreater(mem, 1.0)
+        obs._metrics_client.list_namespaced_custom_object.assert_called_once_with(
+            group="metrics.k8s.io",
+            version="v1beta1",
+            namespace="default",
+            plural="pods",
+        )
+
+    def test_direct_lookup_error_is_raised_when_namespace_list_lacks_target_pod(self) -> None:
+        obs = self._make_observer_with_mock_k8s()
+        obs._metrics_client.get_namespaced_custom_object.side_effect = Exception("404 not found")
+        obs._metrics_client.list_namespaced_custom_object.return_value = {
+            "items": [
+                {
+                    "metadata": {"name": "other-pod"},
+                    "containers": [{"usage": {"cpu": "50m", "memory": "32Mi"}}],
+                }
+            ]
+        }
+
+        cpu, mem = obs._get_pod_metrics("default", "test-pod")
+
+        self.assertEqual(cpu, 0.0)
+        self.assertEqual(mem, 0.0)
+
     def test_build_network_counter_map_parses_prometheus_metrics(self) -> None:
         obs = self._make_observer_with_mock_k8s()
         metrics_text = "\n".join(
@@ -180,6 +235,17 @@ class ObserverK8sMetricsTests(unittest.TestCase):
         )
         counter_map = obs._build_network_counter_map(metrics_text)
         self.assertEqual(counter_map[("default", "api")], (1000.0, 400.0))
+
+    def test_build_memory_usage_map_prefers_working_set(self) -> None:
+        obs = self._make_observer_with_mock_k8s()
+        metrics_text = "\n".join(
+            [
+                'container_memory_usage_bytes{namespace="default",pod="api"} 1000',
+                'container_memory_working_set_bytes{namespace="default",pod="api"} 400',
+            ]
+        )
+        memory_map = obs._build_memory_usage_map(metrics_text)
+        self.assertEqual(memory_map[("default", "api")], 400.0)
 
     def test_network_delta_uses_previous_counters(self) -> None:
         obs = self._make_observer_with_mock_k8s()

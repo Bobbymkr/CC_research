@@ -146,10 +146,12 @@ class ObserverK8s(BaseObserver):
             if not pod_ids:
                 return []
 
-        network_counter_map = self._build_network_counter_map(self._fetch_cadvisor_metrics())
+        cadvisor_metrics = self._fetch_cadvisor_metrics()
+        network_counter_map = self._build_network_counter_map(cadvisor_metrics)
+        memory_usage_map = self._build_memory_usage_map(cadvisor_metrics)
         results: List[ContainerTelemetry] = []
         for pod_ref in pod_ids:
-            results.append(self._collect_pod(pod_ref, timestamp, network_counter_map))
+            results.append(self._collect_pod(pod_ref, timestamp, network_counter_map, memory_usage_map))
         return results
 
     # ── Auto-discovery ────────────────────────────────────────────────────────
@@ -193,6 +195,7 @@ class ObserverK8s(BaseObserver):
         pod_ref: str,
         timestamp: datetime,
         network_counter_map: dict[tuple[str, str], tuple[float, float]],
+        memory_usage_map: dict[tuple[str, str], float],
     ) -> ContainerTelemetry:
         """Collect telemetry for a single pod."""
         # Parse namespace/pod-name
@@ -208,7 +211,7 @@ class ObserverK8s(BaseObserver):
             workload_class = labels.get("raasa.class", "")
             expected_tier = labels.get("raasa.expected_tier", "")
 
-            cpu_percent, memory_percent = self._get_pod_metrics(namespace, pod_name, uid)
+            cpu_percent, memory_percent = self._get_pod_metrics(namespace, pod_name, uid, memory_usage_map)
             delta_rx, delta_tx, network_status = self._get_network_delta(namespace, pod_name, uid, network_counter_map)
             syscall_rate, syscall_status = self._get_syscall_rate(uid)
 
@@ -237,7 +240,13 @@ class ObserverK8s(BaseObserver):
             logger.warning(f"K8s observer: failed to collect pod {pod_ref}: {exc}")
             return self._fallback_pod(pod_ref, timestamp, str(exc))
 
-    def _get_pod_metrics(self, namespace: str, pod_name: str, pod_uid: str = "") -> tuple[float, float]:
+    def _get_pod_metrics(
+        self,
+        namespace: str,
+        pod_name: str,
+        pod_uid: str = "",
+        memory_usage_map: Optional[dict[tuple[str, str], float]] = None,
+    ) -> tuple[float, float]:
         """
         Fetch CPU and memory usage.
 
@@ -247,6 +256,10 @@ class ObserverK8s(BaseObserver):
         cpu_percent = 0.0
         memory_percent = 0.0
         cpu_from_probe = False
+        cadvisor_memory_bytes = None
+
+        if memory_usage_map is not None:
+            cadvisor_memory_bytes = memory_usage_map.get((namespace, pod_name))
         
         # 1. Try reading direct cgroup CPU stats from the probe sidecar
         if pod_uid:
@@ -285,13 +298,7 @@ class ObserverK8s(BaseObserver):
         # 2. Try K8s Metrics API for memory and as a CPU fallback when direct
         # probe data is absent.
         try:
-            metrics = self._metrics_client.get_namespaced_custom_object(
-                group="metrics.k8s.io",
-                version="v1beta1",
-                namespace=namespace,
-                plural="pods",
-                name=pod_name,
-            )
+            metrics = self._fetch_metrics_object(namespace, pod_name)
             containers = metrics.get("containers", [])
             total_cpu_nano = 0
             total_memory_bytes = 0
@@ -343,6 +350,12 @@ class ObserverK8s(BaseObserver):
             memory_percent = min((total_memory_bytes / node_memory_bytes) * 100.0, 100.0)
 
         except Exception as exc:
+            if cadvisor_memory_bytes is not None:
+                memory_percent = self._memory_percent_from_bytes(cadvisor_memory_bytes)
+                logger.info(
+                    f"[ObserverK8s] Using cAdvisor memory fallback for {namespace}/{pod_name}: "
+                    f"{memory_percent:.2f}%"
+                )
             logger.warning(f"[ObserverK8s] Metrics API failed for {namespace}/{pod_name}: {exc}")
 
         logger.info(
@@ -350,6 +363,47 @@ class ObserverK8s(BaseObserver):
             f"cpu={cpu_percent:.2f}%, mem={memory_percent:.2f}%"
         )
         return cpu_percent, memory_percent
+
+    def _fetch_metrics_object(self, namespace: str, pod_name: str) -> dict:
+        """
+        Fetch pod metrics from the Metrics API.
+
+        The direct per-pod endpoint occasionally returns ``404 Not Found`` on
+        K3s under stress even while the namespace-level PodMetrics list still
+        contains the pod. When that happens, fall back to listing pod metrics
+        for the namespace and selecting the matching item by metadata.name.
+        """
+        if self._metrics_client is None:
+            raise RuntimeError("metrics client unavailable")
+
+        try:
+            return self._metrics_client.get_namespaced_custom_object(
+                group="metrics.k8s.io",
+                version="v1beta1",
+                namespace=namespace,
+                plural="pods",
+                name=pod_name,
+            )
+        except Exception as exc:
+            logger.warning(
+                f"[ObserverK8s] Direct pod metrics lookup failed for {namespace}/{pod_name}: {exc}. "
+                "Trying namespace metrics list fallback."
+            )
+
+            pod_metrics = self._metrics_client.list_namespaced_custom_object(
+                group="metrics.k8s.io",
+                version="v1beta1",
+                namespace=namespace,
+                plural="pods",
+            )
+            for item in pod_metrics.get("items", []):
+                metadata = item.get("metadata", {})
+                if metadata.get("name") == pod_name:
+                    logger.info(
+                        f"[ObserverK8s] Recovered metrics for {namespace}/{pod_name} via namespace list fallback."
+                    )
+                    return item
+            raise exc
 
     def _fetch_cadvisor_metrics(self) -> str:
         """
@@ -410,6 +464,47 @@ class ObserverK8s(BaseObserver):
                 counters[key][1] = value
 
         return {key: (values[0], values[1]) for key, values in counters.items()}
+
+    def _build_memory_usage_map(self, metrics_text: str) -> dict[tuple[str, str], float]:
+        memory_by_pod: dict[tuple[str, str], float] = {}
+        if not metrics_text:
+            return memory_by_pod
+
+        preferred_metric = "container_memory_working_set_bytes"
+        fallback_metric = "container_memory_usage_bytes"
+
+        for raw_line in metrics_text.splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            match = _PROMETHEUS_LINE_RE.match(line)
+            if match is None:
+                continue
+
+            metric_name = match.group("metric")
+            if metric_name not in {preferred_metric, fallback_metric}:
+                continue
+
+            labels = _parse_prometheus_labels(match.group("labels") or "")
+            namespace = labels.get("namespace", "")
+            pod_name = labels.get("pod", "") or labels.get("pod_name", "")
+            if not namespace or not pod_name:
+                continue
+
+            try:
+                value = max(0.0, float(match.group("value")))
+            except ValueError:
+                continue
+
+            key = (namespace, pod_name)
+            if metric_name == preferred_metric or key not in memory_by_pod:
+                memory_by_pod[key] = value
+
+        return memory_by_pod
+
+    def _memory_percent_from_bytes(self, memory_bytes: float) -> float:
+        node_memory_bytes = 8 * 1024 ** 3
+        return min((memory_bytes / node_memory_bytes) * 100.0, 100.0)
 
     def _get_network_delta(
         self,

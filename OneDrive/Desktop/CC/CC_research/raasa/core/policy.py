@@ -34,6 +34,7 @@ class PolicyReasoner:
         self.current_tiers: dict[str, Tier] = defaultdict(lambda: Tier.L1)
         self.cooldown_until: dict[str, datetime] = {}
         self.low_risk_streaks: dict[str, int] = defaultdict(int)
+        self.extreme_l3_streaks: dict[str, int] = defaultdict(int)
 
         self.use_llm_advisor = use_llm_advisor
         self.llm_advisor = LLMPolicyAdvisor() if use_llm_advisor else None
@@ -81,6 +82,7 @@ class PolicyReasoner:
             reason = "hold current tier"
 
             if not self._valid_assessment(item):
+                self.extreme_l3_streaks[item.container_id] = 0
                 reason = "invalid assessment -> safe hold"
             else:
                 self._update_low_risk_streak(item.container_id, item.risk_score)
@@ -158,6 +160,7 @@ class PolicyReasoner:
         trend_accelerator = self.hysteresis_band if getattr(item, "risk_trend", 0.0) > 0.05 else 0.0
 
         if proposed_tier is Tier.L2:
+            self.extreme_l3_streaks[item.container_id] = 0
             ambiguous_l1_l2 = abs(item.risk_score - self.l1_max) <= self.hysteresis_band + trend_accelerator
             if ambiguous_l1_l2 and self.use_llm_advisor and self.llm_advisor:
                 return self.llm_advisor.consult(item, proposed_tier)
@@ -174,16 +177,94 @@ class PolicyReasoner:
             or item.confidence_score < self.l3_min_confidence
         )
         if ambiguous_l2_l3 and self.use_llm_advisor and self.llm_advisor:
+            self.extreme_l3_streaks[item.container_id] = 0
             return self.llm_advisor.consult(item, proposed_tier)
 
         if item.confidence_score < self.l3_min_confidence:
+            if self._is_extreme_l3_candidate(item):
+                streak = self.extreme_l3_streaks[item.container_id] + 1
+                self.extreme_l3_streaks[item.container_id] = streak
+                if previous_tier is Tier.L1 and streak < 2:
+                    reason = "extreme anomaly needs confirmation -> escalate to L2"
+                    if trend_accelerator > 0:
+                        reason += " (accelerated by positive risk trend)"
+                    return Tier.L2, reason
+                reason = "confirmed extreme multi-signal anomaly -> escalate to L3 despite low confidence"
+                if trend_accelerator > 0:
+                    reason += " (accelerated by positive risk trend)"
+                return Tier.L3, reason
+            if (
+                previous_tier is Tier.L2
+                and self.extreme_l3_streaks[item.container_id] > 0
+                and item.risk_score >= max(self.l2_max + self.hysteresis_band, 0.85)
+                and item.confidence_score >= max(self.l3_min_confidence * 0.5, 0.10)
+            ):
+                reason = "sustained high risk after extreme anomaly -> escalate to L3"
+                if trend_accelerator > 0:
+                    reason += " (accelerated by positive risk trend)"
+                return Tier.L3, reason
+            self.extreme_l3_streaks[item.container_id] = 0
             return previous_tier, "risk high but confidence below L3 threshold -> hold"
+
+        normal_l3_confidence = self._normal_l3_confidence_threshold(item)
+        if item.confidence_score < normal_l3_confidence:
+            self.extreme_l3_streaks[item.container_id] = 0
+            if previous_tier is Tier.L1:
+                reason = "high risk but confidence below normal L3 threshold -> cap at L2"
+                if trend_accelerator > 0:
+                    reason += " (accelerated by positive risk trend)"
+                return Tier.L2, reason
+            return previous_tier, "risk high but confidence below normal L3 threshold -> hold"
+
+        self.extreme_l3_streaks[item.container_id] = 0
         if item.risk_score >= self.l2_max + self.hysteresis_band - trend_accelerator:
             reason = "risk and confidence high -> escalate to L3"
             if trend_accelerator > 0:
                 reason += " (accelerated by positive risk trend)"
             return Tier.L3, reason
         return previous_tier, "risk near L2/L3 boundary -> hold"
+
+    def _normal_l3_confidence_threshold(self, item: Assessment) -> float:
+        """
+        Require extra confidence for near-boundary L3 jumps.
+
+        Live soak evidence showed moderate-load cycles occasionally reaching a
+        low-but-nonzero confidence that was enough for the ordinary L3 path,
+        even though the signal shape looked more like an L2 event. We keep the
+        extreme low-confidence escape hatch for obvious spikes, but for the
+        normal path we ask for stronger confidence until risk is well above the
+        L2/L3 boundary.
+        """
+        elevated_threshold = max(self.l3_min_confidence, 0.35)
+        if item.risk_score < max(self.l2_max + self.hysteresis_band + 0.10, 0.75):
+            return elevated_threshold
+        return self.l3_min_confidence
+
+    def _is_extreme_l3_candidate(self, item: Assessment) -> bool:
+        """
+        Escalate obvious high-severity spikes even when short-window confidence is low.
+
+        In the K8s backend, stressy workloads can alternate between near-idle and
+        saturated samples across a few 5s ticks, which drives the stability-based
+        confidence score to zero. For clear multi-signal anomalies we still want
+        to contain quickly instead of waiting for a smoother history window.
+        """
+        features = item.latest_features
+        if features is None:
+            return False
+        if item.risk_score < max(self.l2_max + self.hysteresis_band, 0.80):
+            return False
+
+        strong_signals = 0
+        if features.cpu_signal >= 0.75:
+            strong_signals += 1
+        if features.process_signal >= 0.35:
+            strong_signals += 1
+        if features.syscall_signal >= 0.25:
+            strong_signals += 1
+        if features.network_signal >= 0.25:
+            strong_signals += 1
+        return strong_signals >= 2
 
     def _handle_relaxation(
         self,
@@ -192,6 +273,7 @@ class PolicyReasoner:
         item: Assessment,
         cooldown_active: bool,
     ) -> tuple[Tier, str]:
+        self.extreme_l3_streaks[item.container_id] = 0
         if cooldown_active:
             return previous_tier, "cooldown active -> hold"
         if self.low_risk_streaks[item.container_id] < self.low_risk_streak_required:

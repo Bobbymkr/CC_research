@@ -43,9 +43,9 @@ spec:
         - sh
         - -c
         - |
-          apt-get update -qq && apt-get install -y -qq stress-ng >/dev/null 2>&1
-          # Sustained 5% CPU — benign compute workload, should NOT hit L3
-          stress-ng --cpu 1 --cpu-load 5 --timeout 0
+          # Keep the benign compute pod stable at baseline.
+          # Closed-loop validation injects moderate and heavy load on demand.
+          sleep infinity
       resources:
         requests:
           cpu: "100m"

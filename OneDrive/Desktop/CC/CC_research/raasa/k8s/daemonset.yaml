@@ -269,7 +269,7 @@ data:
         l2_max: 0.60
       hysteresis_band: 0.04
       cooldown_seconds: 25
-      l3_min_confidence: 0.05
+      l3_min_confidence: 0.20
       low_risk_streak_required: 4
       l3_requires_approval: false
 
