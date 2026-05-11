@@ -166,6 +166,27 @@ report_md = generate(
 Path("graphify-out/GRAPH_REPORT.md").write_text(report_md, encoding="utf-8")
 print("  Report written: graphify-out/GRAPH_REPORT.md (%d chars)" % len(report_md))
 
+# ── Step 8: Normalize output labels for report/html/json ──────────────────────
+print("\n[Step 8] Normalizing graph output labels...")
+from subprocess import run
+
+normalizer = Path("graphify-out/normalize_graph_output.js")
+if normalizer.exists():
+    result = run(
+        ["node", str(normalizer)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        print("  Normalizer applied: graphify-out labels refreshed")
+        if result.stdout.strip():
+            print(result.stdout.strip())
+    else:
+        print("  Normalizer warning: %s" % (result.stderr.strip() or result.stdout.strip() or "unknown error"))
+else:
+    print("  Normalizer skipped: graphify-out/normalize_graph_output.js not found")
+
 # ── Step 9: Save manifest ─────────────────────────────────────────────────────
 print("\n[Step 9] Saving manifest...")
 from graphify.manifest import save_manifest
