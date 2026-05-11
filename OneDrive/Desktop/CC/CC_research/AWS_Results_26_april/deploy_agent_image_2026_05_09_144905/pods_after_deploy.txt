@@ -1,0 +1,2 @@
+NAME                READY   STATUS    RESTARTS   AGE   IP              NODE               NOMINATED NODE   READINESS GATES
+raasa-agent-bq82v   3/3     Running   0          6s    172.31.16.234   ip-172-31-16-234   <none>           <none>

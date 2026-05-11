@@ -1,0 +1,38 @@
+
+══════════════════════════════════════════════════════
+  RAASA Closed-Loop Detection Validation
+══════════════════════════════════════════════════════
+
+  Agent pod: raasa-agent-drq2d
+  Benign test pod: raasa-test-benign-compute
+  Malicious test pod: raasa-test-malicious-cpu
+  Installing stress-ng in test pods (may take 30s on first run)...
+
+─── Test 1: Baseline — malicious pod holds L3 ───────────
+  malicious pod tier: L3
+  [0;32m[PASS][0m T1: malicious pod correctly held at L3 (risk=high, confidence=rising)
+
+─── Test 2: Escalation — inject stress into benign pod ──
+  Benign pod baseline tier: L1
+  stress-ng launched (95% CPU, 45s). Waiting for RAASA to detect...
+  [0;32m[PASS][0m T2: Benign pod escalated from L1 → L3 within 45s
+
+─── Test 3: De-escalation — benign pod returns to L1 ────
+  Waiting for stress-ng to finish and RAASA to de-escalate (max 120s)...
+  [0;32m[PASS][0m T3: Benign pod de-escalated back to L1 after stress ended
+
+─── Test 4: False positive — moderate load stays ≤ L2 ───
+  Benign pod tier at 30% CPU load: L3
+  [0;31m[FAIL][0m T4: False positive — benign pod escalated to 'L3' on moderate load
+
+══════════════════════════════════════════════════════
+  RESULTS
+══════════════════════════════════════════════════════
+  [0;32m✓[0m T1: malicious pod correctly held at L3 (risk=high, confidence=rising)
+  [0;32m✓[0m T2: Benign pod escalated from L1 → L3 within 45s
+  [0;32m✓[0m T3: Benign pod de-escalated back to L1 after stress ended
+  [0;31m✗[0m T4: False positive — benign pod escalated to 'L3' on moderate load
+
+  3 passed, 1 failed
+══════════════════════════════════════════════════════
+

@@ -1,0 +1,19 @@
+uid=0(root) gid=0(root) groups=0(root)
+sock_exists=yes
+total 4
+drwxr-xr-x 15 root root  320 May  9 04:15 .
+drwxr-xr-x  1 root root 4096 May  9 04:15 ..
+drwxr-xr-x  2 root root  140 May  9 04:15 2a76cfd1-fe95-471b-8989-1e7604d82b57
+drwxr-xr-x  2 root root  140 May  9 04:15 2cd3da09-ad6b-4d09-b925-26ecbfdd48c5
+drwxr-xr-x  2 root root  140 May  9 04:15 3c15eea8-de34-4cd7-8c82-3418780a364f
+drwxr-xr-x  2 root root  140 May  9 04:15 554fa063-daa2-4b56-ab5d-b975a46953ec
+drwxr-xr-x  2 root root  140 May  9 04:15 7afc0060-90b9-468a-af15-5cc38cda0778
+drwxr-xr-x  2 root root  140 May  9 04:15 82fb38fe-26e2-4ea3-b899-b2de6dbc7a25
+drwxr-xr-x  2 root root  140 May  9 04:15 9fe01a8d-cc29-47b7-bf87-d9ed44f5258b
+drwxr-xr-x  2 root root  140 May  9 04:15 b1a8ec35-39c6-4a28-92db-7c7aa6565e4e
+drwxr-xr-x  2 root root  140 May  9 04:15 bb0677c6-356a-47b5-9bcc-028111f9b469
+drwxr-xr-x  2 root root  140 May  9 04:15 d22b920c-3490-4b20-a309-114e9b83dce6
+drwxr-xr-x  2 root root  140 May  9 04:15 d6147313-60f2-4656-a0d1-f6db9f685b23
+srw-rw-rw-  1 root root    0 May  9 04:15 enforcer.sock
+drwxr-xr-x  2 root root  140 May  9 04:15 f7dd55cc-5a91-40d9-b75f-f2c1c1861c7e
+drwxr-xr-x  2 root root  140 May  9 04:15 fb7c8b53-6725-44c4-934e-d56076bb96e4

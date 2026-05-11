@@ -1,0 +1,578 @@
+[RAASA] Iteration 360
+[RAASA] Iteration 361
+[RAASA] Iteration 362
+[RAASA] Iteration 363
+[RAASA] Iteration 364
+[RAASA] Iteration 365
+[RAASA] Iteration 366
+[RAASA] Iteration 367
+[RAASA] Iteration 368
+[RAASA] Iteration 369
+[RAASA] Iteration 370
+[RAASA] Iteration 371
+[RAASA] Iteration 372
+[RAASA] Iteration 373
+[RAASA] Iteration 374
+[RAASA] Iteration 375
+[RAASA] Iteration 376
+[RAASA] Iteration 377
+[RAASA] Iteration 378
+[RAASA] Iteration 379
+[RAASA] Iteration 380
+[RAASA] Iteration 381
+[RAASA] Iteration 382
+[RAASA] Iteration 383
+[RAASA] Iteration 384
+[RAASA] Iteration 385
+[RAASA] Iteration 386
+[RAASA] Iteration 387
+[RAASA] Iteration 388
+[RAASA] Iteration 389
+[RAASA] Iteration 390
+[RAASA] Iteration 391
+[RAASA] Iteration 392
+[RAASA] Iteration 393
+[RAASA] Iteration 394
+[RAASA] Iteration 395
+[RAASA] Iteration 396
+[RAASA] Iteration 397
+[RAASA] Iteration 398
+[RAASA] Iteration 399
+[RAASA] Iteration 400
+[RAASA] Iteration 401
+[RAASA] Iteration 402
+[RAASA] Iteration 403
+[RAASA] Iteration 404
+[RAASA] Iteration 405
+[RAASA] Iteration 406
+[RAASA] Iteration 407
+[RAASA] Iteration 408
+[RAASA] Iteration 409
+[RAASA] Iteration 410
+[RAASA] Iteration 411
+[RAASA] Iteration 412
+[RAASA] Iteration 413
+[RAASA] Iteration 414
+[RAASA] Iteration 415
+[RAASA] Iteration 416
+[RAASA] Iteration 417
+[RAASA] Iteration 418
+[RAASA] Iteration 419
+[RAASA] Iteration 420
+[RAASA] Iteration 421
+[RAASA] Iteration 422
+[RAASA] Iteration 423
+[RAASA] Iteration 424
+[RAASA] Iteration 425
+[RAASA] Iteration 426
+[RAASA] Iteration 427
+[RAASA] Iteration 428
+[RAASA] Iteration 429
+[RAASA] Iteration 430
+[RAASA] Iteration 431
+[RAASA] Iteration 432
+[RAASA] Iteration 433
+[RAASA] Iteration 434
+[RAASA] Iteration 435
+[RAASA] Iteration 436
+[RAASA] Iteration 437
+[RAASA] Iteration 438
+[RAASA] Iteration 439
+[RAASA] Iteration 440
+[RAASA] Iteration 441
+[RAASA] Iteration 442
+[RAASA] Iteration 443
+[RAASA] Iteration 444
+[RAASA] Iteration 445
+[RAASA] Iteration 446
+[RAASA] Iteration 447
+[RAASA] Iteration 448
+[RAASA] Iteration 449
+[RAASA] Iteration 450
+[RAASA] Iteration 451
+[RAASA] Iteration 452
+[RAASA] Iteration 453
+[RAASA] Iteration 454
+[RAASA] Iteration 455
+[RAASA] Iteration 456
+[RAASA] Iteration 457
+[RAASA] Iteration 458
+[RAASA] Iteration 459
+[RAASA] Iteration 460
+[RAASA] Iteration 461
+[RAASA] Iteration 462
+[RAASA] Iteration 463
+[RAASA] Iteration 464
+[RAASA] Iteration 465
+[RAASA] Iteration 466
+[RAASA] Iteration 467
+[RAASA] Iteration 468
+[RAASA] Iteration 469
+[RAASA] Iteration 470
+[RAASA] Iteration 471
+[RAASA] Iteration 472
+[RAASA] Iteration 473
+[RAASA] Iteration 474
+[RAASA] Iteration 475
+[RAASA] Iteration 476
+[RAASA] Iteration 477
+[RAASA] Iteration 478
+[RAASA] Iteration 479
+[RAASA] Iteration 480
+[RAASA] Iteration 481
+[RAASA] Iteration 482
+[RAASA] Iteration 483
+[RAASA] Iteration 484
+[RAASA] Iteration 485
+[RAASA] Iteration 486
+[RAASA] Iteration 487
+[RAASA] Iteration 488
+[RAASA] Iteration 489
+[RAASA] Iteration 490
+[RAASA] Iteration 491
+[RAASA] Iteration 492
+[RAASA] Iteration 493
+[RAASA] Iteration 494
+[RAASA] Iteration 495
+[RAASA] Iteration 496
+[RAASA] Iteration 497
+[RAASA] Iteration 498
+[RAASA] Iteration 499
+[RAASA] Iteration 500
+[RAASA] Iteration 501
+[RAASA] Iteration 502
+[RAASA] Iteration 503
+[RAASA] Iteration 504
+[RAASA] Iteration 505
+[RAASA] Iteration 506
+[RAASA] Iteration 507
+[RAASA] Iteration 508
+[RAASA] Iteration 509
+[RAASA] Iteration 510
+[RAASA] Iteration 511
+[RAASA] Iteration 512
+[RAASA] Iteration 513
+[RAASA] Iteration 514
+[RAASA] Iteration 515
+[RAASA] Iteration 516
+[RAASA] Iteration 517
+[RAASA] Iteration 518
+[RAASA] Iteration 519
+[RAASA] Iteration 520
+[RAASA] Iteration 521
+[RAASA] Iteration 522
+[RAASA] Iteration 523
+[RAASA] Iteration 524
+[RAASA] Iteration 525
+[RAASA] Iteration 526
+[RAASA] Iteration 527
+[RAASA] Iteration 528
+[RAASA] Iteration 529
+[RAASA] Iteration 530
+[RAASA] Iteration 531
+[RAASA] Iteration 532
+[RAASA] Iteration 533
+[RAASA] Iteration 534
+[RAASA] Iteration 535
+[RAASA] Iteration 536
+[RAASA] Iteration 537
+[RAASA] Iteration 538
+[RAASA] Iteration 539
+[RAASA] Iteration 540
+[RAASA] Iteration 541
+[RAASA] Iteration 542
+[RAASA] Iteration 543
+[RAASA] Iteration 544
+[RAASA] Iteration 545
+[RAASA] Iteration 546
+[RAASA] Iteration 547
+[RAASA] Iteration 548
+[RAASA] Iteration 549
+[RAASA] Iteration 550
+[RAASA] Iteration 551
+[RAASA] Iteration 552
+[RAASA] Iteration 553
+[RAASA] Iteration 554
+[RAASA] Iteration 555
+[RAASA] Iteration 556
+[RAASA] Iteration 557
+[RAASA] Iteration 558
+[RAASA] Iteration 559
+2026-05-09 10:24:18,556 [INFO] raasa-enforcer: Starting Privileged Enforcer Sidecar
+2026-05-09 10:24:18,614 [INFO] raasa.core.ipc: [IPC Server] Listening on /var/run/raasa/enforcer.sock
+2026-05-09 10:24:23,513 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:24:23,519 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:24:23,727 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-steady to host interface vethf0bc2e77 via PID 1409629.
+2026-05-09 10:24:23,813 [INFO] raasa-enforcer: tc: raasa-test-benign-steady (vethf0bc2e77) -> L1 reset (no root qdisc)
+2026-05-09 10:24:24,018 [INFO] raasa-enforcer: Resolved pod default/raasa-test-malicious-cpu to host interface vethb1684119 via PID 1409702.
+2026-05-09 10:24:24,028 [INFO] raasa-enforcer: tc: raasa-test-malicious-cpu (vethb1684119) -> L3 netem loss 100%
+2026-05-09 10:24:24,332 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to host interface vethba1b479e via PID 4917.
+2026-05-09 10:24:24,336 [INFO] raasa-enforcer: tc: raasa-bench-client-5fd64dcfbf-hvl28 (vethba1b479e) -> L1 reset (no root qdisc)
+2026-05-09 10:24:24,613 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-server-7c49558994-2nmcp to host interface veth20b64710 via PID 2987.
+2026-05-09 10:24:24,619 [INFO] raasa-enforcer: tc: raasa-bench-server-7c49558994-2nmcp (veth20b64710) -> L1 reset (no root qdisc)
+2026-05-09 10:24:24,819 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to host interface veth42ea27e6 via PID 5535.
+2026-05-09 10:24:24,822 [INFO] raasa-enforcer: tc: raasa-net-client-669f7c4cf8-2d9w8 (veth42ea27e6) -> L1 reset (no root qdisc)
+2026-05-09 10:24:25,114 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to host interface vethfc2950d0 via PID 5541.
+2026-05-09 10:24:25,120 [INFO] raasa-enforcer: tc: raasa-net-server-79c9b5b7d6-5jfk2 (vethfc2950d0) -> L1 reset (no root qdisc)
+2026-05-09 10:25:12,818 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:25:12,825 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:25:48,828 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:25:48,926 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:26:12,528 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:26:12,533 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:26:41,931 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:26:41,936 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:27:52,105 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 244890.
+2026-05-09 10:27:52,174 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:28:28,416 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:28:28,420 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:28:52,123 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:28:52,135 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:29:21,053 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:29:21,130 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:30:19,294 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 520752.
+2026-05-09 10:30:19,371 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:30:31,413 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 520752.
+2026-05-09 10:30:31,453 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:31:06,714 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:31:06,734 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:31:36,113 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:31:36,117 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:31:59,420 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 672564.
+2026-05-09 10:31:59,452 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:32:35,151 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:32:35,153 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:35:10,825 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1023297.
+2026-05-09 10:35:10,919 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:35:22,827 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1023297.
+2026-05-09 10:35:22,915 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:35:58,616 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:35:58,627 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:36:27,809 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:36:27,814 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:36:51,468 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:36:51,530 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:37:27,537 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:37:27,542 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:38:33,026 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1363909.
+2026-05-09 10:38:33,138 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:38:45,009 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1363909.
+2026-05-09 10:38:45,031 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:39:21,136 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:39:21,150 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:39:51,035 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:39:51,225 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:41:54,519 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:41:54,569 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:42:07,241 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:42:07,331 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:42:43,052 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:42:43,114 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:43:12,289 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:43:12,424 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:43:35,914 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:43:35,920 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:44:05,621 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:44:05,669 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:45:31,852 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:45:31,858 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:45:44,418 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:45:44,422 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:46:32,228 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:46:32,272 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:47:02,139 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:47:02,182 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:47:20,258 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:47:20,331 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:47:49,314 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:47:49,317 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:48:49,079 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:48:49,133 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:49:01,132 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:49:01,141 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:49:48,741 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:49:48,760 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:50:18,521 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:50:18,529 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:50:42,021 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:50:42,030 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:51:11,050 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:51:11,053 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:52:22,195 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:52:22,218 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:52:34,335 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:52:34,344 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:53:10,551 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:53:10,717 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:53:39,951 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:53:39,958 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:55:25,227 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:55:25,234 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:55:37,423 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:55:37,430 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 10:56:31,516 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:56:31,713 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:57:02,421 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:57:02,423 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 10:59:05,856 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:59:05,931 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 10:59:18,255 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 10:59:18,265 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 11:00:05,695 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:00:05,745 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:00:35,314 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:00:35,317 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:01:10,016 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:01:10,094 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:01:38,623 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:01:38,626 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:03:12,823 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:03:12,913 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:03:24,918 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:03:24,924 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 11:04:00,579 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:04:00,622 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:04:30,333 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:04:30,345 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:04:54,120 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:04:54,124 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:05:29,025 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:05:29,030 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:06:26,739 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 61873.
+2026-05-09 11:06:26,816 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:06:45,317 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 61873.
+2026-05-09 11:06:45,321 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 11:07:32,733 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:07:32,743 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:08:02,926 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:08:02,934 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:08:26,825 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 244410.
+2026-05-09 11:08:26,917 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:09:02,251 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:09:02,254 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:10:07,313 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 430806.
+2026-05-09 11:10:07,328 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:10:19,635 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 430806.
+2026-05-09 11:10:19,641 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 11:11:08,428 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:11:08,514 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:11:38,024 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:11:38,028 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:13:42,423 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 782986.
+2026-05-09 11:13:42,494 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:13:54,178 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 782986.
+2026-05-09 11:13:54,228 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 11:14:29,543 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:14:29,548 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:14:59,828 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:15:00,016 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:16:57,733 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1122720.
+2026-05-09 11:16:57,940 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:17:16,552 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1122720.
+2026-05-09 11:17:16,578 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 11:18:03,413 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:18:03,469 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 11:18:32,214 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:18:32,216 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 11:19:08,125 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 11:19:08,140 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+[probe] pod=a4614c23-56a... rate=465.20/s (delta=2326 switches)
+[probe] pod=d22b920c-349... rate=5455.20/s (delta=27276 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=1775.40/s (delta=8877 switches)
+[probe] pod=2cd3da09-ad6... rate=15.60/s (delta=78 switches)
+[probe] pod=374d89c5-a3b... rate=6249.80/s (delta=31249 switches)
+[probe] pod=82fb38fe-26e... rate=125.00/s (delta=625 switches)
+[probe] pod=a4614c23-56a... rate=335.00/s (delta=1675 switches)
+[probe] pod=d22b920c-349... rate=2017.80/s (delta=10089 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=2338.40/s (delta=11692 switches)
+[probe] pod=2a76cfd1-fe9... rate=1.40/s (delta=7 switches)
+[probe] pod=2cd3da09-ad6... rate=24.00/s (delta=120 switches)
+[probe] pod=374d89c5-a3b... rate=5648.20/s (delta=28241 switches)
+[probe] pod=82fb38fe-26e... rate=135.40/s (delta=677 switches)
+[probe] pod=a4614c23-56a... rate=284.60/s (delta=1423 switches)
+[probe] pod=d22b920c-349... rate=3473.60/s (delta=17368 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=2067.40/s (delta=10337 switches)
+[probe] pod=2a76cfd1-fe9... rate=0.40/s (delta=2 switches)
+[probe] pod=2cd3da09-ad6... rate=24.20/s (delta=121 switches)
+[probe] pod=374d89c5-a3b... rate=5919.00/s (delta=29595 switches)
+[probe] pod=82fb38fe-26e... rate=122.80/s (delta=614 switches)
+[probe] pod=a4614c23-56a... rate=265.00/s (delta=1325 switches)
+[probe] pod=d22b920c-349... rate=1218.20/s (delta=6091 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=0.80/s (delta=4 switches)
+[probe] pod=2cd3da09-ad6... rate=39.00/s (delta=195 switches)
+[probe] pod=374d89c5-a3b... rate=7134.00/s (delta=35670 switches)
+[probe] pod=82fb38fe-26e... rate=15.00/s (delta=75 switches)
+[probe] pod=a4614c23-56a... rate=667.60/s (delta=3338 switches)
+[probe] pod=d22b920c-349... rate=7150.20/s (delta=35751 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=2.00/s (delta=10 switches)
+[probe] pod=2cd3da09-ad6... rate=42.60/s (delta=213 switches)
+[probe] pod=374d89c5-a3b... rate=7473.40/s (delta=37367 switches)
+[probe] pod=82fb38fe-26e... rate=195.60/s (delta=978 switches)
+[probe] pod=a4614c23-56a... rate=373.60/s (delta=1868 switches)
+[probe] pod=d22b920c-349... rate=7818.40/s (delta=39092 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=0.60/s (delta=3 switches)
+[probe] pod=2cd3da09-ad6... rate=32.20/s (delta=161 switches)
+[probe] pod=374d89c5-a3b... rate=7521.00/s (delta=37605 switches)
+[probe] pod=82fb38fe-26e... rate=210.00/s (delta=1050 switches)
+[probe] pod=a4614c23-56a... rate=329.60/s (delta=1648 switches)
+[probe] pod=d22b920c-349... rate=7500.40/s (delta=37502 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=0.60/s (delta=3 switches)
+[probe] pod=2cd3da09-ad6... rate=34.80/s (delta=174 switches)
+[probe] pod=374d89c5-a3b... rate=6302.20/s (delta=31511 switches)
+[probe] pod=82fb38fe-26e... rate=178.00/s (delta=890 switches)
+[probe] pod=a4614c23-56a... rate=539.40/s (delta=2697 switches)
+[probe] pod=d22b920c-349... rate=10736.60/s (delta=53683 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=178.80/s (delta=894 switches)
+[probe] pod=2a76cfd1-fe9... rate=1.80/s (delta=9 switches)
+[probe] pod=2cd3da09-ad6... rate=35.80/s (delta=179 switches)
+[probe] pod=374d89c5-a3b... rate=6891.80/s (delta=34459 switches)
+[probe] pod=82fb38fe-26e... rate=250.60/s (delta=1253 switches)
+[probe] pod=a4614c23-56a... rate=322.60/s (delta=1613 switches)
+[probe] pod=d22b920c-349... rate=10097.80/s (delta=50489 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=2076.40/s (delta=10382 switches)
+[probe] pod=2a76cfd1-fe9... rate=0.60/s (delta=3 switches)
+[probe] pod=2cd3da09-ad6... rate=26.80/s (delta=134 switches)
+[probe] pod=374d89c5-a3b... rate=5604.60/s (delta=28023 switches)
+[probe] pod=82fb38fe-26e... rate=153.80/s (delta=769 switches)
+[probe] pod=a4614c23-56a... rate=454.60/s (delta=2273 switches)
+[probe] pod=d22b920c-349... rate=6907.20/s (delta=34536 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.60/s (delta=8 switches)
+[probe] pod=2cd3da09-ad6... rate=36.40/s (delta=182 switches)
+[probe] pod=374d89c5-a3b... rate=6956.40/s (delta=34782 switches)
+[probe] pod=82fb38fe-26e... rate=129.00/s (delta=645 switches)
+[probe] pod=a4614c23-56a... rate=327.40/s (delta=1637 switches)
+[probe] pod=d22b920c-349... rate=7652.40/s (delta=38262 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=2.00/s (delta=10 switches)
+[probe] pod=2cd3da09-ad6... rate=41.60/s (delta=208 switches)
+[probe] pod=374d89c5-a3b... rate=7095.40/s (delta=35477 switches)
+[probe] pod=82fb38fe-26e... rate=229.60/s (delta=1148 switches)
+[probe] pod=a4614c23-56a... rate=334.00/s (delta=1670 switches)
+[probe] pod=d22b920c-349... rate=8817.20/s (delta=44086 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.00/s (delta=5 switches)
+[probe] pod=2cd3da09-ad6... rate=41.20/s (delta=206 switches)
+[probe] pod=374d89c5-a3b... rate=7152.80/s (delta=35764 switches)
+[probe] pod=82fb38fe-26e... rate=128.40/s (delta=642 switches)
+[probe] pod=a4614c23-56a... rate=271.60/s (delta=1358 switches)
+[probe] pod=d22b920c-349... rate=9929.20/s (delta=49646 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.20/s (delta=6 switches)
+[probe] pod=2cd3da09-ad6... rate=39.80/s (delta=199 switches)
+[probe] pod=374d89c5-a3b... rate=7725.40/s (delta=38627 switches)
+[probe] pod=82fb38fe-26e... rate=258.60/s (delta=1293 switches)
+[probe] pod=a4614c23-56a... rate=245.40/s (delta=1227 switches)
+[probe] pod=d22b920c-349... rate=10059.20/s (delta=50296 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=2.40/s (delta=12 switches)
+[probe] pod=2cd3da09-ad6... rate=30.00/s (delta=150 switches)
+[probe] pod=374d89c5-a3b... rate=7039.80/s (delta=35199 switches)
+[probe] pod=82fb38fe-26e... rate=173.80/s (delta=869 switches)
+[probe] pod=a4614c23-56a... rate=380.00/s (delta=1900 switches)
+[probe] pod=d22b920c-349... rate=8731.80/s (delta=43659 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=7.40/s (delta=37 switches)
+[probe] pod=2cd3da09-ad6... rate=30.80/s (delta=154 switches)
+[probe] pod=374d89c5-a3b... rate=6452.80/s (delta=32264 switches)
+[probe] pod=82fb38fe-26e... rate=187.60/s (delta=938 switches)
+[probe] pod=a4614c23-56a... rate=331.80/s (delta=1659 switches)
+[probe] pod=d22b920c-349... rate=7052.40/s (delta=35262 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=371.20/s (delta=1856 switches)
+[probe] pod=2a76cfd1-fe9... rate=0.20/s (delta=1 switches)
+[probe] pod=2cd3da09-ad6... rate=49.80/s (delta=249 switches)
+[probe] pod=374d89c5-a3b... rate=6195.80/s (delta=30979 switches)
+[probe] pod=82fb38fe-26e... rate=160.00/s (delta=800 switches)
+[probe] pod=a4614c23-56a... rate=373.80/s (delta=1869 switches)
+[probe] pod=d22b920c-349... rate=5393.00/s (delta=26965 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=1806.20/s (delta=9031 switches)
+[probe] pod=2a76cfd1-fe9... rate=0.80/s (delta=4 switches)
+[probe] pod=374d89c5-a3b... rate=5848.40/s (delta=29242 switches)
+[probe] pod=82fb38fe-26e... rate=145.20/s (delta=726 switches)
+[probe] pod=a4614c23-56a... rate=313.00/s (delta=1565 switches)
+[probe] pod=d22b920c-349... rate=2637.20/s (delta=13186 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=2157.80/s (delta=10789 switches)
+[probe] pod=2a76cfd1-fe9... rate=0.80/s (delta=4 switches)
+[probe] pod=2cd3da09-ad6... rate=26.20/s (delta=131 switches)
+[probe] pod=374d89c5-a3b... rate=6619.40/s (delta=33097 switches)
+[probe] pod=82fb38fe-26e... rate=108.00/s (delta=540 switches)
+[probe] pod=a4614c23-56a... rate=414.00/s (delta=2070 switches)
+[probe] pod=d22b920c-349... rate=2243.00/s (delta=11215 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=2151.60/s (delta=10758 switches)
+[probe] pod=2a76cfd1-fe9... rate=1.00/s (delta=5 switches)
+[probe] pod=2cd3da09-ad6... rate=13.20/s (delta=66 switches)
+[probe] pod=374d89c5-a3b... rate=6217.40/s (delta=31087 switches)
+[probe] pod=82fb38fe-26e... rate=102.20/s (delta=511 switches)
+[probe] pod=a4614c23-56a... rate=251.00/s (delta=1255 switches)
+[probe] pod=d22b920c-349... rate=3218.40/s (delta=16092 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.40/s (delta=7 switches)
+[probe] pod=2cd3da09-ad6... rate=46.60/s (delta=233 switches)
+[probe] pod=374d89c5-a3b... rate=6799.80/s (delta=33999 switches)
+[probe] pod=82fb38fe-26e... rate=182.60/s (delta=913 switches)
+[probe] pod=a4614c23-56a... rate=409.80/s (delta=2049 switches)
+[probe] pod=d22b920c-349... rate=9031.20/s (delta=45156 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.00/s (delta=5 switches)
+[probe] pod=2cd3da09-ad6... rate=36.80/s (delta=184 switches)
+[probe] pod=374d89c5-a3b... rate=6533.20/s (delta=32666 switches)
+[probe] pod=82fb38fe-26e... rate=204.20/s (delta=1021 switches)
+[probe] pod=a4614c23-56a... rate=522.80/s (delta=2614 switches)
+[probe] pod=d22b920c-349... rate=7763.40/s (delta=38817 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=0.40/s (delta=2 switches)
+[probe] pod=2cd3da09-ad6... rate=41.40/s (delta=207 switches)
+[probe] pod=374d89c5-a3b... rate=6518.40/s (delta=32592 switches)
+[probe] pod=82fb38fe-26e... rate=189.40/s (delta=947 switches)
+[probe] pod=a4614c23-56a... rate=307.80/s (delta=1539 switches)
+[probe] pod=d22b920c-349... rate=9069.60/s (delta=45348 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.80/s (delta=9 switches)
+[probe] pod=2cd3da09-ad6... rate=33.80/s (delta=169 switches)
+[probe] pod=374d89c5-a3b... rate=7721.80/s (delta=38609 switches)
+[probe] pod=82fb38fe-26e... rate=175.40/s (delta=877 switches)
+[probe] pod=a4614c23-56a... rate=619.60/s (delta=3098 switches)
+[probe] pod=d22b920c-349... rate=6975.40/s (delta=34877 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2cd3da09-ad6... rate=31.80/s (delta=159 switches)
+[probe] pod=374d89c5-a3b... rate=7545.60/s (delta=37728 switches)
+[probe] pod=82fb38fe-26e... rate=80.60/s (delta=403 switches)
+[probe] pod=a4614c23-56a... rate=503.60/s (delta=2518 switches)
+[probe] pod=d22b920c-349... rate=6572.00/s (delta=32860 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=875.00/s (delta=4375 switches)
+[probe] pod=2a76cfd1-fe9... rate=2.00/s (delta=10 switches)
+[probe] pod=2cd3da09-ad6... rate=27.80/s (delta=139 switches)
+[probe] pod=374d89c5-a3b... rate=6790.00/s (delta=33950 switches)
+[probe] pod=82fb38fe-26e... rate=157.80/s (delta=789 switches)
+[probe] pod=a4614c23-56a... rate=327.20/s (delta=1636 switches)
+[probe] pod=d22b920c-349... rate=5950.60/s (delta=29753 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=2133.00/s (delta=10665 switches)
+[probe] pod=2a76cfd1-fe9... rate=0.80/s (delta=4 switches)
+[probe] pod=2cd3da09-ad6... rate=40.60/s (delta=203 switches)
+[probe] pod=374d89c5-a3b... rate=6865.20/s (delta=34326 switches)
+[probe] pod=82fb38fe-26e... rate=148.40/s (delta=742 switches)
+[probe] pod=a4614c23-56a... rate=330.40/s (delta=1652 switches)
+[probe] pod=d22b920c-349... rate=7137.20/s (delta=35686 switches)
+[probe] cgroup map: 24 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=0.60/s (delta=3 switches)
+[probe] pod=2cd3da09-ad6... rate=32.20/s (delta=161 switches)
+[probe] pod=374d89c5-a3b... rate=7058.20/s (delta=35291 switches)
+[probe] pod=82fb38fe-26e... rate=197.60/s (delta=988 switches)
+[probe] pod=a4614c23-56a... rate=295.00/s (delta=1475 switches)
+[probe] pod=d22b920c-349... rate=4839.60/s (delta=24198 switches)
+[probe] cgroup map: 24 pod(s) discovered

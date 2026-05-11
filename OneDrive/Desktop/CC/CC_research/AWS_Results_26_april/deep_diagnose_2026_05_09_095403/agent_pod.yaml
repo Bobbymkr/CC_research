@@ -1,0 +1,430 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/restartedAt: "2026-04-26T10:53:20Z"
+    prometheus.io/port: "9090"
+    prometheus.io/scrape: "true"
+  creationTimestamp: "2026-04-26T10:53:20Z"
+  generateName: raasa-agent-
+  generation: 1
+  labels:
+    app: raasa-agent
+    controller-revision-hash: 7c55586ffd
+    pod-template-generation: "24"
+  name: raasa-agent-pdxgt
+  namespace: raasa-system
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: DaemonSet
+    name: raasa-agent
+    uid: d0418309-c2ed-4a89-9595-d8670731e358
+  resourceVersion: "319818"
+  uid: 3c15eea8-de34-4cd7-8c82-3418780a364f
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchFields:
+          - key: metadata.name
+            operator: In
+            values:
+            - ip-172-31-16-234
+  containers:
+  - args:
+    - --mode
+    - raasa
+    - --backend
+    - k8s
+    - --config
+    - /etc/raasa/config.yaml
+    - --iterations
+    - "0"
+    - --metrics-port
+    - "9090"
+    env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: PYTHONPATH
+      value: /app
+    - name: PYTHONUNBUFFERED
+      value: "1"
+    image: raasa/agent:phase1e
+    imagePullPolicy: IfNotPresent
+    name: raasa-agent
+    ports:
+    - containerPort: 9090
+      hostPort: 9090
+      name: metrics
+      protocol: TCP
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 50m
+        memory: 128Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /host/proc
+      name: proc
+      readOnly: true
+    - mountPath: /host/sys
+      name: sys
+      readOnly: true
+    - mountPath: /var/run/raasa
+      name: raasa-probe-dir
+    - mountPath: /app/raasa/logs
+      name: audit-logs
+    - mountPath: /etc/raasa
+      name: config
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xdxd4
+      readOnly: true
+  - command:
+    - python
+    - -m
+    - raasa.k8s.enforcer_sidecar
+    image: raasa/agent:phase1e
+    imagePullPolicy: IfNotPresent
+    name: raasa-enforcer
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+    securityContext:
+      privileged: true
+      runAsNonRoot: false
+      runAsUser: 0
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/raasa
+      name: raasa-probe-dir
+    - mountPath: /sys
+      name: sys
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xdxd4
+      readOnly: true
+  - image: raasa/ebpf-probe:1.0.0
+    imagePullPolicy: IfNotPresent
+    name: syscall-probe
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 20m
+        memory: 32Mi
+    securityContext:
+      capabilities:
+        add:
+        - SYS_ADMIN
+        - SYS_PTRACE
+      privileged: true
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /proc
+      name: proc
+      readOnly: true
+    - mountPath: /sys
+      name: sys
+      readOnly: true
+    - mountPath: /sys/kernel/debug
+      name: debugfs
+      readOnly: true
+    - mountPath: /var/run/raasa
+      name: raasa-probe-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xdxd4
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostNetwork: true
+  hostPID: true
+  nodeName: ip-172-31-16-234
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: raasa-agent
+  serviceAccountName: raasa-agent
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+  - key: CriticalAddonsOnly
+    operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/disk-pressure
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/memory-pressure
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/pid-pressure
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/unschedulable
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/network-unavailable
+    operator: Exists
+  volumes:
+  - hostPath:
+      path: /proc
+      type: ""
+    name: proc
+  - hostPath:
+      path: /sys
+      type: ""
+    name: sys
+  - hostPath:
+      path: /var/run/raasa
+      type: DirectoryOrCreate
+    name: raasa-probe-dir
+  - emptyDir: {}
+    name: audit-logs
+  - configMap:
+      defaultMode: 420
+      name: raasa-config
+    name: config
+  - hostPath:
+      path: /sys/kernel/debug
+      type: ""
+    name: debugfs
+  - name: kube-api-access-xdxd4
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-09T04:15:12Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-04-26T10:53:20Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-09T04:15:12Z"
+    observedGeneration: 1
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-09T04:15:12Z"
+    observedGeneration: 1
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-04-26T10:53:20Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - allocatedResources:
+      cpu: 50m
+      memory: 128Mi
+    containerID: containerd://cd560f79e6148096cf79de55bb729faa8a9691681bfa96a5d5342e070b64005b
+    image: docker.io/raasa/agent:phase1e
+    imageID: sha256:98705e1eea7d75fa4f9bb091e0972dca485330cf07a164ce39d153b7882eddc4
+    lastState:
+      terminated:
+        containerID: containerd://9550bc108612c62414326c9c317163b91291e768168ded61a2d16994b995a775
+        exitCode: 143
+        finishedAt: "2026-05-09T04:13:16Z"
+        reason: Error
+        startedAt: "2026-05-09T04:06:44Z"
+    name: raasa-agent
+    ready: true
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 50m
+        memory: 128Mi
+    restartCount: 2
+    started: true
+    state:
+      running:
+        startedAt: "2026-05-09T04:15:09Z"
+    user:
+      linux:
+        gid: 1000
+        supplementalGroups:
+        - 1000
+        uid: 1000
+    volumeMounts:
+    - mountPath: /host/proc
+      name: proc
+      readOnly: true
+      recursiveReadOnly: Disabled
+    - mountPath: /host/sys
+      name: sys
+      readOnly: true
+      recursiveReadOnly: Disabled
+    - mountPath: /var/run/raasa
+      name: raasa-probe-dir
+    - mountPath: /app/raasa/logs
+      name: audit-logs
+    - mountPath: /etc/raasa
+      name: config
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xdxd4
+      readOnly: true
+      recursiveReadOnly: Disabled
+  - allocatedResources:
+      cpu: 10m
+      memory: 32Mi
+    containerID: containerd://d91b7de77d34558cd0e40f75f122611279ba7adef940d38c3d981b9d0f60317f
+    image: docker.io/raasa/agent:phase1e
+    imageID: sha256:98705e1eea7d75fa4f9bb091e0972dca485330cf07a164ce39d153b7882eddc4
+    lastState:
+      terminated:
+        containerID: containerd://242af86e58023818acd52fcb491c70f3eec2ee78a3cf35e8434ac30406e9d5e5
+        exitCode: 143
+        finishedAt: "2026-05-09T04:13:16Z"
+        reason: Error
+        startedAt: "2026-05-09T04:06:45Z"
+    name: raasa-enforcer
+    ready: true
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+    restartCount: 2
+    started: true
+    state:
+      running:
+        startedAt: "2026-05-09T04:15:10Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/raasa
+      name: raasa-probe-dir
+    - mountPath: /sys
+      name: sys
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xdxd4
+      readOnly: true
+      recursiveReadOnly: Disabled
+  - allocatedResources:
+      cpu: 20m
+      memory: 32Mi
+    containerID: containerd://b43d6d6e206ff411eac2911cad8088c512b0c813afbe13423d9958db32683591
+    image: docker.io/raasa/ebpf-probe:1.0.0
+    imageID: sha256:18e5fb36889a8c800212f7a6e7366dc8a559a72c5b6f6fabf1706299a1454c4b
+    lastState:
+      terminated:
+        containerID: containerd://e5df6e9e41cef3cfe67a26b87515f986f49491c671220a62913a85860004c383
+        exitCode: 143
+        finishedAt: "2026-05-09T04:13:16Z"
+        reason: Error
+        startedAt: "2026-05-09T04:06:45Z"
+    name: syscall-probe
+    ready: true
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 20m
+        memory: 32Mi
+    restartCount: 2
+    started: true
+    state:
+      running:
+        startedAt: "2026-05-09T04:15:10Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /proc
+      name: proc
+      readOnly: true
+      recursiveReadOnly: Disabled
+    - mountPath: /sys
+      name: sys
+      readOnly: true
+      recursiveReadOnly: Disabled
+    - mountPath: /sys/kernel/debug
+      name: debugfs
+      readOnly: true
+      recursiveReadOnly: Disabled
+    - mountPath: /var/run/raasa
+      name: raasa-probe-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xdxd4
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.31.16.234
+  hostIPs:
+  - ip: 172.31.16.234
+  observedGeneration: 1
+  phase: Running
+  podIP: 172.31.16.234
+  podIPs:
+  - ip: 172.31.16.234
+  qosClass: Burstable
+  startTime: "2026-04-26T10:53:20Z"

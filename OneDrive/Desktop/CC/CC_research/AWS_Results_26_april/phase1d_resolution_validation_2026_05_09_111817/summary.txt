@@ -1,0 +1,49 @@
+Phase 1D resolution validation summary
+
+demo_server.container_ref=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2
+demo_server.resolved=True
+demo_server.fallback=True
+demo_server.resolved_line=2026-05-09 05:53:48,127 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to host interface vethfc2950d0 via PID 5541.
+demo_server.fallback_line=2026-05-09 04:15:23,136 [WARNING] raasa-enforcer: Falling back to interface cni0 for raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2.
+
+demo_client.container_ref=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8
+demo_client.resolved=True
+demo_client.fallback=True
+demo_client.resolved_line=2026-05-09 05:54:01,432 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to host interface veth42ea27e6 via PID 5535.
+demo_client.fallback_line=2026-05-09 04:15:22,932 [WARNING] raasa-enforcer: Falling back to interface cni0 for raasa-demo/raasa-net-client-669f7c4cf8-2d9w8.
+
+bench_client.container_ref=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28
+bench_client.resolved=True
+bench_client.fallback=False
+bench_client.resolved_line=2026-05-09 05:54:15,430 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to host interface vethba1b479e via PID 4917.
+bench_client.fallback_line=
+
+fallback_count=3
+latest_fallback_line=2026-05-09 04:15:23,136 [WARNING] raasa-enforcer: Falling back to interface cni0 for raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2.
+
+benchmark_targets.service_host=raasa-bench-server.raasa-bench.svc.cluster.local
+benchmark_targets.service_ip=10.43.176.11
+benchmark_targets.pod_ip=10.42.0.56
+
+l1.service.samples=3
+l1.service.avg_time_total_sec=0.005566
+l1.service.avg_speed_bytes_per_sec=854056967
+l1.service_ip.samples=3
+l1.service_ip.avg_time_total_sec=0.007466
+l1.service_ip.avg_speed_bytes_per_sec=615412707.333333
+l1.pod_ip.samples=3
+l1.pod_ip.avg_time_total_sec=0.003075
+l1.pod_ip.avg_speed_bytes_per_sec=1446511517.33333
+
+l3.service.samples=3
+l3.service.avg_time_total_sec=4.999373
+l3.service.avg_speed_bytes_per_sec=0
+l3.service_ip.samples=3
+l3.service_ip.avg_time_total_sec=3.085254
+l3.service_ip.avg_speed_bytes_per_sec=0
+l3.pod_ip.samples=3
+l3.pod_ip.avg_time_total_sec=6.825024
+l3.pod_ip.avg_speed_bytes_per_sec=0
+
+comparison.service.speed_ratio_l3_vs_l1=0
+comparison.service.time_ratio_l3_vs_l1=898.198587

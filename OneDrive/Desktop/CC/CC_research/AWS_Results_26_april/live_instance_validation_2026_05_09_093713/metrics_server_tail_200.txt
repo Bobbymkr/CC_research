@@ -1,0 +1,22 @@
+I0509 04:06:49.661308       1 handler.go:288] Adding GroupVersion metrics.k8s.io v1beta1 to ResourceManager
+I0509 04:06:49.802716       1 requestheader_controller.go:180] Starting RequestHeaderAuthRequestController
+I0509 04:06:49.802893       1 shared_informer.go:350] "Waiting for caches to sync" controller="RequestHeaderAuthRequestController"
+I0509 04:06:49.802984       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0509 04:06:49.803095       1 shared_informer.go:350] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0509 04:06:49.803166       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0509 04:06:49.803296       1 shared_informer.go:350] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0509 04:06:49.803138       1 dynamic_serving_content.go:135] "Starting controller" name="serving-cert::/tmp/apiserver.crt::/tmp/apiserver.key"
+I0509 04:06:49.803046       1 secure_serving.go:211] Serving securely on [::]:10250
+I0509 04:06:49.803134       1 tlsconfig.go:243] "Starting DynamicServingCertificateController"
+I0509 04:06:49.829410       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:06:49.903602       1 shared_informer.go:357] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0509 04:06:49.903865       1 shared_informer.go:357] "Caches are synced" controller="RequestHeaderAuthRequestController"
+I0509 04:06:49.903882       1 shared_informer.go:357] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0509 04:06:50.134396       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:06:52.140202       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:06:54.137555       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:06:56.134373       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:06:58.136813       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:07:00.133984       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:07:02.204532       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0509 04:07:04.150249       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"

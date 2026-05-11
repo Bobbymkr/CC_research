@@ -1,0 +1,8 @@
+Host=34.226.205.95
+User=ubuntu
+ConfigPath=.\raasa\configs\config_tuned_small_linear_probe.yaml
+ConfigMapNamespace=raasa-system
+ConfigMapName=raasa-config
+DaemonSetName=raasa-agent
+CollectedAtLocal=
+2026-05-09T14:07:50.2344353+05:30

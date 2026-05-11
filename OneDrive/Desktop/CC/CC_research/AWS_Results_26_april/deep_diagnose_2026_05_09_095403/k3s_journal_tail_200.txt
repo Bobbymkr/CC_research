@@ -1,0 +1,200 @@
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.225011     653 shared_informer.go:356] "Caches are synced" controller="RequestHeaderAuthRequestController"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.225080     653 shared_informer.go:356] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.261574     653 controllermanager.go:329] Started "cloud-node-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.261694     653 controllermanager.go:329] Started "cloud-node-lifecycle-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: W0509 04:15:10.261698     653 controllermanager.go:306] "service-lb-controller" is disabled
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: W0509 04:15:10.261701     653 controllermanager.go:306] "node-route-controller" is disabled
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.262520     653 node_controller.go:176] Sending events to api server.
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.262546     653 node_lifecycle_controller.go:112] Sending events to api server
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.262570     653 node_controller.go:185] Waiting for informer caches to sync
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.305608     653 range_allocator.go:112] "No Secondary Service CIDR provided. Skipping filtering out secondary service addresses" logger="node-ipam-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.305649     653 controllermanager.go:781] "Started controller" controller="node-ipam-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.307072     653 node_ipam_controller.go:141] "Starting ipam controller" logger="node-ipam-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.307537     653 shared_informer.go:349] "Waiting for caches to sync" controller="node"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.313539     653 controllermanager.go:781] "Started controller" controller="persistentvolume-binder-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.313830     653 pv_controller_base.go:308] "Starting persistent volume controller" logger="persistentvolume-binder-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.313846     653 shared_informer.go:349] "Waiting for caches to sync" controller="persistent volume"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.315911     653 controllermanager.go:781] "Started controller" controller="persistentvolumeclaim-protection-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.317048     653 pvc_protection_controller.go:168] "Starting PVC protection controller" logger="persistentvolumeclaim-protection-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.317157     653 shared_informer.go:349] "Waiting for caches to sync" controller="PVC protection"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.323750     653 controllermanager.go:781] "Started controller" controller="root-ca-certificate-publisher-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.323770     653 controllermanager.go:733] "Controller is disabled by a feature gate" controller="device-taint-eviction-controller" requiredFeatureGates=["DynamicResourceAllocation","DRADeviceTaints"]
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.323866     653 publisher.go:107] "Starting root CA cert publisher controller" logger="root-ca-certificate-publisher-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.323875     653 shared_informer.go:349] "Waiting for caches to sync" controller="crt configmap"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.332916     653 controllermanager.go:781] "Started controller" controller="service-cidr-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.333070     653 servicecidrs_controller.go:137] "Starting" logger="service-cidr-controller" controller="service-cidr-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.333086     653 shared_informer.go:349] "Waiting for caches to sync" controller="service-cidr-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.339186     653 controllermanager.go:781] "Started controller" controller="replicaset-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.339977     653 replica_set.go:243] "Starting controller" logger="replicaset-controller" name="replicaset"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.340102     653 shared_informer.go:349] "Waiting for caches to sync" controller="ReplicaSet"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.347567     653 controllermanager.go:781] "Started controller" controller="serviceaccount-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.347744     653 controllermanager.go:739] "Skipping a cloud provider controller" controller="node-route-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.355601     653 serviceaccounts_controller.go:114] "Starting service account controller" logger="serviceaccount-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.355620     653 shared_informer.go:349] "Waiting for caches to sync" controller="service account"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.363601     653 shared_informer.go:349] "Waiting for caches to sync" controller="resource quota"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.423920     653 actual_state_of_world.go:541] "Failed to update statusUpdateNeeded field in actual state of world" logger="persistentvolume-attach-detach-controller" err="Failed to set statusUpdateNeeded to needed true, because nodeName=\"ip-172-31-16-234\" does not exist"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.441427     653 shared_informer.go:356] "Caches are synced" controller="namespace"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.452393     653 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-legacy-unknown"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.452865     653 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-kubelet-serving"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.452882     653 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-kubelet-client"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.453020     653 shared_informer.go:356] "Caches are synced" controller="certificate-csrsigning-kube-apiserver-client"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.457961     653 shared_informer.go:349] "Waiting for caches to sync" controller="garbage collector"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.480955     653 shared_informer.go:356] "Caches are synced" controller="validatingadmissionpolicy-status"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.485340     653 shared_informer.go:356] "Caches are synced" controller="endpoint_slice_mirroring"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.490548     653 shared_informer.go:356] "Caches are synced" controller="service account"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.493774     653 shared_informer.go:356] "Caches are synced" controller="certificate-csrapproving"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.498424     653 shared_informer.go:356] "Caches are synced" controller="cronjob"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.500940     653 shared_informer.go:356] "Caches are synced" controller="TTL after finished"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.502501     653 shared_informer.go:356] "Caches are synced" controller="legacy-service-account-token-cleaner"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.505528     653 shared_informer.go:356] "Caches are synced" controller="taint"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.505671     653 node_lifecycle_controller.go:1221] "Initializing eviction metric for zone" logger="node-lifecycle-controller" zone=""
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.506133     653 node_lifecycle_controller.go:873] "Missing timestamp for Node. Assuming now as a timestamp" logger="node-lifecycle-controller" node="ip-172-31-16-234"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.510094     653 shared_informer.go:356] "Caches are synced" controller="daemon sets"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.510408     653 node_lifecycle_controller.go:1067] "Controller detected that zone is now in new state" logger="node-lifecycle-controller" zone="" newState="Normal"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.510647     653 shared_informer.go:356] "Caches are synced" controller="endpoint"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.515298     653 shared_informer.go:356] "Caches are synced" controller="expand"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.518793     653 shared_informer.go:356] "Caches are synced" controller="node"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.518915     653 range_allocator.go:177] "Sending events to api server" logger="node-ipam-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.518984     653 range_allocator.go:183] "Starting range CIDR allocator" logger="node-ipam-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.519018     653 shared_informer.go:349] "Waiting for caches to sync" controller="cidrallocator"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.519067     653 shared_informer.go:356] "Caches are synced" controller="cidrallocator"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.519176     653 shared_informer.go:356] "Caches are synced" controller="PVC protection"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.524269     653 shared_informer.go:356] "Caches are synced" controller="crt configmap"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.531375     653 shared_informer.go:356] "Caches are synced" controller="TTL"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.531426     653 shared_informer.go:356] "Caches are synced" controller="ephemeral"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.537740     653 shared_informer.go:356] "Caches are synced" controller="ReplicationController"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.540122     653 shared_informer.go:356] "Caches are synced" controller="ReplicaSet"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.541672     653 shared_informer.go:356] "Caches are synced" controller="taint-eviction-controller"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.545948     653 shared_informer.go:356] "Caches are synced" controller="deployment"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.554927     653 shared_informer.go:356] "Caches are synced" controller="HPA"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.564501     653 shared_informer.go:356] "Caches are synced" controller="ClusterRoleAggregator"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: E0509 04:15:10.582085     653 remote_available_controller.go:462] "Unhandled Error" err="v1beta1.metrics.k8s.io failed with: failing or missing response from https://10.42.0.52:10250/apis/metrics.k8s.io/v1beta1: Get \"https://10.42.0.52:10250/apis/metrics.k8s.io/v1beta1\": context deadline exceeded" logger="UnhandledError"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.582986     653 shared_informer.go:356] "Caches are synced" controller="endpoint_slice"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.587576     653 shared_informer.go:356] "Caches are synced" controller="GC"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.590228     653 shared_informer.go:356] "Caches are synced" controller="job"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.638557     653 controller.go:667] quota admission added evaluator for: daemonsets.apps
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Starting network policy controller version v2.6.3-k3s1, built on 2026-03-28T03:22:26Z, go1.24.13"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.639303     653 network_policy_controller.go:164] Starting network policy controller
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.642332     653 controller.go:667] quota admission added evaluator for: replicasets.apps
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.643017     653 controller.go:667] quota admission added evaluator for: endpoints
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.673569     653 shared_informer.go:356] "Caches are synced" controller="resource_claim"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.686110     653 shared_informer.go:356] "Caches are synced" controller="disruption"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.686624     653 shared_informer.go:356] "Caches are synced" controller="stateful set"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Started tunnel to 172.31.16.234:6443"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Stopped tunnel to 127.0.0.1:6443"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Connecting to proxy" url="wss://172.31.16.234:6443/v1-k3s/connect"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Proxy done" err="context canceled" url="wss://127.0.0.1:6443/v1-k3s/connect"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="error in remotedialer server [400]: websocket: close 1006 (abnormal closure): unexpected EOF"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Handling backend connection request [ip-172-31-16-234]"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Connected to proxy" url="wss://172.31.16.234:6443/v1-k3s/connect"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.779508     653 controller.go:667] quota admission added evaluator for: endpointslices.discovery.k8s.io
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:10Z" level=info msg="Remotedialer connected to proxy" url="wss://172.31.16.234:6443/v1-k3s/connect"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.814360     653 network_policy_controller.go:179] Starting network policy controller full sync goroutine
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.816050     653 shared_informer.go:356] "Caches are synced" controller="persistent volume"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.820031     653 shared_informer.go:356] "Caches are synced" controller="PV protection"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.820294     653 shared_informer.go:356] "Caches are synced" controller="attach detach"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.824720     653 controller.go:667] quota admission added evaluator for: deployments.apps
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.870468     653 shared_informer.go:356] "Caches are synced" controller="VAC protection"
+May 09 04:15:10 ip-172-31-16-234 k3s[653]: I0509 04:15:10.991707     653 shared_informer.go:356] "Caches are synced" controller="resource quota"
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.000053     653 shared_informer.go:356] "Caches are synced" controller="resource quota"
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.034011     653 shared_informer.go:356] "Caches are synced" controller="service-cidr-controller"
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.221773     653 event.go:389] "Event occurred" object="kube-system/coredns" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/coredns.yaml\""
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.249779     653 event.go:389] "Event occurred" object="kube-system/local-storage" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/local-storage.yaml\""
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.454125     653 shared_informer.go:356] "Caches are synced" controller="garbage collector"
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.454312     653 garbagecollector.go:154] "Garbage collector: all resource monitors have synced" logger="garbage-collector-controller"
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.454363     653 garbagecollector.go:157] "Proceeding to collect garbage" logger="garbage-collector-controller"
+May 09 04:15:11 ip-172-31-16-234 k3s[653]: I0509 04:15:11.460602     653 shared_informer.go:356] "Caches are synced" controller="garbage collector"
+May 09 04:15:12 ip-172-31-16-234 k3s[653]: I0509 04:15:12.235179     653 scope.go:117] "RemoveContainer" containerID="e0e398aac377c2c82e232b694e5e8b16723f207e6f4e18285c56e4d17094eb94"
+May 09 04:15:12 ip-172-31-16-234 k3s[653]: I0509 04:15:12.399908     653 event.go:389] "Event occurred" object="kube-system/local-storage" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/local-storage.yaml\""
+May 09 04:15:12 ip-172-31-16-234 k3s[653]: I0509 04:15:12.405167     653 event.go:389] "Event occurred" object="kube-system/aggregated-metrics-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/aggregated-metrics-reader.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.199665     653 event.go:389] "Event occurred" object="kube-system/aggregated-metrics-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/aggregated-metrics-reader.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.203215     653 event.go:389] "Event occurred" object="kube-system/auth-delegator" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-delegator.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.283170     653 event.go:389] "Event occurred" object="kube-system/auth-delegator" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-delegator.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.294257     653 event.go:389] "Event occurred" object="kube-system/auth-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-reader.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59462: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59456: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59480: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59492: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59470: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60810: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60724: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60774: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60740: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60776: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60752: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60760: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:60780: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59380: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59350: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59364: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59352: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59358: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:15:13Z" level=error msg="Sending HTTP/1.1 502 response to 127.0.0.1:59396: dial tcp 10.42.0.52:10250: connect: no route to host"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.681297     653 controller.go:146] "Unhandled Error" err=<
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         Error updating APIService "v1beta1.metrics.k8s.io" with err: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: error trying to reach service: proxy error from 127.0.0.1:6443 while dialing 10.42.0.52:10250, code 502: 502 Bad Gateway
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:  > logger="UnhandledError"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.681386     653 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: W0509 04:15:13.681397     653 handler_proxy.go:99] no RequestInfo found in the context
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.681420     653 controller.go:102] "Unhandled Error" err=<
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         loading OpenAPI spec for "v1beta1.metrics.k8s.io" failed with: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:  > logger="UnhandledError"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.681903     653 controller.go:113] "Unhandled Error" err="loading OpenAPI spec for \"v1beta1.metrics.k8s.io\" failed with: Error, could not get list of group versions for APIService" logger="UnhandledError"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: W0509 04:15:13.681958     653 handler_proxy.go:99] no RequestInfo found in the context
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.681969     653 controller.go:146] "Unhandled Error" err=<
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         Error updating APIService "v1beta1.metrics.k8s.io" with err: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:  > logger="UnhandledError"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.681989     653 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.682337     653 controller.go:109] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.682495     653 controller.go:126] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.683270     653 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.684078     653 remote_available_controller.go:462] "Unhandled Error" err="v1beta1.metrics.k8s.io failed with: Operation cannot be fulfilled on apiservices.apiregistration.k8s.io \"v1beta1.metrics.k8s.io\": the object has been modified; please apply your changes to the latest version and try again" logger="UnhandledError"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: W0509 04:15:13.687227     653 handler_proxy.go:99] no RequestInfo found in the context
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.687345     653 controller.go:146] "Unhandled Error" err=<
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         Error updating APIService "v1beta1.metrics.k8s.io" with err: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+May 09 04:15:13 ip-172-31-16-234 k3s[653]:  > logger="UnhandledError"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: E0509 04:15:13.687376     653 handler_proxy.go:143] error resolving kube-system/metrics-server: no endpoints available for service "metrics-server"
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.688277     653 event.go:389] "Event occurred" object="kube-system/auth-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/auth-reader.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.692201     653 event.go:389] "Event occurred" object="kube-system/metrics-apiservice" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-apiservice.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.843114     653 event.go:389] "Event occurred" object="kube-system/metrics-apiservice" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-apiservice.yaml\""
+May 09 04:15:13 ip-172-31-16-234 k3s[653]: I0509 04:15:13.846631     653 event.go:389] "Event occurred" object="kube-system/metrics-server-deployment" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-deployment.yaml\""
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: W0509 04:15:14.151580     653 manager.go:1169] Failed to process watch event {EventType:0 Name:/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod9fe01a8d_cc29_47b7_bf87_d9ed44f5258b.slice/cri-containerd-b31f014ab14001808d308719fbc7c18776e465d9bf44ca93e0155d65565ced4d.scope WatchSource:0}: task b31f014ab14001808d308719fbc7c18776e465d9bf44ca93e0155d65565ced4d not found
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: I0509 04:15:14.173616     653 event.go:389] "Event occurred" object="kube-system/metrics-server-deployment" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-deployment.yaml\""
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: I0509 04:15:14.186536     653 event.go:389] "Event occurred" object="kube-system/metrics-server-service" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-service.yaml\""
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: I0509 04:15:14.255730     653 event.go:389] "Event occurred" object="kube-system/metrics-server-service" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/metrics-server-service.yaml\""
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: E0509 04:15:14.266907     653 cadvisor_stats_provider.go:567] "Partial failure issuing cadvisor.ContainerInfoV2" err="partial failures: [\"/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod82fb38fe_26e2_4ea3_b899_b2de6dbc7a25.slice/cri-containerd-8d1f5fc1ff59f4620a8925d2a279ff79750d7ad08cf5b93eb5ef3bc61634b87e.scope\": RecentStats: unable to find data in memory cache]"
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: I0509 04:15:14.267181     653 event.go:389] "Event occurred" object="kube-system/resource-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/resource-reader.yaml\""
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: I0509 04:15:14.267308     653 event.go:389] "Event occurred" object="ip-172-31-16-234" fieldPath="" kind="Node" apiVersion="" type="Normal" reason="NodePasswordValidationComplete" message="Deferred node password secret validation complete"
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: W0509 04:15:14.683301     653 handler_proxy.go:99] no RequestInfo found in the context
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: E0509 04:15:14.683404     653 controller.go:102] "Unhandled Error" err=<
+May 09 04:15:14 ip-172-31-16-234 k3s[653]:         loading OpenAPI spec for "v1beta1.metrics.k8s.io" failed with: failed to download v1beta1.metrics.k8s.io: failed to retrieve openAPI spec, http error: ResponseCode: 503, Body: service unavailable
+May 09 04:15:14 ip-172-31-16-234 k3s[653]:         , Header: map[Content-Type:[text/plain; charset=utf-8] X-Content-Type-Options:[nosniff]]
+May 09 04:15:14 ip-172-31-16-234 k3s[653]:  > logger="UnhandledError"
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: I0509 04:15:14.683421     653 controller.go:109] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: W0509 04:15:14.683762     653 handler_proxy.go:99] no RequestInfo found in the context
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: E0509 04:15:14.683779     653 controller.go:113] "Unhandled Error" err="loading OpenAPI spec for \"v1beta1.metrics.k8s.io\" failed with: Error, could not get list of group versions for APIService" logger="UnhandledError"
+May 09 04:15:14 ip-172-31-16-234 k3s[653]: I0509 04:15:14.684549     653 controller.go:126] OpenAPI AggregationController: action for item v1beta1.metrics.k8s.io: Rate Limited Requeue.
+May 09 04:15:15 ip-172-31-16-234 k3s[653]: I0509 04:15:15.204222     653 event.go:389] "Event occurred" object="kube-system/resource-reader" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/metrics-server/resource-reader.yaml\""
+May 09 04:15:15 ip-172-31-16-234 k3s[653]: I0509 04:15:15.207923     653 event.go:389] "Event occurred" object="kube-system/rolebindings" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/rolebindings.yaml\""
+May 09 04:15:16 ip-172-31-16-234 k3s[653]: I0509 04:15:16.202068     653 event.go:389] "Event occurred" object="kube-system/rolebindings" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/rolebindings.yaml\""
+May 09 04:15:16 ip-172-31-16-234 k3s[653]: I0509 04:15:16.209879     653 event.go:389] "Event occurred" object="kube-system/runtimes" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="ApplyingManifest" message="Applying manifest at \"/var/lib/rancher/k3s/server/manifests/runtimes.yaml\""
+May 09 04:15:16 ip-172-31-16-234 k3s[653]: I0509 04:15:16.343698     653 event.go:389] "Event occurred" object="kube-system/runtimes" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="AppliedManifest" message="Applied manifest at \"/var/lib/rancher/k3s/server/manifests/runtimes.yaml\""
+May 09 04:15:17 ip-172-31-16-234 k3s[653]: I0509 04:15:17.199569     653 event.go:389] "Event occurred" object="kube-system/traefik" fieldPath="" kind="Addon" apiVersion="k3s.cattle.io/v1" type="Normal" reason="DeletingManifest" message="Deleting manifest at \"/var/lib/rancher/k3s/server/manifests/traefik.yaml\""
+May 09 04:15:28 ip-172-31-16-234 k3s[653]: I0509 04:15:28.392942     653 handler.go:285] Adding GroupVersion metrics.k8s.io v1beta1 to ResourceManager
+May 09 04:17:59 ip-172-31-16-234 k3s[653]: E0509 04:17:59.549627     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:56732: use of closed network connection
+May 09 04:18:02 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:18:02Z" level=warning msg="Proxy error: write failed: write tcp 127.0.0.1:55678->127.0.0.1:10250: write: broken pipe"
+May 09 04:18:02 ip-172-31-16-234 k3s[653]: E0509 04:18:02.948877     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:51644: use of closed network connection
+May 09 04:18:06 ip-172-31-16-234 k3s[653]: E0509 04:18:06.342315     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:51676: use of closed network connection
+May 09 04:18:10 ip-172-31-16-234 k3s[653]: E0509 04:18:10.287227     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:51714: use of closed network connection
+May 09 04:18:13 ip-172-31-16-234 k3s[653]: E0509 04:18:13.737840     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:52506: use of closed network connection
+May 09 04:20:08 ip-172-31-16-234 k3s[653]: W0509 04:20:08.726011     653 watcher.go:93] Error while processing event ("/sys/fs/cgroup/system.slice/sysstat-collect.service": 0x40000100 == IN_CREATE|IN_ISDIR): inotify_add_watch /sys/fs/cgroup/system.slice/sysstat-collect.service: no such file or directory
+May 09 04:24:31 ip-172-31-16-234 k3s[653]: E0509 04:24:31.335665     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:56436: use of closed network connection
+May 09 04:24:34 ip-172-31-16-234 k3s[653]: E0509 04:24:34.633007     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:46370: use of closed network connection
+May 09 04:24:38 ip-172-31-16-234 k3s[653]: E0509 04:24:38.005597     653 conn.go:339] Error on socket receive: read tcp 127.0.0.1:6443->127.0.0.1:46404: use of closed network connection
+May 09 04:24:59 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:24:59Z" level=info msg="COMPACT compactRev=318286 targetCompactRev=319095 currentRev=320095"
+May 09 04:24:59 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:24:59Z" level=info msg="COMPACT deleted 809 rows from 809 revisions in 9.660479ms - compacted to 319095/320095"
+May 09 04:24:59 ip-172-31-16-234 k3s[653]: time="2026-05-09T04:24:59Z" level=info msg="COMPACT compacted from 318286 to 319095 in 1 transactions over 10ms"
+May 09 04:25:00 ip-172-31-16-234 k3s[653]: I0509 04:25:00.435298     653 cidrallocator.go:277] updated ClusterIP allocator for Service CIDR 10.43.0.0/16

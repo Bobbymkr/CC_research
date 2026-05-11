@@ -1,0 +1,2 @@
+NAME                READY   STATUS    RESTARTS   AGE   IP              NODE               NOMINATED NODE   READINESS GATES
+raasa-agent-8cskv   3/3     Running   0          9s    172.31.16.234   ip-172-31-16-234   <none>           <none>

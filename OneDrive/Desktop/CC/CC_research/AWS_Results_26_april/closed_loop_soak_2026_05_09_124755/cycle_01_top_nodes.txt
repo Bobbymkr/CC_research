@@ -1,0 +1,2 @@
+NAME               CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+ip-172-31-16-234   1584m        79%      3175Mi          40%         

@@ -1,0 +1,12 @@
+Host=34.226.205.95
+User=ubuntu
+CollectedAtLocal=
+2026-05-09T10:20:15.1298745+05:30
+AgentPod=raasa-agent-pdxgt
+BenchClientRef=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28
+BenchServerPod=raasa-bench-server-7c49558994-2nmcp
+BenchServerPodIp=10.42.0.56
+BenchServiceHost=raasa-bench-server.raasa-bench.svc.cluster.local
+BenchServiceIp=10.43.176.11
+DemoClientRef=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8
+DemoServerRef=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2

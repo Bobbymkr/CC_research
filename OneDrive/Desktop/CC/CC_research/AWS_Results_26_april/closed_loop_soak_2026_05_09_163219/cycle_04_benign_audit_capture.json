@@ -1,0 +1,18 @@
+{
+    "cycle":  4,
+    "pod_ref":  "default/raasa-test-benign-compute",
+    "capture_mode":  "delta_from_same_log",
+    "captured_line_count":  30,
+    "state_before":  {
+                         "TimestampUtc":  "2026-05-09T11:12:59Z",
+                         "AgentPod":  "raasa-agent-5tgr5",
+                         "LogFile":  "/app/raasa/logs/run_20260509T102410Z.jsonl",
+                         "MatchingLineCount":  495
+                     },
+    "state_after":  {
+                        "TimestampUtc":  "2026-05-09T11:15:52Z",
+                        "AgentPod":  "raasa-agent-5tgr5",
+                        "LogFile":  "/app/raasa/logs/run_20260509T102410Z.jsonl",
+                        "MatchingLineCount":  525
+                    }
+}

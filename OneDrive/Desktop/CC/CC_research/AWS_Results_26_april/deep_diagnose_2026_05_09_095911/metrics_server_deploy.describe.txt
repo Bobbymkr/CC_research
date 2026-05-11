@@ -1,0 +1,58 @@
+Name:                   metrics-server
+Namespace:              kube-system
+CreationTimestamp:      Sun, 26 Apr 2026 03:22:08 +0000
+Labels:                 k8s-app=metrics-server
+                        objectset.rio.cattle.io/hash=e10e245e13e46a725c9dddd4f9eb239f147774fd
+Annotations:            deployment.kubernetes.io/revision: 4
+                        objectset.rio.cattle.io/applied:
+                          H4sIAAAAAAAA/5xV328aRxD+V6p5vrPvMNjOSTwgTENUx0GBtKoiCy17A2zZ293uzBFTi/+9mjvbwY2J07ygY2f222+++XUPKpjfMZLxDgpQIdDpNocENsaVUMAVBut3FTqGBCpkVS...
+                        objectset.rio.cattle.io/id: 
+                        objectset.rio.cattle.io/owner-gvk: k3s.cattle.io/v1, Kind=Addon
+                        objectset.rio.cattle.io/owner-name: metrics-server-deployment
+                        objectset.rio.cattle.io/owner-namespace: kube-system
+Selector:               k8s-app=metrics-server
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  1 max unavailable, 25% max surge
+Pod Template:
+  Labels:           k8s-app=metrics-server
+  Service Account:  metrics-server
+  Containers:
+   metrics-server:
+    Image:           rancher/mirrored-metrics-server:v0.8.1
+    Port:            10250/TCP (https)
+    Host Port:       0/TCP (https)
+    SeccompProfile:  RuntimeDefault
+    Args:
+      --cert-dir=/tmp
+      --secure-port=10250
+      --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+      --kubelet-use-node-status-port
+      --metric-resolution=15s
+      --tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+    Requests:
+      cpu:        100m
+      memory:     70Mi
+    Liveness:     http-get https://:https/livez delay=60s timeout=1s period=10s #success=1 #failure=3
+    Readiness:    http-get https://:https/readyz delay=0s timeout=1s period=2s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /tmp from tmp-dir (rw)
+  Volumes:
+   tmp-dir:
+    Type:               EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:             
+    SizeLimit:          <unset>
+  Priority Class Name:  system-node-critical
+  Node-Selectors:       kubernetes.io/os=linux
+  Tolerations:          CriticalAddonsOnly op=Exists
+                        node-role.kubernetes.io/control-plane:NoSchedule op=Exists
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   metrics-server-7bbbb75f47 (1/1 replicas created)
+Events:          <none>

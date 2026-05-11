@@ -1,0 +1,193 @@
+Name:             raasa-agent-pdxgt
+Namespace:        raasa-system
+Priority:         0
+Service Account:  raasa-agent
+Node:             ip-172-31-16-234/172.31.16.234
+Start Time:       Sun, 26 Apr 2026 10:53:20 +0000
+Labels:           app=raasa-agent
+                  controller-revision-hash=7c55586ffd
+                  pod-template-generation=24
+Annotations:      kubectl.kubernetes.io/restartedAt: 2026-04-26T10:53:20Z
+                  prometheus.io/port: 9090
+                  prometheus.io/scrape: true
+Status:           Running
+IP:               172.31.16.234
+IPs:
+  IP:           172.31.16.234
+Controlled By:  DaemonSet/raasa-agent
+Containers:
+  raasa-agent:
+    Container ID:  containerd://cd560f79e6148096cf79de55bb729faa8a9691681bfa96a5d5342e070b64005b
+    Image:         raasa/agent:phase1e
+    Image ID:      sha256:98705e1eea7d75fa4f9bb091e0972dca485330cf07a164ce39d153b7882eddc4
+    Port:          9090/TCP (metrics)
+    Host Port:     9090/TCP (metrics)
+    Args:
+      --mode
+      raasa
+      --backend
+      k8s
+      --config
+      /etc/raasa/config.yaml
+      --iterations
+      0
+      --metrics-port
+      9090
+    State:          Running
+      Started:      Sat, 09 May 2026 04:15:09 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    143
+      Started:      Sat, 09 May 2026 04:06:44 +0000
+      Finished:     Sat, 09 May 2026 04:13:16 +0000
+    Ready:          True
+    Restart Count:  2
+    Limits:
+      cpu:     200m
+      memory:  512Mi
+    Requests:
+      cpu:     50m
+      memory:  128Mi
+    Environment:
+      NODE_NAME:          (v1:spec.nodeName)
+      POD_NAMESPACE:     raasa-system (v1:metadata.namespace)
+      PYTHONPATH:        /app
+      PYTHONUNBUFFERED:  1
+    Mounts:
+      /app/raasa/logs from audit-logs (rw)
+      /etc/raasa from config (rw)
+      /host/proc from proc (ro)
+      /host/sys from sys (ro)
+      /var/run/raasa from raasa-probe-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xdxd4 (ro)
+  raasa-enforcer:
+    Container ID:  containerd://d91b7de77d34558cd0e40f75f122611279ba7adef940d38c3d981b9d0f60317f
+    Image:         raasa/agent:phase1e
+    Image ID:      sha256:98705e1eea7d75fa4f9bb091e0972dca485330cf07a164ce39d153b7882eddc4
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      python
+      -m
+      raasa.k8s.enforcer_sidecar
+    State:          Running
+      Started:      Sat, 09 May 2026 04:15:10 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    143
+      Started:      Sat, 09 May 2026 04:06:45 +0000
+      Finished:     Sat, 09 May 2026 04:13:16 +0000
+    Ready:          True
+    Restart Count:  2
+    Limits:
+      cpu:     100m
+      memory:  64Mi
+    Requests:
+      cpu:        10m
+      memory:     32Mi
+    Environment:  <none>
+    Mounts:
+      /sys from sys (rw)
+      /var/run/raasa from raasa-probe-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xdxd4 (ro)
+  syscall-probe:
+    Container ID:   containerd://b43d6d6e206ff411eac2911cad8088c512b0c813afbe13423d9958db32683591
+    Image:          raasa/ebpf-probe:1.0.0
+    Image ID:       sha256:18e5fb36889a8c800212f7a6e7366dc8a559a72c5b6f6fabf1706299a1454c4b
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Sat, 09 May 2026 04:15:10 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    143
+      Started:      Sat, 09 May 2026 04:06:45 +0000
+      Finished:     Sat, 09 May 2026 04:13:16 +0000
+    Ready:          True
+    Restart Count:  2
+    Limits:
+      cpu:     100m
+      memory:  64Mi
+    Requests:
+      cpu:        20m
+      memory:     32Mi
+    Environment:  <none>
+    Mounts:
+      /proc from proc (ro)
+      /sys from sys (ro)
+      /sys/kernel/debug from debugfs (ro)
+      /var/run/raasa from raasa-probe-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xdxd4 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  proc:
+    Type:          HostPath (bare host directory volume)
+    Path:          /proc
+    HostPathType:  
+  sys:
+    Type:          HostPath (bare host directory volume)
+    Path:          /sys
+    HostPathType:  
+  raasa-probe-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/raasa
+    HostPathType:  DirectoryOrCreate
+  audit-logs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      raasa-config
+    Optional:  false
+  debugfs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /sys/kernel/debug
+    HostPathType:  
+  kube-api-access-xdxd4:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 CriticalAddonsOnly op=Exists
+                             node-role.kubernetes.io/control-plane:NoSchedule
+                             node-role.kubernetes.io/master:NoSchedule
+                             node.kubernetes.io/disk-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/memory-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/network-unavailable:NoSchedule op=Exists
+                             node.kubernetes.io/not-ready:NoExecute op=Exists
+                             node.kubernetes.io/pid-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/unreachable:NoExecute op=Exists
+                             node.kubernetes.io/unschedulable:NoSchedule op=Exists
+Events:
+  Type    Reason          Age   From     Message
+  ----    ------          ----  ----     -------
+  Normal  SandboxChanged  17m   kubelet  Pod sandbox changed, it will be killed and re-created.
+  Normal  Pulled          17m   kubelet  Container image "raasa/agent:phase1e" already present on machine
+  Normal  Created         17m   kubelet  Created container: raasa-agent
+  Normal  Started         17m   kubelet  Started container raasa-agent
+  Normal  Pulled          17m   kubelet  Container image "raasa/agent:phase1e" already present on machine
+  Normal  Created         17m   kubelet  Created container: raasa-enforcer
+  Normal  Started         17m   kubelet  Started container raasa-enforcer
+  Normal  Pulled          17m   kubelet  Container image "raasa/ebpf-probe:1.0.0" already present on machine
+  Normal  Created         17m   kubelet  Created container: syscall-probe
+  Normal  Started         17m   kubelet  Started container syscall-probe
+  Normal  SandboxChanged  9m5s  kubelet  Pod sandbox changed, it will be killed and re-created.
+  Normal  Pulled          9m5s  kubelet  Container image "raasa/agent:phase1e" already present on machine
+  Normal  Created         9m5s  kubelet  Created container: raasa-agent
+  Normal  Started         9m5s  kubelet  Started container raasa-agent
+  Normal  Pulled          9m4s  kubelet  Container image "raasa/agent:phase1e" already present on machine
+  Normal  Created         9m4s  kubelet  Created container: raasa-enforcer
+  Normal  Started         9m4s  kubelet  Started container raasa-enforcer
+  Normal  Pulled          9m4s  kubelet  Container image "raasa/ebpf-probe:1.0.0" already present on machine
+  Normal  Created         9m4s  kubelet  Created container: syscall-probe
+  Normal  Started         9m4s  kubelet  Started container syscall-probe

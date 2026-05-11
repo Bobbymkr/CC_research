@@ -1,0 +1,6 @@
+Host=34.226.205.95
+User=ubuntu
+CollectedAtLocal=
+2026-05-09T09:59:19.3244088+05:30
+AgentPod=raasa-agent-pdxgt
+MetricsServerPod=metrics-server-7bbbb75f47-8c6kx

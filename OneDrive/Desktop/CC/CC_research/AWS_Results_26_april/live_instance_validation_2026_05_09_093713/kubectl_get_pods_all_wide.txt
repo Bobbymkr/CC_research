@@ -1,0 +1,14 @@
+NAMESPACE      NAME                                      READY   STATUS    RESTARTS      AGE   IP              NODE               NOMINATED NODE   READINESS GATES
+default        raasa-test-benign-compute                 1/1     Running   1 (21h ago)   22h   10.42.0.54      ip-172-31-16-234   <none>           <none>
+default        raasa-test-benign-steady                  1/1     Running   1 (58s ago)   22h   10.42.0.55      ip-172-31-16-234   <none>           <none>
+default        raasa-test-malicious-cpu                  1/1     Running   1 (21h ago)   22h   10.42.0.47      ip-172-31-16-234   <none>           <none>
+kube-system    coredns-76c974cb66-r864s                  1/1     Running   3 (58s ago)   13d   10.42.0.45      ip-172-31-16-234   <none>           <none>
+kube-system    local-path-provisioner-8686667995-r649k   1/1     Running   3 (58s ago)   13d   10.42.0.48      ip-172-31-16-234   <none>           <none>
+kube-system    metrics-server-7bbbb75f47-8c6kx           1/1     Running   2 (58s ago)   13d   10.42.0.52      ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-6fk5g                            2/2     Running   6 (58s ago)   13d   172.31.16.234   ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-operator-79c87675d6-d8rkl        1/1     Running   3 (58s ago)   13d   10.42.0.53      ip-172-31-16-234   <none>           <none>
+raasa-bench    raasa-bench-client-5fd64dcfbf-hvl28       1/1     Running   1 (58s ago)   12d   10.42.0.51      ip-172-31-16-234   <none>           <none>
+raasa-bench    raasa-bench-server-7c49558994-2nmcp       1/1     Running   1 (58s ago)   12d   10.42.0.49      ip-172-31-16-234   <none>           <none>
+raasa-demo     raasa-net-client-669f7c4cf8-2d9w8         1/1     Running   3 (58s ago)   13d   10.42.0.50      ip-172-31-16-234   <none>           <none>
+raasa-demo     raasa-net-server-79c9b5b7d6-5jfk2         1/1     Running   3 (58s ago)   13d   10.42.0.46      ip-172-31-16-234   <none>           <none>
+raasa-system   raasa-agent-pdxgt                         3/3     Running   3 (58s ago)   12d   172.31.16.234   ip-172-31-16-234   <none>           <none>

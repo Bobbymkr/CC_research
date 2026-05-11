@@ -1,0 +1,200 @@
+
+[ObserverK8s] Metrics API failed for raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28: (503)
+Reason: Service Unavailable
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '8fc6c49d-df4f-44ad-9ecd-fd9f8a8aca59', 'Cache-Control': 'no-cache, private', 'Content-Type': 'text/plain; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977', 'Date': 'Sat, 09 May 2026 04:15:21 GMT', 'Content-Length': '20'})
+HTTP response body: service unavailable
+
+
+[ObserverK8s] Metrics API failed for raasa-bench/raasa-bench-server-7c49558994-2nmcp: (503)
+Reason: Service Unavailable
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '0c21dca2-2a28-4d3e-a62e-064be2a7f78b', 'Cache-Control': 'no-cache, private', 'Content-Type': 'text/plain; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977', 'Date': 'Sat, 09 May 2026 04:15:21 GMT', 'Content-Length': '20'})
+HTTP response body: service unavailable
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-client-669f7c4cf8-2d9w8: (503)
+Reason: Service Unavailable
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '2e9b3d8f-6619-43aa-8e21-fba7471905ec', 'Cache-Control': 'no-cache, private', 'Content-Type': 'text/plain; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977', 'Date': 'Sat, 09 May 2026 04:15:21 GMT', 'Content-Length': '20'})
+HTTP response body: service unavailable
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2: (503)
+Reason: Service Unavailable
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '15b70420-a9b2-4b20-92c1-7b717d263279', 'Cache-Control': 'no-cache, private', 'Content-Type': 'text/plain; charset=utf-8', 'X-Content-Type-Options': 'nosniff', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977', 'Date': 'Sat, 09 May 2026 04:15:21 GMT', 'Content-Length': '20'})
+HTTP response body: service unavailable
+
+
+[RAASA] Iteration 3
+[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'bea4da67-58ed-4ca2-9ea8-f8c973da1cb2, bea4da67-58ed-4ca2-9ea8-f8c973da1cb2', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '284', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:28 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-steady\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-steady","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for default/raasa-test-malicious-cpu: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'f82fef27-9646-45c5-af5c-227dae1912e1, f82fef27-9646-45c5-af5c-227dae1912e1', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '284', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:28 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-malicious-cpu\" not found","reason":"NotFound","details":{"name":"default/raasa-test-malicious-cpu","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '14966b9f-869d-4fe8-995a-1e4680cec569, 14966b9f-869d-4fe8-995a-1e4680cec569', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '314', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:28 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28\" not found","reason":"NotFound","details":{"name":"raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-client-669f7c4cf8-2d9w8: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '77e45dcd-e87d-4817-96e1-3506cff58288, 77e45dcd-e87d-4817-96e1-3506cff58288', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '308', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:28 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-demo/raasa-net-client-669f7c4cf8-2d9w8\" not found","reason":"NotFound","details":{"name":"raasa-demo/raasa-net-client-669f7c4cf8-2d9w8","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'a164f311-419e-4b4a-b392-bd1779d2a368, a164f311-419e-4b4a-b392-bd1779d2a368', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '308', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:28 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2\" not found","reason":"NotFound","details":{"name":"raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 4
+[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '71d68b99-84d5-46d4-a58e-adede17f0d4a, 71d68b99-84d5-46d4-a58e-adede17f0d4a', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '284', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:34 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-steady\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-steady","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for default/raasa-test-malicious-cpu: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '6558dcfa-e329-447d-8af8-d7f6df0d0ff4, 6558dcfa-e329-447d-8af8-d7f6df0d0ff4', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '284', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:34 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-malicious-cpu\" not found","reason":"NotFound","details":{"name":"default/raasa-test-malicious-cpu","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'cea07a09-d979-4c62-9629-2220bd0e81b1, cea07a09-d979-4c62-9629-2220bd0e81b1', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '314', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:34 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28\" not found","reason":"NotFound","details":{"name":"raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-client-669f7c4cf8-2d9w8: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '9d76aad1-3172-45d9-a0d4-2e1c2a7823d3, 9d76aad1-3172-45d9-a0d4-2e1c2a7823d3', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '308', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:34 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-demo/raasa-net-client-669f7c4cf8-2d9w8\" not found","reason":"NotFound","details":{"name":"raasa-demo/raasa-net-client-669f7c4cf8-2d9w8","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '3dca5fff-3579-4c25-af01-71057bcc9323, 3dca5fff-3579-4c25-af01-71057bcc9323', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '308', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:34 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2\" not found","reason":"NotFound","details":{"name":"raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 5
+[ObserverK8s] Metrics API failed for default/raasa-test-benign-steady: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '0684c71e-839a-44d3-8033-729d28d2cd62, 0684c71e-839a-44d3-8033-729d28d2cd62', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '284', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:39 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-steady\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-steady","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for default/raasa-test-malicious-cpu: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '938f5412-0d01-44c4-928f-4b164cda252f, 938f5412-0d01-44c4-928f-4b164cda252f', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '284', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:39 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-malicious-cpu\" not found","reason":"NotFound","details":{"name":"default/raasa-test-malicious-cpu","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '42dd056a-c2ac-40ac-9107-276e6eb6a105, 42dd056a-c2ac-40ac-9107-276e6eb6a105', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '314', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:39 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28\" not found","reason":"NotFound","details":{"name":"raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-client-669f7c4cf8-2d9w8: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '5f8c513d-b443-474a-826b-a444eeb7e671, 5f8c513d-b443-474a-826b-a444eeb7e671', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '308', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:39 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-demo/raasa-net-client-669f7c4cf8-2d9w8\" not found","reason":"NotFound","details":{"name":"raasa-demo/raasa-net-client-669f7c4cf8-2d9w8","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Metrics API failed for raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'cb2b0372-9461-40f6-9661-61f86a0c3427, cb2b0372-9461-40f6-9661-61f86a0c3427', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '308', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 04:15:39 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2\" not found","reason":"NotFound","details":{"name":"raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 6
+[RAASA] Iteration 7
+[RAASA] Iteration 8
+[RAASA] Iteration 9
+[RAASA] Iteration 10
+[RAASA] Iteration 11
+[RAASA] Iteration 12
+[RAASA] Iteration 13
+[RAASA] Iteration 14
+[RAASA] Iteration 15
+[RAASA] Iteration 16
+[RAASA] Iteration 17
+[RAASA] Iteration 18
+[RAASA] Iteration 19
+[RAASA] Iteration 20
+[RAASA] Iteration 21
+[RAASA] Iteration 22
+[RAASA] Iteration 23
+[RAASA] Iteration 24
+[RAASA] Iteration 25
+[RAASA] Iteration 26
+[RAASA] Iteration 27
+[RAASA] Iteration 28
+[RAASA] Iteration 29
+[RAASA] Iteration 30
+[RAASA] Iteration 31
+[RAASA] Iteration 32
+[RAASA] Iteration 33
+[RAASA] Iteration 34
+[RAASA] Iteration 35
+[RAASA] Iteration 36
+[RAASA] Iteration 37
+[RAASA] Iteration 38
+[RAASA] Iteration 39
+[RAASA] Iteration 40
+[RAASA] Iteration 41
+[RAASA] Iteration 42
+[RAASA] Iteration 43
+[RAASA] Iteration 44
+[RAASA] Iteration 45
+[RAASA] Iteration 46
+[RAASA] Iteration 47
+[RAASA] Iteration 48
+[RAASA] Iteration 49
+[RAASA] Iteration 50
+[RAASA] Iteration 51
+[RAASA] Iteration 52
+[RAASA] Iteration 53
+[RAASA] Iteration 54
+[RAASA] Iteration 55
+[RAASA] Iteration 56
+[RAASA] Iteration 57
+[RAASA] Iteration 58
+[RAASA] Iteration 59
+[RAASA] Iteration 60
+[RAASA] Iteration 61
+[RAASA] Iteration 62
+[RAASA] Iteration 63
+[RAASA] Iteration 64
+[RAASA] Iteration 65
+[RAASA] Iteration 66
+[RAASA] Iteration 67
+[RAASA] Iteration 68
+[RAASA] Iteration 69
+[RAASA] Iteration 70
+[RAASA] Iteration 71
+[RAASA] Iteration 72
+[RAASA] Iteration 73
+[RAASA] Iteration 74
+[RAASA] Iteration 75
+[RAASA] Iteration 76
+[RAASA] Iteration 77
+[RAASA] Iteration 78
+[RAASA] Iteration 79
+[RAASA] Iteration 80
+[RAASA] Iteration 81
+[RAASA] Iteration 82
+[RAASA] Iteration 83
+[RAASA] Iteration 84
+[RAASA] Iteration 85
+[RAASA] Iteration 86
+[RAASA] Iteration 87

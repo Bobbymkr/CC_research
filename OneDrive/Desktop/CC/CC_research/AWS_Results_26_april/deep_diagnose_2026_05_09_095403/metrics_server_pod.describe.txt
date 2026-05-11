@@ -1,0 +1,87 @@
+Name:                 metrics-server-7bbbb75f47-8c6kx
+Namespace:            kube-system
+Priority:             2000001000
+Priority Class Name:  system-node-critical
+Service Account:      metrics-server
+Node:                 ip-172-31-16-234/172.31.16.234
+Start Time:           Sun, 26 Apr 2026 03:53:28 +0000
+Labels:               k8s-app=metrics-server
+                      pod-template-hash=7bbbb75f47
+Annotations:          <none>
+Status:               Running
+IP:                   10.42.0.58
+IPs:
+  IP:           10.42.0.58
+Controlled By:  ReplicaSet/metrics-server-7bbbb75f47
+Containers:
+  metrics-server:
+    Container ID:    containerd://dc32deea0059812874dcc523562d386adf34874f1a6aa4e61d1f4b93ee889d0c
+    Image:           rancher/mirrored-metrics-server:v0.8.1
+    Image ID:        docker.io/rancher/mirrored-metrics-server@sha256:b2d2efaf5ac3b366ed0f839d2412a2c4279d4fc2a2a733f12c52133faed36c41
+    Port:            10250/TCP (https)
+    Host Port:       0/TCP (https)
+    SeccompProfile:  RuntimeDefault
+    Args:
+      --cert-dir=/tmp
+      --secure-port=10250
+      --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+      --kubelet-use-node-status-port
+      --metric-resolution=15s
+      --tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+    State:          Running
+      Started:      Sat, 09 May 2026 04:15:10 +0000
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Sat, 09 May 2026 04:06:47 +0000
+      Finished:     Sat, 09 May 2026 04:13:17 +0000
+    Ready:          True
+    Restart Count:  3
+    Requests:
+      cpu:        100m
+      memory:     70Mi
+    Liveness:     http-get https://:https/livez delay=60s timeout=1s period=10s #success=1 #failure=3
+    Readiness:    http-get https://:https/readyz delay=0s timeout=1s period=2s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /tmp from tmp-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-lkmkb (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  tmp-dir:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-lkmkb:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              kubernetes.io/os=linux
+Tolerations:                 CriticalAddonsOnly op=Exists
+                             node-role.kubernetes.io/control-plane:NoSchedule op=Exists
+                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                  Age                    From     Message
+  ----     ------                  ----                   ----     -------
+  Warning  FailedCreatePodSandBox  18m                    kubelet  Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "442bfb520a55331fcfd9710da0896a9fe007840c7ce92a72fc7253b070d83e24": plugin type="flannel" failed (add): failed to load flannel 'subnet.env' file: open /run/flannel/subnet.env: no such file or directory. Check the flannel pod log for this node.
+  Normal   SandboxChanged          18m (x2 over 18m)      kubelet  Pod sandbox changed, it will be killed and re-created.
+  Normal   Pulled                  18m                    kubelet  Container image "rancher/mirrored-metrics-server:v0.8.1" already present on machine
+  Normal   Created                 18m                    kubelet  Created container: metrics-server
+  Normal   Started                 18m                    kubelet  Started container metrics-server
+  Warning  Unhealthy               18m                    kubelet  Readiness probe failed: Get "https://10.42.0.52:10250/readyz": dial tcp 10.42.0.52:10250: connect: connection refused
+  Warning  Unhealthy               17m (x9 over 17m)      kubelet  Readiness probe failed: HTTP probe failed with statuscode: 500
+  Normal   SandboxChanged          9m39s                  kubelet  Pod sandbox changed, it will be killed and re-created.
+  Normal   Pulled                  9m38s                  kubelet  Container image "rancher/mirrored-metrics-server:v0.8.1" already present on machine
+  Normal   Created                 9m38s                  kubelet  Created container: metrics-server
+  Normal   Started                 9m38s                  kubelet  Started container metrics-server
+  Warning  Unhealthy               9m22s (x9 over 9m36s)  kubelet  Readiness probe failed: HTTP probe failed with statuscode: 500

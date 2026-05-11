@@ -1,0 +1,9 @@
+14.389331 0
+curl: (7) Failed to connect to 10.42.0.56 port 80 after 14390 ms: Couldn't connect to server
+command terminated with exit code 7
+3.102820 0
+curl: (7) Failed to connect to 10.42.0.56 port 80 after 3102 ms: Couldn't connect to server
+command terminated with exit code 7
+3.097674 0
+curl: (7) Failed to connect to 10.42.0.56 port 80 after 3097 ms: Couldn't connect to server
+command terminated with exit code 7

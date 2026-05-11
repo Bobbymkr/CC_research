@@ -1,0 +1,9 @@
+4.704977 0
+curl: (6) Could not resolve host: raasa-bench-server.raasa-bench.svc.cluster.local
+command terminated with exit code 6
+5.104270 0
+curl: (6) Could not resolve host: raasa-bench-server.raasa-bench.svc.cluster.local
+command terminated with exit code 6
+4.913164 0
+curl: (6) Could not resolve host: raasa-bench-server.raasa-bench.svc.cluster.local
+command terminated with exit code 6

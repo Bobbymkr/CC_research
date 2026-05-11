@@ -1,0 +1,201 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    deprecated.daemonset.template.generation: "24"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"app":"raasa-agent","app.kubernetes.io/version":"1.0"},"name":"raasa-agent","namespace":"raasa-system"},"spec":{"selector":{"matchLabels":{"app":"raasa-agent"}},"template":{"metadata":{"annotations":{"prometheus.io/port":"9090","prometheus.io/scrape":"true"},"labels":{"app":"raasa-agent"}},"spec":{"containers":[{"args":["--mode","raasa","--backend","k8s","--config","/etc/raasa/config.yaml","--iterations","0","--metrics-port","9090"],"env":[{"name":"NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"POD_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"PYTHONPATH","value":"/app"},{"name":"PYTHONUNBUFFERED","value":"1"}],"image":"raasa/agent:1.0.0","imagePullPolicy":"IfNotPresent","name":"raasa-agent","ports":[{"containerPort":9090,"name":"metrics","protocol":"TCP"}],"resources":{"limits":{"cpu":"200m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"128Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000},"volumeMounts":[{"mountPath":"/host/proc","name":"proc","readOnly":true},{"mountPath":"/host/sys","name":"sys","readOnly":true},{"mountPath":"/var/run/raasa","name":"raasa-probe-dir"},{"mountPath":"/app/raasa/logs","name":"audit-logs"},{"mountPath":"/etc/raasa","name":"config"}]},{"command":["python","-m","raasa.k8s.enforcer_sidecar"],"image":"raasa/agent:1.0.0","imagePullPolicy":"IfNotPresent","name":"raasa-enforcer","resources":{"limits":{"cpu":"100m","memory":"64Mi"},"requests":{"cpu":"10m","memory":"32Mi"}},"securityContext":{"privileged":true,"runAsNonRoot":false,"runAsUser":0},"volumeMounts":[{"mountPath":"/var/run/raasa","name":"raasa-probe-dir"},{"mountPath":"/sys","name":"sys"}]},{"image":"raasa/ebpf-probe:1.0.0","imagePullPolicy":"IfNotPresent","name":"syscall-probe","resources":{"limits":{"cpu":"100m","memory":"64Mi"},"requests":{"cpu":"20m","memory":"32Mi"}},"securityContext":{"capabilities":{"add":["SYS_ADMIN","SYS_PTRACE"]},"privileged":true},"volumeMounts":[{"mountPath":"/proc","name":"proc","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/sys/kernel/debug","name":"debugfs","readOnly":true},{"mountPath":"/var/run/raasa","name":"raasa-probe-dir"}]}],"dnsPolicy":"ClusterFirst","hostNetwork":true,"hostPID":true,"restartPolicy":"Always","serviceAccountName":"raasa-agent","terminationGracePeriodSeconds":30,"tolerations":[{"effect":"NoSchedule","key":"node-role.kubernetes.io/control-plane"},{"effect":"NoSchedule","key":"node-role.kubernetes.io/master"},{"key":"CriticalAddonsOnly","operator":"Exists"}],"volumes":[{"hostPath":{"path":"/proc"},"name":"proc"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/var/run/raasa","type":"DirectoryOrCreate"},"name":"raasa-probe-dir"},{"emptyDir":{},"name":"audit-logs"},{"configMap":{"name":"raasa-config"},"name":"config"},{"hostPath":{"path":"/sys/kernel/debug"},"name":"debugfs"}]}},"updateStrategy":{"rollingUpdate":{"maxUnavailable":1},"type":"RollingUpdate"}}}
+  creationTimestamp: "2026-04-26T03:23:26Z"
+  generation: 24
+  labels:
+    app: raasa-agent
+    app.kubernetes.io/version: "1.0"
+  name: raasa-agent
+  namespace: raasa-system
+  resourceVersion: "319819"
+  uid: d0418309-c2ed-4a89-9595-d8670731e358
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: raasa-agent
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/restartedAt: "2026-04-26T10:53:20Z"
+        prometheus.io/port: "9090"
+        prometheus.io/scrape: "true"
+      labels:
+        app: raasa-agent
+    spec:
+      containers:
+      - args:
+        - --mode
+        - raasa
+        - --backend
+        - k8s
+        - --config
+        - /etc/raasa/config.yaml
+        - --iterations
+        - "0"
+        - --metrics-port
+        - "9090"
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: PYTHONPATH
+          value: /app
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        image: raasa/agent:phase1e
+        imagePullPolicy: IfNotPresent
+        name: raasa-agent
+        ports:
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 200m
+            memory: 512Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /host/proc
+          name: proc
+          readOnly: true
+        - mountPath: /host/sys
+          name: sys
+          readOnly: true
+        - mountPath: /var/run/raasa
+          name: raasa-probe-dir
+        - mountPath: /app/raasa/logs
+          name: audit-logs
+        - mountPath: /etc/raasa
+          name: config
+      - command:
+        - python
+        - -m
+        - raasa.k8s.enforcer_sidecar
+        image: raasa/agent:phase1e
+        imagePullPolicy: IfNotPresent
+        name: raasa-enforcer
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 10m
+            memory: 32Mi
+        securityContext:
+          privileged: true
+          runAsNonRoot: false
+          runAsUser: 0
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/run/raasa
+          name: raasa-probe-dir
+        - mountPath: /sys
+          name: sys
+      - image: raasa/ebpf-probe:1.0.0
+        imagePullPolicy: IfNotPresent
+        name: syscall-probe
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 20m
+            memory: 32Mi
+        securityContext:
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - SYS_PTRACE
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /proc
+          name: proc
+          readOnly: true
+        - mountPath: /sys
+          name: sys
+          readOnly: true
+        - mountPath: /sys/kernel/debug
+          name: debugfs
+          readOnly: true
+        - mountPath: /var/run/raasa
+          name: raasa-probe-dir
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      hostPID: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: raasa-agent
+      serviceAccountName: raasa-agent
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+      - key: CriticalAddonsOnly
+        operator: Exists
+      volumes:
+      - hostPath:
+          path: /proc
+          type: ""
+        name: proc
+      - hostPath:
+          path: /sys
+          type: ""
+        name: sys
+      - hostPath:
+          path: /var/run/raasa
+          type: DirectoryOrCreate
+        name: raasa-probe-dir
+      - emptyDir: {}
+        name: audit-logs
+      - configMap:
+          defaultMode: 420
+          name: raasa-config
+        name: config
+      - hostPath:
+          path: /sys/kernel/debug
+          type: ""
+        name: debugfs
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+status:
+  currentNumberScheduled: 1
+  desiredNumberScheduled: 1
+  numberAvailable: 1
+  numberMisscheduled: 0
+  numberReady: 1
+  observedGeneration: 24
+  updatedNumberScheduled: 1

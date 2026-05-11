@@ -1,0 +1,206 @@
+[RAASA] Backend: 'k8s'
+[RAASA] Starting controller in 'raasa' mode (daemon — runs indefinitely).
+[RAASA] Tracking 0 container(s).
+[RAASA] Iteration 1
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-compute to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-steady to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-malicious-cpu to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-server-7c49558994-2nmcp to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to sidecar. Will retry next tick.
+[RAASA] Iteration 2
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-compute to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-steady to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-malicious-cpu to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-server-7c49558994-2nmcp to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to sidecar. Will retry next tick.
+[RAASA] Iteration 3
+[RAASA] Iteration 4
+[RAASA] Iteration 5
+[RAASA] Iteration 6
+[RAASA] Iteration 7
+[RAASA] Iteration 8
+[RAASA] Iteration 9
+[RAASA] Iteration 10
+[ObserverK8s] Direct pod metrics lookup failed for default/raasa-test-benign-compute: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'e172814a-23a3-4f30-856f-018d68006abe, e172814a-23a3-4f30-856f-018d68006abe', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '286', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 06:37:28 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-compute\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-compute","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'e172814a-23a3-4f30-856f-018d68006abe, e172814a-23a3-4f30-856f-018d68006abe', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '286', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 06:37:28 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-compute\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-compute","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 11
+[ObserverK8s] Direct pod metrics lookup failed for default/raasa-test-benign-compute: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '7b30af4f-7f48-4f93-849a-111715087a83, 7b30af4f-7f48-4f93-849a-111715087a83', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '286', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 06:37:34 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-compute\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-compute","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '7b30af4f-7f48-4f93-849a-111715087a83, 7b30af4f-7f48-4f93-849a-111715087a83', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '286', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 06:37:34 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-compute\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-compute","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 12
+[ObserverK8s] Direct pod metrics lookup failed for default/raasa-test-benign-compute: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '7a1a150d-d147-4feb-90dd-5324dcad9e1c, 7a1a150d-d147-4feb-90dd-5324dcad9e1c', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '286', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 06:37:40 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-compute\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-compute","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for default/raasa-test-benign-compute: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '7a1a150d-d147-4feb-90dd-5324dcad9e1c, 7a1a150d-d147-4feb-90dd-5324dcad9e1c', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '286', 'Content-Type': 'application/json', 'Date': 'Sat, 09 May 2026 06:37:40 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"default/raasa-test-benign-compute\" not found","reason":"NotFound","details":{"name":"default/raasa-test-benign-compute","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 13
+[RAASA] Iteration 14
+[RAASA] Iteration 15
+[RAASA] Iteration 16
+[RAASA] Iteration 17
+[RAASA] Iteration 18
+[RAASA] Iteration 19
+[RAASA] Iteration 20
+[RAASA] Iteration 21
+[RAASA] Iteration 22
+[RAASA] Iteration 23
+[RAASA] Iteration 24
+[RAASA] Iteration 25
+[RAASA] Iteration 26
+[RAASA] Iteration 27
+2026-05-09 06:36:38,938 [INFO] raasa-enforcer: Starting Privileged Enforcer Sidecar
+2026-05-09 06:36:38,939 [INFO] raasa.core.ipc: [IPC Server] Listening on /var/run/raasa/enforcer.sock
+2026-05-09 06:36:44,637 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface veth69cd6947 via PID 2994.
+2026-05-09 06:36:44,640 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (veth69cd6947) -> L1 reset (no root qdisc)
+2026-05-09 06:36:44,934 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-steady to host interface veth1b118cad via PID 5289.
+2026-05-09 06:36:44,937 [INFO] raasa-enforcer: tc: raasa-test-benign-steady (veth1b118cad) -> L1 reset (no root qdisc)
+2026-05-09 06:36:45,141 [INFO] raasa-enforcer: Resolved pod default/raasa-test-malicious-cpu to host interface veth24882c3f via PID 4912.
+2026-05-09 06:36:45,241 [INFO] raasa-enforcer: tc: raasa-test-malicious-cpu (veth24882c3f) -> L3 netem loss 100%
+2026-05-09 06:36:45,634 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to host interface vethba1b479e via PID 4917.
+2026-05-09 06:36:45,638 [INFO] raasa-enforcer: tc: raasa-bench-client-5fd64dcfbf-hvl28 (vethba1b479e) -> L1 reset (no root qdisc)
+2026-05-09 06:36:46,031 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-server-7c49558994-2nmcp to host interface veth20b64710 via PID 2987.
+2026-05-09 06:36:46,034 [INFO] raasa-enforcer: tc: raasa-bench-server-7c49558994-2nmcp (veth20b64710) -> L1 reset (no root qdisc)
+2026-05-09 06:36:46,234 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to host interface veth42ea27e6 via PID 5535.
+2026-05-09 06:36:46,236 [INFO] raasa-enforcer: tc: raasa-net-client-669f7c4cf8-2d9w8 (veth42ea27e6) -> L1 reset (no root qdisc)
+2026-05-09 06:36:46,438 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to host interface vethfc2950d0 via PID 5541.
+2026-05-09 06:36:46,440 [INFO] raasa-enforcer: tc: raasa-net-server-79c9b5b7d6-5jfk2 (vethfc2950d0) -> L1 reset (no root qdisc)
+2026-05-09 06:37:40,440 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface veth69cd6947 via PID 2994.
+2026-05-09 06:37:40,532 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (veth69cd6947) -> L2 at 20mbit
+2026-05-09 06:38:11,539 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface veth69cd6947 via PID 2994.
+2026-05-09 06:38:11,612 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (veth69cd6947) -> L1 reset (no root qdisc)
+2026-05-09 06:38:47,833 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface veth69cd6947 via PID 2994.
+2026-05-09 06:38:47,876 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (veth69cd6947) -> L3 netem loss 100%
+[probe] Starting RAASA syscall rate probe (interval: 5s)
+[probe] Mode: cgroup-based /proc estimation
+[probe] Initial discovery complete. Entering main loop.
+[probe] pod=2cd3da09-ad6... rate=64.60/s (delta=323 switches)
+[probe] pod=554fa063-daa... rate=12644.40/s (delta=63222 switches)
+[probe] pod=82fb38fe-26e... rate=385.60/s (delta=1928 switches)
+[probe] pod=b1a8ec35-39c... rate=741.20/s (delta=3706 switches)
+[probe] pod=d22b920c-349... rate=11067.00/s (delta=55335 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=837.00/s (delta=4185 switches)
+[probe] pod=2cd3da09-ad6... rate=40.60/s (delta=203 switches)
+[probe] pod=554fa063-daa... rate=6181.80/s (delta=30909 switches)
+[probe] pod=82fb38fe-26e... rate=187.20/s (delta=936 switches)
+[probe] pod=b1a8ec35-39c... rate=224.80/s (delta=1124 switches)
+[probe] pod=d22b920c-349... rate=8699.60/s (delta=43498 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=203.60/s (delta=1018 switches)
+[probe] pod=2cd3da09-ad6... rate=54.00/s (delta=270 switches)
+[probe] pod=554fa063-daa... rate=5547.40/s (delta=27737 switches)
+[probe] pod=82fb38fe-26e... rate=180.40/s (delta=902 switches)
+[probe] pod=b1a8ec35-39c... rate=92.20/s (delta=461 switches)
+[probe] pod=d22b920c-349... rate=6102.20/s (delta=30511 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=380.80/s (delta=1904 switches)
+[probe] pod=2cd3da09-ad6... rate=38.20/s (delta=191 switches)
+[probe] pod=554fa063-daa... rate=6091.00/s (delta=30455 switches)
+[probe] pod=82fb38fe-26e... rate=225.80/s (delta=1129 switches)
+[probe] pod=b1a8ec35-39c... rate=219.00/s (delta=1095 switches)
+[probe] pod=d22b920c-349... rate=5393.20/s (delta=26966 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=290.00/s (delta=1450 switches)
+[probe] pod=2cd3da09-ad6... rate=32.20/s (delta=161 switches)
+[probe] pod=554fa063-daa... rate=6860.80/s (delta=34304 switches)
+[probe] pod=82fb38fe-26e... rate=128.00/s (delta=640 switches)
+[probe] pod=b1a8ec35-39c... rate=273.80/s (delta=1369 switches)
+[probe] pod=d22b920c-349... rate=5473.80/s (delta=27369 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=348.60/s (delta=1743 switches)
+[probe] pod=2cd3da09-ad6... rate=22.80/s (delta=114 switches)
+[probe] pod=554fa063-daa... rate=5603.80/s (delta=28019 switches)
+[probe] pod=82fb38fe-26e... rate=133.40/s (delta=667 switches)
+[probe] pod=d22b920c-349... rate=2978.60/s (delta=14893 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=257.20/s (delta=1286 switches)
+[probe] pod=2cd3da09-ad6... rate=15.00/s (delta=75 switches)
+[probe] pod=554fa063-daa... rate=5888.20/s (delta=29441 switches)
+[probe] pod=82fb38fe-26e... rate=162.60/s (delta=813 switches)
+[probe] pod=b1a8ec35-39c... rate=1008.00/s (delta=5040 switches)
+[probe] pod=d22b920c-349... rate=5771.40/s (delta=28857 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=511.40/s (delta=2557 switches)
+[probe] pod=2cd3da09-ad6... rate=53.00/s (delta=265 switches)
+[probe] pod=554fa063-daa... rate=6394.00/s (delta=31970 switches)
+[probe] pod=82fb38fe-26e... rate=158.00/s (delta=790 switches)
+[probe] pod=b1a8ec35-39c... rate=773.00/s (delta=3865 switches)
+[probe] pod=d22b920c-349... rate=5725.20/s (delta=28626 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=362.80/s (delta=1814 switches)
+[probe] pod=2cd3da09-ad6... rate=11.20/s (delta=56 switches)
+[probe] pod=554fa063-daa... rate=6105.80/s (delta=30529 switches)
+[probe] pod=82fb38fe-26e... rate=184.00/s (delta=920 switches)
+[probe] pod=d22b920c-349... rate=5125.60/s (delta=25628 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=308.60/s (delta=1543 switches)
+[probe] pod=2cd3da09-ad6... rate=29.40/s (delta=147 switches)
+[probe] pod=554fa063-daa... rate=5790.80/s (delta=28954 switches)
+[probe] pod=82fb38fe-26e... rate=95.00/s (delta=475 switches)
+[probe] pod=d22b920c-349... rate=4989.60/s (delta=24948 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=311.40/s (delta=1557 switches)
+[probe] pod=2cd3da09-ad6... rate=19.00/s (delta=95 switches)
+[probe] pod=554fa063-daa... rate=5985.80/s (delta=29929 switches)
+[probe] pod=82fb38fe-26e... rate=160.40/s (delta=802 switches)
+[probe] pod=b1a8ec35-39c... rate=623.80/s (delta=3119 switches)
+[probe] pod=d22b920c-349... rate=3645.60/s (delta=18228 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=348.20/s (delta=1741 switches)
+[probe] pod=2cd3da09-ad6... rate=30.80/s (delta=154 switches)
+[probe] pod=554fa063-daa... rate=5902.60/s (delta=29513 switches)
+[probe] pod=82fb38fe-26e... rate=136.00/s (delta=680 switches)
+[probe] pod=b1a8ec35-39c... rate=2423.80/s (delta=12119 switches)
+[probe] pod=d22b920c-349... rate=3968.80/s (delta=19844 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=260.00/s (delta=1300 switches)
+[probe] pod=2cd3da09-ad6... rate=36.80/s (delta=184 switches)
+[probe] pod=554fa063-daa... rate=6008.80/s (delta=30044 switches)
+[probe] pod=82fb38fe-26e... rate=199.00/s (delta=995 switches)
+[probe] pod=d22b920c-349... rate=5657.80/s (delta=28289 switches)
+[probe] cgroup map: 14 pod(s) discovered
+[probe] pod=25fc899d-634... rate=267.60/s (delta=1338 switches)

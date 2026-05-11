@@ -1,0 +1,170 @@
+[probe] Starting RAASA syscall rate probe (interval: 5s)
+[probe] Mode: cgroup-based /proc estimation
+[probe] Initial discovery complete. Entering main loop.
+[probe] pod=246e2f42-c65... rate=603.60/s (delta=3018 switches)
+[probe] pod=2a76cfd1-fe9... rate=1.80/s (delta=9 switches)
+[probe] pod=2cd3da09-ad6... rate=94.20/s (delta=471 switches)
+[probe] pod=374d89c5-a3b... rate=19582.20/s (delta=97911 switches)
+[probe] pod=d22b920c-349... rate=16601.80/s (delta=83009 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.20/s (delta=6 switches)
+[probe] pod=2cd3da09-ad6... rate=33.20/s (delta=166 switches)
+[probe] pod=374d89c5-a3b... rate=6807.60/s (delta=34038 switches)
+[probe] pod=9053a658-a85... rate=575.80/s (delta=2879 switches)
+[probe] pod=d22b920c-349... rate=9279.40/s (delta=46397 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=0.80/s (delta=4 switches)
+[probe] pod=2cd3da09-ad6... rate=51.60/s (delta=258 switches)
+[probe] pod=374d89c5-a3b... rate=6625.80/s (delta=33129 switches)
+[probe] pod=9053a658-a85... rate=409.80/s (delta=2049 switches)
+[probe] pod=d22b920c-349... rate=9688.60/s (delta=48443 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=217.40/s (delta=1087 switches)
+[probe] pod=2a76cfd1-fe9... rate=1.60/s (delta=8 switches)
+[probe] pod=2cd3da09-ad6... rate=21.80/s (delta=109 switches)
+[probe] pod=374d89c5-a3b... rate=6708.80/s (delta=33544 switches)
+[probe] pod=9053a658-a85... rate=546.20/s (delta=2731 switches)
+[probe] pod=d22b920c-349... rate=4111.80/s (delta=20559 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=1489.60/s (delta=7448 switches)
+[probe] pod=2a76cfd1-fe9... rate=1.00/s (delta=5 switches)
+[probe] pod=2cd3da09-ad6... rate=11.80/s (delta=59 switches)
+[probe] pod=374d89c5-a3b... rate=5535.60/s (delta=27678 switches)
+[probe] pod=9053a658-a85... rate=297.00/s (delta=1485 switches)
+[probe] pod=d22b920c-349... rate=2410.20/s (delta=12051 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=1576.40/s (delta=7882 switches)
+[probe] pod=2a76cfd1-fe9... rate=1.40/s (delta=7 switches)
+[probe] pod=2cd3da09-ad6... rate=14.40/s (delta=72 switches)
+[probe] pod=374d89c5-a3b... rate=5004.40/s (delta=25022 switches)
+[probe] pod=9053a658-a85... rate=385.20/s (delta=1926 switches)
+[probe] pod=d22b920c-349... rate=1854.40/s (delta=9272 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=5.20/s (delta=26 switches)
+[probe] pod=2cd3da09-ad6... rate=36.40/s (delta=182 switches)
+[probe] pod=374d89c5-a3b... rate=6251.60/s (delta=31258 switches)
+[probe] pod=9053a658-a85... rate=681.80/s (delta=3409 switches)
+[probe] pod=d22b920c-349... rate=6150.00/s (delta=30750 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=0.40/s (delta=2 switches)
+[probe] pod=2cd3da09-ad6... rate=33.20/s (delta=166 switches)
+[probe] pod=374d89c5-a3b... rate=6350.40/s (delta=31752 switches)
+[probe] pod=9053a658-a85... rate=413.40/s (delta=2067 switches)
+[probe] pod=d22b920c-349... rate=7574.60/s (delta=37873 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2a76cfd1-fe9... rate=1.40/s (delta=7 switches)
+[probe] pod=2cd3da09-ad6... rate=42.00/s (delta=210 switches)
+[probe] pod=374d89c5-a3b... rate=6436.60/s (delta=32183 switches)
+[probe] pod=9053a658-a85... rate=453.40/s (delta=2267 switches)
+[probe] pod=d22b920c-349... rate=9476.60/s (delta=47383 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2cd3da09-ad6... rate=55.20/s (delta=276 switches)
+[probe] pod=374d89c5-a3b... rate=6942.80/s (delta=34714 switches)
+[probe] pod=9053a658-a85... rate=561.40/s (delta=2807 switches)
+[probe] pod=d22b920c-349... rate=6445.80/s (delta=32229 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=29.00/s (delta=145 switches)
+[probe] pod=2cd3da09-ad6... rate=37.00/s (delta=185 switches)
+[probe] pod=374d89c5-a3b... rate=6437.80/s (delta=32189 switches)
+[probe] pod=9053a658-a85... rate=498.80/s (delta=2494 switches)
+[probe] pod=d22b920c-349... rate=7308.80/s (delta=36544 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=0bfb38fb-7ad... rate=1858.80/s (delta=9294 switches)
+[probe] pod=2cd3da09-ad6... rate=34.60/s (delta=173 switches)
+[probe] pod=374d89c5-a3b... rate=6150.60/s (delta=30753 switches)
+[probe] pod=9053a658-a85... rate=430.00/s (delta=2150 switches)
+[probe] pod=d22b920c-349... rate=9062.00/s (delta=45310 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2cd3da09-ad6... rate=33.80/s (delta=169 switches)
+[probe] pod=374d89c5-a3b... rate=6420.80/s (delta=32104 switches)
+[probe] pod=9053a658-a85... rate=315.40/s (delta=1577 switches)
+[probe] pod=d22b920c-349... rate=6665.60/s (delta=33328 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[probe] pod=2cd3da09-ad6... rate=35.40/s (delta=177 switches)
+[probe] pod=374d89c5-a3b... rate=6814.40/s (delta=34072 switches)
+[probe] pod=9053a658-a85... rate=346.20/s (delta=1731 switches)
+[probe] pod=d22b920c-349... rate=6276.80/s (delta=31384 switches)
+[probe] cgroup map: 20 pod(s) discovered
+[RAASA] Backend: 'k8s'
+[RAASA] Starting controller in 'raasa' mode (daemon — runs indefinitely).
+[RAASA] Tracking 0 container(s).
+[RAASA] Iteration 1
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-compute to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-steady to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-malicious-cpu to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-server-7c49558994-2nmcp to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to sidecar. Will retry next tick.
+[RAASA] Iteration 2
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-compute to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-benign-steady to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of default/raasa-test-malicious-cpu to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-bench/raasa-bench-server-7c49558994-2nmcp to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to sidecar. Will retry next tick.
+[RAASA] Iteration 3
+[RAASA] Iteration 4
+[RAASA] Iteration 5
+[RAASA] Iteration 6
+[RAASA] Iteration 7
+[RAASA] Iteration 8
+[RAASA] Iteration 9
+[RAASA] Iteration 10
+[RAASA] Iteration 11
+[RAASA] Iteration 12
+[RAASA] Iteration 13
+[RAASA] Iteration 14
+[RAASA] Iteration 15
+[RAASA] Iteration 16
+[RAASA] Iteration 17
+[RAASA] Iteration 18
+[RAASA] Iteration 19
+[RAASA] Iteration 20
+[RAASA] Iteration 21
+[RAASA] Iteration 22
+[RAASA] Iteration 23
+[RAASA] Iteration 24
+[RAASA] Iteration 25
+[RAASA] Iteration 26
+[RAASA] Iteration 27
+[RAASA] Iteration 28
+2026-05-09 08:06:46,253 [INFO] raasa-enforcer: Starting Privileged Enforcer Sidecar
+2026-05-09 08:06:46,254 [INFO] raasa.core.ipc: [IPC Server] Listening on /var/run/raasa/enforcer.sock
+2026-05-09 08:06:51,350 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 08:06:51,353 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 08:06:51,655 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-steady to host interface vethf0bc2e77 via PID 1409629.
+2026-05-09 08:06:51,658 [INFO] raasa-enforcer: tc: raasa-test-benign-steady (vethf0bc2e77) -> L1 reset (no root qdisc)
+2026-05-09 08:06:52,090 [INFO] raasa-enforcer: Resolved pod default/raasa-test-malicious-cpu to host interface vethb1684119 via PID 1409702.
+2026-05-09 08:06:52,253 [INFO] raasa-enforcer: tc: raasa-test-malicious-cpu (vethb1684119) -> L3 netem loss 100%
+2026-05-09 08:06:52,453 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28 to host interface vethba1b479e via PID 4917.
+2026-05-09 08:06:52,459 [INFO] raasa-enforcer: tc: raasa-bench-client-5fd64dcfbf-hvl28 (vethba1b479e) -> L1 reset (no root qdisc)
+2026-05-09 08:06:52,664 [INFO] raasa-enforcer: Resolved pod raasa-bench/raasa-bench-server-7c49558994-2nmcp to host interface veth20b64710 via PID 2987.
+2026-05-09 08:06:52,751 [INFO] raasa-enforcer: tc: raasa-bench-server-7c49558994-2nmcp (veth20b64710) -> L1 reset (no root qdisc)
+2026-05-09 08:06:53,151 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-client-669f7c4cf8-2d9w8 to host interface veth42ea27e6 via PID 5535.
+2026-05-09 08:06:53,154 [INFO] raasa-enforcer: tc: raasa-net-client-669f7c4cf8-2d9w8 (veth42ea27e6) -> L1 reset (no root qdisc)
+2026-05-09 08:06:53,549 [INFO] raasa-enforcer: Resolved pod raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2 to host interface vethfc2950d0 via PID 5541.
+2026-05-09 08:06:53,552 [INFO] raasa-enforcer: tc: raasa-net-server-79c9b5b7d6-5jfk2 (vethfc2950d0) -> L1 reset (no root qdisc)
+2026-05-09 08:07:36,394 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 08:07:36,452 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L3 netem loss 100%
+2026-05-09 08:08:13,372 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 08:08:13,452 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
+2026-05-09 08:08:42,757 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 08:08:42,761 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L1 reset (no root qdisc)
+2026-05-09 08:09:00,575 [INFO] raasa-enforcer: Resolved pod default/raasa-test-benign-compute to host interface vetha999f95d via PID 1409688.
+2026-05-09 08:09:00,649 [INFO] raasa-enforcer: tc: raasa-test-benign-compute (vetha999f95d) -> L2 at 20mbit
