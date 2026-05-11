@@ -9,6 +9,10 @@
 
 RAASA is a research system. It watches containers, scores risk, chooses a sandbox tier, applies CPU limits, and writes audit logs. It is built for honest prototype research, not for full production use.
 
+For the consolidated list of test environments, local/AWS resources, captured pod
+inventories, and currently missing infrastructure details, see
+[docs/testing_environment_inventory.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/testing_environment_inventory.md).
+
 ## 2. Main Problem
 
 Modern cloud workloads and AI agent workloads often run in containers. A static sandbox is a problem:

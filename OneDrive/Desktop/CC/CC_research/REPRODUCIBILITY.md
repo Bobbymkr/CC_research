@@ -7,6 +7,10 @@
 This document provides exact, step-by-step commands to reproduce all claims and figures
 in the RAASA research paper.
 
+For the consolidated record of local and AWS test resources, captured host details,
+workload scales, and known documentation gaps, see
+[docs/testing_environment_inventory.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/testing_environment_inventory.md).
+
 ---
 
 ## Environment Requirements
@@ -168,7 +172,12 @@ in `AWS_Results_26_april/`.
 python -m pytest tests/ -v --tb=short
 ```
 
-**Expected**: 41 passing, 3 failing (Windows file-permission edge cases unrelated to core logic).
+**Current workspace expectation**: the local suite currently passes cleanly with
+`62 passed`.
+
+Treat live `pytest` output as the source of truth if this changes again, and update
+[docs/testing_environment_inventory.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/testing_environment_inventory.md)
+alongside this file.
 
 ---
 

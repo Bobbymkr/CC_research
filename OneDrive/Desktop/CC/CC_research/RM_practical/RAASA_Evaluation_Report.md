@@ -2,6 +2,10 @@
 > **Evaluation Profile**: `small_tuned` scenario
 > **Duration**: 60 seconds per benchmark
 > **Modes Profiled**: Static L1 (Baseline/Unrestricted), Static L3 (Strict Security), RAASA (Adaptive Autonomous Containment)
+>
+> This is a high-level evaluation summary, not the canonical test-environment
+> inventory. For the consolidated local/AWS resource picture and known evidence
+> gaps, see [docs/testing_environment_inventory.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/testing_environment_inventory.md).
 
 ---
 
@@ -49,7 +53,10 @@ To prove the architecture scales beyond local Docker, the system was transitione
 - **False Positive Rate**: **0.0**
 - **Malicious Containment Rate**: **1.0** (Perfect Containment)
 - **Enforcement Mechanism**: L3 network egress successfully throttled to `1mbit/s` via Token Bucket Filters (`tc tbf`), crippling data exfiltration while preserving forensic telemetry.
-- **Verdict**: **Production Ready.** The RAASA adaptive paradigm is completely agnostic to the underlying enforcement mechanism. The transition from local Docker wrappers to root-level kernel abstractions (eBPF + Cgroups) yielded the exact same flawless security utility.
+- **Verdict**: **Strong prototype evidence on the captured AWS single-node testbed.**
+  The adaptive paradigm carried over to K3s/Tetragon-based execution, but the
+  environment inventory and phase logs should still be consulted before making
+  broader production-readiness claims.
 
 ---
 

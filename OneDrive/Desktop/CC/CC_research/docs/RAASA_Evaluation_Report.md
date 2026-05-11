@@ -2,6 +2,10 @@
 > **Evaluation Profile**: `small_tuned` scenario
 > **Duration**: 60 seconds per benchmark
 > **Modes Profiled**: Static L1 (Baseline/Unrestricted), Static L3 (Strict Security), RAASA (Adaptive Autonomous Containment)
+>
+> This is a high-level evaluation summary, not the canonical test-environment
+> inventory. For the consolidated local/AWS resource picture and known evidence
+> gaps, see [docs/testing_environment_inventory.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/testing_environment_inventory.md).
 
 ---
 
@@ -49,7 +53,16 @@ To prove the architecture scales beyond local Docker, the system was transitione
 - **False Positive Rate**: **0.0**
 - **Malicious Containment Rate**: **1.0** (Perfect Containment)
 - **Enforcement Mechanism**: L3 network egress successfully throttled to `1mbit/s` via Token Bucket Filters (`tc tbf`), crippling data exfiltration while preserving forensic telemetry.
-- **Verdict**: **Production Ready.** The RAASA adaptive paradigm is completely agnostic to the underlying enforcement mechanism. The transition from local Docker wrappers to root-level kernel abstractions (eBPF + Cgroups) yielded the exact same flawless security utility.
+- **Verdict**: **Strong prototype evidence on the captured AWS single-node testbed.**
+  The adaptive paradigm carried over to K3s/Tetragon-based execution, but the
+  environment inventory and phase logs should still be consulted before making
+  broader production-readiness claims.
+
+Latest live stability note:
+
+- after follow-on controller and harness tuning on `2026-05-09`, the current single-node AWS testbed also cleared a `10 / 10` repeated closed-loop soak with per-cycle audit capture
+- evidence: [AWS_Results_26_april/closed_loop_soak_2026_05_09_163219/summary.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/closed_loop_soak_2026_05_09_163219/summary.md)
+- diagnostic harness: [raasa/scripts/run_closed_loop_soak_aws.ps1](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/raasa/scripts/run_closed_loop_soak_aws.ps1)
 
 ---
 
