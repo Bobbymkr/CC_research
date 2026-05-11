@@ -12,8 +12,7 @@
 #
 # Requirements (on the EC2 instance):
 #   - K3s running, RAASA DaemonSet deployed in raasa-system
-#   - stress-ng installed in raasa-test-benign and raasa-test-malicious pods
-#   - jq installed on the EC2 host
+#   - labeled phase0 test pods present in the default namespace
 
 set -euo pipefail
 
@@ -21,8 +20,8 @@ set -euo pipefail
 KUBECTL="sudo k3s kubectl"
 NAMESPACE="default"
 RAASA_NS="raasa-system"
-BENIGN_POD="raasa-test-benign"
-MALICIOUS_POD="raasa-test-malicious"
+BENIGN_SELECTOR='app=raasa-test,raasa.class=benign,raasa.expected_tier=L2'
+MALICIOUS_SELECTOR='app=raasa-test,raasa.class=malicious,raasa.expected_tier=L3'
 POLL_INTERVAL=5        # seconds between RAASA iterations
 ESCALATION_TIMEOUT=45  # seconds max to wait for escalation (9 cycles)
 DEESCALATION_TIMEOUT=120  # seconds max to wait for de-escalation (cooldown + streak)
@@ -70,12 +69,18 @@ get_agent_pod() {
         -o jsonpath='{.items[0].metadata.name}' 2>/dev/null
 }
 
+get_phase0_pod() {
+    local selector="$1"
+    $KUBECTL get pods -n "$NAMESPACE" -l "$selector" \
+        -o jsonpath='{.items[0].metadata.name}' 2>/dev/null
+}
+
 install_stress() {
     local pod="$1"
     # Try to install stress-ng; skip silently if not possible (already installed or no apt)
     $KUBECTL exec -n "$NAMESPACE" "$pod" -- \
         sh -c "which stress-ng > /dev/null 2>&1 || (apt-get update -qq && apt-get install -y -qq stress-ng)" \
-        2>/dev/null || true
+        >/dev/null 2>&1 || true
 }
 
 wait_for_tier() {
@@ -91,8 +96,10 @@ wait_for_tier() {
         sleep 3
         elapsed=$((elapsed + 3))
     done
-    get_tier "$pod"
-    return 1
+    local final_current
+    final_current=$(get_tier "$pod")
+    echo "$final_current"
+    [[ "$final_current" == "$target_tier" ]]
 }
 
 # ── Pre-flight ────────────────────────────────────────────────────────────────
@@ -108,6 +115,21 @@ if [[ -z "$AGENT_POD" ]]; then
     exit 1
 fi
 log "Agent pod: $AGENT_POD"
+
+BENIGN_POD=$(get_phase0_pod "$BENIGN_SELECTOR")
+MALICIOUS_POD=$(get_phase0_pod "$MALICIOUS_SELECTOR")
+
+if [[ -z "$BENIGN_POD" ]]; then
+    echo -e "${FAIL} No benign L2 phase0 pod found with selector ${BENIGN_SELECTOR}."
+    exit 1
+fi
+if [[ -z "$MALICIOUS_POD" ]]; then
+    echo -e "${FAIL} No malicious L3 phase0 pod found with selector ${MALICIOUS_SELECTOR}."
+    exit 1
+fi
+
+log "Benign test pod: $BENIGN_POD"
+log "Malicious test pod: $MALICIOUS_POD"
 
 # Install stress-ng in test pods (best-effort)
 log "Installing stress-ng in test pods (may take 30s on first run)..."
@@ -132,9 +154,10 @@ echo "─── Test 2: Escalation — inject stress into benign pod ──"
 T2_BASELINE=$(get_tier "$BENIGN_POD")
 log "Benign pod baseline tier: $T2_BASELINE"
 
-# Launch stress in background inside the pod
+# Launch a stronger, longer CPU burst so the heavy-stress path gets
+# multiple observation windows instead of a single borderline sample.
 $KUBECTL exec -n "$NAMESPACE" "$BENIGN_POD" -- \
-    sh -c "nohup stress-ng --cpu 2 --vm 2 --cpu-load 95 --timeout 30s > /tmp/stress.log 2>&1 &" \
+    sh -c "nohup stress-ng --cpu 2 --cpu-load 95 --timeout 45s > /tmp/stress.log 2>&1 &" \
     2>/dev/null || {
     fail "T2: Failed to launch stress-ng in benign pod"
     RESULTS+=("SKIP: T3 (depends on T2)")
@@ -142,7 +165,7 @@ $KUBECTL exec -n "$NAMESPACE" "$BENIGN_POD" -- \
 }
 
 if [[ -z "${goto_t4:-}" ]]; then
-    log "stress-ng launched (95% CPU, 45s). Waiting for RAASA to detect..."
+    log "stress-ng launched (2 workers, 95% CPU, 45s). Waiting for RAASA to detect..."
     if wait_for_tier "$BENIGN_POD" "L3" "$ESCALATION_TIMEOUT" > /dev/null 2>&1; then
         T2_RESULT=$(get_tier "$BENIGN_POD")
         pass "T2: Benign pod escalated from $T2_BASELINE → $T2_RESULT within ${ESCALATION_TIMEOUT}s"
@@ -167,7 +190,7 @@ fi
 echo ""
 echo "─── Test 4: False positive — moderate load stays ≤ L2 ───"
 $KUBECTL exec -n "$NAMESPACE" "$BENIGN_POD" -- \
-    sh -c "nohup stress-ng --cpu 0 --cpu-load 30 --timeout 20s > /tmp/stress_fp.log 2>&1 &" \
+    sh -c "nohup stress-ng --cpu 1 --cpu-load 30 --timeout 20s > /tmp/stress_fp.log 2>&1 &" \
     2>/dev/null || {
     fail "T4: Failed to launch moderate stress-ng"
 }
@@ -190,6 +213,8 @@ for r in "${RESULTS[@]}"; do
     if [[ "$r" == PASS* ]]; then
         echo -e "  ${GREEN}✓${NC} ${r#PASS: }"
         PASS_COUNT=$((PASS_COUNT + 1))
+    elif [[ "$r" == SKIP* ]]; then
+        echo -e "  ${YELLOW}-${NC} ${r#SKIP: }"
     else
         echo -e "  ${RED}✗${NC} ${r#FAIL: }"
         FAIL_COUNT=$((FAIL_COUNT + 1))

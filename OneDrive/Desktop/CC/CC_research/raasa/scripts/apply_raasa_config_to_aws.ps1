@@ -29,7 +29,7 @@ function New-RestrictedKeyCopy {
     $identity = "$env:USERDOMAIN\$env:USERNAME"
     $acl = New-Object System.Security.AccessControl.FileSecurity
     $owner = New-Object System.Security.Principal.NTAccount($identity)
-    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($identity, "Read", "Allow")
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($identity, "FullControl", "Allow")
 
     $acl.SetOwner($owner)
     $acl.SetAccessRuleProtection($true, $false)

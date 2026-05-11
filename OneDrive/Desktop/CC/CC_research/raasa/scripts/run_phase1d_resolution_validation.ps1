@@ -25,7 +25,7 @@ function New-RestrictedKeyCopy {
     $identity = "$env:USERDOMAIN\$env:USERNAME"
     $acl = New-Object System.Security.AccessControl.FileSecurity
     $owner = New-Object System.Security.Principal.NTAccount($identity)
-    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($identity, "Read", "Allow")
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($identity, "FullControl", "Allow")
 
     $acl.SetOwner($owner)
     $acl.SetAccessRuleProtection($true, $false)
@@ -33,6 +33,18 @@ function New-RestrictedKeyCopy {
     Set-Acl -LiteralPath $tempPath -AclObject $acl
 
     return $tempPath
+}
+
+function Write-ProgressMarker {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Message
+    )
+
+    (Get-Date).ToString("o") + " " + $Message | Set-Content -Path $Path
 }
 
 if (-not (Test-Path -LiteralPath $KeyPath)) {
@@ -47,19 +59,107 @@ if (-not (Test-Path -LiteralPath $DemoManifestPath)) {
 
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 $tempKey = New-RestrictedKeyCopy -SourcePath $KeyPath
+$progressPath = Join-Path $OutputDir "progress_marker.txt"
+Write-ProgressMarker -Path $progressPath -Message "script started"
 
 try {
-    function Invoke-SSH {
-        param([string]$RemoteCommand)
+    function Invoke-NativeCapture {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$FilePath,
 
-        & "C:\WINDOWS\System32\OpenSSH\ssh.exe" `
-            -n `
-            -i $tempKey `
-            -o StrictHostKeyChecking=no `
-            -o UserKnownHostsFile=NUL `
-            -o LogLevel=ERROR `
-            "$User@$TargetHost" `
+            [Parameter(Mandatory = $true)]
+            [string[]]$ArgumentList,
+
+            [Parameter(Mandatory = $true)]
+            [string]$ErrorContext,
+
+            [int]$TimeoutSeconds = 180,
+
+            [int[]]$AllowExitCodes = @(0)
+        )
+
+        $stdoutPath = Join-Path $env:TEMP ("raasa-stdout-" + [guid]::NewGuid().ToString() + ".txt")
+        $stderrPath = Join-Path $env:TEMP ("raasa-stderr-" + [guid]::NewGuid().ToString() + ".txt")
+
+        try {
+            $process = Start-Process `
+                -FilePath $FilePath `
+                -ArgumentList $ArgumentList `
+                -NoNewWindow `
+                -PassThru `
+                -RedirectStandardOutput $stdoutPath `
+                -RedirectStandardError $stderrPath
+
+            if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
+                try {
+                    $process.Kill()
+                }
+                catch {
+                }
+                throw "$ErrorContext timed out after $TimeoutSeconds seconds."
+            }
+            $process.WaitForExit()
+            $process.Refresh()
+            $exitCode = [int]$process.ExitCode
+
+            $output = @()
+            if (Test-Path -LiteralPath $stdoutPath) {
+                $output += Get-Content -LiteralPath $stdoutPath
+            }
+            if (Test-Path -LiteralPath $stderrPath) {
+                $output += Get-Content -LiteralPath $stderrPath
+            }
+
+            if ($exitCode -notin $AllowExitCodes) {
+                $joined = ($output -join [Environment]::NewLine).Trim()
+                if ($joined) {
+                    throw "$ErrorContext failed with exit code $exitCode.`n$joined"
+                }
+                throw "$ErrorContext failed with exit code $exitCode."
+            }
+
+            return [pscustomobject]@{
+                ExitCode = $exitCode
+                Output = @($output)
+            }
+        }
+        finally {
+            Remove-Item -LiteralPath $stdoutPath, $stderrPath -Force -ErrorAction SilentlyContinue
+        }
+    }
+
+    function Invoke-SSH {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$RemoteCommand,
+
+            [int]$TimeoutSeconds = 180,
+
+            [int[]]$AllowExitCodes = @(0)
+        )
+
+        $args = @(
+            "-n",
+            "-i", $tempKey,
+            "-o", "BatchMode=yes",
+            "-o", "StrictHostKeyChecking=no",
+            "-o", "UserKnownHostsFile=NUL",
+            "-o", "LogLevel=ERROR",
+            "-o", "ServerAliveInterval=5",
+            "-o", "ServerAliveCountMax=6",
+            "$User@$TargetHost",
             $RemoteCommand
+        )
+
+        $result = Invoke-NativeCapture `
+            -FilePath "C:\WINDOWS\System32\OpenSSH\ssh.exe" `
+            -ArgumentList $args `
+            -ErrorContext "SSH command" `
+            -TimeoutSeconds $TimeoutSeconds `
+            -AllowExitCodes $AllowExitCodes
+
+        return @($result.Output)
     }
 
     function Copy-Remote {
@@ -68,13 +168,22 @@ try {
             [string]$RemotePath
         )
 
-        & "C:\WINDOWS\System32\OpenSSH\scp.exe" `
-            -i $tempKey `
-            -o StrictHostKeyChecking=no `
-            -o UserKnownHostsFile=NUL `
-            -o LogLevel=ERROR `
-            $LocalPath `
+        $args = @(
+            "-i", $tempKey,
+            "-o", "BatchMode=yes",
+            "-o", "StrictHostKeyChecking=no",
+            "-o", "UserKnownHostsFile=NUL",
+            "-o", "LogLevel=ERROR",
+            $LocalPath,
             "${User}@${TargetHost}:$RemotePath"
+        )
+
+        Invoke-NativeCapture `
+            -FilePath "C:\WINDOWS\System32\OpenSSH\scp.exe" `
+            -ArgumentList $args `
+            -ErrorContext "SCP copy to $RemotePath" `
+            -TimeoutSeconds 120 `
+            -AllowExitCodes @(0) | Out-Null
     }
 
     function Invoke-Benchmark {
@@ -90,7 +199,10 @@ try {
         }
 
         for ($i = 1; $i -le 3; $i++) {
-            $measurement = (Invoke-SSH "sudo k3s kubectl exec -n raasa-bench $ClientPod -- curl -sS -o /dev/null -w '%{time_total} %{speed_download}' http://${BenchmarkTarget}/payload.bin").Trim()
+            $measurement = (Invoke-SSH `
+                -RemoteCommand "sudo k3s kubectl exec -n raasa-bench $ClientPod -- curl -sS -o /dev/null -w '%{time_total} %{speed_download}' http://${BenchmarkTarget}/payload.bin" `
+                -TimeoutSeconds 45 `
+                -AllowExitCodes @(0, 6, 7, 28)).Trim()
             Add-Content -Path $outputPath -Value $measurement
         }
     }
@@ -170,7 +282,8 @@ raise SystemExit(0 if ok else 1)
         if ($rows.Count -eq 0) {
             return @{
                 samples = 0
-                raw = @()
+                avg_time_total_sec = $null
+                avg_speed_bytes_per_sec = $null
             }
         }
 
@@ -178,7 +291,6 @@ raise SystemExit(0 if ok else 1)
             samples = $rows.Count
             avg_time_total_sec = ($rows | Measure-Object -Property time_total_sec -Average).Average
             avg_speed_bytes_per_sec = ($rows | Measure-Object -Property speed_bytes_per_sec -Average).Average
-            raw = @($rows)
         }
     }
 
@@ -198,6 +310,16 @@ raise SystemExit(0 if ok else 1)
             fallback = [bool]$fallbackLine
             fallback_line = if ($fallbackLine) { $fallbackLine } else { $null }
         }
+    }
+
+    function Format-Decimal {
+        param([object]$Value)
+
+        if ($null -eq $Value) {
+            return "n/a"
+        }
+
+        return ([double]$Value).ToString("0.######", [System.Globalization.CultureInfo]::InvariantCulture)
     }
 
     Copy-Remote -LocalPath $BenchmarkManifestPath -RemotePath "/tmp/phase1d-network-benchmark.yaml"
@@ -297,48 +419,86 @@ raise SystemExit(0 if ok else 1)
     Invoke-SSH "sudo k3s kubectl logs -n raasa-system $agentPod -c raasa-enforcer --tail=260" |
         Set-Content -Path (Join-Path $OutputDir "enforcer_logs_final.txt")
 
+    Write-ProgressMarker -Path $progressPath -Message "starting summary build"
     $logLines = Get-Content -LiteralPath (Join-Path $OutputDir "enforcer_logs_final.txt")
+    Write-ProgressMarker -Path $progressPath -Message "loaded final log lines"
     $l1Service = Get-MetricSummary -Path (Join-Path $OutputDir "l1_service_measurements.txt")
     $l1ServiceIp = Get-MetricSummary -Path (Join-Path $OutputDir "l1_service_ip_measurements.txt")
     $l1PodIp = Get-MetricSummary -Path (Join-Path $OutputDir "l1_pod_ip_measurements.txt")
     $l3Service = Get-MetricSummary -Path (Join-Path $OutputDir "l3_service_measurements.txt")
     $l3ServiceIp = Get-MetricSummary -Path (Join-Path $OutputDir "l3_service_ip_measurements.txt")
     $l3PodIp = Get-MetricSummary -Path (Join-Path $OutputDir "l3_pod_ip_measurements.txt")
+    $fallbackLines = @($logLines | Where-Object { $_ -like "*Falling back to interface*" })
+    Write-ProgressMarker -Path $progressPath -Message "parsed benchmark summaries"
 
-    $summary = @{
-        demo_server = Select-ResolutionSummary -LogLines $logLines -ContainerRef $demoServerRef
-        demo_client = Select-ResolutionSummary -LogLines $logLines -ContainerRef $demoClientRef
-        bench_client = Select-ResolutionSummary -LogLines $logLines -ContainerRef $benchClientRef
-        fallback_lines = @($logLines | Where-Object { $_ -like "*Falling back to interface*" })
-        benchmark_targets = @{
-            service_host = $benchServiceHost
-            service_ip = $benchServiceIp
-            pod_ip = $benchServerPodIp
-        }
-        l1 = @{
-            service = $l1Service
-            service_ip = $l1ServiceIp
-            pod_ip = $l1PodIp
-        }
-        l3 = @{
-            service = $l3Service
-            service_ip = $l3ServiceIp
-            pod_ip = $l3PodIp
-        }
-    }
+    $demoServerSummary = Select-ResolutionSummary -LogLines $logLines -ContainerRef $demoServerRef
+    $demoClientSummary = Select-ResolutionSummary -LogLines $logLines -ContainerRef $demoClientRef
+    $benchClientSummary = Select-ResolutionSummary -LogLines $logLines -ContainerRef $benchClientRef
+
+    $summaryLines = @(
+        "Phase 1D resolution validation summary",
+        "",
+        "demo_server.container_ref=$($demoServerSummary.container_ref)",
+        "demo_server.resolved=$($demoServerSummary.resolved)",
+        "demo_server.fallback=$($demoServerSummary.fallback)",
+        "demo_server.resolved_line=$($demoServerSummary.resolved_line)",
+        "demo_server.fallback_line=$($demoServerSummary.fallback_line)",
+        "",
+        "demo_client.container_ref=$($demoClientSummary.container_ref)",
+        "demo_client.resolved=$($demoClientSummary.resolved)",
+        "demo_client.fallback=$($demoClientSummary.fallback)",
+        "demo_client.resolved_line=$($demoClientSummary.resolved_line)",
+        "demo_client.fallback_line=$($demoClientSummary.fallback_line)",
+        "",
+        "bench_client.container_ref=$($benchClientSummary.container_ref)",
+        "bench_client.resolved=$($benchClientSummary.resolved)",
+        "bench_client.fallback=$($benchClientSummary.fallback)",
+        "bench_client.resolved_line=$($benchClientSummary.resolved_line)",
+        "bench_client.fallback_line=$($benchClientSummary.fallback_line)",
+        "",
+        "fallback_count=$($fallbackLines.Count)",
+        "latest_fallback_line=$(if ($fallbackLines.Count -gt 0) { $fallbackLines[-1] } else { '' })",
+        "",
+        "benchmark_targets.service_host=$benchServiceHost",
+        "benchmark_targets.service_ip=$benchServiceIp",
+        "benchmark_targets.pod_ip=$benchServerPodIp",
+        "",
+        "l1.service.samples=$($l1Service.samples)",
+        "l1.service.avg_time_total_sec=$(Format-Decimal $l1Service.avg_time_total_sec)",
+        "l1.service.avg_speed_bytes_per_sec=$(Format-Decimal $l1Service.avg_speed_bytes_per_sec)",
+        "l1.service_ip.samples=$($l1ServiceIp.samples)",
+        "l1.service_ip.avg_time_total_sec=$(Format-Decimal $l1ServiceIp.avg_time_total_sec)",
+        "l1.service_ip.avg_speed_bytes_per_sec=$(Format-Decimal $l1ServiceIp.avg_speed_bytes_per_sec)",
+        "l1.pod_ip.samples=$($l1PodIp.samples)",
+        "l1.pod_ip.avg_time_total_sec=$(Format-Decimal $l1PodIp.avg_time_total_sec)",
+        "l1.pod_ip.avg_speed_bytes_per_sec=$(Format-Decimal $l1PodIp.avg_speed_bytes_per_sec)",
+        "",
+        "l3.service.samples=$($l3Service.samples)",
+        "l3.service.avg_time_total_sec=$(Format-Decimal $l3Service.avg_time_total_sec)",
+        "l3.service.avg_speed_bytes_per_sec=$(Format-Decimal $l3Service.avg_speed_bytes_per_sec)",
+        "l3.service_ip.samples=$($l3ServiceIp.samples)",
+        "l3.service_ip.avg_time_total_sec=$(Format-Decimal $l3ServiceIp.avg_time_total_sec)",
+        "l3.service_ip.avg_speed_bytes_per_sec=$(Format-Decimal $l3ServiceIp.avg_speed_bytes_per_sec)",
+        "l3.pod_ip.samples=$($l3PodIp.samples)",
+        "l3.pod_ip.avg_time_total_sec=$(Format-Decimal $l3PodIp.avg_time_total_sec)",
+        "l3.pod_ip.avg_speed_bytes_per_sec=$(Format-Decimal $l3PodIp.avg_speed_bytes_per_sec)"
+    )
+
     if ($l1Service.samples -gt 0 -and $l3Service.samples -gt 0) {
-        $summary["comparison"] = @{
-            service = @{
-                speed_ratio_l3_vs_l1 = $l3Service.avg_speed_bytes_per_sec / $l1Service.avg_speed_bytes_per_sec
-                time_ratio_l3_vs_l1 = $l3Service.avg_time_total_sec / $l1Service.avg_time_total_sec
-            }
-        }
+        $summaryLines += @(
+            "",
+            "comparison.service.speed_ratio_l3_vs_l1=$(Format-Decimal ($l3Service.avg_speed_bytes_per_sec / $l1Service.avg_speed_bytes_per_sec))",
+            "comparison.service.time_ratio_l3_vs_l1=$(Format-Decimal ($l3Service.avg_time_total_sec / $l1Service.avg_time_total_sec))"
+        )
     }
-    $summary | ConvertTo-Json -Depth 8 | Set-Content -Path (Join-Path $OutputDir "summary.json")
+    Write-ProgressMarker -Path $progressPath -Message "assembled summary object"
+    $summaryLines | Set-Content -Path (Join-Path $OutputDir "summary.txt")
+    Write-ProgressMarker -Path $progressPath -Message "wrote summary.txt"
 
     Write-Host "Phase 1D resolution validation evidence collected in: $OutputDir"
 }
 finally {
+    Write-ProgressMarker -Path $progressPath -Message "entering finally"
     if (Test-Path -LiteralPath $tempKey) {
         try {
             Remove-Item -LiteralPath $tempKey -Force -ErrorAction Stop
@@ -347,4 +507,5 @@ finally {
             Write-Warning "Could not remove temporary key copy: $tempKey"
         }
     }
+    Write-ProgressMarker -Path $progressPath -Message "finished finally"
 }
