@@ -5,36 +5,32 @@ Replaces the Docker CLI observer in production Kubernetes environments.
 Uses the official kubernetes Python client to:
   - Enumerate pods on the current node (via field selectors)
   - Read CPU/memory metrics from the Kubernetes Metrics API
-  - Read network I/O from pod annotations or cAdvisor scrapes
-  - Estimate syscall rates from pod labels (eBPF integration point)
+  - Read network I/O from cAdvisor scrapes
+  - Estimate syscall rates from sidecar probe files
 
 Architecture
 ------------
-In production, RAASA runs as a DaemonSet — one agent pod per node.
+In production, RAASA runs as a DaemonSet: one agent pod per node.
 Each agent watches only the pods scheduled on its node (``spec.nodeName``).
 This keeps the blast radius small: a compromised agent affects one node, not
-the whole cluster. The controller receives the same ContainerTelemetry
-records it always has; the K8s backend is entirely transparent.
-
-eBPF Integration
-----------------
-``syscall_rate`` is populated from a sidecar eBPF probe (Tetragon / Falco).
-The probe writes per-pod syscall counts to a shared in-memory file
-``/var/run/raasa/<pod-uid>/syscall_rate`` which this observer reads.
-If the file is absent (probe not deployed), syscall_rate defaults to 0.0
-and the linear fallback path handles scoring without kernel signals.
+the whole cluster. The controller receives the same ContainerTelemetry records
+it always has; the K8s backend is transparent to upper layers.
 
 Graceful Degradation
 --------------------
-Every error path returns a zero-valued ContainerTelemetry with an
-explanatory ``metadata["status"]`` — identical to the Docker observer's
-fail-safe contract, ensuring the upper layers always function.
+This observer explicitly reports signal quality in ``metadata`` so upper
+layers and experiment reports can distinguish:
+  - healthy live signals
+  - live fallback paths (namespace metrics list, cAdvisor memory)
+  - bounded stale cache fallback
+  - total signal loss / full fallback records
 """
 from __future__ import annotations
 
 import logging
 import os
 import re
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
@@ -43,14 +39,18 @@ from raasa.core.base_observer import BaseObserver
 from raasa.core.models import ContainerTelemetry
 
 logger = logging.getLogger(__name__)
-_PROMETHEUS_LINE_RE = re.compile(r'^(?P<metric>[a-zA-Z_:][a-zA-Z0-9_:]*)(?:\{(?P<labels>[^}]*)\})?\s+(?P<value>[-+0-9.eE]+)$')
+_PROMETHEUS_LINE_RE = re.compile(
+    r"^(?P<metric>[a-zA-Z_:][a-zA-Z0-9_:]*)(?:\{(?P<labels>[^}]*)\})?\s+"
+    r"(?P<value>[-+0-9.eE]+)(?:\s+[-+0-9.eE]+)?$"
+)
+_HEALTHY_SIGNAL_STATUSES = frozenset({"metrics_ok", "probe_ok", "baseline"})
 
 
 def _read_proc_file(path: str) -> Optional[str]:
     """Read a /proc or sidecar-written file safely."""
     try:
-        with open(path, "r") as f:
-            return f.read().strip()
+        with open(path, "r", encoding="utf-8") as handle:
+            return handle.read().strip()
     except OSError:
         return None
 
@@ -76,21 +76,45 @@ class ObserverK8s(BaseObserver):
         Defaults to the ``NODE_NAME`` environment variable injected by
         the DaemonSet's ``env[].fieldRef``.
     syscall_probe_dir:
-        Directory where the eBPF sidecar writes per-pod syscall rates.
-        Defaults to ``/var/run/raasa``.
+        Directory where the eBPF sidecar writes per-pod syscall rates and CPU
+        deltas. Defaults to ``/var/run/raasa``.
+    metrics_cache_max_age_seconds:
+        Maximum age of a live Metrics API sample that may be reused when
+        ``metrics.k8s.io`` is temporarily unavailable.
+    allow_stale_metrics_fallback:
+        Whether bounded stale cache fallback is enabled.
     """
+
+    _SYSTEM_NAMESPACES = frozenset({"kube-system", "kube-public", "kube-node-lease", "raasa-system"})
 
     def __init__(
         self,
         namespace_filter: Optional[str] = None,
         node_name: Optional[str] = None,
         syscall_probe_dir: str = "/var/run/raasa",
+        metrics_cache_max_age_seconds: int = 30,
+        allow_stale_metrics_fallback: bool = True,
+        metrics_failure_cooldown_seconds: int = 15,
+        namespace_metrics_cache_max_age_seconds: int = 15,
+        node_memory_bytes: Optional[int] = None,
     ) -> None:
         self.namespace_filter = namespace_filter
         self.node_name = node_name or os.environ.get("NODE_NAME", "")
         self.syscall_probe_dir = syscall_probe_dir
+        self.metrics_cache_max_age_seconds = max(0, int(metrics_cache_max_age_seconds))
+        self.allow_stale_metrics_fallback = allow_stale_metrics_fallback
+        self.metrics_failure_cooldown_seconds = max(0, int(metrics_failure_cooldown_seconds))
+        self.namespace_metrics_cache_max_age_seconds = max(0, int(namespace_metrics_cache_max_age_seconds))
+        self.node_memory_bytes = node_memory_bytes or self._detect_node_memory_bytes()
         self._previous_rx: Dict[str, float] = {}
         self._previous_tx: Dict[str, float] = {}
+        self._prev_cpu_usec: Dict[str, int] = {}
+        self._prev_cpu_time: Dict[str, float] = {}
+        self._prev_k8s_cpu: Dict[str, float] = {}
+        self._metrics_cache: Dict[str, Dict[str, float]] = {}
+        self._namespace_metrics_cache: Dict[str, Dict[str, object]] = {}
+        self._metrics_api_blocked_until = 0.0
+        self._metrics_api_last_failure_status = "unavailable"
         self._k8s_client = None
         self._metrics_client = None
         self._init_clients()
@@ -101,11 +125,12 @@ class ObserverK8s(BaseObserver):
 
         Tries in-cluster config first (DaemonSet running inside a pod),
         then falls back to kubeconfig (local development / minikube).
-        Logs a warning without raising if neither is available — the observer
+        Logs a warning without raising if neither is available; the observer
         will return fallback telemetry on every collect() call.
         """
         try:
             from kubernetes import client, config  # type: ignore[import]
+
             try:
                 config.load_incluster_config()
                 logger.info("K8s observer: loaded in-cluster config")
@@ -129,7 +154,7 @@ class ObserverK8s(BaseObserver):
         Parameters
         ----------
         container_ids:
-            ``namespace/pod-name`` strings, e.g. ``default/nginx-7d9c9fbb4f-x2k9p``.
+            ``namespace/pod-name`` strings, e.g. ``default/nginx-abc``.
             For bare pod names, ``default`` namespace is assumed.
         """
         timestamp = datetime.now(timezone.utc)
@@ -140,7 +165,6 @@ class ObserverK8s(BaseObserver):
                 return []
             return self._fallback_batch(pod_ids, timestamp, "k8s client unavailable")
 
-        # Auto-discover pods when no explicit IDs are given (DaemonSet mode)
         if not pod_ids:
             pod_ids = self._discover_pods()
             if not pod_ids:
@@ -154,41 +178,42 @@ class ObserverK8s(BaseObserver):
             results.append(self._collect_pod(pod_ref, timestamp, network_counter_map, memory_usage_map))
         return results
 
-    # ── Auto-discovery ────────────────────────────────────────────────────────
-
-    _SYSTEM_NAMESPACES = frozenset({"kube-system", "kube-public", "kube-node-lease", "raasa-system"})
-
     def _discover_pods(self) -> List[str]:
         """
-        List all Running pods across the cluster, excluding system namespaces.
+        List all running pods across the cluster, excluding system namespaces.
 
         Returns a list of ``namespace/pod-name`` strings suitable for
-        passing to ``_collect_pod()``.  This is the DaemonSet auto-discovery
-        path — when no explicit ``--containers`` are provided, the controller
-        watches everything outside the Kubernetes control plane.
+        passing to ``_collect_pod()``.
         """
         try:
+            field_selector = self._build_pod_field_selector()
             if self.namespace_filter:
                 pods = self._k8s_client.list_namespaced_pod(
                     namespace=self.namespace_filter,
-                    field_selector="status.phase=Running",
+                    field_selector=field_selector,
                 )
             else:
                 pods = self._k8s_client.list_pod_for_all_namespaces(
-                    field_selector="status.phase=Running",
+                    field_selector=field_selector,
                 )
             discovered = []
             for pod in pods.items:
-                ns = pod.metadata.namespace
-                if ns in self._SYSTEM_NAMESPACES:
+                namespace = pod.metadata.namespace
+                if namespace in self._SYSTEM_NAMESPACES:
                     continue
-                discovered.append(f"{ns}/{pod.metadata.name}")
+                discovered.append(f"{namespace}/{pod.metadata.name}")
             if discovered:
                 logger.info(f"[ObserverK8s] Auto-discovered {len(discovered)} pod(s): {discovered}")
             return discovered
         except Exception as exc:
             logger.warning(f"[ObserverK8s] Pod discovery failed: {exc}")
             return []
+
+    def _build_pod_field_selector(self) -> str:
+        selectors = ["status.phase=Running"]
+        if self.node_name:
+            selectors.append(f"spec.nodeName={self.node_name}")
+        return ",".join(selectors)
 
     def _collect_pod(
         self,
@@ -198,7 +223,6 @@ class ObserverK8s(BaseObserver):
         memory_usage_map: dict[tuple[str, str], float],
     ) -> ContainerTelemetry:
         """Collect telemetry for a single pod."""
-        # Parse namespace/pod-name
         if "/" in pod_ref:
             namespace, pod_name = pod_ref.split("/", 1)
         else:
@@ -211,9 +235,27 @@ class ObserverK8s(BaseObserver):
             workload_class = labels.get("raasa.class", "")
             expected_tier = labels.get("raasa.expected_tier", "")
 
-            cpu_percent, memory_percent = self._get_pod_metrics(namespace, pod_name, uid, memory_usage_map)
-            delta_rx, delta_tx, network_status = self._get_network_delta(namespace, pod_name, uid, network_counter_map)
+            cpu_percent, memory_percent, metrics_metadata = self._get_pod_metrics_with_status(
+                namespace,
+                pod_name,
+                uid,
+                memory_usage_map,
+            )
+            delta_rx, delta_tx, network_status = self._get_network_delta(
+                namespace,
+                pod_name,
+                uid,
+                network_counter_map,
+            )
             syscall_rate, syscall_status = self._get_syscall_rate(uid)
+            telemetry_status, degraded_signals = self._summarize_telemetry_status(
+                {
+                    "cpu": metrics_metadata["cpu_status"],
+                    "memory": metrics_metadata["memory_status"],
+                    "network": network_status,
+                    "syscall": syscall_status,
+                }
+            )
 
             return ContainerTelemetry(
                 container_id=pod_ref,
@@ -230,6 +272,9 @@ class ObserverK8s(BaseObserver):
                     "expected_tier": expected_tier,
                     "namespace": namespace,
                     "node": self.node_name,
+                    "telemetry_status": telemetry_status,
+                    "degraded_signals": degraded_signals or "none",
+                    **metrics_metadata,
                     "network_source": "cadvisor",
                     "network_status": network_status,
                     "syscall_source": "probe",
@@ -247,124 +292,133 @@ class ObserverK8s(BaseObserver):
         pod_uid: str = "",
         memory_usage_map: Optional[dict[tuple[str, str], float]] = None,
     ) -> tuple[float, float]:
-        """
-        Fetch CPU and memory usage.
+        """Compatibility wrapper used by existing tests and call sites."""
+        cpu_percent, memory_percent, _ = self._get_pod_metrics_with_status(
+            namespace,
+            pod_name,
+            pod_uid,
+            memory_usage_map,
+        )
+        return cpu_percent, memory_percent
 
-        Since K3s Metrics API times out under load, this directly reads the 
-        `.cpu_usec` written by the RAASA syscall probe sidecar.
+    def _get_pod_metrics_with_status(
+        self,
+        namespace: str,
+        pod_name: str,
+        pod_uid: str = "",
+        memory_usage_map: Optional[dict[tuple[str, str], float]] = None,
+    ) -> tuple[float, float, dict[str, str]]:
         """
+        Fetch CPU and memory usage with explicit signal provenance.
+
+        Priority order:
+          1. probe CPU
+          2. Metrics API
+          3. cAdvisor memory fallback
+          4. bounded stale cache fallback
+        """
+        pod_ref = f"{namespace}/{pod_name}"
         cpu_percent = 0.0
         memory_percent = 0.0
         cpu_from_probe = False
         cadvisor_memory_bytes = None
+        signal_metadata = {
+            "cpu_source": "unavailable",
+            "cpu_status": "unavailable",
+            "memory_source": "unavailable",
+            "memory_status": "unavailable",
+            "metrics_api_status": "unavailable",
+        }
 
         if memory_usage_map is not None:
             cadvisor_memory_bytes = memory_usage_map.get((namespace, pod_name))
-        
-        # 1. Try reading direct cgroup CPU stats from the probe sidecar
+
         if pod_uid:
             try:
-                probe_dir = Path("/var/run/raasa") / pod_uid
+                probe_dir = Path(self.syscall_probe_dir) / pod_uid
                 cpu_file = probe_dir / ".cpu_usec"
-                if cpu_file.exists():
+                if cpu_file.exists() and self._probe_file_status(cpu_file) == "probe_ok":
                     current_usec = int(cpu_file.read_text(encoding="utf-8").strip())
-                    
-                    import time
                     current_time = time.time()
-                    
-                    # Track previous usec and time to compute delta
-                    if not hasattr(self, "_prev_cpu_usec"):
-                        self._prev_cpu_usec = {}
-                        self._prev_cpu_time = {}
-                        
                     prev_usec = self._prev_cpu_usec.get(pod_uid, current_usec)
                     prev_time = self._prev_cpu_time.get(pod_uid, current_time - 1.0)
-                    
+
                     delta_usec = max(0, current_usec - prev_usec)
                     delta_time = max(0.1, current_time - prev_time)
-                    
+
                     self._prev_cpu_usec[pod_uid] = current_usec
                     self._prev_cpu_time[pod_uid] = current_time
-                    
-                    # delta_usec is in microseconds. delta_time is in seconds.
-                    # CPU cores used = (delta_usec / 1_000_000) / delta_time
+
                     cpu_cores = (delta_usec / 1_000_000.0) / delta_time
                     cpu_percent = min(cpu_cores * 100.0, 100.0)
                     cpu_from_probe = True
-                    
-            except Exception as e:
-                logger.warning(f"[ObserverK8s] Direct CPU read failed for {pod_uid}: {e}")
+                    signal_metadata["cpu_source"] = "probe"
+                    signal_metadata["cpu_status"] = "probe_ok"
+            except Exception as exc:
+                logger.warning(f"[ObserverK8s] Direct CPU read failed for {pod_uid}: {exc}")
 
-        # 2. Try K8s Metrics API for memory and as a CPU fallback when direct
-        # probe data is absent.
         try:
-            metrics = self._fetch_metrics_object(namespace, pod_name)
-            containers = metrics.get("containers", [])
-            total_cpu_nano = 0
-            total_memory_bytes = 0
-            for c in containers:
-                usage = c.get("usage", {})
-                cpu_raw = str(usage.get("cpu", "0"))
-                mem_raw = str(usage.get("memory", "0"))
-                if not cpu_from_probe:
-                    if cpu_raw.endswith("n"):
-                        total_cpu_nano += int(cpu_raw[:-1])
-                    elif cpu_raw.endswith("m"):
-                        total_cpu_nano += int(cpu_raw[:-1]) * 1_000_000
-                    else:
-                        try:
-                            total_cpu_nano += int(cpu_raw)
-                        except ValueError:
-                            pass
+            metrics, metrics_status, metrics_api_status = self._fetch_metrics_object(namespace, pod_name)
+            total_cpu_nano, total_memory_bytes = self._parse_metrics_usage(metrics.get("containers", []))
 
-                # ── Parse Memory ────────────────────────────────────────────
-                if mem_raw.endswith("Ki"):
-                    total_memory_bytes += int(mem_raw[:-2]) * 1024
-                elif mem_raw.endswith("Mi"):
-                    total_memory_bytes += int(mem_raw[:-2]) * 1024 ** 2
-                elif mem_raw.endswith("Gi"):
-                    total_memory_bytes += int(mem_raw[:-2]) * 1024 ** 3
-                else:
-                    try:
-                        total_memory_bytes += int(mem_raw)
-                    except ValueError:
-                        pass
+            raw_cpu_percent = min((total_cpu_nano / 1e9) * 100.0, 100.0)
+            memory_percent = self._memory_percent_from_bytes(total_memory_bytes)
+            signal_metadata["memory_source"] = "metrics_api"
+            signal_metadata["memory_status"] = metrics_status
+            signal_metadata["metrics_api_status"] = metrics_api_status
 
             if not cpu_from_probe:
-                raw_percent = min((total_cpu_nano / 1e9) * 100.0, 100.0)
-                
-                if not hasattr(self, "_prev_k8s_cpu"):
-                    self._prev_k8s_cpu = {}
-                    
                 prev_val = self._prev_k8s_cpu.get(pod_name, 0.0)
-                
-                # If metrics API returns 0.0 but it was previously high, it's likely a sampling artifact.
-                # Smooth it by retaining the previous value if we just got a 0 drop.
-                if raw_percent == 0.0 and prev_val > 10.0:
+                if raw_cpu_percent == 0.0 and prev_val > 10.0:
                     cpu_percent = prev_val
+                    signal_metadata["cpu_source"] = "metrics_api"
+                    signal_metadata["cpu_status"] = "metrics_smoothed"
                 else:
-                    cpu_percent = raw_percent
-                    self._prev_k8s_cpu[pod_name] = raw_percent
+                    cpu_percent = raw_cpu_percent
+                    self._prev_k8s_cpu[pod_name] = raw_cpu_percent
+                    signal_metadata["cpu_source"] = "metrics_api"
+                    signal_metadata["cpu_status"] = metrics_status
 
-            node_memory_bytes = 8 * 1024 ** 3
-            memory_percent = min((total_memory_bytes / node_memory_bytes) * 100.0, 100.0)
-
+            self._cache_metrics(pod_ref, raw_cpu_percent, memory_percent)
         except Exception as exc:
+            signal_metadata["metrics_api_status"] = self._classify_metrics_exception(exc)
+            cached_metrics = self._get_cached_metrics(pod_ref)
+            if not cpu_from_probe and cached_metrics is not None:
+                cpu_percent = cached_metrics["cpu_percent"]
+                signal_metadata["cpu_source"] = "metrics_cache"
+                signal_metadata["cpu_status"] = "metrics_cache_fallback"
+                logger.info(
+                    f"[ObserverK8s] Using cached CPU fallback for {namespace}/{pod_name}: "
+                    f"{cpu_percent:.2f}%"
+                )
+
             if cadvisor_memory_bytes is not None:
                 memory_percent = self._memory_percent_from_bytes(cadvisor_memory_bytes)
+                signal_metadata["memory_source"] = "cadvisor"
+                signal_metadata["memory_status"] = "cadvisor_fallback"
                 logger.info(
                     f"[ObserverK8s] Using cAdvisor memory fallback for {namespace}/{pod_name}: "
                     f"{memory_percent:.2f}%"
                 )
+            elif cached_metrics is not None:
+                memory_percent = cached_metrics["memory_percent"]
+                signal_metadata["memory_source"] = "metrics_cache"
+                signal_metadata["memory_status"] = "metrics_cache_fallback"
+                logger.info(
+                    f"[ObserverK8s] Using cached memory fallback for {namespace}/{pod_name}: "
+                    f"{memory_percent:.2f}%"
+                )
+
             logger.warning(f"[ObserverK8s] Metrics API failed for {namespace}/{pod_name}: {exc}")
 
         logger.info(
             f"[ObserverK8s] Metrics {namespace}/{pod_name}: "
-            f"cpu={cpu_percent:.2f}%, mem={memory_percent:.2f}%"
+            f"cpu={cpu_percent:.2f}% ({signal_metadata['cpu_status']}), "
+            f"mem={memory_percent:.2f}% ({signal_metadata['memory_status']})"
         )
-        return cpu_percent, memory_percent
+        return cpu_percent, memory_percent, signal_metadata
 
-    def _fetch_metrics_object(self, namespace: str, pod_name: str) -> dict:
+    def _fetch_metrics_object(self, namespace: str, pod_name: str) -> tuple[dict, str, str]:
         """
         Fetch pod metrics from the Metrics API.
 
@@ -376,34 +430,112 @@ class ObserverK8s(BaseObserver):
         if self._metrics_client is None:
             raise RuntimeError("metrics client unavailable")
 
+        if self._is_metrics_api_in_cooldown():
+            cached_namespace_items = self._get_cached_namespace_metrics(namespace)
+            if cached_namespace_items is not None:
+                item = self._select_pod_metrics_from_namespace_items(cached_namespace_items, pod_name)
+                if item is not None:
+                    logger.info(
+                        f"[ObserverK8s] Using cached namespace metrics for {namespace}/{pod_name} "
+                        f"while Metrics API cooldown is active."
+                    )
+                    return item, "metrics_list_cooldown_fallback", self._metrics_api_last_failure_status
+
         try:
-            return self._metrics_client.get_namespaced_custom_object(
-                group="metrics.k8s.io",
-                version="v1beta1",
-                namespace=namespace,
-                plural="pods",
-                name=pod_name,
+            self._metrics_api_last_failure_status = "metrics_ok"
+            return (
+                self._metrics_client.get_namespaced_custom_object(
+                    group="metrics.k8s.io",
+                    version="v1beta1",
+                    namespace=namespace,
+                    plural="pods",
+                    name=pod_name,
+                ),
+                "metrics_ok",
+                "metrics_ok",
             )
         except Exception as exc:
+            failure_status = self._classify_metrics_exception(exc)
+            self._activate_metrics_api_cooldown(failure_status)
             logger.warning(
                 f"[ObserverK8s] Direct pod metrics lookup failed for {namespace}/{pod_name}: {exc}. "
                 "Trying namespace metrics list fallback."
             )
+            pod_metrics, list_status = self._fetch_namespace_metrics_list(namespace, allow_cached=True)
+            item = self._select_pod_metrics_from_namespace_items(pod_metrics, pod_name)
+            if item is not None:
+                logger.info(
+                    f"[ObserverK8s] Recovered metrics for {namespace}/{pod_name} via namespace list fallback."
+                )
+                if list_status == "metrics_list_cache_fallback":
+                    return item, "metrics_list_cache_fallback", failure_status
+                return item, "metrics_list_fallback", failure_status
+            raise exc
 
+    def _fetch_namespace_metrics_list(
+        self,
+        namespace: str,
+        *,
+        allow_cached: bool,
+    ) -> tuple[list[dict], str]:
+        if self._metrics_client is None:
+            raise RuntimeError("metrics client unavailable")
+
+        try:
             pod_metrics = self._metrics_client.list_namespaced_custom_object(
                 group="metrics.k8s.io",
                 version="v1beta1",
                 namespace=namespace,
                 plural="pods",
             )
-            for item in pod_metrics.get("items", []):
-                metadata = item.get("metadata", {})
-                if metadata.get("name") == pod_name:
-                    logger.info(
-                        f"[ObserverK8s] Recovered metrics for {namespace}/{pod_name} via namespace list fallback."
-                    )
-                    return item
-            raise exc
+        except Exception:
+            if allow_cached:
+                cached_items = self._get_cached_namespace_metrics(namespace)
+                if cached_items is not None:
+                    return cached_items, "metrics_list_cache_fallback"
+            raise
+
+        items = list(pod_metrics.get("items", []))
+        self._cache_namespace_metrics(namespace, items)
+        return items, "metrics_list_ok"
+
+    def _select_pod_metrics_from_namespace_items(self, items: list[dict], pod_name: str) -> Optional[dict]:
+        for item in items:
+            metadata = item.get("metadata", {})
+            if metadata.get("name") == pod_name:
+                return item
+        return None
+
+    def _parse_metrics_usage(self, containers: list[dict]) -> tuple[int, int]:
+        total_cpu_nano = 0
+        total_memory_bytes = 0
+        for container in containers:
+            usage = container.get("usage", {})
+            cpu_raw = str(usage.get("cpu", "0"))
+            mem_raw = str(usage.get("memory", "0"))
+
+            if cpu_raw.endswith("n"):
+                total_cpu_nano += int(cpu_raw[:-1])
+            elif cpu_raw.endswith("m"):
+                total_cpu_nano += int(cpu_raw[:-1]) * 1_000_000
+            else:
+                try:
+                    total_cpu_nano += int(cpu_raw)
+                except ValueError:
+                    pass
+
+            if mem_raw.endswith("Ki"):
+                total_memory_bytes += int(mem_raw[:-2]) * 1024
+            elif mem_raw.endswith("Mi"):
+                total_memory_bytes += int(mem_raw[:-2]) * 1024**2
+            elif mem_raw.endswith("Gi"):
+                total_memory_bytes += int(mem_raw[:-2]) * 1024**3
+            else:
+                try:
+                    total_memory_bytes += int(mem_raw)
+                except ValueError:
+                    pass
+        return total_cpu_nano, total_memory_bytes
 
     def _fetch_cadvisor_metrics(self) -> str:
         """
@@ -503,8 +635,28 @@ class ObserverK8s(BaseObserver):
         return memory_by_pod
 
     def _memory_percent_from_bytes(self, memory_bytes: float) -> float:
-        node_memory_bytes = 8 * 1024 ** 3
+        node_memory_bytes = max(float(getattr(self, "node_memory_bytes", 0) or 0), 1.0)
         return min((memory_bytes / node_memory_bytes) * 100.0, 100.0)
+
+    def _detect_node_memory_bytes(self) -> int:
+        meminfo = _read_proc_file("/proc/meminfo")
+        if meminfo:
+            for line in meminfo.splitlines():
+                if not line.startswith("MemTotal:"):
+                    continue
+                parts = line.split()
+                if len(parts) >= 2:
+                    try:
+                        return max(int(parts[1]) * 1024, 1)
+                    except ValueError:
+                        break
+
+        try:
+            page_size = os.sysconf("SC_PAGE_SIZE")
+            physical_pages = os.sysconf("SC_PHYS_PAGES")
+            return max(int(page_size) * int(physical_pages), 1)
+        except (AttributeError, OSError, TypeError, ValueError):
+            return 8 * 1024**3
 
     def _get_network_delta(
         self,
@@ -514,27 +666,38 @@ class ObserverK8s(BaseObserver):
         network_counter_map: dict[tuple[str, str], tuple[float, float]],
     ) -> tuple[float, float, str]:
         key = (namespace, pod_name)
-        raw_rx, raw_tx = network_counter_map.get(key, (0.0, 0.0))
         if key not in network_counter_map:
-            return 0.0, 0.0, "metrics_unavailable"
+            return 0.0, 0.0, "cadvisor_unavailable"
 
-        delta_rx = max(0.0, raw_rx - self._previous_rx.get(pod_uid, raw_rx))
-        delta_tx = max(0.0, raw_tx - self._previous_tx.get(pod_uid, raw_tx))
+        raw_rx, raw_tx = network_counter_map[key]
+        previous_rx = self._previous_rx.get(pod_uid)
+        previous_tx = self._previous_tx.get(pod_uid)
         self._previous_rx[pod_uid] = raw_rx
         self._previous_tx[pod_uid] = raw_tx
+
+        if previous_rx is None or previous_tx is None:
+            return 0.0, 0.0, "baseline"
+        if raw_rx < previous_rx or raw_tx < previous_tx:
+            return 0.0, 0.0, "counter_reset"
+
+        delta_rx = max(0.0, raw_rx - previous_rx)
+        delta_tx = max(0.0, raw_tx - previous_tx)
         return delta_rx, delta_tx, "metrics_ok"
 
     def _get_syscall_rate(self, pod_uid: str) -> tuple[float, str]:
         """
         Read syscall rate from the eBPF sidecar probe file.
 
-        The sidecar (Tetragon / Falco / custom bpftrace) writes a float to:
+        The sidecar writes a float to:
             /var/run/raasa/<pod-uid>/syscall_rate
-        at the same frequency as the RAASA poll interval.
 
         Returns 0.0 if the probe file is absent (graceful degradation).
         """
         probe_path = os.path.join(self.syscall_probe_dir, pod_uid, "syscall_rate")
+        probe_status = self._probe_file_status(Path(probe_path))
+        if probe_status != "probe_ok":
+            return 0.0, probe_status
+
         raw = _read_proc_file(probe_path)
         if raw is None:
             return 0.0, "probe_missing"
@@ -546,28 +709,36 @@ class ObserverK8s(BaseObserver):
             return 0.0, "probe_negative"
         return value, "probe_ok"
 
+    def _probe_file_status(self, probe_path: Path) -> str:
+        if not probe_path.exists():
+            return "probe_missing"
+        try:
+            age_seconds = max(0.0, time.time() - probe_path.stat().st_mtime)
+        except OSError:
+            return "probe_stat_failed"
+        max_age_seconds = max(float(getattr(self, "syscall_probe_max_age_seconds", 15)), 1.0)
+        if age_seconds > max_age_seconds:
+            return "probe_stale"
+        return "probe_ok"
+
     def _read_process_count(self, pod_uid: str, cpu_percent: float) -> int:
         """
         Read the live PID count for a pod from its cgroup v2 ``pids.current`` file.
 
-        On a real Kubernetes (K3s/EKS/GKE) node the kubelet creates a cgroup slice
-        for each pod under::
-
-            /sys/fs/cgroup/kubepods.slice/<uid>/pids.current
-
-        This file is written by the kernel and is always up to date. Reading it
-        requires no special privileges beyond read access to the cgroup filesystem,
-        which the DaemonSet gets via the ``/sys`` hostPath volume mount.
-
-        Falls back to a CPU-proportional estimate when:
-          - Not running on a real node (development / CI)
-          - The cgroup path does not exist yet (pod still starting)
-          - Any OS error occurs (fail-safe, never raises)
+        Falls back to a CPU-proportional estimate when the cgroup path does
+        not exist or cannot be read in dev/CI.
         """
-        # Build candidate cgroup paths for this pod UID
+        uid_cgroup = pod_uid.replace("-", "_")
         uid_short = pod_uid[:12]
         cgroup_patterns = [
+            f"/host/sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod{uid_cgroup}.slice/pids.current",
+            f"/host/sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod{pod_uid}.slice/pids.current",
+            f"/host/sys/fs/cgroup/kubepods.slice/kubepods-pod{uid_cgroup}.slice/pids.current",
+            f"/host/sys/fs/cgroup/kubepods.slice/kubepods-pod{pod_uid}.slice/pids.current",
+            f"/host/sys/fs/cgroup/kubepods/{uid_short}/pids.current",
+            f"/sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod{uid_cgroup}.slice/pids.current",
             f"/sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod{pod_uid}.slice/pids.current",
+            f"/sys/fs/cgroup/kubepods.slice/kubepods-pod{uid_cgroup}.slice/pids.current",
             f"/sys/fs/cgroup/kubepods.slice/kubepods-pod{pod_uid}.slice/pids.current",
             f"/sys/fs/cgroup/kubepods/{uid_short}/pids.current",
         ]
@@ -578,8 +749,108 @@ class ObserverK8s(BaseObserver):
                     return max(0, int(raw.strip()))
                 except ValueError:
                     pass
-        # Fallback: CPU-proportional estimate (reproducible in dev/CI)
+
+        best_count: Optional[int] = None
+        uid_tokens = {pod_uid, uid_cgroup, uid_short}
+        for root in (
+            Path("/host/sys/fs/cgroup/kubepods.slice"),
+            Path("/host/sys/fs/cgroup/kubepods"),
+            Path("/sys/fs/cgroup/kubepods.slice"),
+            Path("/sys/fs/cgroup/kubepods"),
+        ):
+            try:
+                if not root.exists():
+                    continue
+                for path in root.rglob("pids.current"):
+                    path_text = str(path)
+                    if not any(token and token in path_text for token in uid_tokens):
+                        continue
+                    raw = _read_proc_file(path_text)
+                    if raw is None:
+                        continue
+                    try:
+                        value = max(0, int(raw.strip()))
+                    except ValueError:
+                        continue
+                    best_count = value if best_count is None else max(best_count, value)
+            except OSError:
+                continue
+        if best_count is not None:
+            return best_count
         return max(1, int(cpu_percent / 10))
+
+    def _cache_metrics(self, pod_ref: str, cpu_percent: float, memory_percent: float) -> None:
+        self._metrics_cache[pod_ref] = {
+            "timestamp": time.time(),
+            "cpu_percent": cpu_percent,
+            "memory_percent": memory_percent,
+        }
+
+    def _cache_namespace_metrics(self, namespace: str, items: list[dict]) -> None:
+        self._namespace_metrics_cache[namespace] = {
+            "timestamp": time.time(),
+            "items": items,
+        }
+
+    def _get_cached_metrics(self, pod_ref: str) -> Optional[Dict[str, float]]:
+        if not self.allow_stale_metrics_fallback:
+            return None
+        cached = self._metrics_cache.get(pod_ref)
+        if cached is None:
+            return None
+        if self.metrics_cache_max_age_seconds <= 0:
+            return None
+        age_seconds = time.time() - cached["timestamp"]
+        if age_seconds > self.metrics_cache_max_age_seconds:
+            return None
+        return cached
+
+    def _get_cached_namespace_metrics(self, namespace: str) -> Optional[list[dict]]:
+        cached = self._namespace_metrics_cache.get(namespace)
+        if cached is None:
+            return None
+        if self.namespace_metrics_cache_max_age_seconds <= 0:
+            return None
+        age_seconds = time.time() - float(cached["timestamp"])
+        if age_seconds > self.namespace_metrics_cache_max_age_seconds:
+            return None
+        items = cached.get("items")
+        if not isinstance(items, list):
+            return None
+        return items
+
+    def _is_metrics_api_in_cooldown(self) -> bool:
+        return time.time() < self._metrics_api_blocked_until
+
+    def _activate_metrics_api_cooldown(self, failure_status: str) -> None:
+        self._metrics_api_last_failure_status = failure_status
+        if self.metrics_failure_cooldown_seconds <= 0:
+            return
+        if failure_status in {"metrics_timeout", "metrics_error"}:
+            self._metrics_api_blocked_until = time.time() + self.metrics_failure_cooldown_seconds
+
+    def _classify_metrics_exception(self, exc: Exception) -> str:
+        message = str(exc).lower()
+        if (
+            "timeout" in message
+            or "timed out" in message
+            or "deadline exceeded" in message
+            or "subjectaccessreviews" in message
+        ):
+            return "metrics_timeout"
+        if "404" in message or "not found" in message:
+            return "metrics_missing"
+        return "metrics_error"
+
+    def _summarize_telemetry_status(self, signal_statuses: dict[str, str]) -> tuple[str, str]:
+        degraded = [
+            f"{signal}:{status}"
+            for signal, status in signal_statuses.items()
+            if status not in _HEALTHY_SIGNAL_STATUSES
+        ]
+        if not degraded:
+            return "complete", ""
+        return "partial", ",".join(degraded)
 
     def _fallback_pod(self, pod_ref: str, timestamp: datetime, reason: str) -> ContainerTelemetry:
         return ContainerTelemetry(
@@ -588,7 +859,21 @@ class ObserverK8s(BaseObserver):
             cpu_percent=0.0,
             memory_percent=0.0,
             process_count=0,
-            metadata={"status": "fallback", "reason": reason},
+            metadata={
+                "status": "fallback",
+                "reason": reason,
+                "telemetry_status": "fallback",
+                "degraded_signals": "all:unavailable",
+                "cpu_source": "unavailable",
+                "cpu_status": "unavailable",
+                "metrics_api_status": "unavailable",
+                "memory_source": "unavailable",
+                "memory_status": "unavailable",
+                "network_source": "unavailable",
+                "network_status": "unavailable",
+                "syscall_source": "unavailable",
+                "syscall_status": "unavailable",
+            },
         )
 
     def _fallback_batch(

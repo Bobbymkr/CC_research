@@ -26,6 +26,21 @@ class FeatureExtractorTests(unittest.TestCase):
         self.assertEqual(features[0].memory_signal, 0.2)
         self.assertEqual(features[0].process_signal, 1.0)
 
+    def test_carries_telemetry_metadata_into_feature_vector(self) -> None:
+        telemetry = [
+            ContainerTelemetry(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_percent=50.0,
+                memory_percent=20.0,
+                process_count=3,
+                metadata={"telemetry_status": "partial", "degraded_signals": "memory:cadvisor_fallback"},
+            )
+        ]
+        features = FeatureExtractor(process_cap=20).extract(telemetry)
+        self.assertEqual(features[0].telemetry_metadata["telemetry_status"], "partial")
+        self.assertIn("memory:cadvisor_fallback", features[0].telemetry_metadata["degraded_signals"])
+
     def test_respects_custom_syscall_cap_without_forcing_saturation(self) -> None:
         telemetry = [
             ContainerTelemetry(
@@ -80,6 +95,24 @@ class RiskAssessorTests(unittest.TestCase):
         
         self.assertGreater(a3.risk_trend, 0.0)
 
+    def test_preserves_partial_telemetry_metadata_in_assessment(self) -> None:
+        assessor = RiskAssessor(confidence_window=3)
+        features = [
+            FeatureVector(
+                "c1",
+                datetime.now(timezone.utc),
+                0.5,
+                0.2,
+                0.1,
+                telemetry_metadata={"telemetry_status": "partial", "degraded_signals": "cpu:metrics_cache_fallback"},
+            )
+        ]
+        result = assessor.assess(features)[0]
+
+        self.assertEqual(result.telemetry_metadata["telemetry_status"], "partial")
+        self.assertTrue(any(reason == "telemetry=partial" for reason in result.reasons))
+        self.assertTrue(any("cpu:metrics_cache_fallback" in reason for reason in result.reasons))
+
 
 class PolicyReasonerTests(unittest.TestCase):
     def test_trend_acceleration_bypasses_hysteresis_band(self) -> None:
@@ -131,6 +164,160 @@ class PolicyReasonerTests(unittest.TestCase):
         self.assertEqual(decision.applied_tier, Tier.L1)
         self.assertIn("confidence", decision.reason)
 
+    def test_partial_telemetry_still_allows_l2_escalation(self) -> None:
+        reasoner = PolicyReasoner()
+        timestamp = datetime.now(timezone.utc)
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.50,
+                    confidence_score=0.9,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=0.50,
+                        memory_signal=0.20,
+                        process_signal=0.10,
+                        telemetry_metadata={
+                            "telemetry_status": "partial",
+                            "degraded_signals": "memory:cadvisor_fallback",
+                        },
+                    ),
+                    telemetry_metadata={
+                        "telemetry_status": "partial",
+                        "degraded_signals": "memory:cadvisor_fallback",
+                    },
+                )
+            ]
+        )[0]
+        self.assertEqual(decision.applied_tier, Tier.L2)
+        self.assertEqual(decision.containment_profile, "degraded_operation")
+
+    def test_partial_telemetry_caps_new_l3_escalation_at_l2(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=timestamp,
+                    risk_score=0.85,
+                    confidence_score=0.45,
+                    risk_trend=0.15,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        timestamp,
+                        cpu_signal=0.85,
+                        memory_signal=0.20,
+                        process_signal=0.35,
+                        network_signal=0.30,
+                        syscall_signal=0.30,
+                        telemetry_metadata={
+                            "telemetry_status": "partial",
+                            "degraded_signals": "cpu:metrics_cache_fallback",
+                        },
+                    ),
+                    telemetry_metadata={
+                        "telemetry_status": "partial",
+                        "degraded_signals": "cpu:metrics_cache_fallback",
+                    },
+                )
+            ]
+        )[0]
+        self.assertEqual(decision.applied_tier, Tier.L2)
+        self.assertIn("cap escalation at L2 before hard containment", decision.reason)
+        self.assertEqual(decision.containment_profile, "degraded_operation")
+
+    def test_partial_telemetry_allows_decisive_process_l3_when_degraded_signal_is_unrelated(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="process-fanout",
+                    timestamp=timestamp,
+                    risk_score=1.0,
+                    confidence_score=0.45,
+                    risk_trend=0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "process-fanout",
+                        timestamp,
+                        cpu_signal=1.0,
+                        memory_signal=0.05,
+                        process_signal=1.0,
+                        network_signal=0.0,
+                        syscall_signal=0.0,
+                        telemetry_metadata={
+                            "telemetry_status": "partial",
+                            "degraded_signals": "syscall:probe_stale",
+                        },
+                    ),
+                    telemetry_metadata={
+                        "telemetry_status": "partial",
+                        "degraded_signals": "syscall:probe_stale",
+                    },
+                )
+            ]
+        )[0]
+
+        self.assertEqual(decision.applied_tier, Tier.L3)
+        self.assertIn("risk and confidence high", decision.reason)
+
+    def test_partial_telemetry_blocks_relaxation_from_l3(self) -> None:
+        reasoner = PolicyReasoner(cooldown_seconds=0, low_risk_streak_required=1)
+        now = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=now,
+                    risk_score=0.90,
+                    confidence_score=0.95,
+                    reasons=[],
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L3)
+        self.assertEqual(first.containment_profile, "hard_containment")
+
+        blocked = reasoner.decide(
+            [
+                Assessment(
+                    container_id="c1",
+                    timestamp=now + timedelta(seconds=20),
+                    risk_score=0.10,
+                    confidence_score=0.90,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "c1",
+                        now + timedelta(seconds=20),
+                        cpu_signal=0.10,
+                        memory_signal=0.10,
+                        process_signal=0.05,
+                        telemetry_metadata={
+                            "telemetry_status": "partial",
+                            "degraded_signals": "network:cadvisor_unavailable",
+                        },
+                    ),
+                    telemetry_metadata={
+                        "telemetry_status": "partial",
+                        "degraded_signals": "network:cadvisor_unavailable",
+                    },
+                )
+            ]
+        )[0]
+        self.assertEqual(blocked.applied_tier, Tier.L3)
+        self.assertIn("hold current tier until signals recover", blocked.reason)
+        self.assertEqual(blocked.containment_profile, "hard_containment")
+
     def test_extreme_multi_signal_anomaly_requires_confirmation_from_l1(self) -> None:
         reasoner = PolicyReasoner()
         timestamp = datetime.now(timezone.utc)
@@ -181,6 +368,406 @@ class PolicyReasonerTests(unittest.TestCase):
         )[0]
         self.assertEqual(second.applied_tier, Tier.L3)
         self.assertIn("confirmed extreme multi-signal anomaly", second.reason)
+
+    def test_bounded_cpu_syscall_pressure_caps_at_l2(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="benign-pressure",
+                    timestamp=timestamp,
+                    risk_score=0.86,
+                    confidence_score=0.0,
+                    risk_trend=0.25,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "benign-pressure",
+                        timestamp,
+                        cpu_signal=0.80,
+                        memory_signal=0.01,
+                        process_signal=0.40,
+                        network_signal=0.0,
+                        syscall_signal=0.42,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+        self.assertIn("bounded CPU/syscall pressure profile", first.reason)
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="benign-pressure",
+                    timestamp=timestamp + timedelta(seconds=5),
+                    risk_score=1.0,
+                    confidence_score=0.0,
+                    risk_trend=0.30,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "benign-pressure",
+                        timestamp + timedelta(seconds=5),
+                        cpu_signal=0.96,
+                        memory_signal=0.01,
+                        process_signal=0.40,
+                        network_signal=0.0,
+                        syscall_signal=0.43,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(second.applied_tier, Tier.L2)
+        self.assertIn("hold below L3", second.reason)
+
+    def test_live_bounded_cpu_pressure_reaches_l2_with_low_confidence(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="benign-pressure",
+                    timestamp=timestamp,
+                    risk_score=0.8733,
+                    confidence_score=0.0,
+                    risk_trend=0.30,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "benign-pressure",
+                        timestamp,
+                        cpu_signal=1.0,
+                        memory_signal=0.0157,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.3976,
+                    ),
+                )
+            ]
+        )[0]
+
+        self.assertEqual(decision.applied_tier, Tier.L2)
+        self.assertIn("bounded CPU/syscall pressure profile", decision.reason)
+
+    def test_cpu_pressure_syscall_spike_without_attack_context_stays_l2(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="benign-pressure",
+                    timestamp=timestamp,
+                    risk_score=0.9971,
+                    confidence_score=0.0,
+                    risk_trend=0.59,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "benign-pressure",
+                        timestamp,
+                        cpu_signal=1.0,
+                        memory_signal=0.0157,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.2973,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="benign-pressure",
+                    timestamp=timestamp + timedelta(seconds=10),
+                    risk_score=1.0,
+                    confidence_score=0.0,
+                    risk_trend=-0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "benign-pressure",
+                        timestamp + timedelta(seconds=10),
+                        cpu_signal=1.0,
+                        memory_signal=0.0157,
+                        process_signal=0.50,
+                        network_signal=0.0,
+                        syscall_signal=0.5088,
+                    ),
+                )
+            ]
+        )[0]
+
+        self.assertEqual(second.applied_tier, Tier.L2)
+        self.assertIn("confidence below L3 threshold", second.reason)
+
+    def test_stronger_syscall_pressure_still_reaches_l3_after_confirmation(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="syscall-attack",
+                    timestamp=timestamp,
+                    risk_score=0.95,
+                    confidence_score=0.0,
+                    risk_trend=0.20,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "syscall-attack",
+                        timestamp,
+                        cpu_signal=0.85,
+                        memory_signal=0.01,
+                        process_signal=0.40,
+                        network_signal=0.0,
+                        syscall_signal=0.65,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="syscall-attack",
+                    timestamp=timestamp + timedelta(seconds=5),
+                    risk_score=0.95,
+                    confidence_score=0.0,
+                    risk_trend=0.20,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "syscall-attack",
+                        timestamp + timedelta(seconds=5),
+                        cpu_signal=0.85,
+                        memory_signal=0.01,
+                        process_signal=0.40,
+                        network_signal=0.0,
+                        syscall_signal=0.65,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(second.applied_tier, Tier.L3)
+        self.assertIn("confirmed extreme multi-signal anomaly", second.reason)
+
+    def test_sustained_network_saturation_reaches_l3_after_confirmation(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="network-exfil",
+                    timestamp=timestamp,
+                    risk_score=0.82,
+                    confidence_score=0.0,
+                    risk_trend=0.35,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "network-exfil",
+                        timestamp,
+                        cpu_signal=0.34,
+                        memory_signal=0.02,
+                        process_signal=0.15,
+                        network_signal=1.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+        self.assertIn("network saturation needs confirmation", first.reason)
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="network-exfil",
+                    timestamp=timestamp + timedelta(seconds=5),
+                    risk_score=0.58,
+                    confidence_score=0.0,
+                    risk_trend=0.10,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "network-exfil",
+                        timestamp + timedelta(seconds=5),
+                        cpu_signal=0.0,
+                        memory_signal=0.02,
+                        process_signal=0.05,
+                        network_signal=1.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+
+        self.assertEqual(second.applied_tier, Tier.L3)
+        self.assertIn("confirmed sustained network saturation", second.reason)
+
+    def test_confirmed_network_saturation_ignores_unrelated_syscall_partial_telemetry(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        reasoner.decide(
+            [
+                Assessment(
+                    container_id="network-burst",
+                    timestamp=timestamp,
+                    risk_score=0.63,
+                    confidence_score=0.02,
+                    risk_trend=0.28,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "network-burst",
+                        timestamp,
+                        cpu_signal=0.0,
+                        memory_signal=0.02,
+                        process_signal=0.15,
+                        network_signal=1.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="network-burst",
+                    timestamp=timestamp + timedelta(seconds=5),
+                    risk_score=0.66,
+                    confidence_score=0.0,
+                    risk_trend=-0.05,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "network-burst",
+                        timestamp + timedelta(seconds=5),
+                        cpu_signal=0.06,
+                        memory_signal=0.02,
+                        process_signal=0.15,
+                        network_signal=1.0,
+                        syscall_signal=0.0,
+                        telemetry_metadata={
+                            "telemetry_status": "partial",
+                            "degraded_signals": "syscall:probe_stale",
+                        },
+                    ),
+                    telemetry_metadata={
+                        "telemetry_status": "partial",
+                        "degraded_signals": "syscall:probe_stale",
+                    },
+                )
+            ]
+        )[0]
+
+        self.assertEqual(second.applied_tier, Tier.L3)
+        self.assertIn("confirmed sustained network saturation", second.reason)
+
+    def test_single_network_saturation_sample_stays_below_l3(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="network-burst",
+                    timestamp=timestamp,
+                    risk_score=0.82,
+                    confidence_score=0.0,
+                    risk_trend=0.35,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "network-burst",
+                        timestamp,
+                        cpu_signal=0.34,
+                        memory_signal=0.02,
+                        process_signal=0.15,
+                        network_signal=1.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+
+        self.assertEqual(decision.applied_tier, Tier.L2)
+        self.assertIn("network saturation needs confirmation", decision.reason)
+
+    def test_intermittent_network_saturation_reaches_l3_after_short_gap(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        first = reasoner.decide(
+            [
+                Assessment(
+                    container_id="network-burst",
+                    timestamp=timestamp,
+                    risk_score=0.63,
+                    confidence_score=0.02,
+                    risk_trend=0.28,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "network-burst",
+                        timestamp,
+                        cpu_signal=0.0,
+                        memory_signal=0.02,
+                        process_signal=0.15,
+                        network_signal=1.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+        self.assertEqual(first.applied_tier, Tier.L2)
+
+        for offset in (5, 10):
+            reasoner.decide(
+                [
+                    Assessment(
+                        container_id="network-burst",
+                        timestamp=timestamp + timedelta(seconds=offset),
+                        risk_score=0.10,
+                        confidence_score=0.20,
+                        risk_trend=-0.05,
+                        reasons=[],
+                        latest_features=FeatureVector(
+                            "network-burst",
+                            timestamp + timedelta(seconds=offset),
+                            cpu_signal=0.0,
+                            memory_signal=0.02,
+                            process_signal=0.15,
+                            network_signal=0.0,
+                            syscall_signal=0.0,
+                        ),
+                    )
+                ]
+            )
+
+        second = reasoner.decide(
+            [
+                Assessment(
+                    container_id="network-burst",
+                    timestamp=timestamp + timedelta(seconds=15),
+                    risk_score=0.64,
+                    confidence_score=0.04,
+                    risk_trend=-0.05,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "network-burst",
+                        timestamp + timedelta(seconds=15),
+                        cpu_signal=0.0,
+                        memory_signal=0.02,
+                        process_signal=0.15,
+                        network_signal=1.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+
+        self.assertEqual(second.applied_tier, Tier.L3)
+        self.assertIn("confirmed sustained network saturation", second.reason)
 
     def test_low_confidence_high_risk_without_multi_signal_support_still_holds(self) -> None:
         reasoner = PolicyReasoner()
@@ -362,6 +949,64 @@ class PolicyReasonerTests(unittest.TestCase):
         self.assertEqual(decision.applied_tier, Tier.L2)
         self.assertIn("cap at L2", decision.reason)
 
+    def test_borderline_syscall_cpu_sample_caps_at_l2_without_decisive_l3_evidence(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="benign-moderate",
+                    timestamp=timestamp,
+                    risk_score=0.7716,
+                    confidence_score=0.2093,
+                    risk_trend=0.2467,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "benign-moderate",
+                        timestamp,
+                        cpu_signal=0.7502,
+                        memory_signal=0.0,
+                        process_signal=0.15,
+                        network_signal=0.0,
+                        syscall_signal=0.5014,
+                    ),
+                )
+            ]
+        )[0]
+
+        self.assertEqual(decision.applied_tier, Tier.L2)
+        self.assertIn("without decisive L3 evidence", decision.reason)
+
+    def test_process_fanout_with_moderate_cpu_support_reaches_l3(self) -> None:
+        reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
+        timestamp = datetime.now(timezone.utc)
+
+        decision = reasoner.decide(
+            [
+                Assessment(
+                    container_id="process-fanout",
+                    timestamp=timestamp,
+                    risk_score=0.8765,
+                    confidence_score=0.4895,
+                    risk_trend=0.2548,
+                    reasons=[],
+                    latest_features=FeatureVector(
+                        "process-fanout",
+                        timestamp,
+                        cpu_signal=0.5920,
+                        memory_signal=0.0,
+                        process_signal=1.0,
+                        network_signal=0.0,
+                        syscall_signal=0.0,
+                    ),
+                )
+            ]
+        )[0]
+
+        self.assertEqual(decision.applied_tier, Tier.L3)
+        self.assertIn("risk and confidence high", decision.reason)
+
     def test_near_boundary_normal_l3_escalation_still_triggers_with_strong_confidence(self) -> None:
         reasoner = PolicyReasoner(l1_max=0.35, l2_max=0.60, hysteresis_band=0.04, l3_min_confidence=0.20)
         timestamp = datetime.now(timezone.utc)
@@ -381,7 +1026,7 @@ class PolicyReasonerTests(unittest.TestCase):
                         cpu_signal=0.70,
                         memory_signal=0.02,
                         process_signal=0.30,
-                        network_signal=0.0,
+                        network_signal=0.30,
                         syscall_signal=0.24,
                     ),
                 )
