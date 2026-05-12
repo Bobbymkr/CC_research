@@ -111,6 +111,8 @@ spec:
               value: "/app"
             - name: PYTHONUNBUFFERED
               value: "1"
+            - name: RAASA_OVERRIDE_PATH
+              value: "/app/raasa/logs/overrides.json"
           volumeMounts:
             - name: proc
               mountPath: /host/proc
@@ -220,21 +222,16 @@ metadata:
 rules:
   # Pod inspection — needed to enumerate pods on this node
   - apiGroups: [""]
-    resources: ["pods", "nodes"]
-    verbs: ["get", "list", "watch"]
+    resources: ["pods"]
+    verbs: ["get", "list"]
   # Node proxy — needed to fetch cAdvisor metrics for network telemetry
   - apiGroups: [""]
-    resources: ["nodes/proxy", "nodes/metrics"]
+    resources: ["nodes/proxy"]
     verbs: ["get"]
   # Metrics API — needed for CPU/memory measurements
   - apiGroups: ["metrics.k8s.io"]
-    resources: ["pods", "nodes"]
+    resources: ["pods"]
     verbs: ["get", "list"]
-  # Events — for audit logging escalation decisions to the cluster event stream
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create", "patch"]
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
