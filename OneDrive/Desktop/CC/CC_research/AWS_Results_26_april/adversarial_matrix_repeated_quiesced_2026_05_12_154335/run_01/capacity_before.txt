@@ -1,0 +1,14 @@
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root        19G  9.3G  9.1G  51% /
+/dev/root        19G  9.3G  9.1G  51% /
+NAME               CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+ip-172-31-16-234   783m         39%      2759Mi          35%         
+NAMESPACE      NAME                                      CPU(cores)   MEMORY(bytes)   
+kube-system    coredns-76c974cb66-r864s                  12m          69Mi            
+kube-system    local-path-provisioner-8686667995-r649k   1m           45Mi            
+kube-system    metrics-server-7bbbb75f47-7pcx7           5m           22Mi            
+kube-system    tetragon-6fk5g                            326m         1048Mi          
+kube-system    tetragon-operator-79c87675d6-d8rkl        1m           51Mi            
+raasa-bench    raasa-bench-client-5fd64dcfbf-hvl28       0m           1Mi             
+raasa-demo     raasa-net-client-669f7c4cf8-2d9w8         42m          6Mi             
+raasa-system   raasa-agent-qxjnt                         93m          130Mi           

@@ -1,0 +1,451 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"raasa-test","raasa.class":"benign","raasa.expected_tier":"L2"},"name":"raasa-test-benign-compute","namespace":"default"},"spec":{"containers":[{"command":["sh","-c","# Keep the benign compute pod stable at baseline.\n# Closed-loop validation injects moderate and heavy load on demand.\nsleep infinity\n"],"image":"ubuntu:24.04","name":"workload","resources":{"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"64Mi"}}}]}}
+    creationTimestamp: "2026-05-12T10:23:00Z"
+    generation: 1
+    labels:
+      app: raasa-test
+      raasa.class: benign
+      raasa.expected_tier: L2
+    name: raasa-test-benign-compute
+    namespace: default
+    resourceVersion: "347901"
+    uid: ea37af81-e16a-437a-ab86-a929f0a46235
+  spec:
+    containers:
+    - command:
+      - sh
+      - -c
+      - |
+        # Keep the benign compute pod stable at baseline.
+        # Closed-loop validation injects moderate and heavy load on demand.
+        sleep infinity
+      image: ubuntu:24.04
+      imagePullPolicy: IfNotPresent
+      name: workload
+      resources:
+        limits:
+          cpu: 500m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6k9dn
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-172-31-16-234
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-6k9dn
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:00Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:00Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 64Mi
+      containerID: containerd://5bdef788dc0c0517f2f661254934c8e0e1274d327c1dfb423c05bb2580499c94
+      image: docker.io/library/ubuntu:24.04
+      imageID: docker.io/library/ubuntu@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
+      lastState: {}
+      name: workload
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-05-12T10:23:01Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6k9dn
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.31.16.234
+    hostIPs:
+    - ip: 172.31.16.234
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.42.0.156
+    podIPs:
+    - ip: 10.42.0.156
+    qosClass: Burstable
+    startTime: "2026-05-12T10:23:00Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"raasa-test","raasa.class":"benign","raasa.expected_tier":"L1"},"name":"raasa-test-benign-steady","namespace":"default"},"spec":{"containers":[{"command":["sleep","infinity"],"image":"ubuntu:24.04","name":"workload","resources":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"32Mi"}}}]}}
+    creationTimestamp: "2026-05-12T10:23:00Z"
+    generation: 1
+    labels:
+      app: raasa-test
+      raasa.class: benign
+      raasa.expected_tier: L1
+    name: raasa-test-benign-steady
+    namespace: default
+    resourceVersion: "347903"
+    uid: 4178be50-4ab6-4d36-a426-61e67293be58
+  spec:
+    containers:
+    - command:
+      - sleep
+      - infinity
+      image: ubuntu:24.04
+      imagePullPolicy: IfNotPresent
+      name: workload
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 32Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2rsvb
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-172-31-16-234
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-2rsvb
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:00Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:00Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 50m
+        memory: 32Mi
+      containerID: containerd://8938ebbbbc9750e8f7a6b7311ac2ac15fde3fb40f3d63fdeaf2aa7bd87da8f36
+      image: docker.io/library/ubuntu:24.04
+      imageID: docker.io/library/ubuntu@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
+      lastState: {}
+      name: workload
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 32Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-05-12T10:23:01Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2rsvb
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.31.16.234
+    hostIPs:
+    - ip: 172.31.16.234
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.42.0.155
+    podIPs:
+    - ip: 10.42.0.155
+    qosClass: Burstable
+    startTime: "2026-05-12T10:23:00Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"raasa-test","raasa.class":"malicious","raasa.expected_tier":"L3"},"name":"raasa-test-malicious-cpu","namespace":"default"},"spec":{"containers":[{"command":["sh","-c","apt-get update -qq \u0026\u0026 apt-get install -y -qq stress-ng \u003e/dev/null 2\u003e\u00261\n# 100% CPU on 1 core + process fan-out: high enough to hit L3 threshold\nstress-ng --cpu 1 --vm 1 --fork 8 --timeout 0\n"],"image":"ubuntu:24.04","name":"workload","resources":{"limits":{"cpu":"1000m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"64Mi"}}}]}}
+    creationTimestamp: "2026-05-12T10:23:00Z"
+    generation: 1
+    labels:
+      app: raasa-test
+      raasa.class: malicious
+      raasa.expected_tier: L3
+    name: raasa-test-malicious-cpu
+    namespace: default
+    resourceVersion: "347902"
+    uid: aa8ed97c-b509-4432-b047-0bcce3893fc6
+  spec:
+    containers:
+    - command:
+      - sh
+      - -c
+      - |
+        apt-get update -qq && apt-get install -y -qq stress-ng >/dev/null 2>&1
+        # 100% CPU on 1 core + process fan-out: high enough to hit L3 threshold
+        stress-ng --cpu 1 --vm 1 --fork 8 --timeout 0
+      image: ubuntu:24.04
+      imagePullPolicy: IfNotPresent
+      name: workload
+      resources:
+        limits:
+          cpu: "1"
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dv9vq
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-172-31-16-234
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-dv9vq
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:01Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:02Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-12T10:23:01Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 64Mi
+      containerID: containerd://8ddb87c530d49e05849a9b3d1163a83f20fe8f673b6223ac2a47cce386879f84
+      image: docker.io/library/ubuntu:24.04
+      imageID: docker.io/library/ubuntu@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
+      lastState: {}
+      name: workload
+      ready: true
+      resources:
+        limits:
+          cpu: "1"
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-05-12T10:23:01Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dv9vq
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.31.16.234
+    hostIPs:
+    - ip: 172.31.16.234
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.42.0.157
+    podIPs:
+    - ip: 10.42.0.157
+    qosClass: Burstable
+    startTime: "2026-05-12T10:23:01Z"
+kind: List
+metadata:
+  resourceVersion: ""

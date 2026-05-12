@@ -1,0 +1,7 @@
+pod "raasa-test-benign-compute" deleted from default namespace
+pod "raasa-test-benign-steady" deleted from default namespace
+pod "raasa-test-malicious-cpu" deleted from default namespace
+deployment.apps/raasa-net-client scaled
+deployment.apps/raasa-net-server scaled
+deployment.apps/raasa-bench-client scaled
+deployment.apps/raasa-bench-server scaled

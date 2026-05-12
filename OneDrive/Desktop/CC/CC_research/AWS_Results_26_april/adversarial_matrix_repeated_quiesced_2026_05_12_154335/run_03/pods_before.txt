@@ -1,0 +1,9 @@
+NAMESPACE      NAME                                      READY   STATUS        RESTARTS       AGE    IP              NODE               NOMINATED NODE   READINESS GATES
+kube-system    coredns-76c974cb66-r864s                  1/1     Running       6 (20h ago)    16d    10.42.0.84      ip-172-31-16-234   <none>           <none>
+kube-system    local-path-provisioner-8686667995-r649k   1/1     Running       6 (20h ago)    16d    10.42.0.82      ip-172-31-16-234   <none>           <none>
+kube-system    metrics-server-7bbbb75f47-7pcx7           1/1     Running       0              5h1m   10.42.0.94      ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-6fk5g                            2/2     Running       12 (20h ago)   16d    172.31.16.234   ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-operator-79c87675d6-d8rkl        1/1     Running       6 (20h ago)    16d    10.42.0.81      ip-172-31-16-234   <none>           <none>
+raasa-bench    raasa-bench-client-5fd64dcfbf-cnhjz       1/1     Terminating   0              73s    10.42.0.172     ip-172-31-16-234   <none>           <none>
+raasa-demo     raasa-net-client-669f7c4cf8-5gbbb         1/1     Terminating   0              73s    10.42.0.171     ip-172-31-16-234   <none>           <none>
+raasa-system   raasa-agent-qxjnt                         3/3     Running       0              59m    172.31.16.234   ip-172-31-16-234   <none>           <none>

@@ -1,0 +1,14 @@
+{
+    "rows":  17,
+    "parse_errors":  0,
+    "new_tiers":  "L2:12,L3:5",
+    "proposed_tiers":  "L1:14,L3:3",
+    "telemetry_statuses":  "complete:12,partial:5",
+    "syscall_statuses":  "probe_missing:2,probe_ok:15",
+    "reasons":  "confirmed sustained network saturation -\u003e escalate to L3 hard containment:1,cooldown active -\u003e hold:7,low-risk streak not long enough -\u003e hold:2,network saturation needs confirmation -\u003e hold below L3:2,partial telemetry (cpu:unavailable,memory:cadvisor_fallback,syscall:probe_missing) -\u003e hold current tier until signals recover:1,partial telemetry (memory:cadvisor_fallback) -\u003e hold current tier until signals recover:2,partial telemetry (memory:cadvisor_fallback,syscall:probe_missing) -\u003e hold current tier until signals recover:1,sustained lower risk -\u003e relax to L2:1",
+    "max_cpu":  33.8696,
+    "max_process_signal":  0.2,
+    "max_network_signal":  1,
+    "max_syscall_signal":  0.0177,
+    "l3_count":  5
+}

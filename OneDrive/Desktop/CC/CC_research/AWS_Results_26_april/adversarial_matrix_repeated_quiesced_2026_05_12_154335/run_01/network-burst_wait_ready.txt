@@ -1,0 +1,2 @@
+pod/raasa-adv-net-client condition met
+pod/raasa-adv-net-server condition met

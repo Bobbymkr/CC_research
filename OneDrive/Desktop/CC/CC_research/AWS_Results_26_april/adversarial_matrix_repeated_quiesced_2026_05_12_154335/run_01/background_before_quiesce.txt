@@ -1,0 +1,20 @@
+NAMESPACE      NAME                                      READY   STATUS    RESTARTS        AGE     IP              NODE               NOMINATED NODE   READINESS GATES
+default        raasa-test-benign-compute                 1/1     Running   5 (20h ago)     3d2h    10.42.0.86      ip-172-31-16-234   <none>           <none>
+default        raasa-test-benign-steady                  1/1     Running   2 (6h12m ago)   3d2h    10.42.0.91      ip-172-31-16-234   <none>           <none>
+default        raasa-test-malicious-cpu                  1/1     Running   2 (20h ago)     3d2h    10.42.0.90      ip-172-31-16-234   <none>           <none>
+kube-system    coredns-76c974cb66-r864s                  1/1     Running   6 (20h ago)     16d     10.42.0.84      ip-172-31-16-234   <none>           <none>
+kube-system    local-path-provisioner-8686667995-r649k   1/1     Running   6 (20h ago)     16d     10.42.0.82      ip-172-31-16-234   <none>           <none>
+kube-system    metrics-server-7bbbb75f47-7pcx7           1/1     Running   0               4h41m   10.42.0.94      ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-6fk5g                            2/2     Running   12 (20h ago)    16d     172.31.16.234   ip-172-31-16-234   <none>           <none>
+kube-system    tetragon-operator-79c87675d6-d8rkl        1/1     Running   6 (20h ago)     16d     10.42.0.81      ip-172-31-16-234   <none>           <none>
+raasa-bench    raasa-bench-client-5fd64dcfbf-hvl28       1/1     Running   4 (6h12m ago)   16d     10.42.0.87      ip-172-31-16-234   <none>           <none>
+raasa-bench    raasa-bench-server-7c49558994-2nmcp       1/1     Running   4 (20h ago)     16d     10.42.0.83      ip-172-31-16-234   <none>           <none>
+raasa-demo     raasa-net-client-669f7c4cf8-2d9w8         1/1     Running   6 (6h12m ago)   16d     10.42.0.89      ip-172-31-16-234   <none>           <none>
+raasa-demo     raasa-net-server-79c9b5b7d6-5jfk2         1/1     Running   6 (20h ago)     16d     10.42.0.88      ip-172-31-16-234   <none>           <none>
+raasa-system   raasa-agent-qxjnt                         3/3     Running   0               39m     172.31.16.234   ip-172-31-16-234   <none>           <none>
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                      SELECTOR
+raasa-net-client   1/1     1            1           16d   client       curlimages/curl:8.7.1       app=raasa-net-client
+raasa-net-server   1/1     1            1           16d   server       hashicorp/http-echo:1.0.0   app=raasa-net-server
+NAME                 READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                  SELECTOR
+raasa-bench-client   1/1     1            1           16d   client       curlimages/curl:8.7.1   app=raasa-bench-client
+raasa-bench-server   1/1     1            1           16d   nginx        nginx:1.27-alpine       app=raasa-bench-server

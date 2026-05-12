@@ -1,0 +1,7 @@
+pod/raasa-test-benign-steady created
+pod/raasa-test-benign-compute created
+pod/raasa-test-malicious-cpu created
+deployment.apps/raasa-net-client scaled
+deployment.apps/raasa-net-server scaled
+deployment.apps/raasa-bench-client scaled
+deployment.apps/raasa-bench-server scaled

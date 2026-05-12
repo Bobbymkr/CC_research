@@ -1,0 +1,61 @@
+{
+    "runs_requested":  3,
+    "passing_runs":  3,
+    "duration_seconds":  60,
+    "quiesce_background_workloads":  true,
+    "run_records":  [
+                        {
+                            "run":  1,
+                            "label":  "run_01",
+                            "passed":  true,
+                            "exit_code":  0,
+                            "workload_pass_count":  4,
+                            "workload_total":  4,
+                            "evidence_dir":  "C:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\AWS_Results_26_april\\adversarial_matrix_repeated_quiesced_2026_05_12_154335\\run_01"
+                        },
+                        {
+                            "run":  2,
+                            "label":  "run_02",
+                            "passed":  true,
+                            "exit_code":  0,
+                            "workload_pass_count":  4,
+                            "workload_total":  4,
+                            "evidence_dir":  "C:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\AWS_Results_26_april\\adversarial_matrix_repeated_quiesced_2026_05_12_154335\\run_02"
+                        },
+                        {
+                            "run":  3,
+                            "label":  "run_03",
+                            "passed":  true,
+                            "exit_code":  0,
+                            "workload_pass_count":  4,
+                            "workload_total":  4,
+                            "evidence_dir":  "C:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research\\AWS_Results_26_april\\adversarial_matrix_repeated_quiesced_2026_05_12_154335\\run_03"
+                        }
+                    ],
+    "workload_aggregate":  [
+                               {
+                                   "workload":  "benign-control",
+                                   "runs":  3,
+                                   "passes":  3,
+                                   "total_l3_count":  0
+                               },
+                               {
+                                   "workload":  "network-burst",
+                                   "runs":  3,
+                                   "passes":  3,
+                                   "total_l3_count":  18
+                               },
+                               {
+                                   "workload":  "process-fanout",
+                                   "runs":  3,
+                                   "passes":  3,
+                                   "total_l3_count":  47
+                               },
+                               {
+                                   "workload":  "syscall-storm",
+                                   "runs":  3,
+                                   "passes":  3,
+                                   "total_l3_count":  47
+                               }
+                           ]
+}

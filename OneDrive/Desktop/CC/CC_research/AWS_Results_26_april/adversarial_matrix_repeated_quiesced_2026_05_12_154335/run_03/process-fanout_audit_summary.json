@@ -1,0 +1,14 @@
+{
+    "rows":  16,
+    "parse_errors":  0,
+    "new_tiers":  "L3:16",
+    "proposed_tiers":  "L1:1,L2:11,L3:4",
+    "telemetry_statuses":  "complete:9,partial:7",
+    "syscall_statuses":  "probe_missing:3,probe_ok:9,probe_stale:4",
+    "reasons":  "low-risk streak not long enough -\u003e hold:5,partial telemetry (cpu:unavailable,memory:cadvisor_fallback,syscall:probe_missing) -\u003e hold current tier until signals recover:1,partial telemetry (memory:cadvisor_fallback,syscall:probe_missing) -\u003e hold current tier until signals recover:2,partial telemetry (syscall:probe_stale) -\u003e hold current tier until signals recover:4,risk within current tier band -\u003e hold:4",
+    "max_cpu":  100,
+    "max_process_signal":  1,
+    "max_network_signal":  0.002,
+    "max_syscall_signal":  0.0259,
+    "l3_count":  16
+}

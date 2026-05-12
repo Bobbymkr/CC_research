@@ -1,0 +1,2 @@
+namespace/raasa-adv-control created
+pod/raasa-adv-benign-control created

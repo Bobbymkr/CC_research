@@ -1,0 +1,446 @@
+[probe] cgroup map: 101 pod(s) discovered
+[probe] pod=2c5a0a31-715... rate=1037.60/s (delta=5188 switches)
+[probe] pod=b6ce92a0-526... rate=425.60/s (delta=2128 switches)
+[probe] pod=d22b920c-349... rate=7724.00/s (delta=38620 switches)
+[probe] cgroup map: 101 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=447.80/s (delta=2239 switches)
+[probe] pod=d22b920c-349... rate=7493.40/s (delta=37467 switches)
+[probe] cgroup map: 101 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=430.80/s (delta=2154 switches)
+[probe] pod=d22b920c-349... rate=11279.00/s (delta=56395 switches)
+[probe] cgroup map: 101 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=386.80/s (delta=1934 switches)
+[probe] pod=d22b920c-349... rate=5516.60/s (delta=27583 switches)
+[probe] cgroup map: 101 pod(s) discovered
+[probe] pod=2c5a0a31-715... rate=810.20/s (delta=4051 switches)
+[probe] pod=b6ce92a0-526... rate=395.60/s (delta=1978 switches)
+[probe] pod=d22b920c-349... rate=6767.80/s (delta=33839 switches)
+[probe] cgroup map: 101 pod(s) discovered
+/app/ebpf_probe.sh: line 57: read: read error: 0: No such device
+[probe] pod=2c5a0a31-715... rate=422.00/s (delta=2110 switches)
+[probe] pod=b6ce92a0-526... rate=572.20/s (delta=2861 switches)
+[probe] pod=d22b920c-349... rate=11813.60/s (delta=59068 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=379.60/s (delta=1898 switches)
+[probe] pod=d22b920c-349... rate=505.80/s (delta=2529 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=330.40/s (delta=1652 switches)
+[probe] pod=d22b920c-349... rate=658.80/s (delta=3294 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=1dc5c6e9-06d... rate=497.80/s (delta=2489 switches)
+[probe] pod=b6ce92a0-526... rate=298.80/s (delta=1494 switches)
+[probe] pod=d22b920c-349... rate=827.60/s (delta=4138 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=325.00/s (delta=1625 switches)
+[probe] pod=d22b920c-349... rate=309.80/s (delta=1549 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=1dc5c6e9-06d... rate=788.40/s (delta=3942 switches)
+[probe] pod=b6ce92a0-526... rate=309.00/s (delta=1545 switches)
+[probe] pod=d22b920c-349... rate=1017.40/s (delta=5087 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=373.80/s (delta=1869 switches)
+[probe] pod=d22b920c-349... rate=999.00/s (delta=4995 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=351.40/s (delta=1757 switches)
+[probe] pod=d22b920c-349... rate=399.80/s (delta=1999 switches)
+[probe] cgroup map: 102 pod(s) discovered
+[probe] pod=1dc5c6e9-06d... rate=813.80/s (delta=4069 switches)
+[probe] pod=b6ce92a0-526... rate=280.20/s (delta=1401 switches)
+[probe] pod=d22b920c-349... rate=1571.80/s (delta=7859 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=97.20/s (delta=486 switches)
+[probe] pod=b6ce92a0-526... rate=423.40/s (delta=2117 switches)
+[probe] pod=d22b920c-349... rate=337.40/s (delta=1687 switches)
+[probe] pod=ed6acf88-340... rate=333.80/s (delta=1669 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=45.40/s (delta=227 switches)
+[probe] pod=b6ce92a0-526... rate=305.40/s (delta=1527 switches)
+[probe] pod=d22b920c-349... rate=330.80/s (delta=1654 switches)
+[probe] pod=ed6acf88-340... rate=119.20/s (delta=596 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=0.40/s (delta=2 switches)
+[probe] pod=b6ce92a0-526... rate=324.40/s (delta=1622 switches)
+[probe] pod=d22b920c-349... rate=153.20/s (delta=766 switches)
+[probe] pod=ed6acf88-340... rate=6.40/s (delta=32 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=2.80/s (delta=14 switches)
+[probe] pod=b6ce92a0-526... rate=318.80/s (delta=1594 switches)
+[probe] pod=d22b920c-349... rate=218.80/s (delta=1094 switches)
+[probe] pod=ed6acf88-340... rate=5.40/s (delta=27 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=2.60/s (delta=13 switches)
+[probe] pod=b6ce92a0-526... rate=331.80/s (delta=1659 switches)
+[probe] pod=d22b920c-349... rate=171.00/s (delta=855 switches)
+[probe] pod=ed6acf88-340... rate=5.80/s (delta=29 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=2.60/s (delta=13 switches)
+[probe] pod=b6ce92a0-526... rate=322.40/s (delta=1612 switches)
+[probe] pod=d22b920c-349... rate=145.80/s (delta=729 switches)
+[probe] pod=ed6acf88-340... rate=5.60/s (delta=28 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=2.80/s (delta=14 switches)
+[probe] pod=b6ce92a0-526... rate=331.40/s (delta=1657 switches)
+[probe] pod=d22b920c-349... rate=241.00/s (delta=1205 switches)
+[probe] pod=ed6acf88-340... rate=5.60/s (delta=28 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=9df155e3-61c... rate=35.80/s (delta=179 switches)
+[probe] pod=b6ce92a0-526... rate=332.00/s (delta=1660 switches)
+[probe] pod=d22b920c-349... rate=485.40/s (delta=2427 switches)
+[probe] pod=ed6acf88-340... rate=181.40/s (delta=907 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=333.20/s (delta=1666 switches)
+[probe] pod=d22b920c-349... rate=260.20/s (delta=1301 switches)
+[probe] cgroup map: 104 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=335.60/s (delta=1678 switches)
+[probe] pod=d22b920c-349... rate=1037.40/s (delta=5187 switches)
+[probe] cgroup map: 111 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=774.60/s (delta=3873 switches)
+[probe] pod=d22b920c-349... rate=13036.40/s (delta=65182 switches)
+[probe] pod=d5f5a913-7cf... rate=63.60/s (delta=318 switches)
+[probe] pod=dbd1f18b-cdb... rate=8914.40/s (delta=44572 switches)
+[probe] cgroup map: 111 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=592.80/s (delta=2964 switches)
+[probe] pod=d22b920c-349... rate=13680.60/s (delta=68403 switches)
+[probe] pod=d5f5a913-7cf... rate=63.60/s (delta=318 switches)
+[probe] pod=dbd1f18b-cdb... rate=12115.00/s (delta=60575 switches)
+[probe] cgroup map: 111 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=522.60/s (delta=2613 switches)
+[probe] pod=d22b920c-349... rate=5817.00/s (delta=29085 switches)
+[probe] pod=d5f5a913-7cf... rate=27.40/s (delta=137 switches)
+[probe] cgroup map: 111 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=311.60/s (delta=1558 switches)
+[probe] pod=d22b920c-349... rate=380.60/s (delta=1903 switches)
+[probe] pod=d5f5a913-7cf... rate=2.80/s (delta=14 switches)
+[probe] cgroup map: 111 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=338.80/s (delta=1694 switches)
+[probe] pod=d22b920c-349... rate=228.80/s (delta=1144 switches)
+[probe] cgroup map: 111 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=323.00/s (delta=1615 switches)
+[probe] pod=d22b920c-349... rate=593.60/s (delta=2968 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=304.40/s (delta=1522 switches)
+[probe] pod=d22b920c-349... rate=158.80/s (delta=794 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=321.00/s (delta=1605 switches)
+[probe] pod=d22b920c-349... rate=222.00/s (delta=1110 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=308.80/s (delta=1544 switches)
+[probe] pod=d22b920c-349... rate=262.00/s (delta=1310 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=317.20/s (delta=1586 switches)
+[probe] pod=d22b920c-349... rate=194.80/s (delta=974 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=336.40/s (delta=1682 switches)
+[probe] pod=d22b920c-349... rate=168.60/s (delta=843 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=327.20/s (delta=1636 switches)
+[probe] pod=d22b920c-349... rate=276.60/s (delta=1383 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=342.80/s (delta=1714 switches)
+[probe] pod=d22b920c-349... rate=244.40/s (delta=1222 switches)
+[probe] cgroup map: 112 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=319.60/s (delta=1598 switches)
+[probe] pod=d22b920c-349... rate=2414.80/s (delta=12074 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=545.40/s (delta=2727 switches)
+[probe] pod=d22b920c-349... rate=8510.40/s (delta=42552 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=566.20/s (delta=2831 switches)
+[probe] pod=d22b920c-349... rate=7945.80/s (delta=39729 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=532.80/s (delta=2664 switches)
+[probe] pod=d22b920c-349... rate=12660.60/s (delta=63303 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=524.00/s (delta=2620 switches)
+[probe] pod=d22b920c-349... rate=8999.80/s (delta=44999 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=495.60/s (delta=2478 switches)
+[probe] pod=d22b920c-349... rate=12777.40/s (delta=63887 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=462.00/s (delta=2310 switches)
+[probe] pod=d22b920c-349... rate=12642.20/s (delta=63211 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=556.00/s (delta=2780 switches)
+[probe] pod=d22b920c-349... rate=8373.60/s (delta=41868 switches)
+[probe] cgroup map: 113 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=435.20/s (delta=2176 switches)
+[probe] pod=d22b920c-349... rate=5912.60/s (delta=29563 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=367.20/s (delta=1836 switches)
+[probe] pod=d22b920c-349... rate=1204.60/s (delta=6023 switches)
+[probe] pod=e0cbaac1-606... rate=19.80/s (delta=99 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=358.00/s (delta=1790 switches)
+[probe] pod=d22b920c-349... rate=628.40/s (delta=3142 switches)
+[probe] pod=e0cbaac1-606... rate=35.20/s (delta=176 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=394.00/s (delta=1970 switches)
+[probe] pod=d22b920c-349... rate=935.60/s (delta=4678 switches)
+[probe] pod=e0cbaac1-606... rate=10.40/s (delta=52 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=344.60/s (delta=1723 switches)
+[probe] pod=d22b920c-349... rate=499.20/s (delta=2496 switches)
+[probe] pod=e0cbaac1-606... rate=129.40/s (delta=647 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=378.40/s (delta=1892 switches)
+[probe] pod=d22b920c-349... rate=616.80/s (delta=3084 switches)
+[probe] pod=e0cbaac1-606... rate=79.80/s (delta=399 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=347.60/s (delta=1738 switches)
+[probe] pod=d22b920c-349... rate=1137.40/s (delta=5687 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=354.60/s (delta=1773 switches)
+[probe] pod=d22b920c-349... rate=712.80/s (delta=3564 switches)
+[probe] pod=e0cbaac1-606... rate=73.60/s (delta=368 switches)
+[probe] cgroup map: 114 pod(s) discovered
+[probe] pod=b6ce92a0-526... rate=379.40/s (delta=1897 switches)
+[probe] pod=d22b920c-349... rate=796.20/s (delta=3981 switches)
+[probe] cgroup map: 116 pod(s) discovered
+[probe] pod=51c7df59-ff9... rate=300.40/s (delta=1502 switches)
+[probe] pod=5ce285a0-a3a... rate=88.40/s (delta=442 switches)
+[probe] pod=b6ce92a0-526... rate=381.00/s (delta=1905 switches)
+[probe] pod=d22b920c-349... rate=535.40/s (delta=2677 switches)
+[probe] cgroup map: 116 pod(s) discovered
+[probe] pod=51c7df59-ff9... rate=290.40/s (delta=1452 switches)
+[probe] pod=5ce285a0-a3a... rate=76.80/s (delta=384 switches)
+[probe] pod=b6ce92a0-526... rate=358.40/s (delta=1792 switches)
+[probe] pod=d22b920c-349... rate=388.00/s (delta=1940 switches)
+[probe] cgroup map: 116 pod(s) discovered
+[probe] pod=51c7df59-ff9... rate=5.60/s (delta=28 switches)
+[probe] pod=5ce285a0-a3a... rate=1.20/s (delta=6 switches)
+[probe] pod=b6ce92a0-526... rate=359.80/s (delta=1799 switches)
+[probe] pod=d22b920c-349... rate=268.60/s (delta=1343 switches)
+[probe] cgroup map: 116 pod(s) discovered
+[probe] pod=51c7df59-ff9... rate=5.80/s (delta=29 switches)
+[probe] pod=5ce285a0-a3a... rate=2.80/s (delta=14 switches)
+[probe] pod=b6ce92a0-526... rate=353.60/s (delta=1768 switches)
+[probe] pod=d22b920c-349... rate=261.40/s (delta=1307 switches)
+[probe] cgroup map: 116 pod(s) discovered
+[probe] pod=51c7df59-ff9... rate=5.80/s (delta=29 switches)
+[probe] pod=5ce285a0-a3a... rate=2.80/s (delta=14 switches)
+[RAASA] Iteration 659
+[RAASA] Iteration 660
+[RAASA] Iteration 661
+[RAASA] Iteration 662
+[RAASA] Iteration 663
+[RAASA] Iteration 664
+[RAASA] Iteration 665
+[RAASA] Iteration 666
+[RAASA] Iteration 667
+[RAASA] Iteration 668
+[RAASA] Iteration 669
+[RAASA] Iteration 670
+[RAASA] Iteration 671
+[RAASA] Iteration 672
+[RAASA] Iteration 673
+[RAASA] Iteration 674
+[RAASA] Iteration 675
+[RAASA] Iteration 676
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-proc/raasa-adv-process-fanout: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '4b45229e-85c0-4b29-8f74-33b4ce8718a9, 4b45229e-85c0-4b29-8f74-33b4ce8718a9', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '298', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:37:45 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-proc/raasa-adv-process-fanout\" not found","reason":"NotFound","details":{"name":"raasa-adv-proc/raasa-adv-process-fanout","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-proc/raasa-adv-process-fanout: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '4b45229e-85c0-4b29-8f74-33b4ce8718a9, 4b45229e-85c0-4b29-8f74-33b4ce8718a9', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '298', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:37:45 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-proc/raasa-adv-process-fanout\" not found","reason":"NotFound","details":{"name":"raasa-adv-proc/raasa-adv-process-fanout","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 677
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-proc/raasa-adv-process-fanout: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '4edad134-1fdf-4ca6-811f-8a94205725cf, 4edad134-1fdf-4ca6-811f-8a94205725cf', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '298', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:37:51 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-proc/raasa-adv-process-fanout\" not found","reason":"NotFound","details":{"name":"raasa-adv-proc/raasa-adv-process-fanout","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-proc/raasa-adv-process-fanout: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '4edad134-1fdf-4ca6-811f-8a94205725cf, 4edad134-1fdf-4ca6-811f-8a94205725cf', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '298', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:37:51 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-proc/raasa-adv-process-fanout\" not found","reason":"NotFound","details":{"name":"raasa-adv-proc/raasa-adv-process-fanout","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 678
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-proc/raasa-adv-process-fanout: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'aa16099a-c1ed-4133-b51f-2ec9ec5f65a6, aa16099a-c1ed-4133-b51f-2ec9ec5f65a6', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '298', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:37:56 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-proc/raasa-adv-process-fanout\" not found","reason":"NotFound","details":{"name":"raasa-adv-proc/raasa-adv-process-fanout","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-proc/raasa-adv-process-fanout: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'aa16099a-c1ed-4133-b51f-2ec9ec5f65a6, aa16099a-c1ed-4133-b51f-2ec9ec5f65a6', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '298', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:37:56 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-proc/raasa-adv-process-fanout\" not found","reason":"NotFound","details":{"name":"raasa-adv-proc/raasa-adv-process-fanout","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 679
+[RAASA] Iteration 680
+[RAASA] Iteration 681
+[RAASA] Iteration 682
+[RAASA] Iteration 683
+[RAASA] Iteration 684
+[RAASA] Iteration 685
+[RAASA] Iteration 686
+[RAASA] Iteration 687
+[RAASA] Iteration 688
+[RAASA] Iteration 689
+[RAASA] Iteration 690
+[RAASA] Iteration 691
+[RAASA] Iteration 692
+[RAASA] Iteration 693
+[RAASA] Iteration 694
+[RAASA] Iteration 695
+[RAASA] Iteration 696
+[RAASA] Iteration 697
+[RAASA] Iteration 698
+[RAASA] Iteration 699
+[RAASA] Iteration 700
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '756411e8-d576-405c-9e1e-a0b4ea5b5375, 756411e8-d576-405c-9e1e-a0b4ea5b5375', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:49 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '756411e8-d576-405c-9e1e-a0b4ea5b5375, 756411e8-d576-405c-9e1e-a0b4ea5b5375', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:49 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '832f485a-d5c4-4b35-9533-9b10f304d8ed, 832f485a-d5c4-4b35-9533-9b10f304d8ed', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:49 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '832f485a-d5c4-4b35-9533-9b10f304d8ed, 832f485a-d5c4-4b35-9533-9b10f304d8ed', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:49 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 701
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '991bb009-03cb-4212-97c0-ff009f07a8ef, 991bb009-03cb-4212-97c0-ff009f07a8ef', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:54 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '991bb009-03cb-4212-97c0-ff009f07a8ef, 991bb009-03cb-4212-97c0-ff009f07a8ef', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:54 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'afc137d2-087d-4e9e-9d5a-cde85799ea4d, afc137d2-087d-4e9e-9d5a-cde85799ea4d', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:54 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'afc137d2-087d-4e9e-9d5a-cde85799ea4d, afc137d2-087d-4e9e-9d5a-cde85799ea4d', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:39:54 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 702
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '43133982-addb-497d-9386-ae4abc903ffa, 43133982-addb-497d-9386-ae4abc903ffa', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:00 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '43133982-addb-497d-9386-ae4abc903ffa, 43133982-addb-497d-9386-ae4abc903ffa', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:00 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '943ba3ca-593a-4cf6-ab4c-410332d8984f, 943ba3ca-593a-4cf6-ab4c-410332d8984f', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:00 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '943ba3ca-593a-4cf6-ab4c-410332d8984f, 943ba3ca-593a-4cf6-ab4c-410332d8984f', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:00 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 703
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '1bb3fe54-0c0f-46af-bbc2-fc7a74e11cc6, 1bb3fe54-0c0f-46af-bbc2-fc7a74e11cc6', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:05 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '1bb3fe54-0c0f-46af-bbc2-fc7a74e11cc6, 1bb3fe54-0c0f-46af-bbc2-fc7a74e11cc6', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:05 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '9b909bae-855c-4d6d-8a9d-bc89041cbc86, 9b909bae-855c-4d6d-8a9d-bc89041cbc86', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:05 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '9b909bae-855c-4d6d-8a9d-bc89041cbc86, 9b909bae-855c-4d6d-8a9d-bc89041cbc86', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:05 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 704
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '14d58e5f-744b-45c7-abb7-28fbce65a0ee, 14d58e5f-744b-45c7-abb7-28fbce65a0ee', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:10 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-client: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': '14d58e5f-744b-45c7-abb7-28fbce65a0ee, 14d58e5f-744b-45c7-abb7-28fbce65a0ee', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:10 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-client\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-client","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[ObserverK8s] Direct pod metrics lookup failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'a561f156-6f88-4a75-8790-ccd8fb709b0b, a561f156-6f88-4a75-8790-ccd8fb709b0b', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:10 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+. Trying namespace metrics list fallback.
+[ObserverK8s] Metrics API failed for raasa-adv-net/raasa-adv-net-server: (404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Audit-Id': 'a561f156-6f88-4a75-8790-ccd8fb709b0b, a561f156-6f88-4a75-8790-ccd8fb709b0b', 'Cache-Control': 'no-cache, private, no-cache, private', 'Content-Length': '288', 'Content-Type': 'application/json', 'Date': 'Tue, 12 May 2026 10:40:10 GMT', 'X-Kubernetes-Pf-Flowschema-Uid': 'fadfcf9c-00f9-4ced-aa94-61dac8675e35', 'X-Kubernetes-Pf-Prioritylevel-Uid': 'ee398eae-b6f6-452e-8c73-332bb321a977'})
+HTTP response body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podmetrics.metrics.k8s.io \"raasa-adv-net/raasa-adv-net-server\" not found","reason":"NotFound","details":{"name":"raasa-adv-net/raasa-adv-net-server","group":"metrics.k8s.io","kind":"podmetrics"},"code":404}
+
+
+[RAASA] Iteration 705
+[RAASA] Iteration 706
+[RAASA] Iteration 707
+[RAASA] Iteration 708
+[RAASA] Iteration 709
+[RAASA] Iteration 710
+[RAASA] Iteration 711
+[RAASA] Iteration 712
+[IPC Client] Sidecar returned error: 
+[EnforcerK8s] Failed to delegate containment of raasa-adv-net/raasa-adv-net-client to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-adv-net/raasa-adv-net-server to sidecar. Will retry next tick.
+[RAASA] Iteration 713
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-adv-net/raasa-adv-net-client to sidecar. Will retry next tick.
+[IPC Client] Failed to send IPC command: [Errno 111] Connection refused
+[EnforcerK8s] Failed to delegate containment of raasa-adv-net/raasa-adv-net-server to sidecar. Will retry next tick.
+[RAASA] Iteration 714
+2026-05-12 10:41:00,881 [INFO] raasa-enforcer: Starting Privileged Enforcer Sidecar
+2026-05-12 10:41:00,882 [INFO] raasa.core.ipc: [IPC Server] Listening on /var/run/raasa/enforcer.sock
+2026-05-12 10:41:02,375 [INFO] raasa-enforcer: Resolved pod raasa-adv-net/raasa-adv-net-client to host interface vethd96e222a via PID 4183871.
+2026-05-12 10:41:02,379 [INFO] raasa-enforcer: tc: raasa-adv-net-client (vethd96e222a) -> L2 at 20mbit
+2026-05-12 10:41:02,485 [INFO] raasa-enforcer: Resolved pod raasa-adv-net/raasa-adv-net-server to host interface vethda1a7502 via PID 4183873.
+2026-05-12 10:41:02,575 [INFO] raasa-enforcer: tc: raasa-adv-net-server (vethda1a7502) -> L2 at 20mbit

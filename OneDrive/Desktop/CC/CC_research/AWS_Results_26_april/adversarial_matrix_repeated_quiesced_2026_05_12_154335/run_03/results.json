@@ -1,0 +1,46 @@
+[
+    {
+        "workload":  "benign-control",
+        "passed":  true,
+        "rows":  15,
+        "l3_count":  0,
+        "new_tiers":  "L1:15",
+        "max_cpu":  0,
+        "max_process_signal":  0.1,
+        "max_network_signal":  0.002,
+        "max_syscall_signal":  0
+    },
+    {
+        "workload":  "syscall-storm",
+        "passed":  true,
+        "rows":  16,
+        "l3_count":  16,
+        "new_tiers":  "L3:16",
+        "max_cpu":  100,
+        "max_process_signal":  1,
+        "max_network_signal":  0.002,
+        "max_syscall_signal":  0
+    },
+    {
+        "workload":  "process-fanout",
+        "passed":  true,
+        "rows":  16,
+        "l3_count":  16,
+        "new_tiers":  "L3:16",
+        "max_cpu":  100,
+        "max_process_signal":  1,
+        "max_network_signal":  0.002,
+        "max_syscall_signal":  0.0259
+    },
+    {
+        "workload":  "network-burst",
+        "passed":  true,
+        "rows":  17,
+        "l3_count":  5,
+        "new_tiers":  "L2:12,L3:5",
+        "max_cpu":  33.8696,
+        "max_process_signal":  0.2,
+        "max_network_signal":  1,
+        "max_syscall_signal":  0.0177
+    }
+]

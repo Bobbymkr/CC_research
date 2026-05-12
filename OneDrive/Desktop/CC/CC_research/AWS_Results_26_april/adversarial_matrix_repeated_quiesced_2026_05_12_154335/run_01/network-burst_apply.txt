@@ -1,0 +1,4 @@
+namespace/raasa-adv-net created
+pod/raasa-adv-net-server created
+service/raasa-adv-net-server created
+pod/raasa-adv-net-client created

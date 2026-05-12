@@ -1,0 +1,2 @@
+NAME                       CPU(cores)   MEMORY(bytes)   
+raasa-adv-process-fanout   628m         11Mi            

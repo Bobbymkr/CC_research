@@ -1,0 +1,18 @@
+{
+    "workload":  "syscall-storm",
+    "pod_ref":  "raasa-adv-sys/raasa-adv-syscall-storm",
+    "capture_mode":  "delta_from_same_log",
+    "captured_line_count":  16,
+    "state_before":  {
+                         "TimestampUtc":  "2026-05-12T10:26:20Z",
+                         "AgentPod":  "raasa-agent-qxjnt",
+                         "LogFile":  "/app/raasa/logs/run_20260512T093445Z.jsonl",
+                         "MatchingLineCount":  43
+                     },
+    "state_after":  {
+                        "TimestampUtc":  "2026-05-12T10:27:42Z",
+                        "AgentPod":  "raasa-agent-qxjnt",
+                        "LogFile":  "/app/raasa/logs/run_20260512T093445Z.jsonl",
+                        "MatchingLineCount":  58
+                    }
+}

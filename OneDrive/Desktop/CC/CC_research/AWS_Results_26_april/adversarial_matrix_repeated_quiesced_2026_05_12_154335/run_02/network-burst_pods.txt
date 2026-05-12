@@ -1,0 +1,3 @@
+NAME                   READY   STATUS    RESTARTS   AGE   IP            NODE               NOMINATED NODE   READINESS GATES
+raasa-adv-net-client   1/1     Running   0          67s   10.42.0.166   ip-172-31-16-234   <none>           <none>
+raasa-adv-net-server   1/1     Running   0          67s   10.42.0.165   ip-172-31-16-234   <none>           <none>

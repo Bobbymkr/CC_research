@@ -1,0 +1,2 @@
+namespace/raasa-adv-proc created
+pod/raasa-adv-process-fanout created
