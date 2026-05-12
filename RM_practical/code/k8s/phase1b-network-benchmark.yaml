@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: raasa-bench
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: raasa-bench-server
+  namespace: raasa-bench
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: raasa-bench-server
+  template:
+    metadata:
+      labels:
+        app: raasa-bench-server
+        raasa.class: benign
+        raasa.expected_tier: L1
+    spec:
+      volumes:
+        - name: webroot
+          emptyDir: {}
+      initContainers:
+        - name: seed-payload
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              dd if=/dev/zero of=/work/payload.bin bs=1M count=4
+              printf 'phase1b benchmark payload\n' > /work/index.html
+          volumeMounts:
+            - name: webroot
+              mountPath: /work
+      containers:
+        - name: nginx
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: webroot
+              mountPath: /usr/share/nginx/html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: raasa-bench-server
+  namespace: raasa-bench
+spec:
+  selector:
+    app: raasa-bench-server
+  ports:
+    - port: 80
+      targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: raasa-bench-client
+  namespace: raasa-bench
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: raasa-bench-client
+  template:
+    metadata:
+      labels:
+        app: raasa-bench-client
+        raasa.class: benign
+        raasa.expected_tier: L1
+    spec:
+      containers:
+        - name: client
+          image: curlimages/curl:8.7.1
+          command:
+            - sh
+            - -c
+            - sleep infinity

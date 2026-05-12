@@ -1,0 +1,53 @@
+{
+  "captured_at_utc": "2026-05-11T10:14:13.039249+00:00",
+  "workspace_root": "C:\\Users\\Admin\\OneDrive\\Desktop\\CC\\CC_research",
+  "host": {
+    "hostname": "Kunj",
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 142 Stepping 12, GenuineIntel"
+  },
+  "python": {
+    "version": "3.13.5",
+    "implementation": "CPython",
+    "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+  },
+  "git": {
+    "commit": "578bbb0f156902bf50a9a3ff0d724a9b980b616d",
+    "branch": "CC_research",
+    "dirty": true
+  },
+  "docker": {
+    "available": true,
+    "path": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+    "client_version": "29.2.0",
+    "server_version": "29.2.0",
+    "docker_version_output": "Docker version 29.2.0, build 0b9d198",
+    "errors": []
+  },
+  "kubectl": {
+    "available": true,
+    "path": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\kubectl.EXE",
+    "client_version": {
+      "clientVersion": {
+        "major": "1",
+        "minor": "34",
+        "gitVersion": "v1.34.1",
+        "gitCommit": "93248f9ae092f571eb870b7664c534bfc7d00f03",
+        "gitTreeState": "clean",
+        "buildDate": "2025-09-09T19:44:50Z",
+        "goVersion": "go1.24.6",
+        "compiler": "gc",
+        "platform": "windows/amd64"
+      },
+      "kustomizeVersion": "v5.7.1"
+    }
+  },
+  "hardware": {
+    "logical_cpu_count": 8,
+    "physical_cpu_count": 4,
+    "memory_total_bytes": 16948039680
+  }
+}

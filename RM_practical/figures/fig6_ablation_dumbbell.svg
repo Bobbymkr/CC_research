@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1450" height="860" viewBox="0 0 1450 860">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="725" y="54" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="29" font-weight="700" fill="#15263d">Figure 6. Ablation: Tuned Linear Controller vs. Isolation Forest</text>
+  <text x="725" y="84" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="500" fill="#54657c">Dumbbell comparison, 3-run mean, small_tuned scenario</text>
+
+  <line x1="230" y1="140" x2="1160" y2="140" stroke="#2f445c" stroke-width="2.2"/>
+  <line x1="230" y1="700" x2="1160" y2="700" stroke="#2f445c" stroke-width="2.2"/>
+  <line x1="230" y1="140" x2="230" y2="700" stroke="#dde5ee" stroke-width="1.3"/>
+  <line x1="416" y1="140" x2="416" y2="700" stroke="#dde5ee" stroke-width="1.3"/>
+  <line x1="602" y1="140" x2="602" y2="700" stroke="#dde5ee" stroke-width="1.3"/>
+  <line x1="788" y1="140" x2="788" y2="700" stroke="#dde5ee" stroke-width="1.3"/>
+  <line x1="974" y1="140" x2="974" y2="700" stroke="#dde5ee" stroke-width="1.3"/>
+  <line x1="1160" y1="140" x2="1160" y2="700" stroke="#dde5ee" stroke-width="1.3"/>
+  <text x="230" y="725" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.00</text>
+  <text x="416" y="725" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.20</text>
+  <text x="602" y="725" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.40</text>
+  <text x="788" y="725" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.60</text>
+  <text x="974" y="725" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.80</text>
+  <text x="1160" y="725" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">1.00</text>
+
+  <text x="70" y="186" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15263d">Precision</text>
+  <line x1="536.9" y1="180" x2="1039.1" y2="180" stroke="#8799ad" stroke-width="5"/>
+  <circle cx="1039.1" cy="180" r="10" fill="#2f6db0" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="536.9" cy="180" r="10" fill="#dd8452" stroke="#ffffff" stroke-width="2"/>
+  <text x="1039.1" y="162" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">0.87</text>
+  <text x="536.9" y="208" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#dd8452">0.33</text>
+
+  <text x="70" y="316" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15263d">Recall</text>
+  <line x1="490.4" y1="310" x2="1160" y2="310" stroke="#8799ad" stroke-width="5"/>
+  <circle cx="1160" cy="310" r="10" fill="#2f6db0" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="490.4" cy="310" r="10" fill="#dd8452" stroke="#ffffff" stroke-width="2"/>
+  <text x="1160" y="292" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">1.00</text>
+  <text x="490.4" y="338" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#dd8452">0.28</text>
+  <rect x="1180" y="286" width="150" height="34" fill="#eef5fd" stroke="#2f6db0" stroke-width="1" rx="10" ry="10"/>
+  <text x="1255" y="309" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">higher recall</text>
+
+  <text x="70" y="446" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15263d">False Positive Rate</text>
+  <line x1="332.3" y1="440" x2="332.3" y2="440" stroke="#8799ad" stroke-width="5"/>
+  <circle cx="332.3" cy="440" r="10" fill="#2f6db0" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="332.3" cy="440" r="10" fill="#dd8452" stroke="#ffffff" stroke-width="2"/>
+  <text x="332.3" y="422" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">0.11</text>
+  <text x="332.3" y="468" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#dd8452">0.11</text>
+  <rect x="1180" y="416" width="140" height="34" fill="#f3f8fd" stroke="#8799ad" stroke-width="1" rx="10" ry="10"/>
+  <text x="1250" y="439" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#8799ad">equal FPR</text>
+
+  <text x="70" y="576" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15263d">Switching Rate</text>
+  <line x1="247.67" y1="570" x2="282.08" y2="570" stroke="#8799ad" stroke-width="5"/>
+  <circle cx="247.67" cy="570" r="10" fill="#2f6db0" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="282.08" cy="570" r="10" fill="#dd8452" stroke="#ffffff" stroke-width="2"/>
+  <text x="247.67" y="552" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">0.019</text>
+  <text x="282.08" y="598" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#dd8452">0.056</text>
+  <rect x="1180" y="546" width="160" height="34" fill="#fff4ea" stroke="#dd8452" stroke-width="1" rx="10" ry="10"/>
+  <text x="1260" y="569" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#15263d">lower switching</text>
+
+  <circle cx="360" cy="780" r="8" fill="#2f6db0"/>
+  <text x="378" y="785" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#15263d">Linear (tuned)</text>
+  <circle cx="520" cy="780" r="8" fill="#dd8452"/>
+  <text x="538" y="785" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#15263d">Isolation Forest</text>
+
+  <rect x="920" y="755" width="320" height="48" fill="#edf7f1" stroke="#4e9f6d" stroke-width="1" rx="12" ry="12"/>
+  <text x="1080" y="785" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#4e9f6d">design value exceeds current ML value</text>
+</svg>

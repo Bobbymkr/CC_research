@@ -1,0 +1,308 @@
+---
+# RAASA DaemonSet — Production Kubernetes Deployment
+#
+# This manifest deploys one RAASA agent pod per node in the cluster.
+# Each agent monitors only the pods scheduled on its node, keeping the
+# blast radius of a compromised agent bounded to a single node.
+#
+# Prerequisites:
+#   1. kubectl apply -f daemonset.yaml     (this file, includes RBAC)
+#   2. Metrics Server must be installed:
+#      kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+#
+# Usage:
+#   kubectl logs -n raasa-system -l app=raasa-agent --follow
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: raasa-system
+  labels:
+    app.kubernetes.io/name: raasa
+    app.kubernetes.io/component: security-agent
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: raasa-agent
+  namespace: raasa-system
+  labels:
+    app: raasa-agent
+    app.kubernetes.io/version: "1.0"
+spec:
+  selector:
+    matchLabels:
+      app: raasa-agent
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1        # Never take down more than 1 node agent at once
+  template:
+    metadata:
+      labels:
+        app: raasa-agent
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+    spec:
+      # ── Service Account (RBAC) ────────────────────────────────────────────
+      serviceAccountName: raasa-agent
+
+      # ── Priority: run even on tainted/master nodes ────────────────────────
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: "CriticalAddonsOnly"
+          operator: "Exists"
+
+      # ── Host access for eBPF and cgroup telemetry ─────────────────────────
+      hostPID: true           # Required for eBPF sidecar to access host tracepoints
+      hostNetwork: true       # Required for Enforcer to shape host veths via tc
+
+      volumes:
+        - name: proc
+          hostPath:
+            path: /proc        # For per-pod cgroup CPU/memory reads
+        - name: sys
+          hostPath:
+            path: /sys         # For cgroup v2 metrics
+        - name: raasa-probe-dir
+          hostPath:
+            path: /var/run/raasa   # Shared socket and probe directory
+            type: DirectoryOrCreate
+        - name: audit-logs
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: raasa-config
+        - name: debugfs
+          hostPath:
+            path: /sys/kernel/debug   # Required for bpftrace tracepoint access
+
+      # ── RAASA Agent Container ─────────────────────────────────────────────
+      containers:
+        - name: raasa-agent
+          image: raasa/agent:1.0.0       # Built from raasa/k8s/Dockerfile
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--mode"
+            - "raasa"
+            - "--backend"
+            - "k8s"
+            - "--config"
+            - "/etc/raasa/config.yaml"
+            - "--iterations"
+            - "0"                        # 0 = run indefinitely
+            - "--metrics-port"
+            - "9090"                     # Prometheus scrape endpoint
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName    # Injected by k8s downward API
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: PYTHONPATH
+              value: "/app"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          volumeMounts:
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: sys
+              mountPath: /host/sys
+              readOnly: true
+            - name: raasa-probe-dir
+              mountPath: /var/run/raasa
+            - name: audit-logs
+              mountPath: /app/raasa/logs
+            - name: config
+              mountPath: /etc/raasa
+          resources:
+            requests:
+              cpu: "50m"           # ~0.05 vCPU at steady state
+              memory: "64Mi"
+            limits:
+              cpu: "200m"          # Never exceed 0.2 vCPU
+              memory: "128Mi"      # Bounded memory footprint
+          ports:
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop:
+                - ALL
+
+        # ── Privileged Enforcer Sidecar ──────────────────────────────────────
+        # Executes IPC commands from the unprivileged controller.
+        - name: raasa-enforcer
+          image: raasa/agent:1.0.0
+          imagePullPolicy: IfNotPresent
+          command: ["python", "-m", "raasa.k8s.enforcer_sidecar"]
+          securityContext:
+            privileged: true              # Required for tc and cgroup writes
+            runAsUser: 0                  # Override Dockerfile USER to run as root
+            runAsNonRoot: false
+          volumeMounts:
+            - name: raasa-probe-dir
+              mountPath: /var/run/raasa   # For IPC socket
+            - name: sys
+              mountPath: /sys             # For cgroups memory.max writes
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "32Mi"
+            limits:
+              cpu: "100m"
+              memory: "64Mi"
+
+        # ── eBPF Sidecar: Syscall Rate Probe ─────────────────────────────────
+        # In production, replace with Tetragon or Falco sidecar.
+        # This placeholder reads /proc/<pid>/status syscall counts per pod cgroup.
+        - name: syscall-probe
+          image: raasa/ebpf-probe:1.0.0   # Custom bpftrace image
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true              # Required for eBPF BPF syscall
+            capabilities:
+              add:
+                - SYS_ADMIN              # For BPF map creation
+                - SYS_PTRACE             # For cross-namespace PID visibility
+          volumeMounts:
+            - name: proc
+              mountPath: /proc
+              readOnly: true
+            - name: sys
+              mountPath: /sys
+              readOnly: true
+            - name: debugfs
+              mountPath: /sys/kernel/debug
+              readOnly: true
+            - name: raasa-probe-dir
+              mountPath: /var/run/raasa  # Writes syscall_rate files here
+          resources:
+            requests:
+              cpu: "20m"
+              memory: "32Mi"
+            limits:
+              cpu: "100m"
+              memory: "64Mi"
+
+      # ── Scheduling ────────────────────────────────────────────────────────
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+
+---
+# RBAC: Minimum Kubernetes API permissions for RAASA agent
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: raasa-agent
+  namespace: raasa-system
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: raasa-agent
+rules:
+  # Pod inspection — needed to enumerate pods on this node
+  - apiGroups: [""]
+    resources: ["pods", "nodes"]
+    verbs: ["get", "list", "watch"]
+  # Node proxy — needed to fetch cAdvisor metrics for network telemetry
+  - apiGroups: [""]
+    resources: ["nodes/proxy", "nodes/metrics"]
+    verbs: ["get"]
+  # Metrics API — needed for CPU/memory measurements
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["pods", "nodes"]
+    verbs: ["get", "list"]
+  # Events — for audit logging escalation decisions to the cluster event stream
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: raasa-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: raasa-agent
+subjects:
+  - kind: ServiceAccount
+    name: raasa-agent
+    namespace: raasa-system
+
+---
+# ConfigMap: RAASA configuration for the DaemonSet agent
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: raasa-config
+  namespace: raasa-system
+data:
+  config.yaml: |
+    controller:
+      poll_interval_seconds: 5
+      default_mode: raasa
+      log_directory: /app/raasa/logs
+
+    policy:
+      thresholds:
+        l1_max: 0.35
+        l2_max: 0.50
+      hysteresis_band: 0.04
+      cooldown_seconds: 25
+      l3_min_confidence: 0.15
+      low_risk_streak_required: 4
+      l3_requires_approval: false
+
+    risk:
+      weights:
+        cpu: 0.55
+        memory: 0.55
+        process: 0.55
+        network: 0.55
+        syscall: 0.55
+      confidence_window: 5
+
+    telemetry:
+      network_cap: 500000.0
+      syscall_cap: 500.0
+      syscall_source: probe
+      syscall_probe_directory: /var/run/raasa
+      syscall_probe_max_age_seconds: 15
+
+    ml:
+      use_ml_model: false
+      model_path: "/app/raasa/models/iforest_latest.pkl"
+
+    enforcement:
+      cpus_by_tier:
+        L1: 1.0
+        L2: 0.5
+        L3: 0.1        # In K8s: patch pod's cpu limit via PodDisruptionBudget
+      live_run_guardrails:
+        initial_cpus: 0.50
+        memory_limit: 256m
+        pids_limit: 64
+        default_smoke_duration_seconds: 30
+
+    evaluation:
+      controller_variant: linear_tuned

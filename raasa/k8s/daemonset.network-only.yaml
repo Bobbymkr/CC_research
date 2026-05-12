@@ -1,0 +1,211 @@
+---
+# RAASA DaemonSet for network-only Kubernetes validation.
+# This variant keeps the tuned linear configuration but omits the syscall probe
+# sidecar so the agent can be validated with Metrics Server and cAdvisor alone.
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: raasa-system
+  labels:
+    app.kubernetes.io/name: raasa
+    app.kubernetes.io/component: security-agent
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: raasa-agent
+  namespace: raasa-system
+  labels:
+    app: raasa-agent
+    app.kubernetes.io/version: "1.0"
+spec:
+  selector:
+    matchLabels:
+      app: raasa-agent
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: raasa-agent
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+    spec:
+      serviceAccountName: raasa-agent
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: "CriticalAddonsOnly"
+          operator: "Exists"
+      hostPID: false
+      hostNetwork: false
+      volumes:
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: sys
+          hostPath:
+            path: /sys
+        - name: raasa-runtime
+          emptyDir: {}
+        - name: audit-logs
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: raasa-config
+      containers:
+        - name: raasa-agent
+          image: raasa/agent:1.0.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--mode"
+            - "raasa"
+            - "--config"
+            - "/etc/raasa/config.yaml"
+            - "--iterations"
+            - "0"
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: PYTHONPATH
+              value: "/app"
+            - name: RAASA_OVERRIDE_PATH
+              value: "/app/raasa/logs/overrides.json"
+          volumeMounts:
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: sys
+              mountPath: /host/sys
+              readOnly: true
+            - name: raasa-runtime
+              mountPath: /var/run/raasa
+            - name: audit-logs
+              mountPath: /app/raasa/logs
+            - name: config
+              mountPath: /etc/raasa
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop:
+                - ALL
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: raasa-agent
+  namespace: raasa-system
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: raasa-agent
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["nodes/proxy"]
+    verbs: ["get"]
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: raasa-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: raasa-agent
+subjects:
+  - kind: ServiceAccount
+    name: raasa-agent
+    namespace: raasa-system
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: raasa-config
+  namespace: raasa-system
+data:
+  config.yaml: |
+    controller:
+      poll_interval_seconds: 5
+      default_mode: raasa
+      log_directory: /app/raasa/logs
+
+    policy:
+      thresholds:
+        l1_max: 0.35
+        l2_max: 0.60
+      hysteresis_band: 0.04
+      cooldown_seconds: 25
+      l3_min_confidence: 0.05
+      low_risk_streak_required: 4
+      l3_requires_approval: false
+
+    risk:
+      weights:
+        cpu: 0.55
+        memory: 0.55
+        process: 0.55
+        network: 0.55
+        syscall: 0.55
+      confidence_window: 5
+
+    telemetry:
+      network_cap: 500000.0
+      syscall_cap: 5000.0
+      syscall_source: simulated
+      syscall_probe_directory: /var/run/raasa
+      syscall_probe_max_age_seconds: 15
+
+    ml:
+      use_ml_model: false
+      model_path: "/app/raasa/models/iforest_latest.pkl"
+
+    enforcement:
+      cpus_by_tier:
+        L1: 1.0
+        L2: 0.5
+        L3: 0.1
+      live_run_guardrails:
+        initial_cpus: 0.50
+        memory_limit: 256m
+        pids_limit: 64
+        default_smoke_duration_seconds: 30
+
+    evaluation:
+      controller_variant: linear_tuned

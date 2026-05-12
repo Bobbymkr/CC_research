@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "raasa"
+version = "1.0.0"
+description = "Risk-Aware Adaptive Sandbox Allocation - adaptive container containment research system"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib==3.10.0",
+    "seaborn==0.13.2",
+    "numpy==2.4.4",
+    "scikit-learn==1.6.1",
+    "joblib==1.4.2",
+    "PyYAML==6.0.2",
+    "psutil==6.1.1",
+    "kubernetes>=29.0.0",
+    "prometheus_client>=0.20.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.1"]
+llm = ["openai>=1.0.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["raasa*"]
