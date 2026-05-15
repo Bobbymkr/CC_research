@@ -113,6 +113,8 @@ spec:
               value: "1"
             - name: RAASA_OVERRIDE_PATH
               value: "/app/raasa/logs/overrides.json"
+            - name: RAASA_APPROVAL_PATH
+              value: "/app/raasa/logs/approvals.json"
           volumeMounts:
             - name: proc
               mountPath: /host/proc

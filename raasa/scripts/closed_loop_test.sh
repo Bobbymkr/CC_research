@@ -42,7 +42,7 @@ fail() { RESULTS+=("FAIL: $1"); log "${FAIL} $1"; }
 get_tier() {
     local pod_ref="$NAMESPACE/$1"
     local agent_pod
-    agent_pod=$(get_agent_pod)
+    agent_pod=$(get_agent_pod_for_workload "$1")
     [[ -z "$agent_pod" ]] && echo "UNKNOWN" && return
 
     local log_file
@@ -64,9 +64,25 @@ else:
 " 2>/dev/null || echo "UNKNOWN"
 }
 
-get_agent_pod() {
+get_pod_node() {
+    local workload_pod="$1"
+    $KUBECTL get pod -n "$NAMESPACE" "$workload_pod" \
+        -o jsonpath='{.spec.nodeName}' 2>/dev/null
+}
+
+get_agent_pod_for_node() {
+    local node_name="$1"
+    [[ -z "$node_name" ]] && return
     $KUBECTL get pods -n "$RAASA_NS" -l app=raasa-agent \
+        --field-selector "spec.nodeName=${node_name}" \
         -o jsonpath='{.items[0].metadata.name}' 2>/dev/null
+}
+
+get_agent_pod_for_workload() {
+    local workload_pod="$1"
+    local node_name
+    node_name=$(get_pod_node "$workload_pod")
+    get_agent_pod_for_node "$node_name"
 }
 
 get_phase0_pod() {
@@ -140,13 +156,6 @@ echo "  RAASA Closed-Loop Detection Validation"
 echo "══════════════════════════════════════════════════════"
 echo ""
 
-AGENT_POD=$(get_agent_pod)
-if [[ -z "$AGENT_POD" ]]; then
-    echo -e "${FAIL} No RAASA agent pod found in ${RAASA_NS}. Aborting."
-    exit 1
-fi
-log "Agent pod: $AGENT_POD"
-
 BENIGN_POD=$(get_phase0_pod "$BENIGN_SELECTOR")
 MALICIOUS_POD=$(get_phase0_pod "$MALICIOUS_SELECTOR")
 
@@ -161,6 +170,19 @@ fi
 
 log "Benign test pod: $BENIGN_POD"
 log "Malicious test pod: $MALICIOUS_POD"
+
+BENIGN_NODE=$(get_pod_node "$BENIGN_POD")
+MALICIOUS_NODE=$(get_pod_node "$MALICIOUS_POD")
+BENIGN_AGENT_POD=$(get_agent_pod_for_node "$BENIGN_NODE")
+MALICIOUS_AGENT_POD=$(get_agent_pod_for_node "$MALICIOUS_NODE")
+
+if [[ -z "$BENIGN_AGENT_POD" || -z "$MALICIOUS_AGENT_POD" ]]; then
+    echo -e "${FAIL} Could not resolve RAASA agent pod(s) for the phase0 workload node(s). Aborting."
+    exit 1
+fi
+
+log "Benign node/agent: $BENIGN_NODE / $BENIGN_AGENT_POD"
+log "Malicious node/agent: $MALICIOUS_NODE / $MALICIOUS_AGENT_POD"
 
 # Install stress-ng in test pods (best-effort)
 log "Installing stress-ng in test pods (may take 30s on first run)..."

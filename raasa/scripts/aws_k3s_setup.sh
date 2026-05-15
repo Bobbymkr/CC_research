@@ -26,6 +26,7 @@ sudo k3s kubectl wait --for=condition=Ready node --all --timeout=60s
 mkdir -p ~/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 sudo chown $(id -u):$(id -g) ~/.kube/config
+export KUBECONFIG="$HOME/.kube/config"
 
 # 3. Build Docker Images Locally (avoiding Docker Hub)
 # K3s uses containerd, but we can build with docker and import to containerd

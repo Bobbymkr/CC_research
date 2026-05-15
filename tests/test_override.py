@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 
 from raasa.core.models import Assessment, Tier
+from raasa.core.approval import get_approval_path, load_approvals, set_approval
 from raasa.core.policy import PolicyReasoner
 from raasa.core.override import get_override_path, load_overrides, set_override
 
@@ -55,3 +56,18 @@ def test_override_path_can_be_redirected_with_env(monkeypatch, tmp_path):
 
     assert override_path.exists()
     assert load_overrides() == {"c2": "L2"}
+
+
+def test_approval_path_can_be_redirected_with_env(monkeypatch, tmp_path):
+    approval_path = tmp_path / "runtime" / "approvals.json"
+    monkeypatch.setenv("RAASA_APPROVAL_PATH", str(approval_path))
+
+    assert get_approval_path() == approval_path
+
+    set_approval("c3", "approve")
+
+    assert approval_path.exists()
+    approvals = load_approvals()
+    assert approvals["c3"]["decision"] == "approve"
+    assert approvals["c3"]["target_tier"] == "L3"
+    assert approvals["c3"]["updated_at"]

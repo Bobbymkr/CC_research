@@ -2,13 +2,20 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Optional
 
+DEFAULT_APPROVAL_PATH_ENV = "RAASA_APPROVAL_PATH"
+
 
 def get_approval_path(workspace_dir: str | Path = ".") -> Path:
+    configured_path = os.getenv(DEFAULT_APPROVAL_PATH_ENV)
+    if configured_path:
+        return Path(configured_path)
+
     target_dir = Path(workspace_dir) / "raasa" / "runtime"
     target_dir.mkdir(parents=True, exist_ok=True)
     return target_dir / "approvals.json"
