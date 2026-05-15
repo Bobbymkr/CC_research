@@ -27,6 +27,8 @@ layers and experiment reports can distinguish:
 """
 from __future__ import annotations
 
+import ipaddress
+import json
 import logging
 import os
 import re
@@ -113,6 +115,7 @@ class ObserverK8s(BaseObserver):
         self._prev_k8s_cpu: Dict[str, float] = {}
         self._metrics_cache: Dict[str, Dict[str, float]] = {}
         self._namespace_metrics_cache: Dict[str, Dict[str, object]] = {}
+        self._known_pod_edges: Dict[str, set[str]] = {}
         self._metrics_api_blocked_until = 0.0
         self._metrics_api_last_failure_status = "unavailable"
         self._k8s_client = None
@@ -234,6 +237,8 @@ class ObserverK8s(BaseObserver):
             labels = pod.metadata.labels or {}
             workload_class = labels.get("raasa.class", "")
             expected_tier = labels.get("raasa.expected_tier", "")
+            image = self._pod_image(pod)
+            image_id = self._pod_image_id(pod)
 
             cpu_percent, memory_percent, metrics_metadata = self._get_pod_metrics_with_status(
                 namespace,
@@ -248,6 +253,17 @@ class ObserverK8s(BaseObserver):
                 network_counter_map,
             )
             syscall_rate, syscall_status = self._get_syscall_rate(uid)
+            syscall_counts, syscall_counts_status = self._get_syscall_counts(uid)
+            pod_ip = getattr(pod.status, "pod_ip", "") or ""
+            if not isinstance(pod_ip, str):
+                pod_ip = ""
+            (
+                lateral_movement_signal,
+                lateral_movement_status,
+                lateral_movement_total_edges,
+                lateral_movement_new_edges,
+            ) = self._get_lateral_movement_signal(uid, pod_ip)
+            entropy_samples, entropy_metadata = self._get_entropy_samples(uid, pod_ip)
             telemetry_status, degraded_signals = self._summarize_telemetry_status(
                 {
                     "cpu": metrics_metadata["cpu_status"],
@@ -266,10 +282,17 @@ class ObserverK8s(BaseObserver):
                 network_rx_bytes=delta_rx,
                 network_tx_bytes=delta_tx,
                 syscall_rate=syscall_rate,
+                lateral_movement_signal=lateral_movement_signal,
+                syscall_counts=syscall_counts,
+                file_accesses=entropy_samples["file_accesses"],
+                network_destinations=entropy_samples["network_destinations"],
+                dns_queries=entropy_samples["dns_queries"],
                 metadata={
                     "status": pod.status.phase or "unknown",
                     "workload_class": workload_class,
                     "expected_tier": expected_tier,
+                    "image": image,
+                    "image_id": image_id,
                     "namespace": namespace,
                     "node": self.node_name,
                     "telemetry_status": telemetry_status,
@@ -279,6 +302,13 @@ class ObserverK8s(BaseObserver):
                     "network_status": network_status,
                     "syscall_source": "probe",
                     "syscall_status": syscall_status,
+                    "syscall_counts_source": "probe",
+                    "syscall_counts_status": syscall_counts_status,
+                    "lateral_movement_source": "sock_ops",
+                    "lateral_movement_status": lateral_movement_status,
+                    "lateral_movement_total_edges": str(lateral_movement_total_edges),
+                    "lateral_movement_new_edges": str(lateral_movement_new_edges),
+                    **entropy_metadata,
                 },
             )
         except Exception as exc:
@@ -709,6 +739,218 @@ class ObserverK8s(BaseObserver):
             return 0.0, "probe_negative"
         return value, "probe_ok"
 
+    def _get_syscall_counts(self, pod_uid: str) -> tuple[dict[str, int], str]:
+        """Read per-syscall sampled counts from the sidecar probe file."""
+        probe_path = Path(self.syscall_probe_dir) / pod_uid / "syscall_counts.json"
+        probe_status = self._probe_file_status(probe_path)
+        if probe_status != "probe_ok":
+            return {}, probe_status
+
+        try:
+            parsed = json.loads(probe_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}, "probe_invalid"
+        if not isinstance(parsed, dict):
+            return {}, "probe_invalid"
+
+        counts: dict[str, int] = {}
+        for key, value in parsed.items():
+            try:
+                count = int(value)
+            except (TypeError, ValueError):
+                continue
+            if count > 0:
+                counts[str(key)] = count
+        if not counts:
+            return {}, "probe_empty"
+        return counts, "probe_ok"
+
+    def _get_lateral_movement_signal(self, pod_uid: str, pod_ip: str) -> tuple[float, str, int, int]:
+        """Return 1.0 when the sock_ops edge map shows a first-ever pod edge."""
+        pod_ip_norm = self._normalize_ip(pod_ip)
+        if not pod_ip_norm:
+            return 0.0, "pod_ip_missing", 0, 0
+
+        records, status = self._read_lateral_edge_records()
+        if status != "edge_map_ok":
+            return 0.0, status, 0, 0
+
+        observed_edges: set[str] = set()
+        for edge in records:
+            src_ip = self._normalize_ip(edge.get("src_ip"))
+            dst_ip = self._normalize_ip(edge.get("dst_ip"))
+            if not src_ip or not dst_ip or src_ip == dst_ip:
+                continue
+            if src_ip == pod_ip_norm:
+                observed_edges.add(f"out:{dst_ip}")
+            elif dst_ip == pod_ip_norm:
+                observed_edges.add(f"in:{src_ip}")
+
+        if not observed_edges:
+            return 0.0, "edge_map_no_pod_edges", len(records), 0
+
+        known_edges = self._known_pod_edges.setdefault(pod_uid, set())
+        new_edges = observed_edges - known_edges
+        known_edges.update(observed_edges)
+        if new_edges:
+            return 1.0, "new_edge", len(observed_edges), len(new_edges)
+        return 0.0, "known_edges", len(observed_edges), 0
+
+    def _get_entropy_samples(self, pod_uid: str, pod_ip: str) -> tuple[dict[str, list[str]], dict[str, str]]:
+        file_accesses, file_status = self._read_entropy_sample_list(pod_uid, "file_paths.json", "file_paths")
+        dns_queries, dns_status = self._read_entropy_sample_list(pod_uid, "dns_queries.json", "dns_queries")
+        network_destinations, network_status = self._get_network_destination_samples(pod_ip)
+
+        return (
+            {
+                "file_accesses": file_accesses,
+                "network_destinations": network_destinations,
+                "dns_queries": dns_queries,
+            },
+            {
+                "file_entropy_source": "probe",
+                "file_entropy_status": file_status,
+                "file_entropy_samples": str(len(file_accesses)),
+                "network_entropy_source": "sock_ops",
+                "network_entropy_status": network_status,
+                "network_entropy_destinations": str(len(set(network_destinations))),
+                "dns_entropy_source": "probe",
+                "dns_entropy_status": dns_status,
+                "dns_entropy_samples": str(len(dns_queries)),
+            },
+        )
+
+    def _read_lateral_edge_records(self) -> tuple[list[dict], str]:
+        edge_path = Path(self.syscall_probe_dir) / "pod_edges.jsonl"
+        if not edge_path.exists():
+            return [], "edge_map_missing"
+
+        probe_status = self._probe_file_status(edge_path)
+        if probe_status != "probe_ok":
+            return [], probe_status.replace("probe", "edge_map")
+
+        try:
+            raw_text = edge_path.read_text(encoding="utf-8").strip()
+        except OSError:
+            return [], "edge_map_read_failed"
+        if not raw_text:
+            return [], "edge_map_empty"
+
+        records: list[dict] = []
+        invalid_lines = 0
+        if raw_text.startswith("["):
+            try:
+                parsed = json.loads(raw_text)
+            except json.JSONDecodeError:
+                return [], "edge_map_invalid"
+            if not isinstance(parsed, list):
+                return [], "edge_map_invalid"
+            records = [item for item in parsed if isinstance(item, dict)]
+        else:
+            for line in raw_text.splitlines():
+                if not line.strip():
+                    continue
+                try:
+                    parsed = json.loads(line)
+                except json.JSONDecodeError:
+                    invalid_lines += 1
+                    continue
+                if isinstance(parsed, dict):
+                    records.append(parsed)
+
+        if not records and invalid_lines:
+            return [], "edge_map_invalid"
+        if not records:
+            return [], "edge_map_empty"
+        return records, "edge_map_ok"
+
+    def _read_entropy_sample_list(self, pod_uid: str, filename: str, key: str) -> tuple[list[str], str]:
+        probe_path = Path(self.syscall_probe_dir) / pod_uid / filename
+        probe_status = self._probe_file_status(probe_path)
+        if probe_status != "probe_ok":
+            return [], probe_status
+
+        try:
+            parsed = json.loads(probe_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return [], "probe_invalid"
+
+        if isinstance(parsed, dict):
+            parsed = parsed.get(key, [])
+        if not isinstance(parsed, list):
+            return [], "probe_invalid"
+
+        samples = [str(item).strip() for item in parsed if str(item).strip()]
+        if not samples:
+            return [], "probe_empty"
+        return samples[:512], "probe_ok"
+
+    def _get_network_destination_samples(self, pod_ip: str) -> tuple[list[str], str]:
+        pod_ip_norm = self._normalize_ip(pod_ip)
+        if not pod_ip_norm:
+            return [], "pod_ip_missing"
+
+        records, status = self._read_lateral_edge_records()
+        if status != "edge_map_ok":
+            return [], status.replace("edge_map", "network_entropy")
+
+        destinations: list[str] = []
+        for edge in records:
+            src_ip = self._normalize_ip(edge.get("src_ip"))
+            dst_ip = self._normalize_ip(edge.get("dst_ip"))
+            if not src_ip or not dst_ip or src_ip != pod_ip_norm or src_ip == dst_ip:
+                continue
+            try:
+                count = max(1, int(edge.get("count", 1)))
+            except (TypeError, ValueError):
+                count = 1
+            destinations.extend([dst_ip] * min(count, 64))
+            if len(destinations) >= 512:
+                break
+
+        if not destinations:
+            return [], "network_entropy_no_destinations"
+        return destinations[:512], "network_entropy_ok"
+
+    def _pod_image(self, pod: object) -> str:
+        spec = getattr(pod, "spec", None)
+        containers = getattr(spec, "containers", None)
+        if not isinstance(containers, list) or not containers:
+            return ""
+        return str(getattr(containers[0], "image", "") or "")
+
+    def _pod_image_id(self, pod: object) -> str:
+        status = getattr(pod, "status", None)
+        container_statuses = getattr(status, "container_statuses", None)
+        if not isinstance(container_statuses, list) or not container_statuses:
+            return ""
+        return str(getattr(container_statuses[0], "image_id", "") or "")
+
+    def _normalize_ip(self, raw_value: object) -> str:
+        if raw_value is None:
+            return ""
+        if isinstance(raw_value, (int, float)):
+            try:
+                return str(ipaddress.IPv4Address(int(raw_value) & 0xFFFFFFFF))
+            except ipaddress.AddressValueError:
+                return ""
+
+        value = str(raw_value).strip().strip('"')
+        if not value:
+            return ""
+        if value.isdigit():
+            try:
+                return str(ipaddress.IPv4Address(int(value) & 0xFFFFFFFF))
+            except ipaddress.AddressValueError:
+                return ""
+        try:
+            parsed = ipaddress.ip_address(value)
+        except ValueError:
+            return ""
+        if parsed.version != 4:
+            return ""
+        return str(parsed)
+
     def _probe_file_status(self, probe_path: Path) -> str:
         if not probe_path.exists():
             return "probe_missing"
@@ -864,6 +1106,8 @@ class ObserverK8s(BaseObserver):
                 "reason": reason,
                 "telemetry_status": "fallback",
                 "degraded_signals": "all:unavailable",
+                "image": "",
+                "image_id": "",
                 "cpu_source": "unavailable",
                 "cpu_status": "unavailable",
                 "metrics_api_status": "unavailable",
@@ -873,6 +1117,21 @@ class ObserverK8s(BaseObserver):
                 "network_status": "unavailable",
                 "syscall_source": "unavailable",
                 "syscall_status": "unavailable",
+                "syscall_counts_source": "unavailable",
+                "syscall_counts_status": "unavailable",
+                "lateral_movement_source": "unavailable",
+                "lateral_movement_status": "unavailable",
+                "lateral_movement_total_edges": "0",
+                "lateral_movement_new_edges": "0",
+                "file_entropy_source": "unavailable",
+                "file_entropy_status": "unavailable",
+                "file_entropy_samples": "0",
+                "network_entropy_source": "unavailable",
+                "network_entropy_status": "unavailable",
+                "network_entropy_destinations": "0",
+                "dns_entropy_source": "unavailable",
+                "dns_entropy_status": "unavailable",
+                "dns_entropy_samples": "0",
             },
         )
 

@@ -32,6 +32,10 @@ class AppConfig:
             "process": float(weights.get("process", 0.0)),
             "network": float(weights.get("network", 0.0)),
             "syscall": float(weights.get("syscall", 0.0)),
+            "syscall_jsd": float(weights.get("syscall_jsd", 0.0)),
+            "file_entropy": float(weights.get("file_entropy", 0.0)),
+            "network_entropy": float(weights.get("network_entropy", 0.0)),
+            "dns_entropy": float(weights.get("dns_entropy", 0.0)),
         }
 
     @property
@@ -85,6 +89,51 @@ class AppConfig:
     @property
     def ml_model_path(self) -> str | None:
         return self.raw.get("ml", {}).get("model_path")
+
+    @property
+    def use_behavioral_dna(self) -> bool:
+        return bool(self.raw.get("ml", {}).get("use_behavioral_dna", False))
+
+    @property
+    def behavioral_dna_model_path(self) -> str | None:
+        return self.raw.get("ml", {}).get("behavioral_dna_model_path")
+
+    @property
+    def use_temporal_lstm(self) -> bool:
+        return bool(self.raw.get("ml", {}).get("use_temporal_lstm", False))
+
+    @property
+    def temporal_lstm_model_path(self) -> str | None:
+        return self.raw.get("ml", {}).get("temporal_lstm_model_path")
+
+    @property
+    def audit_kms_enabled(self) -> bool:
+        return bool(self.raw.get("audit", {}).get("kms_hmac", {}).get("enabled", False))
+
+    @property
+    def audit_kms_key_id(self) -> str | None:
+        value = self.raw.get("audit", {}).get("kms_hmac", {}).get("key_id")
+        if value in {None, ""}:
+            return None
+        return str(value)
+
+    @property
+    def audit_kms_region(self) -> str | None:
+        value = self.raw.get("audit", {}).get("kms_hmac", {}).get("region")
+        if value in {None, ""}:
+            return None
+        return str(value)
+
+    @property
+    def audit_kms_profile(self) -> str | None:
+        value = self.raw.get("audit", {}).get("kms_hmac", {}).get("profile")
+        if value in {None, ""}:
+            return None
+        return str(value)
+
+    @property
+    def audit_kms_mac_algorithm(self) -> str:
+        return str(self.raw.get("audit", {}).get("kms_hmac", {}).get("mac_algorithm", "HMAC_SHA_256"))
 
     @property
     def confidence_window(self) -> int:

@@ -13,8 +13,10 @@ LABEL version="1.0.0"
 
 # Install bpftrace and dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    bpftool \
     bpftrace \
     bc \
+    clang \
     jq \
  && rm -rf /var/lib/apt/lists/*
 
@@ -22,6 +24,8 @@ WORKDIR /app
 
 # Copy the probe script
 COPY raasa/k8s/ebpf_probe.sh /app/ebpf_probe.sh
+COPY raasa/k8s/sock_ops_probe.bpf.c /app/raasa/k8s/sock_ops_probe.bpf.c
+COPY raasa/k8s/lsm_exec_block.bpf.c /app/raasa/k8s/lsm_exec_block.bpf.c
 RUN chmod +x /app/ebpf_probe.sh
 
 # Note: The probe MUST run as root to access eBPF subsystems (SYS_ADMIN capability required).

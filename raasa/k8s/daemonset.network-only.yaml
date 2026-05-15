@@ -196,6 +196,14 @@ data:
       use_ml_model: false
       model_path: "/app/raasa/models/iforest_latest.pkl"
 
+    audit:
+      kms_hmac:
+        enabled: false
+        key_id: ""
+        region: ""
+        profile: ""
+        mac_algorithm: HMAC_SHA_256
+
     enforcement:
       cpus_by_tier:
         L1: 1.0

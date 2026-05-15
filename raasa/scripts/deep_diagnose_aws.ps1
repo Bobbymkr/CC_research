@@ -84,8 +84,8 @@ try {
         throw "Could not resolve metrics-server pod name."
     }
 
-    $enforcerSocketCheckCommand = "sudo k3s kubectl exec -n raasa-system $agentPod -c raasa-enforcer -- sh -lc 'id; if [ -S /var/run/raasa/enforcer.sock ]; then echo sock_exists=yes; else echo sock_exists=no; fi; ls -la /var/run/raasa'"
-    $agentSocketCheckCommand = "sudo k3s kubectl exec -n raasa-system $agentPod -c raasa-agent -- sh -lc 'id; if [ -S /var/run/raasa/enforcer.sock ]; then echo sock_exists=yes; else echo sock_exists=no; fi; ls -la /var/run/raasa'"
+    $enforcerSocketCheckCommand = "sudo k3s kubectl exec -n raasa-system $agentPod -c raasa-enforcer -- sh -lc 'id; if [ -S /var/run/raasa/ipc/enforcer.sock ]; then echo sock_exists=yes; else echo sock_exists=no; fi; ls -la /var/run/raasa /var/run/raasa/ipc'"
+    $agentSocketCheckCommand = "sudo k3s kubectl exec -n raasa-system $agentPod -c raasa-agent -- sh -lc 'id; if [ -S /var/run/raasa/ipc/enforcer.sock ]; then echo sock_exists=yes; else echo sock_exists=no; fi; ls -la /var/run/raasa /var/run/raasa/ipc'"
     $enforcerPsCommand = "sudo k3s kubectl exec -n raasa-system $agentPod -c raasa-enforcer -- sh -lc 'if command -v ps >/dev/null 2>&1; then ps -ef; else echo ps-not-found; cat /proc/1/comm; fi'"
 
     @(

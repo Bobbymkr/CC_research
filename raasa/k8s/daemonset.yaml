@@ -48,6 +48,9 @@ spec:
     spec:
       # ── Service Account (RBAC) ────────────────────────────────────────────
       serviceAccountName: raasa-agent
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
 
       # ── Priority: run even on tainted/master nodes ────────────────────────
       tolerations:
@@ -69,10 +72,17 @@ spec:
         - name: sys
           hostPath:
             path: /sys         # For cgroup v2 metrics
+        - name: bpf-fs
+          hostPath:
+            path: /sys/fs/bpf  # Shared BPF pinning surface for LSM maps
+            type: Directory
         - name: raasa-probe-dir
           hostPath:
-            path: /var/run/raasa   # Shared socket and probe directory
+            path: /var/run/raasa   # Shared syscall probe directory
             type: DirectoryOrCreate
+        - name: raasa-ipc
+          emptyDir:
+            medium: Memory         # Per-pod signed IPC keys and socket
         - name: audit-logs
           emptyDir: {}
         - name: config
@@ -115,6 +125,12 @@ spec:
               value: "/app/raasa/logs/overrides.json"
             - name: RAASA_APPROVAL_PATH
               value: "/app/raasa/logs/approvals.json"
+            - name: RAASA_IPC_SOCKET_PATH
+              value: "/var/run/raasa/ipc/enforcer.sock"
+            - name: RAASA_IPC_SIGNING_PRIVATE_KEY
+              value: "/var/run/raasa/ipc/command_signing_key.pem"
+            - name: RAASA_IPC_SIGNING_PUBLIC_KEY
+              value: "/var/run/raasa/ipc/command_signing_key.pub"
           volumeMounts:
             - name: proc
               mountPath: /host/proc
@@ -124,6 +140,8 @@ spec:
               readOnly: true
             - name: raasa-probe-dir
               mountPath: /var/run/raasa
+            - name: raasa-ipc
+              mountPath: /var/run/raasa/ipc
             - name: audit-logs
               mountPath: /app/raasa/logs
             - name: config
@@ -144,25 +162,46 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             capabilities:
               drop:
                 - ALL
 
-        # ── Privileged Enforcer Sidecar ──────────────────────────────────────
+        # ── Capability-Scoped Enforcer Sidecar ───────────────────────────────
         # Executes IPC commands from the unprivileged controller.
         - name: raasa-enforcer
           image: raasa/agent:1.0.0
           imagePullPolicy: IfNotPresent
           command: ["python", "-m", "raasa.k8s.enforcer_sidecar"]
+          env:
+            - name: RAASA_IPC_GID
+              value: "1000"
+            - name: RAASA_IPC_SOCKET_PATH
+              value: "/var/run/raasa/ipc/enforcer.sock"
+            - name: RAASA_IPC_SIGNING_PUBLIC_KEY
+              value: "/var/run/raasa/ipc/command_signing_key.pub"
+            - name: RAASA_IPC_PUBLIC_KEY_WAIT_SECONDS
+              value: "60"
+            - name: RAASA_LSM_BLOCK_MAP_PIN
+              value: "/sys/fs/bpf/raasa/maps/raasa_lsm_blocked_tgids"
           securityContext:
-            privileged: true              # Required for tc and cgroup writes
             runAsUser: 0                  # Override Dockerfile USER to run as root
+            runAsGroup: 1000
             runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_ADMIN              # For tc shaping on host veths
+                - SYS_ADMIN              # For cgroup v2 memory.max writes
           volumeMounts:
-            - name: raasa-probe-dir
-              mountPath: /var/run/raasa   # For IPC socket
+            - name: raasa-ipc
+              mountPath: /var/run/raasa/ipc  # For signed IPC socket and keys
             - name: sys
               mountPath: /sys             # For cgroups memory.max writes
+            - name: bpf-fs
+              mountPath: /sys/fs/bpf      # For eBPF LSM block map updates
           resources:
             requests:
               cpu: "10m"
@@ -190,6 +229,8 @@ spec:
             - name: sys
               mountPath: /sys
               readOnly: true
+            - name: bpf-fs
+              mountPath: /sys/fs/bpf      # Pins RAASA BPF programs and maps here
             - name: debugfs
               mountPath: /sys/kernel/debug
               readOnly: true
@@ -225,7 +266,11 @@ rules:
   # Pod inspection — needed to enumerate pods on this node
   - apiGroups: [""]
     resources: ["pods"]
-    verbs: ["get", "list"]
+    verbs: ["get", "list", "patch"]
+  # NetworkPolicy enforcement — needed for L3 control-plane isolation
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "create", "patch", "delete"]
   # Node proxy — needed to fetch cAdvisor metrics for network telemetry
   - apiGroups: [""]
     resources: ["nodes/proxy"]
@@ -279,6 +324,10 @@ data:
         process: 0.55
         network: 0.55
         syscall: 0.55
+        syscall_jsd: 0.55
+        file_entropy: 0.55
+        network_entropy: 0.55
+        dns_entropy: 0.55
       confidence_window: 5
 
     telemetry:
@@ -291,6 +340,18 @@ data:
     ml:
       use_ml_model: false
       model_path: "/app/raasa/models/model.joblib"
+      use_behavioral_dna: false
+      behavioral_dna_model_path: "/app/raasa/models/behavioral_dna_registry.joblib"
+      use_temporal_lstm: false
+      temporal_lstm_model_path: "/app/raasa/models/temporal_lstm.keras"
+
+    audit:
+      kms_hmac:
+        enabled: false
+        key_id: ""
+        region: ""
+        profile: ""
+        mac_algorithm: HMAC_SHA_256
 
     enforcement:
       cpus_by_tier:

@@ -12,6 +12,7 @@ raasa_risk_score{pod}               Gauge   Current risk score [0.0, 1.0]
 raasa_tier{pod}                     Gauge   Current enforcement tier {1, 2, 3}
 raasa_confidence{pod}               Gauge   Risk model confidence [0.0, 1.0]
 raasa_syscall_rate{pod}             Gauge   eBPF syscall rate /s
+raasa_lateral_movement_signal{pod}  Gauge   First-ever pod communication edge signal [0.0, 1.0]
 raasa_escalations_total{pod}        Counter Total L→L+N tier escalation events
 raasa_deescalations_total{pod}      Counter Total L→L-N tier de-escalation events
 raasa_detection_latency_seconds     Histogram Time from first anomaly tick to L3 decision
@@ -45,6 +46,7 @@ _RISK_SCORE = None
 _TIER = None
 _CONFIDENCE = None
 _SYSCALL_RATE = None
+_LATERAL_MOVEMENT = None
 _ESCALATIONS = None
 _DEESCALATIONS = None
 _DETECTION_LATENCY = None
@@ -56,7 +58,7 @@ _FIRST_ANOMALY_TS: dict[str, float] = {}  # pod_id → timestamp of first L2+ de
 
 
 def _init_metrics() -> None:
-    global _RISK_SCORE, _TIER, _CONFIDENCE, _SYSCALL_RATE
+    global _RISK_SCORE, _TIER, _CONFIDENCE, _SYSCALL_RATE, _LATERAL_MOVEMENT
     global _ESCALATIONS, _DEESCALATIONS, _DETECTION_LATENCY, _ITERATIONS, _ERRORS
     global _INITIALIZED
 
@@ -67,6 +69,11 @@ def _init_metrics() -> None:
     _TIER = Gauge("raasa_tier", "Current enforcement tier (1/2/3)", ["pod"])
     _CONFIDENCE = Gauge("raasa_confidence", "Risk model confidence", ["pod"])
     _SYSCALL_RATE = Gauge("raasa_syscall_rate", "eBPF syscall rate per second", ["pod"])
+    _LATERAL_MOVEMENT = Gauge(
+        "raasa_lateral_movement_signal",
+        "First-ever pod communication edge signal",
+        ["pod"],
+    )
     _ESCALATIONS = Counter("raasa_escalations_total", "Total tier escalation events", ["pod"])
     _DEESCALATIONS = Counter("raasa_deescalations_total", "Total tier de-escalation events", ["pod"])
     _DETECTION_LATENCY = Histogram(
@@ -162,3 +169,4 @@ def record_iteration(
         # Syscall rate from telemetry
         if tel:
             _SYSCALL_RATE.labels(pod=pod).set(tel.syscall_rate or 0.0)
+            _LATERAL_MOVEMENT.labels(pod=pod).set(tel.lateral_movement_signal or 0.0)

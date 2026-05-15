@@ -39,7 +39,8 @@ fi
 echo "[RAASA] Configuring Docker permissions..."
 sudo groupadd docker || true
 sudo usermod -aG docker $USER
-sudo chmod 666 /var/run/docker.sock || true
+sudo chgrp docker /var/run/docker.sock || true
+sudo chmod 660 /var/run/docker.sock || true
 
 # 4. Set up Python Virtual Environment & Install RAASA dependencies
 echo "[RAASA] Setting up Python dependencies..."

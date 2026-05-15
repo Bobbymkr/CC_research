@@ -4,7 +4,7 @@ import shutil
 import unittest
 
 from raasa.core.approval import set_approval
-from raasa.core.features import FeatureExtractor
+from raasa.core.features import FeatureExtractor, jensen_shannon_divergence, shannon_entropy_signal
 from raasa.core.models import Assessment, ContainerTelemetry, FeatureVector, Tier
 from raasa.core.policy import PolicyReasoner
 from raasa.core.risk_model import RiskAssessor
@@ -55,6 +55,83 @@ class FeatureExtractorTests(unittest.TestCase):
         features = FeatureExtractor(process_cap=20, syscall_cap=5000.0).extract(telemetry)
         self.assertAlmostEqual(features[0].syscall_signal, 3720.6 / 5000.0, places=6)
         self.assertLess(features[0].syscall_signal, 1.0)
+
+    def test_carries_lateral_movement_signal(self) -> None:
+        telemetry = [
+            ContainerTelemetry(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_percent=0.0,
+                memory_percent=0.0,
+                process_count=1,
+                lateral_movement_signal=1.0,
+            )
+        ]
+        features = FeatureExtractor(process_cap=20).extract(telemetry)
+        self.assertEqual(features[0].lateral_movement_signal, 1.0)
+
+    def test_jensen_shannon_divergence_is_zero_for_matching_distributions(self) -> None:
+        self.assertEqual(jensen_shannon_divergence({"0": 10, "1": 5}, {"0": 20, "1": 10}), 0.0)
+
+    def test_jensen_shannon_divergence_is_one_for_disjoint_distributions(self) -> None:
+        self.assertAlmostEqual(jensen_shannon_divergence({"0": 10}, {"1": 10}), 1.0, places=6)
+
+    def test_shannon_entropy_signal_separates_repeated_and_diverse_samples(self) -> None:
+        self.assertEqual(shannon_entropy_signal(["/etc/passwd"] * 8), 0.0)
+        self.assertAlmostEqual(
+            shannon_entropy_signal(["10.0.0.1", "10.0.0.2", "10.0.0.3", "10.0.0.4"]),
+            1.0,
+            places=6,
+        )
+
+    def test_syscall_distribution_shift_becomes_feature_signal(self) -> None:
+        extractor = FeatureExtractor(syscall_baseline_alpha=0.0)
+        baseline = [
+            ContainerTelemetry(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_percent=0.0,
+                memory_percent=0.0,
+                process_count=1,
+                syscall_counts={"0": 10},
+            )
+        ]
+        shifted = [
+            ContainerTelemetry(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_percent=0.0,
+                memory_percent=0.0,
+                process_count=1,
+                syscall_counts={"1": 10},
+            )
+        ]
+
+        first = extractor.extract(baseline)[0]
+        second = extractor.extract(shifted)[0]
+
+        self.assertEqual(first.syscall_jsd_signal, 0.0)
+        self.assertGreater(second.syscall_jsd_signal, 0.9)
+
+    def test_entropy_samples_become_feature_signals(self) -> None:
+        telemetry = [
+            ContainerTelemetry(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_percent=0.0,
+                memory_percent=0.0,
+                process_count=1,
+                file_accesses=["/var/log/app.log"] * 4,
+                network_destinations=["10.0.0.1", "10.0.0.2", "10.0.0.3", "10.0.0.4"],
+                dns_queries=["a.example.test", "b.example.test", "c.example.test", "d.example.test"],
+            )
+        ]
+
+        feature = FeatureExtractor(process_cap=20).extract(telemetry)[0]
+
+        self.assertEqual(feature.file_entropy_signal, 0.0)
+        self.assertGreater(feature.network_entropy_signal, 0.9)
+        self.assertGreater(feature.dns_entropy_signal, 0.9)
 
 
 class RiskAssessorTests(unittest.TestCase):
@@ -112,6 +189,70 @@ class RiskAssessorTests(unittest.TestCase):
         self.assertEqual(result.telemetry_metadata["telemetry_status"], "partial")
         self.assertTrue(any(reason == "telemetry=partial" for reason in result.reasons))
         self.assertTrue(any("cpu:metrics_cache_fallback" in reason for reason in result.reasons))
+
+    def test_syscall_jsd_weight_contributes_to_linear_risk(self) -> None:
+        assessor = RiskAssessor(weights={"syscall_jsd": 0.50}, confidence_window=3)
+        features = [
+            FeatureVector(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_signal=0.0,
+                memory_signal=0.0,
+                process_signal=0.0,
+                syscall_jsd_signal=0.80,
+            )
+        ]
+
+        result = assessor.assess(features)[0]
+
+        self.assertAlmostEqual(result.risk_score, 0.40, places=6)
+        self.assertIn("sys_jsd=0.80*0.50", result.reasons)
+
+    def test_entropy_weights_contribute_to_linear_risk(self) -> None:
+        assessor = RiskAssessor(
+            weights={"file_entropy": 0.10, "network_entropy": 0.20, "dns_entropy": 0.30},
+            confidence_window=3,
+        )
+        features = [
+            FeatureVector(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_signal=0.0,
+                memory_signal=0.0,
+                process_signal=0.0,
+                file_entropy_signal=0.50,
+                network_entropy_signal=0.50,
+                dns_entropy_signal=0.50,
+            )
+        ]
+
+        result = assessor.assess(features)[0]
+
+        self.assertAlmostEqual(result.risk_score, 0.30, places=6)
+        self.assertIn("file_ent=0.50*0.10", result.reasons)
+        self.assertIn("net_ent=0.50*0.20", result.reasons)
+        self.assertIn("dns_ent=0.50*0.30", result.reasons)
+
+    def test_linear_risk_includes_shap_attribution_rows(self) -> None:
+        assessor = RiskAssessor(weights={"cpu": 0.25, "network_entropy": 0.50}, confidence_window=3)
+        features = [
+            FeatureVector(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_signal=0.40,
+                memory_signal=0.0,
+                process_signal=0.0,
+                network_entropy_signal=0.80,
+            )
+        ]
+
+        result = assessor.assess(features)[0]
+        shap_total = sum(float(row["shap_value"]) for row in result.attributions)
+
+        self.assertAlmostEqual(result.risk_score, 0.50, places=6)
+        self.assertAlmostEqual(shap_total, result.risk_score, places=6)
+        self.assertEqual(result.attributions[0]["feature"], "network_entropy")
+        self.assertEqual(result.attributions[0]["shap_value"], 0.4)
 
 
 class PolicyReasonerTests(unittest.TestCase):

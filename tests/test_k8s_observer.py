@@ -38,6 +38,7 @@ def _prime_observer_state(obs: ObserverK8s, probe_dir: str = "/nonexistent") -> 
     obs._prev_k8s_cpu = {}
     obs._metrics_cache = {}
     obs._namespace_metrics_cache = {}
+    obs._known_pod_edges = {}
     obs._metrics_api_blocked_until = 0.0
     obs._metrics_api_last_failure_status = "unavailable"
     obs._k8s_client = None
@@ -132,6 +133,159 @@ class ObserverK8sSyscallProbeTests(unittest.TestCase):
         rate, status = self._make_observer()._get_syscall_rate(pod_uid)
         self.assertEqual(rate, 0.0)
         self.assertEqual(status, "probe_stale")
+
+    def test_reads_syscall_counts_from_probe_file(self) -> None:
+        pod_uid = "histogram-pod"
+        target = self.probe_root / pod_uid
+        target.mkdir(parents=True, exist_ok=True)
+        (target / "syscall_counts.json").write_text('{"0": 3, "257": "2", "bad": -1}\n', encoding="utf-8")
+
+        counts, status = self._make_observer()._get_syscall_counts(pod_uid)
+
+        self.assertEqual(status, "probe_ok")
+        self.assertEqual(counts, {"0": 3, "257": 2})
+
+    def test_returns_empty_for_invalid_syscall_counts_probe_file(self) -> None:
+        pod_uid = "bad-histogram-pod"
+        target = self.probe_root / pod_uid
+        target.mkdir(parents=True, exist_ok=True)
+        (target / "syscall_counts.json").write_text("[1, 2, 3]\n", encoding="utf-8")
+
+        counts, status = self._make_observer()._get_syscall_counts(pod_uid)
+
+        self.assertEqual(status, "probe_invalid")
+        self.assertEqual(counts, {})
+
+
+class ObserverK8sLateralMovementTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.probe_root = Path("tests/.tmp_k8s_edges")
+        shutil.rmtree(self.probe_root, ignore_errors=True)
+        self.probe_root.mkdir(parents=True, exist_ok=True)
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.probe_root, ignore_errors=True)
+
+    def _make_observer(self) -> ObserverK8s:
+        return _prime_observer_state(ObserverK8s.__new__(ObserverK8s), probe_dir=str(self.probe_root))
+
+    def test_lateral_signal_fires_on_first_seen_edge_only(self) -> None:
+        (self.probe_root / "pod_edges.jsonl").write_text(
+            '{"src_ip":"10.42.0.10","dst_ip":"10.42.0.11","count":1}\n',
+            encoding="utf-8",
+        )
+        obs = self._make_observer()
+
+        first = obs._get_lateral_movement_signal("uid-1", "10.42.0.10")
+        second = obs._get_lateral_movement_signal("uid-1", "10.42.0.10")
+
+        self.assertEqual(first, (1.0, "new_edge", 1, 1))
+        self.assertEqual(second, (0.0, "known_edges", 1, 0))
+
+    def test_lateral_signal_accepts_numeric_bpf_ips(self) -> None:
+        # 169090600 == 10.20.30.40 in big-endian IPv4 integer form.
+        (self.probe_root / "pod_edges.jsonl").write_text(
+            '{"src_ip":169090600,"dst_ip":"10.20.30.41","count":1}\n',
+            encoding="utf-8",
+        )
+        obs = self._make_observer()
+
+        signal, status, total_edges, new_edges = obs._get_lateral_movement_signal(
+            "uid-1",
+            "10.20.30.40",
+        )
+
+        self.assertEqual(signal, 1.0)
+        self.assertEqual(status, "new_edge")
+        self.assertEqual(total_edges, 1)
+        self.assertEqual(new_edges, 1)
+
+    def test_lateral_signal_reports_missing_edge_map(self) -> None:
+        signal, status, total_edges, new_edges = self._make_observer()._get_lateral_movement_signal(
+            "uid-1",
+            "10.42.0.10",
+        )
+
+        self.assertEqual(signal, 0.0)
+        self.assertEqual(status, "edge_map_missing")
+        self.assertEqual(total_edges, 0)
+        self.assertEqual(new_edges, 0)
+
+
+class ObserverK8sEntropyTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.probe_root = Path("tests/.tmp_k8s_entropy")
+        shutil.rmtree(self.probe_root, ignore_errors=True)
+        self.probe_root.mkdir(parents=True, exist_ok=True)
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.probe_root, ignore_errors=True)
+
+    def _make_observer(self) -> ObserverK8s:
+        return _prime_observer_state(ObserverK8s.__new__(ObserverK8s), probe_dir=str(self.probe_root))
+
+    def test_reads_file_and_dns_entropy_samples_from_probe_files(self) -> None:
+        pod_uid = "entropy-pod"
+        target = self.probe_root / pod_uid
+        target.mkdir(parents=True, exist_ok=True)
+        (target / "file_paths.json").write_text('["/etc/passwd", "/tmp/a", ""]\n', encoding="utf-8")
+        (target / "dns_queries.json").write_text('{"dns_queries": ["a.example.test", "b.example.test"]}\n', encoding="utf-8")
+
+        file_samples, file_status = self._make_observer()._read_entropy_sample_list(
+            pod_uid,
+            "file_paths.json",
+            "file_paths",
+        )
+        dns_samples, dns_status = self._make_observer()._read_entropy_sample_list(
+            pod_uid,
+            "dns_queries.json",
+            "dns_queries",
+        )
+
+        self.assertEqual(file_status, "probe_ok")
+        self.assertEqual(file_samples, ["/etc/passwd", "/tmp/a"])
+        self.assertEqual(dns_status, "probe_ok")
+        self.assertEqual(dns_samples, ["a.example.test", "b.example.test"])
+
+    def test_network_destination_entropy_samples_come_from_sock_ops_edges(self) -> None:
+        (self.probe_root / "pod_edges.jsonl").write_text(
+            "\n".join(
+                [
+                    '{"src_ip":"10.42.0.10","dst_ip":"10.42.0.11","count":2}',
+                    '{"src_ip":"10.42.0.10","dst_ip":"10.42.0.12","count":1}',
+                    '{"src_ip":"10.42.0.99","dst_ip":"10.42.0.10","count":9}',
+                ]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+        samples, status = self._make_observer()._get_network_destination_samples("10.42.0.10")
+
+        self.assertEqual(status, "network_entropy_ok")
+        self.assertEqual(samples.count("10.42.0.11"), 2)
+        self.assertEqual(samples.count("10.42.0.12"), 1)
+        self.assertNotIn("10.42.0.99", samples)
+
+    def test_combined_entropy_sample_metadata_reports_sources(self) -> None:
+        pod_uid = "entropy-pod"
+        target = self.probe_root / pod_uid
+        target.mkdir(parents=True, exist_ok=True)
+        (target / "file_paths.json").write_text('["/tmp/a"]\n', encoding="utf-8")
+        (target / "dns_queries.json").write_text('["x.example.test"]\n', encoding="utf-8")
+        (self.probe_root / "pod_edges.jsonl").write_text(
+            '{"src_ip":"10.42.0.10","dst_ip":"10.42.0.11","count":1}\n',
+            encoding="utf-8",
+        )
+
+        samples, metadata = self._make_observer()._get_entropy_samples(pod_uid, "10.42.0.10")
+
+        self.assertEqual(samples["file_accesses"], ["/tmp/a"])
+        self.assertEqual(samples["network_destinations"], ["10.42.0.11"])
+        self.assertEqual(samples["dns_queries"], ["x.example.test"])
+        self.assertEqual(metadata["file_entropy_status"], "probe_ok")
+        self.assertEqual(metadata["network_entropy_status"], "network_entropy_ok")
+        self.assertEqual(metadata["dns_entropy_status"], "probe_ok")
 
 
 class ObserverK8sMetricsTests(unittest.TestCase):

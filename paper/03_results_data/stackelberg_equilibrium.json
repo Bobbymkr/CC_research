@@ -1,0 +1,40 @@
+{
+  "attacker_payoffs": {
+    "crypto_miner_mimicry": 0.25169117647058836,
+    "fork_bomb_probe": 0.27255882352941196,
+    "lateral_movement_probe": 0.46499999999999997,
+    "side_channel_probe": 0.6831764705882354,
+    "slow_exfiltration": 0.6831764705882354,
+    "syscall_burst_escape": 0.5036176470588236
+  },
+  "empirical_attacker_payoff": 0.7390000000000001,
+  "empirical_payoffs": {
+    "crypto_miner_mimicry": 0.1319999999999999,
+    "fork_bomb_probe": 0.02950000000000008,
+    "lateral_movement_probe": 0.478,
+    "side_channel_probe": 0.6339999999999999,
+    "slow_exfiltration": 0.7390000000000001,
+    "syscall_burst_escape": 0.39199999999999996
+  },
+  "empirical_weights": {
+    "cpu": 0.4,
+    "memory": 0.25,
+    "network": 0.1,
+    "process": 0.15,
+    "syscall": 0.1
+  },
+  "empirical_worst_response": "slow_exfiltration",
+  "equilibrium_attacker_payoff": 0.6831764705882354,
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "payoff_reduction": 0.055823529411764716,
+  "success": true,
+  "weight_sum": 1.0,
+  "weights": {
+    "cpu": 0.35147058823529387,
+    "memory": 0.05,
+    "network": 0.4985294117647061,
+    "process": 0.05,
+    "syscall": 0.05
+  },
+  "worst_response": "slow_exfiltration"
+}

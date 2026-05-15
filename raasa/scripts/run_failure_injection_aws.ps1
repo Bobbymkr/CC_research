@@ -498,8 +498,8 @@ import os
 import socket
 import sys
 import time
+from raasa.core.ipc import CommandSigner, DEFAULT_PRIVATE_KEY_PATH, DEFAULT_SOCKET_PATH
 
-sock_path = "/var/run/raasa/enforcer.sock"
 payload = {"container_id": "default/raasa-nonexistent-pod", "tier": "L3"}
 deadline = time.time() + 30
 last_error = "not_started"
@@ -507,15 +507,20 @@ last_error = "not_started"
 while time.time() < deadline:
     client = None
     try:
-        if not os.path.exists(sock_path):
+        if not os.path.exists(DEFAULT_SOCKET_PATH):
             last_error = "socket_missing"
             time.sleep(1)
             continue
+        if not os.path.exists(DEFAULT_PRIVATE_KEY_PATH):
+            last_error = "signing_key_missing"
+            time.sleep(1)
+            continue
 
+        signed_payload = CommandSigner.from_private_key_file(DEFAULT_PRIVATE_KEY_PATH).sign_payload(payload)
         client = socket.socket(socket.AF_UNIX)
         client.settimeout(3)
-        client.connect(sock_path)
-        client.sendall((json.dumps(payload) + "\n").encode())
+        client.connect(DEFAULT_SOCKET_PATH)
+        client.sendall((json.dumps(signed_payload) + "\n").encode())
         response = client.recv(1024).decode().strip()
         print(response)
         sys.exit(0 if response == "ERR" else 2)

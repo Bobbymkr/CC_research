@@ -9,6 +9,7 @@ from typing import Sequence
 
 from raasa.core.config import load_config
 from raasa.core.features import FeatureExtractor
+from raasa.core.audit_integrity import KmsAuditSigner
 from raasa.core.logger import AuditLogger
 from raasa.core.metrics import record_iteration, start_metrics_server
 from raasa.core.policy import PolicyReasoner
@@ -83,6 +84,10 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
         confidence_window=config.confidence_window,
         use_ml_model=config.use_ml_model,
         ml_model_path=config.ml_model_path,
+        use_behavioral_dna=config.use_behavioral_dna,
+        behavioral_dna_path=config.behavioral_dna_model_path,
+        use_temporal_lstm=config.use_temporal_lstm,
+        temporal_lstm_path=config.temporal_lstm_model_path,
     )
     reasoner = PolicyReasoner(
         l1_max=config.policy_thresholds["l1_max"],
@@ -105,6 +110,7 @@ def run_controller(argv: Sequence[str] | None = None) -> int:
             "controller_variant": controller_variant,
             "config_path": str(args.config),
         },
+        audit_signer=_build_audit_signer(config),
     )
     iteration_timings: list[dict[str, float | int]] = []
     run_forever = args.iterations == 0
@@ -251,6 +257,20 @@ def _build_backend(backend: str, config):
         )
         enforcer = ActionEnforcer(cpus_by_tier=config.cpus_by_tier)
     return observer, enforcer
+
+
+def _build_audit_signer(config):
+    if not config.audit_kms_enabled:
+        return None
+    key_id = config.audit_kms_key_id
+    if not key_id:
+        raise ValueError("audit.kms_hmac.enabled is true but audit.kms_hmac.key_id is empty")
+    return KmsAuditSigner(
+        key_id,
+        region_name=config.audit_kms_region,
+        profile_name=config.audit_kms_profile,
+        mac_algorithm=config.audit_kms_mac_algorithm,
+    )
 
 
 if __name__ == "__main__":

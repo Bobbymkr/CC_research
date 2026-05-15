@@ -50,7 +50,7 @@
 ### The Solutions
 *   **Decoupled Sidecar Architecture:** Radically refactored the RAASA pod into a multi-container DaemonSet. The primary `raasa-agent` (handling ML and LLM reasoning) was stripped of all privileges and restricted to a standard user (UID 1000). 
 *   **Privileged Execution Sandbox:** Created a dedicated, highly constrained `raasa-enforcer` sidecar. This minimal Python daemon runs as `root` with `hostNetwork: true` to access physical network interfaces but contains zero AI logic.
-*   **Secure IPC Communication:** Established a secure JSON-over-Unix-Domain-Socket (`/var/run/raasa/enforcer.sock`) Inter-Process Communication mechanism between the two containers. The unprivileged AI agent sends strict, schema-validated containment decisions to the enforcer.
+*   **Secure IPC Communication:** Established a signed JSON-over-Unix-Domain-Socket (`/var/run/raasa/ipc/enforcer.sock`) Inter-Process Communication mechanism between the two containers. The unprivileged AI agent generates an ephemeral Ed25519 keypair and sends strict, schema-validated containment decisions through signed command envelopes; the enforcer loads only the public key and rejects unsigned or tampered commands.
 
 ### The Achievements
 *   **Zero-Trust AI Architecture:** Resolved the critical security paradox of Autonomous Security Agents. By decoupling the "Brain" (unprivileged AI) from the "Brawn" (privileged enforcer), RAASA achieved a defensively sound, production-grade security posture. Even if the AI is totally compromised, the attacker cannot execute arbitrary code on the host, as the IPC interface only accepts strict `containment` schemas.

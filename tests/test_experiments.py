@@ -51,6 +51,8 @@ class ConfigTests(unittest.TestCase):
         config = load_config("raasa/configs/config.yaml")
         self.assertFalse(config.use_ml_model)
         self.assertEqual(config.controller_variant, "linear_tuned")
+        self.assertFalse(config.audit_kms_enabled)
+        self.assertEqual(config.audit_kms_mac_algorithm, "HMAC_SHA_256")
 
     def test_linear_tuned_config_disables_ml_model(self) -> None:
         config = load_config("raasa/configs/config_tuned_small_linear.yaml")

@@ -1,7 +1,7 @@
 """
 Unix Domain Socket IPC for RAASA.
 
-Provides a structured, secure way for the unprivileged RAASA controller
+Provides a structured, group-restricted way for the unprivileged RAASA controller
 to send containment commands to the privileged Enforcer sidecar.
 """
 import json
@@ -13,7 +13,19 @@ from typing import Callable, Dict, Any
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_SOCKET_PATH = "/var/run/raasa/enforcer.sock"
+DEFAULT_SOCKET_PATH = "/var/run/raasa/ipc/enforcer.sock"
+DEFAULT_SOCKET_MODE = 0o660
+
+
+def _ipc_gid():
+    raw = os.environ.get("RAASA_IPC_GID", "").strip()
+    if not raw:
+        return None
+    try:
+        return int(raw)
+    except ValueError:
+        logger.warning("[IPC] Ignoring invalid RAASA_IPC_GID=%r", raw)
+        return None
 
 class UnixSocketClient:
     """Client used by the unprivileged controller to send enforcement decisions."""
@@ -63,9 +75,13 @@ class UnixSocketServer:
         self.server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.server_socket.bind(self.socket_path)
         
-        # VERY IMPORTANT: Ensure the socket is writable by the unprivileged user (UID 1000)
-        # In a real environment we'd set group ownership. For the prototype, we use 0o666.
-        os.chmod(self.socket_path, 0o666)
+        gid = _ipc_gid()
+        if gid is not None and hasattr(os, "chown"):
+            try:
+                os.chown(self.socket_path, -1, gid)
+            except OSError as exc:
+                logger.warning("[IPC] Could not chown socket to gid %s: %s", gid, exc)
+        os.chmod(self.socket_path, DEFAULT_SOCKET_MODE)
 
         self.server_socket.listen(5)
         self.running = True

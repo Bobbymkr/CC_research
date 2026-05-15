@@ -8,10 +8,18 @@ Privileged Enforcer Sidecar, which actually executes `tc` and `cgroup` logic.
 from __future__ import annotations
 
 import logging
+import os
 from typing import Dict, Iterable, Optional
 
 from raasa.core.models import PolicyDecision
-from raasa.core.ipc import UnixSocketClient
+from raasa.core.ipc import (
+    DEFAULT_PRIVATE_KEY_PATH,
+    DEFAULT_PUBLIC_KEY_PATH,
+    DEFAULT_SOCKET_PATH,
+    UnixSocketClient,
+    ensure_ipc_keypair,
+    ipc_gid_from_env,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +38,21 @@ class EnforcerK8s:
     ) -> None:
         self.cpus_by_tier = cpus_by_tier or {"L1": 1.0, "L2": 0.5, "L3": 0.2}
         self.last_applied_tier: Dict[str, str] = {}
-        self.ipc_client = UnixSocketClient()
+        private_key_path = os.environ.get("RAASA_IPC_SIGNING_PRIVATE_KEY", DEFAULT_PRIVATE_KEY_PATH)
+        public_key_path = os.environ.get("RAASA_IPC_SIGNING_PUBLIC_KEY", DEFAULT_PUBLIC_KEY_PATH)
+        try:
+            ensure_ipc_keypair(
+                private_key_path,
+                public_key_path,
+                gid=ipc_gid_from_env(default=None),
+            )
+        except Exception as exc:
+            logger.error("[EnforcerK8s] Failed to initialize IPC signing keypair: %s", exc)
+        self.ipc_client = UnixSocketClient(
+            socket_path=os.environ.get("RAASA_IPC_SOCKET_PATH", DEFAULT_SOCKET_PATH),
+            private_key_path=private_key_path,
+            signing_required=True,
+        )
 
     def wait_until_ready(self, timeout_seconds: float = 15.0) -> bool:
         """Wait for the privileged sidecar socket to accept connections."""

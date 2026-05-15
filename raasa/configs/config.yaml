@@ -21,6 +21,10 @@ risk:
     process: 0.55
     network: 0.55
     syscall: 0.55
+    syscall_jsd: 0.55
+    file_entropy: 0.55
+    network_entropy: 0.55
+    dns_entropy: 0.55
   confidence_window: 5
 
 telemetry:
@@ -37,6 +41,18 @@ telemetry:
 ml:
   use_ml_model: false
   model_path: "raasa/models/iforest_latest.pkl"
+  use_behavioral_dna: false
+  behavioral_dna_model_path: "raasa/models/behavioral_dna_registry.joblib"
+  use_temporal_lstm: false
+  temporal_lstm_model_path: "raasa/models/temporal_lstm.keras"
+
+audit:
+  kms_hmac:
+    enabled: false
+    key_id: ""
+    region: ""
+    profile: ""
+    mac_algorithm: HMAC_SHA_256
 
 enforcement:
   cpus_by_tier:
