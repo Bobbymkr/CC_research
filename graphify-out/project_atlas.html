@@ -599,6 +599,7 @@
     </aside>
   </div>
 
+<script src="graph_data.js"></script>
 <script>
 const DOMAIN_DEFS = [
   { id: "runtime", label: "Runtime Core", color: "#36d7b7", match: file => file.startsWith("raasa\\core") || file.startsWith("raasa/core") || file.includes("\\core\\") },
@@ -1388,12 +1389,24 @@ function attachEvents() {
   window.addEventListener("resize", resizeCanvas);
 }
 
-async function boot() {
-  attachEvents();
+async function loadGraphData() {
+  if (window.RAASA_GRAPH_DATA) {
+    return window.RAASA_GRAPH_DATA;
+  }
+
   try {
     const response = await fetch("graph.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const graph = await response.json();
+    return await response.json();
+  } catch (error) {
+    throw new Error(`${error.message}. Open through graphify-out/index.html with graph_data.js present, or serve graphify-out over HTTP.`);
+  }
+}
+
+async function boot() {
+  attachEvents();
+  try {
+    const graph = await loadGraphData();
     prepareGraph(graph);
     updateVisibility();
     render();
