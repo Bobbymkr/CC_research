@@ -200,11 +200,48 @@ try {
         Set-Content -Path (Join-Path $OutputDir $FileName) -Value $output
     }
 
-    function Get-RemoteAuditCursor {
+    function Get-AgentPodForPodRef {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$PodRef
+        )
+
+        $parts = $PodRef.Split("/", 2)
+        if ($parts.Count -ne 2) {
+            throw "PodRef must be namespace/name. Received: $PodRef"
+        }
+
+        $namespaceName = $parts[0]
+        $podName = $parts[1]
+        $nodeName = ((Invoke-SSH -RemoteCommand "sudo k3s kubectl get pod -n $namespaceName $podName -o jsonpath='{.spec.nodeName}'" -TimeoutSeconds 120) -join "").Trim()
+        if ([string]::IsNullOrWhiteSpace($nodeName)) {
+            return ""
+        }
+
+        return ((Invoke-SSH -RemoteCommand "sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent --field-selector spec.nodeName=$nodeName -o jsonpath='{.items[0].metadata.name}'" -TimeoutSeconds 120) -join "").Trim()
+    }
+
+    function Get-RemoteAuditState {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$PodRef
+        )
+
+        $escapedPodRef = $PodRef.Replace("'", "'`"''")
         $remoteCommand = @'
-agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+pod_ref='__POD_REF__'
+pod_namespace="${pod_ref%%/*}"
+pod_name="${pod_ref#*/}"
+node_name=""
+agent=""
 log=""
 count=0
+if [ -n "$pod_namespace" ] && [ -n "$pod_name" ]; then
+  node_name=$(sudo k3s kubectl get pod -n "$pod_namespace" "$pod_name" -o jsonpath='{.spec.nodeName}' 2>/dev/null || true)
+fi
+if [ -n "$node_name" ]; then
+  agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent --field-selector spec.nodeName="$node_name" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+fi
 if [ -n "$agent" ]; then
   log=$(sudo k3s kubectl exec -n raasa-system "$agent" -c raasa-agent -- sh -c 'ls -t /app/raasa/logs/run_*.jsonl 2>/dev/null | head -n 1' 2>/dev/null)
   if [ -n "$log" ]; then
@@ -212,10 +249,12 @@ if [ -n "$agent" ]; then
   fi
 fi
 printf 'timestamp=%s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+printf 'node=%s\n' "$node_name"
 printf 'agent=%s\n' "$agent"
 printf 'log=%s\n' "$log"
 printf 'count=%s\n' "$count"
 '@
+        $remoteCommand = $remoteCommand.Replace("__POD_REF__", $escapedPodRef)
         $lines = Invoke-SSH -RemoteCommand $remoteCommand -TimeoutSeconds 180
 
         $stateMap = @{}
@@ -232,6 +271,7 @@ printf 'count=%s\n' "$count"
 
         return [pscustomobject]@{
             TimestampUtc = if ($stateMap.ContainsKey("timestamp")) { [string]$stateMap["timestamp"] } else { "" }
+            NodeName = if ($stateMap.ContainsKey("node")) { [string]$stateMap["node"] } else { "" }
             AgentPod = if ($stateMap.ContainsKey("agent")) { [string]$stateMap["agent"] } else { "" }
             LogFile = if ($stateMap.ContainsKey("log")) { [string]$stateMap["log"] } else { "" }
             TotalLineCount = $countValue
@@ -465,11 +505,6 @@ if target_log.exists():
         }
     }
 
-    $agentPod = (Invoke-SSH -RemoteCommand "sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o jsonpath='{.items[0].metadata.name}'").Trim()
-    if (-not $agentPod) {
-        throw "Could not resolve raasa-agent pod name."
-    }
-
     $benignComputePod = (Invoke-SSH -RemoteCommand "sudo k3s kubectl get pods -n default -l app=raasa-test,raasa.class=benign,raasa.expected_tier=L2 -o jsonpath='{.items[0].metadata.name}'").Trim()
     $benignSteadyPod = (Invoke-SSH -RemoteCommand "sudo k3s kubectl get pods -n default -l app=raasa-test,raasa.class=benign,raasa.expected_tier=L1 -o jsonpath='{.items[0].metadata.name}'").Trim()
     $maliciousPod = (Invoke-SSH -RemoteCommand "sudo k3s kubectl get pods -n default -l app=raasa-test,raasa.class=malicious -o jsonpath='{.items[0].metadata.name}'").Trim()
@@ -483,6 +518,10 @@ if target_log.exists():
         "default/$benignSteadyPod",
         "default/$maliciousPod"
     )
+    $agentPod = Get-AgentPodForPodRef -PodRef "default/$maliciousPod"
+    if (-not $agentPod) {
+        throw "Could not resolve raasa-agent pod name for default/$maliciousPod."
+    }
 
     $remoteScriptTemplate = @'
 #!/usr/bin/env bash
@@ -564,7 +603,10 @@ cat "$summary_file"
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl logs -n kube-system deploy/metrics-server --tail=120" -FileName "metrics_server_logs_before.txt" -TimeoutSeconds 120 -AllowExitCodes @(0, 1)
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl top pods -A" -FileName "top_pods_before.txt" -TimeoutSeconds 120 -AllowExitCodes @(0, 1)
 
-    $auditCursorBefore = Get-RemoteAuditCursor
+    $auditStatesBefore = @{}
+    foreach ($targetRef in $auditTargetRefs) {
+        $auditStatesBefore[$targetRef] = Get-RemoteAuditState -PodRef $targetRef
+    }
 
     Invoke-SSH -RemoteCommand "bash $remoteScript" -TimeoutSeconds ($DurationSeconds + 180) -AllowExitCodes @(0, 1) |
         Set-Content -Path (Join-Path $OutputDir "stress_driver_output.txt")
@@ -581,52 +623,67 @@ cat "$summary_file"
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl top pods -A" -FileName "top_pods_after.txt" -TimeoutSeconds 120 -AllowExitCodes @(0, 1)
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl get --raw /apis/metrics.k8s.io/v1beta1/pods" -FileName "metrics_pods_after_raw.json" -TimeoutSeconds 120 -AllowExitCodes @(0, 1)
 
-    $auditCursorAfter = Get-RemoteAuditCursor
-    $captureMode = "unavailable"
+    $auditStatesAfter = @{}
+    $captureEntries = @()
     $auditLines = @()
+    foreach ($targetRef in $auditTargetRefs) {
+        $stateBefore = $auditStatesBefore[$targetRef]
+        $stateAfter = Get-RemoteAuditState -PodRef $targetRef
+        $auditStatesAfter[$targetRef] = $stateAfter
 
-    if (-not [string]::IsNullOrWhiteSpace($auditCursorAfter.AgentPod) -and -not [string]::IsNullOrWhiteSpace($auditCursorAfter.LogFile)) {
-        if (
-            $auditCursorBefore.AgentPod -eq $auditCursorAfter.AgentPod -and
-            $auditCursorBefore.LogFile -eq $auditCursorAfter.LogFile -and
-            $auditCursorAfter.TotalLineCount -ge $auditCursorBefore.TotalLineCount
-        ) {
-            $captureMode = "delta_from_same_log"
-            $auditLines = @(Get-RemoteAuditLines `
-                -AgentPod $auditCursorAfter.AgentPod `
-                -LogFile $auditCursorAfter.LogFile `
-                -StartLine $auditCursorBefore.TotalLineCount `
-                -TargetRefs $auditTargetRefs)
+        $captureMode = "unavailable"
+        $podAuditLines = @()
+        if (-not [string]::IsNullOrWhiteSpace($stateAfter.AgentPod) -and -not [string]::IsNullOrWhiteSpace($stateAfter.LogFile)) {
+            if (
+                $stateBefore.AgentPod -eq $stateAfter.AgentPod -and
+                $stateBefore.LogFile -eq $stateAfter.LogFile -and
+                $stateAfter.TotalLineCount -ge $stateBefore.TotalLineCount
+            ) {
+                $captureMode = "delta_from_same_log"
+                $podAuditLines = @(Get-RemoteAuditLines `
+                    -AgentPod $stateAfter.AgentPod `
+                    -LogFile $stateAfter.LogFile `
+                    -StartLine $stateBefore.TotalLineCount `
+                    -TargetRefs @($targetRef))
+            }
+            else {
+                $captureMode = "full_current_log"
+                $podAuditLines = @(Get-RemoteAuditLines `
+                    -AgentPod $stateAfter.AgentPod `
+                    -LogFile $stateAfter.LogFile `
+                    -StartLine 0 `
+                    -TargetRefs @($targetRef))
+            }
         }
-        else {
-            $captureMode = "full_current_log"
-            $auditLines = @(Get-RemoteAuditLines `
-                -AgentPod $auditCursorAfter.AgentPod `
-                -LogFile $auditCursorAfter.LogFile `
-                -StartLine 0 `
-                -TargetRefs $auditTargetRefs)
+
+        $captureEntries += [ordered]@{
+            pod_ref = $targetRef
+            capture_mode = $captureMode
+            captured_line_count = @($podAuditLines).Count
+            state_before = $stateBefore
+            state_after = $stateAfter
         }
+        $auditLines += $podAuditLines
     }
 
     $auditRowsPath = Join-Path $OutputDir "audit_rows.jsonl"
     $auditMetaPath = Join-Path $OutputDir "audit_capture.json"
     $auditLines | Set-Content -Path $auditRowsPath
     [ordered]@{
-        capture_mode = $captureMode
-        captured_line_count = @($auditLines).Count
         target_refs = $auditTargetRefs
-        state_before = $auditCursorBefore
-        state_after = $auditCursorAfter
+        captured_line_count = @($auditLines).Count
+        captures = $captureEntries
     } | ConvertTo-Json -Depth 6 | Set-Content -Path $auditMetaPath
 
     $auditSummary = Get-AuditRowsSummary -Path $auditRowsPath
+    $captureModes = (($captureEntries | ForEach-Object { "$($_.pod_ref):$($_.capture_mode)" }) -join ",")
     @(
         "Metrics API stress probe summary",
         "",
         "duration_seconds=$DurationSeconds",
         "worker_count=$WorkerCount",
         "cooldown_seconds=$CooldownSeconds",
-        "audit.capture_mode=$captureMode",
+        "audit.capture_modes=$captureModes",
         "audit.captured_line_count=$(@($auditLines).Count)",
         "audit.rows=$($auditSummary.rows)",
         "audit.reasons=$($auditSummary.reasons)",

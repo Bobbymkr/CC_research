@@ -52,16 +52,39 @@ try {
             $RemoteCommand
     }
 
-    $agentPod = (Invoke-SSH "sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o jsonpath='{.items[0].metadata.name}'").Trim()
-    $maliciousPod = (Invoke-SSH "sudo k3s kubectl get pods -n default -l raasa.class=malicious -o jsonpath='{.items[0].metadata.name}'").Trim()
-    $maliciousUid = (Invoke-SSH "sudo k3s kubectl get pod -n default $maliciousPod -o jsonpath='{.metadata.uid}'").Trim()
+    $maliciousNamespace = "default"
+    $maliciousPod = (Invoke-SSH "sudo k3s kubectl get pods -n default -l raasa.class=malicious -o jsonpath='{.items[0].metadata.name}'" 2>$null).Trim()
+    if ([string]::IsNullOrWhiteSpace($maliciousPod)) {
+        $maliciousCandidates = @(
+            Invoke-SSH "sudo k3s kubectl get pods -A -l raasa.class=malicious -o jsonpath='{range .items[*]}{.metadata.namespace}{\"`t\"}{.metadata.name}{\"`n\"}{end}'"
+        ) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+
+        if ($maliciousCandidates.Count -eq 0) {
+            throw "No running pod with label raasa.class=malicious was found. Reapply the phase-0 test pods or start a malicious workload before collecting live validation."
+        }
+
+        $firstCandidate = [string]$maliciousCandidates[0]
+        $candidateParts = $firstCandidate -split "`t", 2
+        if ($candidateParts.Count -ne 2) {
+            throw "Could not parse malicious pod candidate row: $firstCandidate"
+        }
+
+        $maliciousNamespace = $candidateParts[0].Trim()
+        $maliciousPod = $candidateParts[1].Trim()
+    }
+
+    $maliciousNode = (Invoke-SSH "sudo k3s kubectl get pod -n $maliciousNamespace $maliciousPod -o jsonpath='{.spec.nodeName}'").Trim()
+    $agentPod = (Invoke-SSH "sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent --field-selector spec.nodeName=$maliciousNode -o jsonpath='{.items[0].metadata.name}'").Trim()
+    $maliciousUid = (Invoke-SSH "sudo k3s kubectl get pod -n $maliciousNamespace $maliciousPod -o jsonpath='{.metadata.uid}'").Trim()
 
     @(
         "Host=$TargetHost",
         "User=$User",
         "CollectedAtLocal=" + (Get-Date).ToString("o"),
         "AgentPod=$agentPod",
+        "MaliciousNamespace=$maliciousNamespace",
         "MaliciousPod=$maliciousPod",
+        "MaliciousNode=$maliciousNode",
         "MaliciousUid=$maliciousUid"
     ) | Set-Content -Path (Join-Path $OutputDir "collection_metadata.txt")
 
@@ -83,7 +106,7 @@ try {
     Invoke-SSH "sudo journalctl -u k3s -n 200 --no-pager" |
         Set-Content -Path (Join-Path $OutputDir "journalctl_k3s_tail_200.txt")
 
-    Invoke-SSH "sudo k3s kubectl get --raw /apis/metrics.k8s.io/v1beta1/namespaces/default/pods/$maliciousPod" |
+    Invoke-SSH "sudo k3s kubectl get --raw /apis/metrics.k8s.io/v1beta1/namespaces/$maliciousNamespace/pods/$maliciousPod" |
         Set-Content -Path (Join-Path $OutputDir "metrics_api_malicious_pod.json")
 
     Invoke-SSH "sudo k3s kubectl exec -n raasa-system $agentPod -c raasa-agent -- find /var/run/raasa -maxdepth 2 -type f | sort | sed -n '1,120p'" |

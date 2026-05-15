@@ -209,9 +209,19 @@ try {
 
         $escapedPodRef = $PodRef.Replace("'", "'`"''")
         $remoteCommand = @'
-agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+pod_ref='__POD_REF__'
+pod_namespace="${pod_ref%%/*}"
+pod_name="${pod_ref#*/}"
+node_name=""
+agent=""
 log=""
 count=0
+if [ -n "$pod_namespace" ] && [ -n "$pod_name" ]; then
+  node_name=$(sudo k3s kubectl get pod -n "$pod_namespace" "$pod_name" -o jsonpath='{.spec.nodeName}' 2>/dev/null || true)
+fi
+if [ -n "$node_name" ]; then
+  agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent --field-selector spec.nodeName="$node_name" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+fi
 if [ -n "$agent" ]; then
   log=$(sudo k3s kubectl exec -n raasa-system "$agent" -c raasa-agent -- sh -c 'ls /app/raasa/logs/*.jsonl 2>/dev/null | tail -1' 2>/dev/null)
   if [ -n "$log" ]; then
@@ -219,6 +229,7 @@ if [ -n "$agent" ]; then
   fi
 fi
 printf 'timestamp=%s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+printf 'node=%s\n' "$node_name"
 printf 'agent=%s\n' "$agent"
 printf 'log=%s\n' "$log"
 printf 'count=%s\n' "$count"
@@ -240,6 +251,7 @@ printf 'count=%s\n' "$count"
 
         return [pscustomobject]@{
             TimestampUtc = if ($stateMap.ContainsKey("timestamp")) { $stateMap["timestamp"] } else { "" }
+            NodeName = if ($stateMap.ContainsKey("node")) { $stateMap["node"] } else { "" }
             AgentPod = if ($stateMap.ContainsKey("agent")) { $stateMap["agent"] } else { "" }
             LogFile = if ($stateMap.ContainsKey("log")) { $stateMap["log"] } else { "" }
             MatchingLineCount = $countValue

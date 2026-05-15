@@ -246,8 +246,52 @@ try {
             Set-Content -Path (Join-Path $OutputDir $FileName)
     }
 
-    function Get-AgentPod {
-        return ((Invoke-SSH -RemoteCommand "sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o jsonpath='{.items[0].metadata.name}'" -TimeoutSeconds 120) -join "").Trim()
+    function Copy-Remote {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$LocalPath,
+
+            [Parameter(Mandatory = $true)]
+            [string]$RemotePath
+        )
+
+        $args = @(
+            "-i", $tempKey,
+            "-o", "BatchMode=yes",
+            "-o", "StrictHostKeyChecking=no",
+            "-o", "UserKnownHostsFile=NUL",
+            "-o", "LogLevel=ERROR",
+            $LocalPath,
+            "${User}@${TargetHost}:$RemotePath"
+        )
+
+        Invoke-NativeCapture `
+            -FilePath "C:\WINDOWS\System32\OpenSSH\scp.exe" `
+            -ArgumentList $args `
+            -ErrorContext "SCP copy to $RemotePath" `
+            -TimeoutSeconds 120 `
+            -AllowExitCodes @(0) | Out-Null
+    }
+
+    function Get-AgentPodForPodRef {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$PodRef
+        )
+
+        $parts = $PodRef.Split("/", 2)
+        if ($parts.Count -ne 2) {
+            throw "PodRef must be namespace/name. Received: $PodRef"
+        }
+
+        $namespaceName = $parts[0]
+        $podName = $parts[1]
+        $nodeName = ((Invoke-SSH -RemoteCommand "sudo k3s kubectl get pod -n $namespaceName $podName -o jsonpath='{.spec.nodeName}'" -TimeoutSeconds 120) -join "").Trim()
+        if ([string]::IsNullOrWhiteSpace($nodeName)) {
+            return ""
+        }
+
+        return ((Invoke-SSH -RemoteCommand "sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent --field-selector spec.nodeName=$nodeName -o jsonpath='{.items[0].metadata.name}'" -TimeoutSeconds 120) -join "").Trim()
     }
 
     function Get-RemoteAuditState {
@@ -258,9 +302,19 @@ try {
 
         $escapedPodRef = $PodRef.Replace("'", "'`"''")
         $remoteCommand = @'
-agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+pod_ref='__POD_REF__'
+pod_namespace="${pod_ref%%/*}"
+pod_name="${pod_ref#*/}"
+node_name=""
+agent=""
 log=""
 count=0
+if [ -n "$pod_namespace" ] && [ -n "$pod_name" ]; then
+  node_name=$(sudo k3s kubectl get pod -n "$pod_namespace" "$pod_name" -o jsonpath='{.spec.nodeName}' 2>/dev/null || true)
+fi
+if [ -n "$node_name" ]; then
+  agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent --field-selector spec.nodeName="$node_name" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+fi
 if [ -n "$agent" ]; then
   log=$(sudo k3s kubectl exec -n raasa-system "$agent" -c raasa-agent -- sh -c 'ls /app/raasa/logs/*.jsonl 2>/dev/null | tail -1' 2>/dev/null)
   if [ -n "$log" ]; then
@@ -268,6 +322,7 @@ if [ -n "$agent" ]; then
   fi
 fi
 printf 'timestamp=%s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+printf 'node=%s\n' "$node_name"
 printf 'agent=%s\n' "$agent"
 printf 'log=%s\n' "$log"
 printf 'count=%s\n' "$count"
@@ -289,6 +344,7 @@ printf 'count=%s\n' "$count"
 
         return [pscustomobject]@{
             TimestampUtc = if ($stateMap.ContainsKey("timestamp")) { $stateMap["timestamp"] } else { "" }
+            NodeName = if ($stateMap.ContainsKey("node")) { $stateMap["node"] } else { "" }
             AgentPod = if ($stateMap.ContainsKey("agent")) { $stateMap["agent"] } else { "" }
             LogFile = if ($stateMap.ContainsKey("log")) { $stateMap["log"] } else { "" }
             MatchingLineCount = $countValue
@@ -414,7 +470,7 @@ sudo k3s kubectl exec -n raasa-system __AGENT_POD__ -c raasa-agent -- env TARGET
 
     Add-Content -Path $summaryPath -Value "## Syscall probe pause"
     $probeAuditBefore = Get-RemoteAuditState -PodRef $AuditPodRef
-    $pausedAgentPod = Get-AgentPod
+    $pausedAgentPod = Get-AgentPodForPodRef -PodRef $AuditPodRef
     Add-Content -Path $summaryPath -Value "- Agent pod paused: $pausedAgentPod"
     Invoke-SSH -RemoteCommand "sudo k3s kubectl exec -n raasa-system $pausedAgentPod -c syscall-probe -- sh -lc 'pids=`$(pgrep -f [e]bpf_probe.sh || true); echo `$pids; for pid in `$pids; do kill -STOP `$pid; done'" -TimeoutSeconds 120 | Set-Content -Path (Join-Path $OutputDir "probe_pause.txt")
     $probePaused = $true
@@ -434,26 +490,85 @@ sudo k3s kubectl exec -n raasa-system __AGENT_POD__ -c raasa-agent -- env TARGET
     Add-Content -Path $summaryPath -Value ""
 
     Add-Content -Path $summaryPath -Value "## Enforcer fake-pod fail-closed check"
-    $agentForFakeCommand = Get-AgentPod
+    $agentForFakeCommand = Get-AgentPodForPodRef -PodRef $AuditPodRef
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl exec -n raasa-system $agentForFakeCommand -c raasa-enforcer -- tc qdisc show dev cni0" -FileName "fake_pod_cni0_qdisc_before.txt" -TimeoutSeconds 120 -AllowExitCodes @(0, 1)
-    $fakePython = "socket=__import__(bytes([115,111,99,107,101,116]).decode());json=__import__(bytes([106,115,111,110]).decode());s=socket.socket(socket.AF_UNIX);s.settimeout(3);s.connect(bytes([47,118,97,114,47,114,117,110,47,114,97,97,115,97,47,101,110,102,111,114,99,101,114,46,115,111,99,107]).decode());s.sendall((json.dumps(dict(container_id=bytes([100,101,102,97,117,108,116,47,114,97,97,115,97,45,110,111,110,101,120,105,115,116,101,110,116,45,112,111,100]).decode(),tier=bytes([76,51]).decode()))+bytes([10]).decode()).encode());print(s.recv(1024).decode().strip());s.close()"
-    $fakeCommand = "sudo k3s kubectl exec -n raasa-system $agentForFakeCommand -c raasa-agent -- python -c '$fakePython'"
-    $fakeResponse = @(Invoke-SSH -RemoteCommand $fakeCommand -TimeoutSeconds 120 -AllowExitCodes @(0, 1))
-    $fakeResponse | Set-Content -Path (Join-Path $OutputDir "fake_pod_ipc_response.txt")
+    $fakePython = @'
+import json
+import os
+import socket
+import sys
+import time
+
+sock_path = "/var/run/raasa/enforcer.sock"
+payload = {"container_id": "default/raasa-nonexistent-pod", "tier": "L3"}
+deadline = time.time() + 30
+last_error = "not_started"
+
+while time.time() < deadline:
+    client = None
+    try:
+        if not os.path.exists(sock_path):
+            last_error = "socket_missing"
+            time.sleep(1)
+            continue
+
+        client = socket.socket(socket.AF_UNIX)
+        client.settimeout(3)
+        client.connect(sock_path)
+        client.sendall((json.dumps(payload) + "\n").encode())
+        response = client.recv(1024).decode().strip()
+        print(response)
+        sys.exit(0 if response == "ERR" else 2)
+    except Exception as exc:
+        last_error = repr(exc)
+        time.sleep(1)
+    finally:
+        if client is not None:
+            try:
+                client.close()
+            except Exception:
+                pass
+
+print(f"NO_ERR last_error={last_error}", file=sys.stderr)
+sys.exit(1)
+'@
+    $localFakeScript = Join-Path $env:TEMP ("raasa-fake-ipc-" + [guid]::NewGuid().ToString() + ".py")
+    $remoteFakeScript = "/tmp/" + [System.IO.Path]::GetFileName($localFakeScript)
+    try {
+        $fakePython | Set-Content -Path $localFakeScript
+        Copy-Remote -LocalPath $localFakeScript -RemotePath $remoteFakeScript
+        $fakeCommand = "sudo k3s kubectl exec -i -n raasa-system $agentForFakeCommand -c raasa-agent -- python3 - < $remoteFakeScript"
+        $fakeResponse = @(Invoke-SSH -RemoteCommand $fakeCommand -TimeoutSeconds 120 -AllowExitCodes @(0, 1, 2))
+        $fakeResponse | Set-Content -Path (Join-Path $OutputDir "fake_pod_ipc_response.txt")
+    }
+    finally {
+        if (Test-Path -LiteralPath $localFakeScript) {
+            Remove-Item -LiteralPath $localFakeScript -Force -ErrorAction SilentlyContinue
+        }
+        try {
+            Invoke-SSH -RemoteCommand "rm -f $remoteFakeScript" -TimeoutSeconds 30 -AllowExitCodes @(0) | Out-Null
+        }
+        catch {
+        }
+    }
     Start-Sleep -Seconds 5
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl exec -n raasa-system $agentForFakeCommand -c raasa-enforcer -- tc qdisc show dev cni0" -FileName "fake_pod_cni0_qdisc_after.txt" -TimeoutSeconds 120 -AllowExitCodes @(0, 1)
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl logs -n raasa-system $agentForFakeCommand -c raasa-enforcer --tail=120" -FileName "fake_pod_enforcer_tail.txt" -TimeoutSeconds 120 -AllowExitCodes @(0, 1)
-    Add-Content -Path $summaryPath -Value "- IPC response: $(($fakeResponse -join ' ').Trim())"
+    $fakeResponseText = (($fakeResponse | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }) -join " ").Trim()
+    Add-Content -Path $summaryPath -Value "- IPC response: $fakeResponseText"
     Add-Content -Path $summaryPath -Value "- Expected response: ERR"
     Add-Content -Path $summaryPath -Value ""
+    if ($fakeResponseText -ne "ERR") {
+        throw "Fake-pod IPC fail-closed check did not return ERR. Response: $fakeResponseText. Evidence: $OutputDir"
+    }
 
     Add-Content -Path $summaryPath -Value "## Agent restart recovery"
-    $agentBeforeRestart = Get-AgentPod
+    $agentBeforeRestart = Get-AgentPodForPodRef -PodRef $AuditPodRef
     Add-Content -Path $summaryPath -Value "- Agent pod before restart: $agentBeforeRestart"
     Invoke-SSH -RemoteCommand "sudo k3s kubectl delete pod -n raasa-system $agentBeforeRestart --wait=false" -TimeoutSeconds 120 | Set-Content -Path (Join-Path $OutputDir "agent_delete.txt")
     Invoke-SSH -RemoteCommand "sudo k3s kubectl rollout status daemonset/raasa-agent -n raasa-system --timeout=300s" -TimeoutSeconds 360 -AllowExitCodes @(0, 1) | Set-Content -Path (Join-Path $OutputDir "agent_restart_rollout.txt")
     Start-Sleep -Seconds $RecoverySeconds
-    $agentAfterRestart = Get-AgentPod
+    $agentAfterRestart = Get-AgentPodForPodRef -PodRef $AuditPodRef
     Add-Content -Path $summaryPath -Value "- Agent pod after restart: $agentAfterRestart"
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o wide" -FileName "agent_pods_after_restart.txt" -TimeoutSeconds 120
     Save-RemoteOutput -RemoteCommand "sudo k3s kubectl get pods -A -o wide" -FileName "pods_after.txt" -TimeoutSeconds 120
