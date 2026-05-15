@@ -1,0 +1,186 @@
+RAASA Paper — Canonical Abstract, Ablation Write-up, and Conclusion
+Compiled from real experimental evidence
+Authors: Kunj Moradiya (23DIT035), Aryan Sangani (23DIT064)
+DEPSTAR-IT, CHARUSAT | May 2026
+
+==========================================================================
+ABSTRACT (v2 — Results-Grounded, 198 words)
+==========================================================================
+
+Modern cloud platforms run thousands of containerized workloads from
+different tenants on shared physical hardware. Existing security tools
+force a binary choice: apply weak isolation and accept high attack
+exposure, or apply strict isolation and degrade legitimate workload
+performance. This paper presents RAASA (Risk-Aware Adaptive Sandbox
+Allocation), a closed-loop autonomous containment controller that
+resolves this trade-off through continuous, evidence-driven adaptation.
+
+RAASA monitors each running container via a multi-signal telemetry
+pipeline — CPU usage, memory pressure, process spawn rate, network
+throughput, and kernel-level behavioral anomalies — and computes a
+bounded risk score rho in [0,1] at each observation tick. Based on
+rho, an autonomous policy engine with hysteresis, cooldown, and
+confidence gates moves each container between three isolation tiers
+(L1, L2, L3) by executing real enforcement: Docker CPU throttling
+(docker update --cpus), Linux Traffic Control (tc tbf), and Cgroups
+v2 memory limits.
+
+We evaluated RAASA against static L1 and static L3 baselines across
+three scales (3, 10, and 20 containers) and on an AWS EC2 Kubernetes
+cluster with eBPF telemetry. RAASA achieves Precision = 1.0,
+Recall = 1.0, False Positive Rate = 0.0, and zero benign restriction
+events in all evaluated scenarios, while static L1 misses all
+malicious workloads and static L3 incorrectly restricts 100% of
+benign workloads. A cloud-native deployment on AWS EC2 (K3s, Tetragon
+eBPF) replicates these results at the kernel level, demonstrating
+that the adaptive containment paradigm is architecture-agnostic.
+
+==========================================================================
+ABLATION STUDY — Section (for Section 8 or Appendix)
+==========================================================================
+
+8.1 Linear Controller vs. Isolation Forest Risk Model
+
+RAASA's risk estimator supports two interchangeable backends: a tuned
+weighted linear model (the primary controller) and an Isolation Forest
+trained on benign telemetry vectors. This ablation compares their
+performance on the small_tuned scenario across three independent runs.
+
+Results (3-run mean, small_tuned scenario):
+
+  Metric                    Linear (Tuned)   Isolation Forest
+  --------------------------------------------------------
+  Precision                 1.00             1.00
+  Recall                    1.00             0.83
+  False Positive Rate        0.00             0.00
+  Benign Restriction Rate    0.00             0.00
+  Unnecessary Escalations    0                0
+
+The linear controller matches the Isolation Forest on precision but
+consistently outperforms it on recall across repeated runs. The
+underlying cause is interpretable: the Isolation Forest produces a
+continuous anomaly score that is not monotonically aligned with the
+risk tier thresholds in the policy engine. When the score oscillates
+near the L2/L3 boundary, the policy's hysteresis band catches the
+variance for the linear model (because its scoring is smooth and
+deterministic), but the non-linear model's score variance can cause
+the malicious workload to arrive at L3 a full cooldown window later
+than optimal, leaving it transiently under-contained.
+
+This is a deliberate research decision, not an oversight. The project
+does not claim ML superiority. The key insight is that RAASA's
+adaptive closed-loop design — not the choice of risk model — is the
+primary driver of its advantage over static baselines. The linear
+controller is retained as the recommended configuration for its
+transparency, auditability, and consistent performance.
+
+The Isolation Forest implementation is preserved as an optional
+backend (raasa/ml/train_iforest.py, raasa/configs/config_tuned_small.yaml)
+and is proposed as a direction for future work involving more complex
+multi-signal attack profiles.
+
+==========================================================================
+CONCLUSION (v2 — Evidence-Grounded, ~350 words)
+==========================================================================
+
+9. Conclusion
+
+Static sandboxing policies are insufficient for the behavioral
+diversity of modern multi-tenant cloud workloads. By fixing the
+isolation level at container creation time, they create an
+irreconcilable trade-off: under-isolation leaves malicious workloads
+unconstrained, while over-isolation imposes unjustifiable overhead on
+the vast majority of benign workloads. This paper has presented
+RAASA, a Risk-Aware Adaptive Sandbox Allocation framework that
+eliminates this trade-off through continuous, evidence-driven
+autonomous containment.
+
+The experimental evidence supports three concrete conclusions.
+
+First, adaptive containment strictly dominates both static
+alternatives on the evaluated workload mix. Static L1 achieves zero
+malicious containment. Static L3 contains all malicious workloads but
+restricts every benign workload, producing 24 unnecessary escalations
+per 36-tick evaluation window. RAASA achieves Precision = 1.0,
+Recall = 1.0, and a Benign Restriction Rate of 0.0 across all
+scenarios, with zero unnecessary escalations. The advantage is not
+marginal: it is categorical.
+
+Second, the adaptive advantage is architecture-agnostic. The same
+control loop and policy engine that produced these results on a local
+Docker host was deployed without modification onto an AWS EC2 K3s
+cluster with Tetragon eBPF telemetry. The cloud-native deployment
+produced identical precision and recall, and successfully throttled
+a malicious pod's network egress to 1 mbit/s in real time via Linux
+Traffic Control, confirming that RAASA's enforcement model scales
+from a developer workstation to cloud-native Kubernetes.
+
+Third, the core value of RAASA is the closed-loop adaptive design,
+not the specific risk model. An ablation study comparing the tuned
+linear controller against an Isolation Forest risk model showed that
+the linear controller achieves equal or better recall due to its
+deterministic alignment with the policy engine's hysteresis
+thresholds. Explainability is preserved at 100% audit coverage:
+every tier transition is logged with a human-readable justification,
+a requirement that would be non-trivial to satisfy with an opaque
+black-box model.
+
+The current implementation is an honest research prototype scoped to
+single-host Docker and single-node Kubernetes. Limitations include
+the lack of multi-cluster coordination, the absence of a production-
+grade online learning pipeline, and the seccomp filter downgrade
+constraint that requires process checkpoint/restore for tier
+relaxation. These are clearly documented and are the foundation for
+the next phase of research.
+
+The broader significance of RAASA lies at the intersection of cloud
+security and autonomous AI system infrastructure. As LLM-driven
+agents increasingly execute code in containerized sandboxes, the need
+for a runtime containment layer that can distinguish "agent compiling
+a legitimate binary" from "agent executing a fork bomb" will become
+critical infrastructure. RAASA demonstrates that this is not a
+theoretical problem — it is an engineering problem with a working
+solution.
+
+==========================================================================
+FIGURE CAPTIONS (for inclusion in paper)
+==========================================================================
+
+Figure 1 — Security Detection Comparison.
+Bar chart showing Precision, Recall, and False Positive Rate for four
+controller modes: Static L1, Static L3, RAASA (Adaptive/Linear), and
+RAASA (ML/Isolation Forest). Both RAASA variants achieve FPR = 0.
+Static L3 achieves full recall but FPR = 1.0. Static L1 achieves
+none of the three metrics. Source: RM_practical/figures/fig1_detection_comparison.png
+
+Figure 2 — Isolation Cost Comparison.
+Containment Pressure and Benign Restriction Rate per mode. RAASA
+achieves the lowest containment pressure consistent with full malicious
+containment. Unnecessary escalation counts annotated per bar.
+Source: RM_practical/figures/fig2_cost_comparison.png
+
+Figure 3 — Tier Occupancy Across Scenarios.
+Stacked bar chart showing the fraction of controller ticks spent in
+L1, L2, and L3 for six evaluated configurations, including the AWS
+Kubernetes run and the 20-container large scenario.
+Source: RM_practical/figures/fig3_tier_occupancy.png
+
+Figure 4 — Scalability.
+Precision, Recall, and Benign Restriction Rate of the RAASA linear
+controller across three workload scales (3, 10, and 20 containers).
+Source: RM_practical/figures/fig4_scalability.png
+
+Figure 5 — Live Tier Trajectory.
+Step-function plot of per-container isolation tier assignment over time
+for the small_tuned scenario (RAASA Adaptive). Malicious workloads
+escalate to L3 within 2-3 control ticks; benign workloads remain at L1
+throughout. Source: RM_practical/figures/fig5_tier_trajectory.png
+
+Figure 6 — Ablation: Linear vs. Isolation Forest.
+Side-by-side comparison of the tuned linear and Isolation Forest risk
+models across four metrics. Linear controller achieves superior recall.
+Source: RM_practical/figures/fig6_ablation_linear_vs_ml.png
+
+==========================================================================
+END OF SUPPLEMENTARY SECTIONS
+==========================================================================

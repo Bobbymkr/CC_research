@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="800" y="52" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700" fill="#15263d">Figure 2. Adaptive vs Static Baselines</text>
+  <text x="800" y="82" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="500" fill="#54657c">Primary claim figure: security behavior and benign-cost behavior</text>
+
+  <rect x="60" y="120" width="720" height="760" fill="#f8fbff" stroke="#dbe5f0" stroke-width="1.5" rx="18" ry="18"/>
+  <rect x="820" y="120" width="720" height="760" fill="#f8fbff" stroke="#dbe5f0" stroke-width="1.5" rx="18" ry="18"/>
+  <text x="420" y="162" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#15263d">Panel A. Security behavior</text>
+  <text x="1180" y="162" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#15263d">Panel B. Benign-cost behavior</text>
+
+  <rect x="115" y="110" width="240" height="42" fill="#eef5fd" stroke="#2f6db0" stroke-width="1" rx="12" ry="12"/>
+  <text x="235" y="138" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#2f6db0">RAASA mean preserves recall</text>
+  <rect x="390" y="110" width="205" height="42" fill="#fdf1ef" stroke="#b6524a" stroke-width="1" rx="12" ry="12"/>
+  <text x="492" y="138" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#b6524a">Static L3 over-restricts</text>
+  <rect x="600" y="110" width="150" height="42" fill="#f0f4f7" stroke="#7e93a8" stroke-width="1" rx="12" ry="12"/>
+  <text x="675" y="138" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#7e93a8">Static L1 misses threats</text>
+
+  <line x1="110" y1="780" x2="730" y2="780" stroke="#2f445c" stroke-width="2.5"/>
+  <line x1="110" y1="220" x2="110" y2="780" stroke="#2f445c" stroke-width="2.5"/>
+  <line x1="110" y1="780" x2="730" y2="780" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="110" y1="640" x2="730" y2="640" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="110" y1="500" x2="730" y2="500" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="110" y1="360" x2="730" y2="360" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="110" y1="220" x2="730" y2="220" stroke="#dde5ee" stroke-width="1.5"/>
+  <text x="94" y="785" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.00</text>
+  <text x="94" y="645" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.25</text>
+  <text x="94" y="505" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.50</text>
+  <text x="94" y="365" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.75</text>
+  <text x="94" y="225" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">1.00</text>
+
+  <text x="220" y="824" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="600" fill="#15263d">Precision</text>
+  <text x="420" y="824" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="600" fill="#15263d">Recall</text>
+  <text x="620" y="824" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="600" fill="#15263d">FPR</text>
+
+  <line x1="168" y1="780" x2="168" y2="780" stroke="#7e93a8" stroke-width="4"/>
+  <circle cx="168" cy="780" r="10" fill="#7e93a8" stroke="#ffffff" stroke-width="2"/>
+  <text x="168" y="764" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#7e93a8">0.00</text>
+  <line x1="220" y1="780" x2="220" y2="595.2" stroke="#b6524a" stroke-width="4"/>
+  <circle cx="220" cy="595.2" r="10" fill="#b6524a" stroke="#ffffff" stroke-width="2"/>
+  <text x="220" y="579.2" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#b6524a">0.33</text>
+  <line x1="272" y1="780" x2="272" y2="292.8" stroke="#2f6db0" stroke-width="4"/>
+  <circle cx="272" cy="292.8" r="10" fill="#2f6db0" stroke="#ffffff" stroke-width="2"/>
+  <text x="272" y="276.8" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">0.87</text>
+
+  <line x1="368" y1="780" x2="368" y2="780" stroke="#7e93a8" stroke-width="4"/>
+  <circle cx="368" cy="780" r="10" fill="#7e93a8" stroke="#ffffff" stroke-width="2"/>
+  <text x="368" y="764" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#7e93a8">0.00</text>
+  <line x1="420" y1="780" x2="420" y2="220" stroke="#b6524a" stroke-width="4"/>
+  <circle cx="420" cy="220" r="10" fill="#b6524a" stroke="#ffffff" stroke-width="2"/>
+  <text x="420" y="204" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#b6524a">1.00</text>
+  <line x1="472" y1="780" x2="472" y2="220" stroke="#2f6db0" stroke-width="4"/>
+  <circle cx="472" cy="220" r="10" fill="#2f6db0" stroke="#ffffff" stroke-width="2"/>
+  <text x="472" y="204" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">1.00</text>
+
+  <line x1="568" y1="780" x2="568" y2="780" stroke="#7e93a8" stroke-width="4"/>
+  <circle cx="568" cy="780" r="10" fill="#7e93a8" stroke="#ffffff" stroke-width="2"/>
+  <text x="568" y="764" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#7e93a8">0.00</text>
+  <line x1="620" y1="780" x2="620" y2="220" stroke="#b6524a" stroke-width="4"/>
+  <circle cx="620" cy="220" r="10" fill="#b6524a" stroke="#ffffff" stroke-width="2"/>
+  <text x="620" y="204" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#b6524a">1.00</text>
+  <line x1="672" y1="780" x2="672" y2="718.4" stroke="#2f6db0" stroke-width="4"/>
+  <circle cx="672" cy="718.4" r="10" fill="#2f6db0" stroke="#ffffff" stroke-width="2"/>
+  <text x="672" y="702.4" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">0.11</text>
+
+  <circle cx="150" cy="845" r="8" fill="#7e93a8"/>
+  <text x="166" y="850" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#15263d">Static L1</text>
+  <circle cx="340" cy="845" r="8" fill="#b6524a"/>
+  <text x="356" y="850" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#15263d">Static L3</text>
+  <circle cx="530" cy="845" r="8" fill="#2f6db0"/>
+  <text x="546" y="850" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#15263d">RAASA mean (n=3)</text>
+
+  <text x="1010" y="210" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15263d">Benign Restriction Rate</text>
+  <text x="1310" y="210" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#15263d">Unnecessary Escalations</text>
+
+  <line x1="880" y1="750" x2="1140" y2="750" stroke="#2f445c" stroke-width="2.5"/>
+  <line x1="880" y1="250" x2="880" y2="750" stroke="#2f445c" stroke-width="2.5"/>
+  <line x1="880" y1="750" x2="1140" y2="750" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="880" y1="625" x2="1140" y2="625" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="880" y1="500" x2="1140" y2="500" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="880" y1="375" x2="1140" y2="375" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="880" y1="250" x2="1140" y2="250" stroke="#dde5ee" stroke-width="1.5"/>
+  <text x="868" y="755" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.00</text>
+  <text x="868" y="630" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.25</text>
+  <text x="868" y="505" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.50</text>
+  <text x="868" y="380" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0.75</text>
+  <text x="868" y="255" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">1.00</text>
+  <rect x="908" y="750" width="44" height="0" fill="#7e93a8"/>
+  <text x="930" y="738" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#7e93a8">0.00</text>
+  <text x="930" y="785" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600" fill="#15263d">Static L1</text>
+  <rect x="988" y="250" width="44" height="500" fill="#b6524a"/>
+  <text x="1010" y="238" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#b6524a">1.00</text>
+  <text x="1010" y="785" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600" fill="#15263d">Static L3</text>
+  <rect x="1068" y="695" width="44" height="55" fill="#2f6db0"/>
+  <text x="1090" y="683" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">0.11</text>
+  <text x="1090" y="785" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600" fill="#15263d">RAASA</text>
+
+  <line x1="1180" y1="750" x2="1440" y2="750" stroke="#2f445c" stroke-width="2.5"/>
+  <line x1="1180" y1="250" x2="1180" y2="750" stroke="#2f445c" stroke-width="2.5"/>
+  <line x1="1180" y1="750" x2="1440" y2="750" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="1180" y1="625" x2="1440" y2="625" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="1180" y1="500" x2="1440" y2="500" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="1180" y1="375" x2="1440" y2="375" stroke="#dde5ee" stroke-width="1.5"/>
+  <line x1="1180" y1="250" x2="1440" y2="250" stroke="#dde5ee" stroke-width="1.5"/>
+  <text x="1168" y="755" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">0</text>
+  <text x="1168" y="630" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">6</text>
+  <text x="1168" y="505" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">12</text>
+  <text x="1168" y="380" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">18</text>
+  <text x="1168" y="255" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="500" fill="#54657c">24</text>
+  <rect x="1208" y="750" width="44" height="0" fill="#7e93a8"/>
+  <text x="1230" y="738" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#7e93a8">0.0</text>
+  <text x="1230" y="785" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600" fill="#15263d">Static L1</text>
+  <rect x="1288" y="250" width="44" height="500" fill="#b6524a"/>
+  <text x="1310" y="238" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#b6524a">24</text>
+  <text x="1310" y="785" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600" fill="#15263d">Static L3</text>
+  <rect x="1368" y="722.92" width="44" height="27.08" fill="#2f6db0"/>
+  <text x="1390" y="710.92" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#2f6db0">1.3</text>
+  <text x="1390" y="785" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600" fill="#15263d">RAASA</text>
+
+  <rect x="1010" y="795" width="220" height="40" fill="#edf7f1" stroke="#4e9f6d" stroke-width="1" rx="12" ry="12"/>
+  <text x="1120" y="821" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#4e9f6d">best security / cost tradeoff</text>
+</svg>

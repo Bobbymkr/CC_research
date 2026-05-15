@@ -1,0 +1,103 @@
+# Ignore local assistant/Codacy instruction scratch files
+.github/instructions/codacy.instructions.md
+.github\instructions\codacy.instructions.md
+
+# Secrets and credentials
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*.crt
+*.csr
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+*.kubeconfig
+.env
+.env.*
+!.env.example
+aws_credentials*
+credentials
+secrets.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+tests/.pytest_cache/
+tests/.pytest_tmp/
+tests/.tmp_runtime/
+tests/.tmp_*/
+tests/pytest-cache-files-*/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs
+logs/
+raasa/logs/
+raasa/runtime/
+*.log
+*.jsonl.tmp
+/audit_*.jsonl
+/run_*.jsonl
+*.summary.json
+execution_results.json
+chat*.txt
+
+# Large/generated research artifacts
+*.tar
+*.tar.gz
+*.zip
+AWS_Results/
+AWS_Results_26_april/
+AWS_Results_Data/
+AWS_v2_Results/
+RM_practical/results/
+RM_practical/figures/dot/
+graphify-out/cache/
+graphify-out/converted/
+graphify-out/.graphify_*
+graphify-out/_run_*
+graphify-out/manifest.json
+graphify-out/normalize_graph_output.js
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documents
+*.docx
+*.pdf

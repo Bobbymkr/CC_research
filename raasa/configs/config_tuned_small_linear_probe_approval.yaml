@@ -1,0 +1,78 @@
+controller:
+  poll_interval_seconds: 5
+  default_mode: adaptive
+  log_directory: raasa/logs
+
+policy:
+  thresholds:
+    l1_max: 0.35
+    l2_max: 0.60
+  hysteresis_band: 0.04
+  cooldown_seconds: 25
+  l3_min_confidence: 0.20
+  low_risk_streak_required: 4
+  l3_requires_approval: true
+  partial_telemetry_caps_l3: true
+  partial_telemetry_blocks_relaxation: true
+
+risk:
+  weights:
+    cpu: 0.55
+    memory: 0.55
+    process: 0.55
+    network: 0.55
+    syscall: 0.55
+    syscall_jsd: 0.55
+    file_entropy: 0.55
+    network_entropy: 0.55
+    dns_entropy: 0.55
+  confidence_window: 5
+
+telemetry:
+  network_cap: 500000.0
+  syscall_cap: 5000.0
+  syscall_source: probe
+  syscall_probe_directory: /var/run/raasa
+  syscall_probe_max_age_seconds: 15
+  k8s_metrics_cache_max_age_seconds: 30
+  k8s_allow_stale_metrics_fallback: true
+  k8s_metrics_failure_cooldown_seconds: 15
+  k8s_namespace_metrics_cache_max_age_seconds: 15
+
+ml:
+  use_ml_model: false
+  model_path: "raasa/models/iforest_latest.pkl"
+  use_behavioral_dna: false
+  behavioral_dna_model_path: "raasa/models/behavioral_dna_registry.joblib"
+  use_temporal_lstm: false
+  temporal_lstm_model_path: "raasa/models/temporal_lstm.keras"
+
+audit:
+  kms_hmac:
+    enabled: false
+    key_id: ""
+    region: ""
+    profile: ""
+    mac_algorithm: HMAC_SHA_256
+
+enforcement:
+  cpus_by_tier:
+    L1: 1.0
+    L2: 0.5
+    L3: 0.2
+  live_run_guardrails:
+    initial_cpus: 0.50
+    memory_limit: 256m
+    pids_limit: 64
+    default_smoke_duration_seconds: 30
+
+experiments:
+  default_duration_seconds: 180
+  repeats_per_mode: 3
+  scenarios:
+    small: 3
+    medium: 10
+    large: 20
+
+evaluation:
+  controller_variant: linear_tuned

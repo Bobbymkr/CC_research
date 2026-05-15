@@ -1,0 +1,113 @@
+from __future__ import annotations
+
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+from typing import Dict
+from typing import Iterable
+
+from raasa.core.audit_integrity import KmsAuditSigner
+from raasa.core.models import Assessment, ContainerTelemetry, FeatureVector, PolicyDecision
+
+
+class AuditLogger:
+    """Persists evidence, reasoning, and actions for every loop iteration."""
+
+    def __init__(
+        self,
+        directory: str | Path,
+        run_label: str | None = None,
+        run_metadata: dict[str, object] | None = None,
+        audit_signer: KmsAuditSigner | None = None,
+    ) -> None:
+        self.directory = Path(directory)
+        self.directory.mkdir(parents=True, exist_ok=True)
+        self.output_path = self.directory / build_run_filename(run_label)
+        self.run_metadata = dict(run_metadata or {})
+        self.audit_signer = audit_signer
+
+    def log_tick(
+        self,
+        telemetry_batch: Iterable[ContainerTelemetry],
+        features: Iterable[FeatureVector],
+        assessments: Iterable[Assessment],
+        decisions: Iterable[PolicyDecision],
+    ) -> None:
+        telemetry_map: Dict[str, ContainerTelemetry] = {item.container_id: item for item in telemetry_batch}
+        feature_map: Dict[str, FeatureVector] = {item.container_id: item for item in features}
+        assessment_map: Dict[str, Assessment] = {item.container_id: item for item in assessments}
+        records = []
+        for decision in decisions:
+            telemetry = telemetry_map.get(decision.container_id)
+            feature = feature_map.get(decision.container_id)
+            assessment = assessment_map.get(decision.container_id)
+            record: dict[str, Any] = {
+                **self.run_metadata,
+                "container_id": decision.container_id,
+                "timestamp": decision.timestamp.isoformat(),
+                "cpu": None if telemetry is None else telemetry.cpu_percent,
+                "memory": None if telemetry is None else telemetry.memory_percent,
+                "proc": None if telemetry is None else telemetry.process_count,
+                "net_rx": None if telemetry is None else telemetry.network_rx_bytes,
+                "net_tx": None if telemetry is None else telemetry.network_tx_bytes,
+                "syscall_rate": None if telemetry is None else telemetry.syscall_rate,
+                "lateral_movement_signal": None if telemetry is None else telemetry.lateral_movement_signal,
+                "file_entropy_samples": None if telemetry is None else len(telemetry.file_accesses),
+                "network_entropy_samples": None if telemetry is None else len(telemetry.network_destinations),
+                "dns_entropy_samples": None if telemetry is None else len(telemetry.dns_queries),
+                "f_cpu": None if feature is None else feature.cpu_signal,
+                "f_mem": None if feature is None else feature.memory_signal,
+                "f_proc": None if feature is None else feature.process_signal,
+                "f_net": None if feature is None else feature.network_signal,
+                "f_sys": None if feature is None else feature.syscall_signal,
+                "f_lateral": None if feature is None else feature.lateral_movement_signal,
+                "f_sys_jsd": None if feature is None else feature.syscall_jsd_signal,
+                "f_file_entropy": None if feature is None else feature.file_entropy_signal,
+                "f_network_entropy": None if feature is None else feature.network_entropy_signal,
+                "f_dns_entropy": None if feature is None else feature.dns_entropy_signal,
+                "risk": None if assessment is None else assessment.risk_score,
+                "confidence": None if assessment is None else assessment.confidence_score,
+                "risk_trend": None if assessment is None else getattr(assessment, "risk_trend", 0.0),
+                "assessment_reasons": [] if assessment is None else assessment.reasons,
+                "risk_attributions": [] if assessment is None else assessment.attributions,
+                "prev_tier": decision.previous_tier.value,
+                "proposed_tier": decision.proposed_tier.value,
+                "new_tier": decision.applied_tier.value,
+                "containment_profile": decision.containment_profile,
+                "reason": decision.reason,
+                "action_required": decision.action_required,
+                "cooldown_active": decision.cooldown_active,
+                "approval_required": decision.approval_required,
+                "approval_state": decision.approval_state,
+                "metadata": {} if telemetry is None else telemetry.metadata,
+            }
+            if self.audit_signer is not None:
+                record = self.audit_signer.sign_record(record)
+            records.append(record)
+
+        with self.output_path.open("a", encoding="utf-8") as handle:
+            for record in records:
+                handle.write(json.dumps(record) + "\n")
+
+
+def build_run_filename(run_label: str | None = None) -> str:
+    if run_label:
+        label = _sanitize_run_label(run_label)
+        if label.endswith(".jsonl"):
+            return label
+        if label.startswith("run_"):
+            return f"{label}.jsonl"
+        return f"run_{label}.jsonl"
+
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return f"run_{timestamp}.jsonl"
+
+
+def build_run_path(directory: str | Path, run_label: str | None = None) -> Path:
+    return Path(directory) / build_run_filename(run_label)
+
+
+def _sanitize_run_label(run_label: str) -> str:
+    cleaned = "".join(ch if ch.isalnum() or ch in {"-", "_", "."} else "_" for ch in run_label.strip())
+    return cleaned.strip("._") or "unnamed_run"

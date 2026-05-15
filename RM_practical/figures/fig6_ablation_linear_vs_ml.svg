@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="920" viewBox="0 0 1400 920">
+  <defs>
+    <style>
+      .title { font: 700 30px 'Segoe UI', Arial, sans-serif; fill: #12263f; }
+      .subtitle { font: 500 16px 'Segoe UI', Arial, sans-serif; fill: #4c5d73; }
+      .axis { stroke: #384e68; stroke-width: 2.5; }
+      .grid { stroke: #dde6ef; stroke-width: 1.5; }
+      .label { font: 600 18px 'Segoe UI', Arial, sans-serif; fill: #20364e; }
+      .small { font: 500 14px 'Segoe UI', Arial, sans-serif; fill: #5b6d81; }
+      .value { font: 700 16px 'Segoe UI', Arial, sans-serif; fill: #16324b; }
+      .linear { fill: #4c72b0; }
+      .ml { fill: #dd8452; }
+      .callout { fill: #f8fbff; stroke: #c9d8e6; stroke-width: 1.5; rx: 16; ry: 16; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="920" fill="#ffffff"/>
+  <text x="700" y="56" text-anchor="middle" class="title">Figure 6. Ablation: Linear Controller vs. Isolation Forest</text>
+  <text x="700" y="84" text-anchor="middle" class="subtitle">3-run mean, small_tuned scenario; decision rule: prefer recall at equal or lower FPR</text>
+
+  <line x1="120" y1="740" x2="1180" y2="740" class="axis"/>
+  <line x1="120" y1="170" x2="120" y2="740" class="axis"/>
+
+  <line x1="120" y1="626" x2="1180" y2="626" class="grid"/>
+  <line x1="120" y1="512" x2="1180" y2="512" class="grid"/>
+  <line x1="120" y1="398" x2="1180" y2="398" class="grid"/>
+  <line x1="120" y1="284" x2="1180" y2="284" class="grid"/>
+  <line x1="120" y1="170" x2="1180" y2="170" class="grid"/>
+
+  <text x="96" y="746" text-anchor="end" class="small">0.00</text>
+  <text x="96" y="632" text-anchor="end" class="small">0.25</text>
+  <text x="96" y="518" text-anchor="end" class="small">0.50</text>
+  <text x="96" y="404" text-anchor="end" class="small">0.75</text>
+  <text x="96" y="176" text-anchor="end" class="small">1.00</text>
+
+  <text x="245" y="780" text-anchor="middle" class="label">Precision</text>
+  <text x="495" y="780" text-anchor="middle" class="label">Recall</text>
+  <text x="745" y="780" text-anchor="middle" class="label">False Positive Rate</text>
+  <text x="995" y="780" text-anchor="middle" class="label">Switching Rate</text>
+
+  <rect x="175" y="244" width="55" height="496" class="linear"/>
+  <rect x="242" y="552" width="55" height="188" class="ml"/>
+  <text x="202" y="232" text-anchor="middle" class="value">0.87</text>
+  <text x="269" y="540" text-anchor="middle" class="value">0.33</text>
+
+  <rect x="425" y="170" width="55" height="570" class="linear"/>
+  <rect x="492" y="582" width="55" height="158" class="ml"/>
+  <text x="452" y="158" text-anchor="middle" class="value">1.00</text>
+  <text x="519" y="570" text-anchor="middle" class="value">0.28</text>
+
+  <rect x="675" y="677" width="55" height="63" class="linear"/>
+  <rect x="742" y="677" width="55" height="63" class="ml"/>
+  <text x="702" y="665" text-anchor="middle" class="value">0.11</text>
+  <text x="769" y="665" text-anchor="middle" class="value">0.11</text>
+
+  <rect x="925" y="729" width="55" height="11" class="linear"/>
+  <rect x="992" y="708" width="55" height="32" class="ml"/>
+  <text x="952" y="717" text-anchor="middle" class="value">0.019</text>
+  <text x="1019" y="696" text-anchor="middle" class="value">0.056</text>
+
+  <rect x="200" y="825" width="18" height="18" class="linear"/>
+  <text x="228" y="840" class="small">Linear (tuned)</text>
+  <rect x="380" y="825" width="18" height="18" class="ml"/>
+  <text x="408" y="840" class="small">Isolation Forest</text>
+
+  <rect x="1110" y="220" width="220" height="180" class="callout"/>
+  <text x="1220" y="255" text-anchor="middle" class="label">Key Reading</text>
+  <text x="1135" y="292" class="small">Linear preserves the same FPR</text>
+  <text x="1135" y="316" class="small">while improving recall dramatically.</text>
+  <text x="1135" y="352" class="small">This supports the paper-safe claim:</text>
+  <text x="1135" y="376" class="small">adaptive design &gt; ML novelty</text>
+
+  <rect x="1110" y="452" width="220" height="150" class="callout"/>
+  <text x="1220" y="487" text-anchor="middle" class="label">Decision Rule</text>
+  <text x="1135" y="525" class="small">Prefer the controller with equal</text>
+  <text x="1135" y="549" class="small">or lower FPR and higher recall.</text>
+  <text x="1135" y="585" class="small">Winner: tuned linear controller.</text>
+</svg>

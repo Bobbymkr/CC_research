@@ -1,0 +1,241 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0 2rem}
+.cat-header{display:flex;align-items:center;gap:10px;margin:1.5rem 0 10px;cursor:pointer;user-select:none}
+.cat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.cat-title{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.cat-sub{font-size:12px;color:var(--color-text-secondary);margin-left:auto;white-space:nowrap}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;cursor:pointer;transition:border-color 0.15s}
+.card:hover{border-color:var(--color-border-secondary)}
+.card-label{font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:6px}
+.card-label.fix{background:#FCEBEB;color:#A32D2D}
+.card-label.v3{background:#E6F1FB;color:#0C447C}
+.card-label.v4{background:#EEEDFE;color:#3C3489}
+.card-label.novel{background:#E1F5EE;color:#085041}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.card-now{font-size:12px;color:var(--color-text-secondary);margin-bottom:3px}
+.card-next{font-size:12px;color:var(--color-text-primary)}
+.card-badge{font-size:10px;padding:1px 6px;border-radius:3px;background:var(--color-background-success);color:var(--color-text-success);margin-left:6px;vertical-align:middle}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0 0.5rem}
+.intro{font-size:13px;color:var(--color-text-secondary);line-height:1.6;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:1.5rem}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem;font-size:12px;color:var(--color-text-secondary)}
+.leg{display:flex;align-items:center;gap:5px}
+.leg-dot{width:8px;height:8px;border-radius:2px}
+</style>
+
+<div class="wrap">
+<div class="intro">The current RAASA collapses all behavioral complexity into 5 scalar signals, watches each pod in isolation, and has no knowledge of the cluster communication graph. These are architectural limits, not tuning problems. Below is what it takes to make RAASA a system the world has genuinely never seen.</div>
+
+<div class="legend">
+<span class="leg"><span class="leg-dot" style="background:#E24B4A"></span>Fix first — blocks credibility</span>
+<span class="leg"><span class="leg-dot" style="background:#378ADD"></span>v3 — 3-6 months</span>
+<span class="leg"><span class="leg-dot" style="background:#7F77DD"></span>v4 — 6-18 months</span>
+<span class="leg"><span class="leg-dot" style="background:#1D9E75"></span>World first — nobody has done this combined</span>
+</div>
+
+<div class="cat-header">
+<div class="cat-icon" style="background:#FCEBEB;color:#A32D2D"><i class="ti ti-shield-x" aria-hidden="true"></i></div>
+<div>
+<div class="cat-title">Layer 0 — fix the zero-trust lie first</div>
+</div>
+<span class="cat-sub">Must ship before publication</span>
+</div>
+<div class="cards">
+<div class="card" onclick="sendPrompt('How do I fix the RAASA enforcer socket permissions with eBPF LSM?')">
+<span class="card-label fix">Fix now</span>
+<div class="card-title">eBPF LSM socket access control</div>
+<div class="card-now">Patched: socket moved to per-pod IPC dir, mode <code>0660</code>, agent-generated Ed25519 command signing</div>
+<div class="card-next">→ BPF_PROG_TYPE_LSM on <code>socket_connect</code>: only the brain's PID/UID can attach to the enforcer socket at kernel level</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I add Ed25519 command signing to RAASA IPC?')">
+<span class="card-label fix">Fix now</span>
+<div class="card-title">Ephemeral Ed25519 command signing</div>
+<div class="card-now">Now: JSON schema validation only — any process that reaches the socket can issue commands</div>
+<div class="card-next">→ Brain generates ephemeral keypair at startup. Every command is signed. Sidecar verifies or drops.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I restrict the RAASA brain process itself with eBPF?')">
+<span class="card-label fix">Fix now</span>
+<div class="card-title">The brain monitors itself too</div>
+<div class="card-now">Now: if the brain process is compromised, nothing prevents it from directly calling tc or modifying cgroups</div>
+<div class="card-next">→ eBPF seccomp profile on the brain: block execve(), raw socket creation, direct cgroup writes from the brain's PID</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I add tamper-evident audit log signing with AWS KMS in RAASA?')">
+<span class="card-label fix">Fix now</span>
+<div class="card-title">Tamper-evident audit trail</div>
+<div class="card-now">Now: JSONL records are plaintext, no integrity guarantee — an attacker who compromises a node can silently edit logs</div>
+<div class="card-next">→ HMAC-sign each JSONL record with a key stored in AWS KMS. Any edit breaks the chain.</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="cat-header">
+<div class="cat-icon" style="background:#E6F1FB;color:#0C447C"><i class="ti ti-telescope" aria-hidden="true"></i></div>
+<div><div class="cat-title">Layer 1 — observability revolution</div></div>
+<span class="cat-sub">Current: 5 scalars. Extraordinary: 12+ signals</span>
+</div>
+<div class="cards">
+<div class="card" onclick="sendPrompt('How do I implement syscall distribution vectors and Jensen-Shannon divergence in RAASA?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">Syscall distribution, not just rate</div>
+<div class="card-now">Now: <code>syscall_signal = rate / 500</code> — a single scalar, throws away which calls and in what order</div>
+<div class="card-next">→ 64-dim frequency vector per window. JSD from per-image-SHA baseline. Sequence N-grams: <code>ptrace→clone→execve</code> is a different signal from random calls at the same rate.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I use eBPF perf_event to read hardware PMU signals like LLC cache miss rate for Spectre detection?')">
+<span class="card-label v3">v3</span><span class="card-badge">world first</span>
+<div class="card-title">Hardware PMU signals via eBPF</div>
+<div class="card-now">Now: zero hardware-level visibility. Spectre/Meltdown probing is completely invisible.</div>
+<div class="card-next">→ Attach eBPF programs to <code>perf_event</code> for LLC cache miss rate, branch mispredictions, TLB flushes. No existing cloud IPS does this.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I compute file access entropy and network destination entropy as signals in RAASA?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">Entropy signals: file + network + DNS</div>
+<div class="card-now">Now: network = total bytes. File = none. DNS = none.</div>
+<div class="card-next">→ Shannon entropy of unique file paths accessed. Entropy of destination IPs and DNS query names. High-entropy random domains = C2 beaconing.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I track pod-to-pod communication graph changes in real time with eBPF in RAASA?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">Pod communication graph delta</div>
+<div class="card-now">Now: no inter-pod awareness whatsoever. Lateral movement is invisible.</div>
+<div class="card-next">→ eBPF <code>sock_ops</code> hook builds per-node adjacency matrix. A new edge (first-ever connection pod A → pod B) is a strong signal regardless of per-pod metrics.</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="cat-header">
+<div class="cat-icon" style="background:#EAF3DE;color:#27500A"><i class="ti ti-dna" aria-hidden="true"></i></div>
+<div><div class="cat-title">Layer 2 — behavioral DNA and detection</div></div>
+<span class="cat-sub">Replace 5-scalar linear model with structural intelligence</span>
+</div>
+<div class="cards">
+<div class="card" onclick="sendPrompt('How do I implement a per-image behavioral fingerprint using Gaussian Mixture Models in RAASA to solve the cold-start problem?')">
+<span class="card-label v3">v3</span><span class="card-badge">world first</span>
+<div class="card-title">Behavioral DNA per image SHA</div>
+<div class="card-now">Now: 120-second cold-start profiling window per pod. Attacker who knows RAASA runs can wait it out.</div>
+<div class="card-next">→ Per-image-SHA Gaussian Mixture Model built from all pods of that image type. Risk = Mahalanobis distance from GMM. New pods inherit their class fingerprint at t=0. Cold-start window eliminated.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I add an LSTM sequence model for syscall pattern detection alongside the linear controller in RAASA?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">LSTM temporal sequence model</div>
+<div class="card-now">Now: linear weighted sum has no memory of sequence. An attack that unfolds across 8 syscall steps over 30 seconds looks like noise.</div>
+<div class="card-next">→ LSTM on syscall 5-gram sequences. Anomaly = reconstruction error. Fast linear for triage; LSTM for confidence boosting on edge cases. Not OR — both run in parallel with different roles.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I implement causal attribution in RAASA to show which signal caused a tier escalation?')">
+<span class="card-label v4">v4</span>
+<div class="card-title">Causal attribution engine</div>
+<div class="card-now">Now: the audit log says "ρ = 0.84, applied L3" — no explanation of which signal drove it or why</div>
+<div class="card-next">→ SHAP values on the risk model output. Audit log says: "escalated because syscall_distribution JSD = 0.91 (ptrace cluster, 12σ above baseline) at T+47s." Explainable AI for security.</div>
+</div>
+<div class="card" onclick="sendPrompt('Explain how to build a game-theoretic optimal weight vector for RAASA using Stackelberg game theory')">
+<span class="card-label v4">v4</span><span class="card-badge">world first</span>
+<div class="card-title">Game-theoretic optimal weights</div>
+<div class="card-now">Now: weights are empirically tuned (cpu=0.40, memory=0.25…). A rational attacker who reads the paper knows how to stay below the threshold.</div>
+<div class="card-next">→ Stackelberg game: defender commits to w, attacker plays best response. Solve for Nash equilibrium weight vector provably harder to evade. Publishable theorem at IEEE S&P / CCS.</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="cat-header">
+<div class="cat-icon" style="background:#FAEEDA;color:#633806"><i class="ti ti-topology-star-3" aria-hidden="true"></i></div>
+<div><div class="cat-title">Layer 3 — cluster-wide threat intelligence</div></div>
+<span class="cat-sub">Move from island architecture to distributed intelligence</span>
+</div>
+<div class="cards">
+<div class="card" onclick="sendPrompt('How do I build a cluster-wide pod risk aggregation plane for RAASA with per-node DaemonSet agents?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">Distributed risk aggregation plane</div>
+<div class="card-now">Now: each node agent is fully isolated. A compromise spreading across 3 nodes looks like 3 independent events.</div>
+<div class="card-next">→ Lightweight gRPC aggregation service (or Kafka topic). Per-node agents share anomaly signals (not raw telemetry). Cluster-level risk score = weighted sum of node scores by communication graph proximity.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I implement a SIR epidemiological model for threat propagation prediction in RAASA?')">
+<span class="card-label v4">v4</span><span class="card-badge">world first</span>
+<div class="card-title">Epidemiological threat propagation</div>
+<div class="card-now">Now: no predictive capability. RAASA reacts after behavior changes, not before.</div>
+<div class="card-next">→ SIR (Susceptible-Infected-Recovered) model on the pod communication graph. Compute R₀ for the cluster. When R₀ > 1, pre-emptively elevate monitoring sensitivity for high-centrality pods before they show symptoms.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I build a cluster-wide behavioral fingerprint registry in RAASA?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">Behavioral fingerprint registry</div>
+<div class="card-now">Now: behavioral baselines are per-pod, rebuilt from scratch each restart. No shared knowledge across the cluster.</div>
+<div class="card-next">→ etcd-backed registry mapping image SHA → BehavioralDNA (GMM parameters). New pods inherit immediately. Old pods contribute data back. The registry improves every time a pod runs.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I implement federated threat intelligence with differential privacy across RAASA clusters?')">
+<span class="card-label v4">v4</span><span class="card-badge">world first</span>
+<div class="card-title">Federated intelligence across clusters</div>
+<div class="card-now">Now: completely isolated. An attack pattern seen in cluster A is invisible to cluster B even if they run identical workloads.</div>
+<div class="card-next">→ Federated learning: share model parameter updates (not raw telemetry) with Gaussian differential privacy noise. Optional opt-in consortium — threat intelligence that improves across organizations.</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="cat-header">
+<div class="cat-icon" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-lock-bolt" aria-hidden="true"></i></div>
+<div><div class="cat-title">Layer 4 — enforcement spectrum expansion</div></div>
+<span class="cat-sub">Current: tc + cgroups. Extraordinary: 7-tier enforcement spectrum</span>
+</div>
+<div class="cards">
+<div class="card" onclick="sendPrompt('How do I implement progressive eBPF LSM syscall blocking as risk rises in RAASA without a container restart?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">eBPF LSM progressive syscall blocking</div>
+<div class="card-now">Now: enforcement = tc bandwidth + cgroup CPU. The seccomp section in the paper is not implemented in the prototype.</div>
+<div class="card-next">→ BPF_PROG_TYPE_LSM on <code>bpf_lsm_bprm_check_security</code>: as ρ rises, progressively add syscall restrictions without any container restart. No CRIU complexity. Just replace the BPF program.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I auto-generate Kubernetes NetworkPolicy objects in RAASA when a pod escalates to L3?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">Auto-generated NetworkPolicy at L3</div>
+<div class="card-now">Now: network containment = tc shaping on cni0. The pod can still resolve DNS and reach the Kubernetes API.</div>
+<div class="card-next">→ On L3 escalation, issue a <code>NetworkPolicy</code> via the K8s API that denies all egress except the pod's declared <code>ServiceAccount</code> dependencies. Hard containment at the Kubernetes control plane level, not just the data plane.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I add blkio cgroup and Linux capability stripping to the RAASA enforcement spectrum?')">
+<span class="card-label v3">v3</span>
+<div class="card-title">IO throttling + capability stripping</div>
+<div class="card-now">Now: CPU throttling + network shaping. Disk I/O and Linux capabilities are untouched. A pod at L3 can still read /proc/*/mem at full speed.</div>
+<div class="card-next">→ blkio cgroup throttling at L2. Drop CAP_NET_RAW + CAP_SYS_PTRACE at L2; drop all non-essential capabilities at L3. Progressive capability reduction as tier escalates.</div>
+</div>
+<div class="card" onclick="sendPrompt('How would a RAASA L4 tier work — automatic pod migration to AMD SEV-SNP confidential computing nodes?')">
+<span class="card-label v4">v4</span><span class="card-badge">world first</span>
+<div class="card-title">L4 tier — confidential computing migration</div>
+<div class="card-now">Now: L3 is the terminal state. Sustained high-risk pods stay in L3 indefinitely with no stronger option available.</div>
+<div class="card-next">→ Sustained L3 (> N minutes) triggers pod eviction + rescheduling on an AMD SEV-SNP or Intel TDX confidential VM node pool. First system to bridge runtime behavioral security with confidential computing.</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="cat-header">
+<div class="cat-icon" style="background:#E1F5EE;color:#085041"><i class="ti ti-brain" aria-hidden="true"></i></div>
+<div><div class="cat-title">Layer 5 — LLM as on-cluster threat oracle</div></div>
+<span class="cat-sub">Replace the 3-second GPT API call with something far more powerful</span>
+</div>
+<div class="cards">
+<div class="card" onclick="sendPrompt('How do I fine-tune a Mistral 7B model on RAASA audit logs and CVE data to replace the GPT-3.5 advisor?')">
+<span class="card-label v4">v4</span><span class="card-badge">world first</span>
+<div class="card-title">Fine-tuned on-cluster threat oracle</div>
+<div class="card-now">Now: GPT-3.5-turbo via external API, 3-second hard timeout, only called on edge cases. Data leaves the cluster.</div>
+<div class="card-next">→ Fine-tune Mistral 7B on JSONL audit logs + CVE → syscall pattern mappings + MITRE ATT&CK Cloud. Run on-cluster. Zero external API dependency. Continuous oracle, not edge-case fallback.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I map RAASA behavioral anomalies to MITRE ATT&CK techniques automatically using an LLM?')">
+<span class="card-label v4">v4</span>
+<div class="card-title">MITRE ATT&CK automatic mapping</div>
+<div class="card-now">Now: audit logs say "syscall_signal=0.81, applied L3." The SOC analyst must manually investigate what the anomaly means.</div>
+<div class="card-next">→ LLM maps behavioral signal pattern to ATT&CK technique ID. Audit log says: "T1055 (Process Injection) detected via ptrace N-gram cluster. T1046 (Network Service Scan) via high destination entropy." Automated threat intelligence.</div>
+</div>
+<div class="card" onclick="sendPrompt('How does precognitive containment work — using the LLM to predict L3 escalation before the threshold is hit?')">
+<span class="card-label v4">v4</span>
+<div class="card-title">Precognitive escalation prediction</div>
+<div class="card-now">Now: RAASA reacts when ρ crosses a threshold. The decision is always made after the behavioral change is already happening.</div>
+<div class="card-next">→ LLM trained on escalation trajectory patterns can predict "this L2 pod will escalate to L3 in ~90 seconds" from its current feature trajectory. Pre-emptive containment before the attack completes.</div>
+</div>
+<div class="card" onclick="sendPrompt('How do I build a biological immune system model for RAASA — replacing L1/L2/L3 tiers with innate, adaptive, and memory response layers?')">
+<span class="card-label v4">v4</span><span class="card-badge">world first</span>
+<div class="card-title">Biological immune system model</div>
+<div class="card-now">Now: static L1/L2/L3 thresholds. The system has no memory of past attacks, no workload-specific learned response, no tolerance for known-benign variation.</div>
+<div class="card-next">→ Innate response (current linear system) + Adaptive response (workload-specific learned model) + Immunological memory (attack fingerprint cache for fast re-response) + Tolerance (built-up immunity to known-benign spikes).</div>
+</div>
+</div>
+</div>

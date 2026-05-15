@@ -1,0 +1,39 @@
+digraph RAASAValidationProgression {
+  graph [
+    rankdir=LR,
+    fontname="Helvetica",
+    fontsize=18,
+    labelloc=t,
+    label="RAASA Cloud Validation Progression",
+    splines=ortho,
+    nodesep=0.45,
+    ranksep=0.7,
+    pad=0.2
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    fontname="Helvetica",
+    fontsize=11,
+    color="#334155",
+    fillcolor="#F8FAFC",
+    margin="0.11,0.07"
+  ];
+
+  edge [
+    color="#475569",
+    penwidth=1.4,
+    arrowsize=0.8
+  ];
+
+  local [label="1. Local Docker baseline\nadaptive vs static L1/L3", fillcolor="#EFF6FF", color="#2563EB"];
+  resolution [label="2. Pod-specific resolution\nhost-veth mapping and L3 semantics", fillcolor="#ECFDF5", color="#059669"];
+  replay [label="3. Fresh-account single-node replay\nclean-account bootstrap + 2/2 soak", fillcolor="#F5F3FF", color="#7C3AED"];
+  multinode [label="4. Bounded 3-node K3s\n3/3 soak + 2/2 repeated matrix", fillcolor="#FEF3C7", color="#D97706"];
+  degraded [label="5. Degraded-mode evidence\nfailure injection + 30s/6-worker stress", fillcolor="#FEE2E2", color="#DC2626"];
+  continuity [label="6. Continuity evidence\nworker drain / benign reschedule", fillcolor="#E0F2FE", color="#0284C7"];
+  boundary [label="Current claim boundary\nvalidated research prototype\nnot EKS, not production, not multi-tenant", fillcolor="#F8FAFC", color="#334155"];
+
+  local -> resolution -> replay -> multinode -> degraded -> continuity -> boundary;
+}

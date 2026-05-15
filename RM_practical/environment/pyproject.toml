@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "raasa"
+version = "1.0.0"
+description = "Risk-Aware Adaptive Sandbox Allocation — autonomous container containment prototype"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib==3.10.0",
+    "seaborn==0.13.2",
+    "numpy==2.4.4",
+    "PyYAML==6.0.2",
+    "psutil==6.1.1",
+    "prometheus_client>=0.20.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.1"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["raasa*"]

@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAASA Project Atlas</title>
+<style>
+  :root {
+    --bg: #07090d;
+    --panel: #10151d;
+    --panel-2: #151d27;
+    --ink: #eef4f7;
+    --muted: #8e9ba8;
+    --line: #263340;
+    --teal: #36d7b7;
+    --gold: #f1b84b;
+    --blue: #5fb0ff;
+    --rose: #ff6f91;
+    --violet: #a78bfa;
+    --green: #8bd17c;
+    --orange: #ff9f57;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  body {
+    display: grid;
+    grid-template-rows: 76px minmax(0, 1fr);
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #0b1017;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 2px solid #0b1017;
+    border-radius: 999px;
+    background: #314052;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: #4b6176;
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) minmax(500px, 1.5fr) auto;
+    gap: 18px;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background:
+      linear-gradient(90deg, rgba(54,215,183,0.10), transparent 28%),
+      linear-gradient(270deg, rgba(241,184,75,0.10), transparent 30%),
+      #0a0d12;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 12px;
+  }
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(54,215,183,0.58);
+    border-radius: 8px;
+    color: var(--teal);
+    font-size: 18px;
+    font-weight: 800;
+    background: #0d191b;
+    box-shadow: 0 0 22px rgba(54,215,183,0.18);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.1;
+    font-weight: 760;
+  }
+
+  .subtitle {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(82px, 1fr));
+    gap: 8px;
+  }
+
+  .metric {
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    background: rgba(16,21,29,0.78);
+  }
+
+  .metric strong {
+    display: block;
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  .metric span {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .top-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .icon-button,
+  .mode-button,
+  .lens-button {
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 7px;
+    color: var(--ink);
+    background: #121923;
+    cursor: pointer;
+    transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+  }
+
+  .icon-button:hover,
+  .mode-button:hover,
+  .lens-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255,255,255,0.24);
+    background: #182332;
+  }
+
+  .icon-button {
+    min-width: 54px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 760;
+  }
+
+  .app-shell {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 300px minmax(420px, 1fr) 340px;
+  }
+
+  .side {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--panel);
+    border-color: rgba(255,255,255,0.08);
+  }
+
+  .side.left {
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .side.right {
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .section {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .section-title {
+    margin: 0 0 12px;
+    color: #c9d5df;
+    font-size: 11px;
+    font-weight: 760;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 10px 11px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 7px;
+    outline: none;
+    color: var(--ink);
+    background: #0a0e14;
+  }
+
+  .search-box:focus {
+    border-color: rgba(54,215,183,0.65);
+    box-shadow: 0 0 0 3px rgba(54,215,183,0.10);
+  }
+
+  .lens-list,
+  .mode-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .lens-button,
+  .mode-button {
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .lens-button.active,
+  .mode-button.active {
+    border-color: rgba(54,215,183,0.60);
+    background: #102323;
+  }
+
+  .button-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 720;
+  }
+
+  .button-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+  }
+
+  .button-meta {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .range-wrap {
+    display: grid;
+    gap: 8px;
+  }
+
+  .range-row {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--teal);
+  }
+
+  .domain-list,
+  .hub-list,
+  .neighbor-list,
+  .search-results {
+    display: grid;
+    gap: 7px;
+  }
+
+  .domain-item {
+    display: grid;
+    grid-template-columns: 10px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    min-width: 0;
+    padding: 6px 0;
+  }
+
+  .domain-swatch {
+    width: 10px;
+    height: 28px;
+    border-radius: 6px;
+  }
+
+  .domain-name {
+    min-width: 0;
+    font-size: 12px;
+    font-weight: 720;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .domain-bar {
+    grid-column: 2 / 4;
+    height: 5px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #243040;
+  }
+
+  .domain-fill {
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .count {
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .graph-stage {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+      radial-gradient(circle at 22% 28%, rgba(54,215,183,0.13), transparent 34%),
+      radial-gradient(circle at 78% 70%, rgba(241,184,75,0.11), transparent 36%),
+      #07090d;
+    background-size: 28px 28px, 28px 28px, auto, auto, auto;
+  }
+
+  #atlasCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .stage-overlay {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+  }
+
+  .status-pill {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    max-width: min(620px, calc(100% - 32px));
+    padding: 9px 11px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 8px;
+    color: #cdd8df;
+    background: rgba(7,9,13,0.78);
+    backdrop-filter: blur(10px);
+    font-size: 12px;
+  }
+
+  .hover-card {
+    position: absolute;
+    display: none;
+    min-width: 220px;
+    max-width: 300px;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    background: rgba(13,18,25,0.94);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+    pointer-events: none;
+  }
+
+  .hover-card strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .hover-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .detail-title {
+    margin: 0 0 6px;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .detail-sub {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .tag {
+    padding: 4px 7px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 999px;
+    color: #cbd7df;
+    background: #121923;
+    font-size: 11px;
+  }
+
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .insight {
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    background: var(--panel-2);
+  }
+
+  .insight strong {
+    display: block;
+    font-size: 14px;
+  }
+
+  .insight span {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .list-item {
+    display: grid;
+    gap: 3px;
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: var(--ink);
+    background: #111821;
+    cursor: pointer;
+  }
+
+  .list-item:hover {
+    border-color: rgba(95,176,255,0.45);
+    background: #162231;
+  }
+
+  .list-item strong {
+    min-width: 0;
+    font-size: 12px;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .list-item span {
+    min-width: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .empty-state {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 1100px) {
+    .topbar {
+      grid-template-columns: 1fr auto;
+    }
+
+    .metric-row {
+      display: none;
+    }
+
+    .app-shell {
+      grid-template-columns: 260px minmax(360px, 1fr);
+    }
+
+    .side.right {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">R</div>
+      <div>
+        <h1>RAASA Project Atlas</h1>
+        <div class="subtitle">System graph, evidence graph, and cloud-validation graph in one surface.</div>
+      </div>
+    </div>
+    <div class="metric-row" id="metricRow"></div>
+    <div class="top-actions">
+      <button class="icon-button" id="fitButton" title="Fit atlas">Fit</button>
+      <button class="icon-button" id="hubsButton" title="Focus hubs">Hubs</button>
+      <button class="icon-button" id="exportButton" title="Export PNG">PNG</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="side left">
+      <section class="section">
+        <h2 class="section-title">Search</h2>
+        <input class="search-box" id="searchBox" placeholder="Find module, claim, script, table..." autocomplete="off">
+        <div class="search-results" id="searchResults" style="margin-top: 10px;"></div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Strategic Lenses</h2>
+        <div class="lens-list" id="lensList"></div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Projection</h2>
+        <div class="mode-list" id="modeList"></div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Influence Floor</h2>
+        <div class="range-wrap">
+          <input id="degreeSlider" type="range" min="0" max="30" value="0">
+          <div class="range-row">
+            <span>degree</span>
+            <strong id="degreeValue">0+</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Territories</h2>
+        <div class="domain-list" id="domainList"></div>
+      </section>
+    </aside>
+
+    <main class="graph-stage" id="stage">
+      <canvas id="atlasCanvas"></canvas>
+      <div class="stage-overlay">
+        <div class="hover-card" id="hoverCard"></div>
+        <div class="status-pill" id="statusPill">Loading project graph...</div>
+      </div>
+    </main>
+
+    <aside class="side right">
+      <section class="section" id="detailSection">
+        <h2 class="section-title">Selection</h2>
+        <div id="detailPanel" class="empty-state">Select any node in the atlas.</div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Project Hubs</h2>
+        <div class="hub-list" id="hubList"></div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Cross-Domain Bridges</h2>
+        <div class="hub-list" id="bridgeList"></div>
+      </section>
+    </aside>
+  </div>
+
+<script src="graph_data.js"></script>
+<script>
+const DOMAIN_DEFS = [
+  { id: "runtime", label: "Runtime Core", color: "#36d7b7", match: file => file.startsWith("raasa\\core") || file.startsWith("raasa/core") || file.includes("\\core\\") },
+  { id: "k8s", label: "Kubernetes Control", color: "#5fb0ff", match: file => file.startsWith("raasa\\k8s") || file.startsWith("raasa/k8s") || file.includes("k8s") || file.includes("daemonset") },
+  { id: "cloud", label: "AWS Validation", color: "#f1b84b", match: file => file.startsWith("raasa\\scripts") || file.startsWith("raasa/scripts") || file.startsWith("AWS_Results") || file.toLowerCase().includes("aws") || file.toLowerCase().includes("eks") },
+  { id: "quality", label: "Tests & Assurance", color: "#8bd17c", match: file => file.startsWith("tests") || file.toLowerCase().includes("test") },
+  { id: "paper", label: "Paper Narrative", color: "#ff6f91", match: file => file.startsWith("paper") || file.includes("paper_") || file.toLowerCase().includes("submission") },
+  { id: "evidence", label: "Evidence Assets", color: "#ff9f57", match: file => file.startsWith("docs") || file.includes("RAASA_Evaluation") || file.includes("REPRODUCIBILITY") },
+  { id: "experiments", label: "Experiments", color: "#a78bfa", match: file => file.startsWith("RM_practical") || file.toLowerCase().includes("experiment") },
+  { id: "tooling", label: "Tooling & Graph", color: "#c9d5df", match: file => file.startsWith("graphify-out") || file.includes("generate_") || file.endsWith(".ps1") || file.endsWith(".py") }
+];
+
+const LENSES = [
+  { id: "all", label: "Full Atlas", color: "#c9d5df", domains: null, meta: "Entire repository topology" },
+  { id: "runtime", label: "Runtime Brain", color: "#36d7b7", domains: ["runtime", "k8s", "quality"], meta: "Core loop, control path, tests" },
+  { id: "cloud", label: "Cloud Proof", color: "#f1b84b", domains: ["cloud", "k8s", "runtime", "evidence"], meta: "AWS, K3s, EKS, harnesses" },
+  { id: "paper", label: "Paper Argument", color: "#ff6f91", domains: ["paper", "evidence", "experiments"], meta: "Claims, results, tables, figures" },
+  { id: "quality", label: "Assurance Spine", color: "#8bd17c", domains: ["quality", "runtime", "cloud"], meta: "Regression and validation paths" },
+  { id: "bridges", label: "Bridge Nodes", color: "#5fb0ff", domains: null, meta: "Cross-domain connectors" }
+];
+
+const MODES = [
+  { id: "orbit", label: "Orbit", meta: "Domain constellations" },
+  { id: "layers", label: "Layers", meta: "Core-to-evidence rings" },
+  { id: "flow", label: "Proof Flow", meta: "Build, validate, publish" }
+];
+
+const canvas = document.getElementById("atlasCanvas");
+const ctx = canvas.getContext("2d", { alpha: false });
+const stage = document.getElementById("stage");
+const hoverCard = document.getElementById("hoverCard");
+const statusPill = document.getElementById("statusPill");
+
+const state = {
+  graph: null,
+  nodes: [],
+  links: [],
+  nodeById: new Map(),
+  adjacency: new Map(),
+  domains: new Map(),
+  activeLens: "all",
+  mode: "orbit",
+  query: "",
+  minDegree: 0,
+  selected: null,
+  hovered: null,
+  transform: { x: 0, y: 0, k: 1 },
+  isDragging: false,
+  dragStart: null,
+  needsDraw: true,
+  showHubs: false,
+  frame: 0
+};
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function compactNumber(value) {
+  return new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(value);
+}
+
+function sourceOf(node) {
+  return String(node.source_file || "").replaceAll("/", "\\");
+}
+
+function classifyNode(node) {
+  const file = sourceOf(node);
+  const lowered = file.toLowerCase();
+  const found = DOMAIN_DEFS.find(domain => domain.match(file) || domain.match(lowered));
+  return found ? found.id : "tooling";
+}
+
+function domainDef(id) {
+  return DOMAIN_DEFS.find(domain => domain.id === id) || DOMAIN_DEFS[DOMAIN_DEFS.length - 1];
+}
+
+function hashString(value) {
+  let hash = 2166136261;
+  const text = String(value);
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0) / 4294967295;
+}
+
+function prepareGraph(graph) {
+  const degree = new Map();
+  const cross = new Map();
+  const adjacency = new Map();
+
+  for (const node of graph.nodes) {
+    degree.set(node.id, 0);
+    adjacency.set(node.id, []);
+  }
+
+  const rawLinks = graph.links || graph.edges || [];
+  for (const link of rawLinks) {
+    const source = String(link.source);
+    const target = String(link.target);
+    if (!degree.has(source) || !degree.has(target)) continue;
+    degree.set(source, degree.get(source) + 1);
+    degree.set(target, degree.get(target) + 1);
+    adjacency.get(source).push({ id: target, relation: link.relation || "related" });
+    adjacency.get(target).push({ id: source, relation: link.relation || "related" });
+  }
+
+  const nodes = graph.nodes.map((node, index) => {
+    const domain = classifyNode(node);
+    return {
+      ...node,
+      index,
+      domain,
+      degree: degree.get(node.id) || 0,
+      bridge: 0,
+      radius: 2.8 + Math.min(11, Math.sqrt(degree.get(node.id) || 0) * 1.55),
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0,
+      visible: true,
+      seed: hashString(node.id)
+    };
+  });
+
+  const nodeById = new Map(nodes.map(node => [node.id, node]));
+  const links = rawLinks
+    .map(link => ({ ...link, sourceNode: nodeById.get(String(link.source)), targetNode: nodeById.get(String(link.target)) }))
+    .filter(link => link.sourceNode && link.targetNode);
+
+  for (const link of links) {
+    if (link.sourceNode.domain !== link.targetNode.domain) {
+      link.sourceNode.bridge += 1;
+      link.targetNode.bridge += 1;
+      cross.set(link.sourceNode.id, (cross.get(link.sourceNode.id) || 0) + 1);
+      cross.set(link.targetNode.id, (cross.get(link.targetNode.id) || 0) + 1);
+    }
+  }
+
+  state.graph = graph;
+  state.nodes = nodes;
+  state.links = links;
+  state.nodeById = nodeById;
+  state.adjacency = adjacency;
+  buildDomains();
+  buildControls();
+  buildPanels();
+  resizeCanvas();
+  applyLayout(true);
+  fitToView();
+  setStatus(`${compactNumber(nodes.length)} nodes, ${compactNumber(links.length)} edges, ${state.domains.size} territories`);
+}
+
+function buildDomains() {
+  state.domains.clear();
+  for (const def of DOMAIN_DEFS) {
+    state.domains.set(def.id, { ...def, count: 0, visibleCount: 0, nodes: [] });
+  }
+
+  for (const node of state.nodes) {
+    const domain = state.domains.get(node.domain);
+    domain.count += 1;
+    domain.nodes.push(node);
+  }
+}
+
+function buildControls() {
+  document.getElementById("metricRow").innerHTML = [
+    ["Nodes", state.nodes.length],
+    ["Edges", state.links.length],
+    ["Communities", new Set(state.nodes.map(node => node.community)).size],
+    ["Bridges", state.nodes.filter(node => node.bridge > 0).length],
+    ["Domains", state.domains.size]
+  ].map(([label, value]) => `<div class="metric"><strong>${compactNumber(value)}</strong><span>${label}</span></div>`).join("");
+
+  document.getElementById("lensList").innerHTML = LENSES.map(lens => `
+    <button class="lens-button ${lens.id === state.activeLens ? "active" : ""}" data-lens="${lens.id}">
+      <div class="button-title"><span class="button-dot" style="background:${lens.color}"></span>${escapeHtml(lens.label)}</div>
+      <div class="button-meta">${escapeHtml(lens.meta)}</div>
+    </button>
+  `).join("");
+
+  document.getElementById("modeList").innerHTML = MODES.map(mode => `
+    <button class="mode-button ${mode.id === state.mode ? "active" : ""}" data-mode="${mode.id}">
+      <div class="button-title">${escapeHtml(mode.label)}</div>
+      <div class="button-meta">${escapeHtml(mode.meta)}</div>
+    </button>
+  `).join("");
+
+  document.querySelectorAll("[data-lens]").forEach(button => {
+    button.addEventListener("click", () => {
+      state.activeLens = button.dataset.lens;
+      state.showHubs = false;
+      buildControls();
+      updateVisibility();
+      draw();
+    });
+  });
+
+  document.querySelectorAll("[data-mode]").forEach(button => {
+    button.addEventListener("click", () => {
+      state.mode = button.dataset.mode;
+      buildControls();
+      applyLayout(false);
+      draw();
+    });
+  });
+}
+
+function buildPanels() {
+  const maxDomainCount = Math.max(...Array.from(state.domains.values()).map(domain => domain.count));
+  document.getElementById("domainList").innerHTML = Array.from(state.domains.values())
+    .sort((a, b) => b.count - a.count)
+    .map(domain => `
+      <div class="domain-item">
+        <span class="domain-swatch" style="background:${domain.color}"></span>
+        <span class="domain-name">${escapeHtml(domain.label)}</span>
+        <span class="count">${domain.count}</span>
+        <span class="domain-bar"><span class="domain-fill" style="width:${(domain.count / maxDomainCount) * 100}%; background:${domain.color}"></span></span>
+      </div>
+    `).join("");
+
+  const topHubs = [...state.nodes].sort((a, b) => b.degree - a.degree).slice(0, 10);
+  document.getElementById("hubList").innerHTML = topHubs.map(node => listItem(node, `${domainDef(node.domain).label} | degree ${node.degree}`)).join("");
+
+  const bridges = [...state.nodes].filter(node => node.bridge > 0).sort((a, b) => b.bridge - a.bridge || b.degree - a.degree).slice(0, 10);
+  document.getElementById("bridgeList").innerHTML = bridges.map(node => listItem(node, `${domainDef(node.domain).label} | ${node.bridge} external links`)).join("");
+
+  document.querySelectorAll("[data-node]").forEach(item => {
+    item.addEventListener("click", () => selectNode(state.nodeById.get(item.dataset.node), true));
+  });
+}
+
+function listItem(node, meta) {
+  return `
+    <button class="list-item" data-node="${escapeHtml(node.id)}">
+      <strong>${escapeHtml(node.label)}</strong>
+      <span>${escapeHtml(meta)}</span>
+    </button>
+  `;
+}
+
+function updateSearchResults() {
+  const box = document.getElementById("searchBox");
+  state.query = box.value.trim().toLowerCase();
+  const results = document.getElementById("searchResults");
+  if (!state.query) {
+    results.innerHTML = "";
+    updateVisibility();
+    return;
+  }
+
+  const matches = state.nodes
+    .filter(node => nodeMatchesQuery(node))
+    .sort((a, b) => b.degree - a.degree)
+    .slice(0, 8);
+  results.innerHTML = matches.map(node => listItem(node, `${domainDef(node.domain).label} | ${node.file_type || "node"}`)).join("");
+  results.querySelectorAll("[data-node]").forEach(item => {
+    item.addEventListener("click", () => selectNode(state.nodeById.get(item.dataset.node), true));
+  });
+  updateVisibility();
+}
+
+function nodeMatchesQuery(node) {
+  if (!state.query) return true;
+  const haystack = `${node.label || ""} ${node.source_file || ""} ${node.file_type || ""}`.toLowerCase();
+  return haystack.includes(state.query);
+}
+
+function updateVisibility() {
+  const lens = LENSES.find(item => item.id === state.activeLens);
+  let visibleCount = 0;
+
+  for (const domain of state.domains.values()) {
+    domain.visibleCount = 0;
+  }
+
+  for (const node of state.nodes) {
+    const inLens = !lens || !lens.domains || lens.domains.includes(node.domain);
+    const bridgeOnly = state.activeLens === "bridges" ? node.bridge > 0 : true;
+    const hubOnly = state.showHubs ? node.degree >= 10 || node.bridge >= 5 : true;
+    const visible = inLens && bridgeOnly && hubOnly && node.degree >= state.minDegree && nodeMatchesQuery(node);
+    node.visible = visible;
+    if (visible) {
+      visibleCount += 1;
+      state.domains.get(node.domain).visibleCount += 1;
+    }
+  }
+
+  setStatus(`${compactNumber(visibleCount)} visible nodes under ${lens.label}`);
+  draw();
+}
+
+function setStatus(text) {
+  statusPill.textContent = text;
+}
+
+function layoutDomainCenters(width, height) {
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const minDim = Math.min(width, height);
+  const defs = DOMAIN_DEFS;
+
+  if (state.mode === "flow") {
+    const columns = {
+      experiments: 0.12,
+      runtime: 0.29,
+      k8s: 0.43,
+      cloud: 0.58,
+      quality: 0.70,
+      evidence: 0.83,
+      paper: 0.93,
+      tooling: 0.50
+    };
+    return new Map(defs.map((domain, index) => [
+      domain.id,
+      {
+        x: width * (columns[domain.id] || 0.5),
+        y: height * (0.30 + ((index % 3) * 0.2))
+      }
+    ]));
+  }
+
+  if (state.mode === "layers") {
+    return new Map([
+      ["runtime", { x: centerX, y: centerY }],
+      ["k8s", { x: centerX + minDim * 0.18, y: centerY - minDim * 0.06 }],
+      ["cloud", { x: centerX + minDim * 0.29, y: centerY - minDim * 0.25 }],
+      ["quality", { x: centerX - minDim * 0.24, y: centerY + minDim * 0.18 }],
+      ["paper", { x: centerX + minDim * 0.36, y: centerY + minDim * 0.20 }],
+      ["evidence", { x: centerX + minDim * 0.12, y: centerY + minDim * 0.30 }],
+      ["experiments", { x: centerX - minDim * 0.36, y: centerY - minDim * 0.15 }],
+      ["tooling", { x: centerX - minDim * 0.05, y: centerY - minDim * 0.35 }]
+    ]);
+  }
+
+  const radiusX = width * 0.34;
+  const radiusY = height * 0.32;
+  return new Map(defs.map((domain, index) => {
+    const angle = -Math.PI / 2 + (index / defs.length) * Math.PI * 2;
+    return [
+      domain.id,
+      {
+        x: centerX + Math.cos(angle) * radiusX,
+        y: centerY + Math.sin(angle) * radiusY
+      }
+    ];
+  }));
+}
+
+function applyLayout(immediate) {
+  const rect = stage.getBoundingClientRect();
+  const width = Math.max(800, rect.width);
+  const height = Math.max(600, rect.height);
+  const centers = layoutDomainCenters(width, height);
+
+  for (const domain of state.domains.values()) {
+    const nodes = domain.nodes.sort((a, b) => b.degree - a.degree);
+    const communityIndex = new Map();
+    let nextCommunity = 0;
+    nodes.forEach((node, index) => {
+      if (!communityIndex.has(node.community)) {
+        communityIndex.set(node.community, nextCommunity);
+        nextCommunity += 1;
+      }
+      const center = centers.get(node.domain) || { x: width / 2, y: height / 2 };
+      const community = communityIndex.get(node.community);
+      const angle = node.seed * Math.PI * 2 + community * 0.19;
+      const rankPull = Math.max(0.26, 1 - Math.min(node.degree, 28) / 34);
+      const spread = state.mode === "layers" ? 8.8 : state.mode === "flow" ? 7.2 : 8.0;
+      const radius = 24 + Math.sqrt(index + 1) * spread * rankPull + (community % 11) * 7;
+      const drift = (hashString(node.label || node.id) - 0.5) * 34;
+
+      node.targetX = center.x + Math.cos(angle) * radius + drift;
+      node.targetY = center.y + Math.sin(angle) * radius - drift * 0.45;
+      if (immediate) {
+        node.x = node.targetX;
+        node.y = node.targetY;
+      }
+    });
+  }
+}
+
+function resizeCanvas() {
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const rect = stage.getBoundingClientRect();
+  canvas.width = Math.floor(rect.width * dpr);
+  canvas.height = Math.floor(rect.height * dpr);
+  canvas.style.width = `${rect.width}px`;
+  canvas.style.height = `${rect.height}px`;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  applyLayout(false);
+  draw();
+}
+
+function worldToScreen(x, y) {
+  return {
+    x: x * state.transform.k + state.transform.x,
+    y: y * state.transform.k + state.transform.y
+  };
+}
+
+function screenToWorld(x, y) {
+  return {
+    x: (x - state.transform.x) / state.transform.k,
+    y: (y - state.transform.y) / state.transform.k
+  };
+}
+
+function fitToView() {
+  const visible = state.nodes.filter(node => node.visible);
+  if (!visible.length) return;
+  const rect = stage.getBoundingClientRect();
+  const xs = visible.map(node => node.x);
+  const ys = visible.map(node => node.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const graphW = Math.max(1, maxX - minX);
+  const graphH = Math.max(1, maxY - minY);
+  const scale = Math.min(rect.width / graphW, rect.height / graphH) * 0.78;
+  state.transform.k = Math.max(0.35, Math.min(2.2, scale));
+  state.transform.x = rect.width / 2 - ((minX + maxX) / 2) * state.transform.k;
+  state.transform.y = rect.height / 2 - ((minY + maxY) / 2) * state.transform.k;
+  draw();
+}
+
+function focusHubs() {
+  state.showHubs = !state.showHubs;
+  updateVisibility();
+  fitToView();
+}
+
+function draw() {
+  state.needsDraw = true;
+}
+
+function render() {
+  if (!state.graph) {
+    requestAnimationFrame(render);
+    return;
+  }
+
+  state.frame += 1;
+  const rect = stage.getBoundingClientRect();
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = "#07090d";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+
+  ctx.save();
+  ctx.translate(state.transform.x, state.transform.y);
+  ctx.scale(state.transform.k, state.transform.k);
+
+  stepNodes();
+  drawDomainFields();
+  drawLinks();
+  drawNodes();
+  ctx.restore();
+  drawDomainLabels();
+
+  requestAnimationFrame(render);
+}
+
+function stepNodes() {
+  for (const node of state.nodes) {
+    node.x += (node.targetX - node.x) * 0.08;
+    node.y += (node.targetY - node.y) * 0.08;
+  }
+}
+
+function drawDomainFields() {
+  for (const domain of state.domains.values()) {
+    if (!domain.visibleCount) continue;
+    const visible = domain.nodes.filter(node => node.visible);
+    const cx = visible.reduce((sum, node) => sum + node.x, 0) / visible.length;
+    const cy = visible.reduce((sum, node) => sum + node.y, 0) / visible.length;
+    const radius = 60 + Math.sqrt(visible.length) * 10;
+    const gradient = ctx.createRadialGradient(cx, cy, 10, cx, cy, radius);
+    gradient.addColorStop(0, `${domain.color}22`);
+    gradient.addColorStop(1, `${domain.color}00`);
+    ctx.beginPath();
+    ctx.fillStyle = gradient;
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function drawLinks() {
+  ctx.lineCap = "round";
+  for (const link of state.links) {
+    const source = link.sourceNode;
+    const target = link.targetNode;
+    if (!source.visible || !target.visible) continue;
+
+    const crossDomain = source.domain !== target.domain;
+    const highlighted = isFocusNode(source) || isFocusNode(target);
+    const alpha = highlighted ? 0.58 : crossDomain ? 0.20 : 0.08;
+    ctx.strokeStyle = highlighted ? "#eaf6ff" : crossDomain ? "#5fb0ff" : domainDef(source.domain).color;
+    ctx.globalAlpha = alpha;
+    ctx.lineWidth = highlighted ? 1.5 : crossDomain ? 0.9 : 0.55;
+
+    if ((link.confidence || "").toUpperCase() === "INFERRED") {
+      ctx.setLineDash([3, 8]);
+    } else {
+      ctx.setLineDash([]);
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(source.x, source.y);
+    if (crossDomain) {
+      const mx = (source.x + target.x) / 2;
+      const my = (source.y + target.y) / 2;
+      const bend = Math.min(90, Math.hypot(target.x - source.x, target.y - source.y) * 0.12);
+      ctx.quadraticCurveTo(mx, my - bend, target.x, target.y);
+    } else {
+      ctx.lineTo(target.x, target.y);
+    }
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  ctx.globalAlpha = 1;
+}
+
+function drawNodes() {
+  for (const node of state.nodes) {
+    if (!node.visible) continue;
+    const selected = state.selected === node;
+    const hovered = state.hovered === node;
+    const def = domainDef(node.domain);
+    const pulse = selected ? 2.4 + Math.sin(state.frame / 12) * 0.8 : hovered ? 1.7 : 0;
+    const radius = node.radius + pulse;
+
+    ctx.beginPath();
+    ctx.fillStyle = def.color;
+    ctx.globalAlpha = selected || hovered ? 1 : 0.84;
+    ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (node.bridge > 0) {
+      ctx.beginPath();
+      ctx.strokeStyle = "#ffffff";
+      ctx.globalAlpha = selected || hovered ? 0.9 : 0.42;
+      ctx.lineWidth = Math.min(2.8, 0.6 + node.bridge * 0.12);
+      ctx.arc(node.x, node.y, radius + 2.2, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    if (selected || hovered || node.degree >= 16) {
+      ctx.beginPath();
+      ctx.strokeStyle = selected ? "#ffffff" : def.color;
+      ctx.globalAlpha = selected ? 0.92 : 0.35;
+      ctx.lineWidth = selected ? 2.4 : 1.4;
+      ctx.arc(node.x, node.y, radius + 6, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawDomainLabels() {
+  const rect = stage.getBoundingClientRect();
+  const centers = layoutDomainCenters(rect.width, rect.height);
+  const placed = [];
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.font = "12px Inter, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const visibleDomains = Array.from(state.domains.values())
+    .filter(domain => domain.visibleCount)
+    .sort((a, b) => b.visibleCount - a.visibleCount);
+
+  for (const domain of visibleDomains) {
+    if (!domain.visibleCount) continue;
+    const center = centers.get(domain.id) || { x: rect.width / 2, y: rect.height / 2 };
+    const screen = worldToScreen(center.x, center.y);
+    if (screen.x < -120 || screen.x > rect.width + 120 || screen.y < -80 || screen.y > rect.height + 80) continue;
+    const label = domain.label.toUpperCase();
+    const textWidth = ctx.measureText(label).width;
+    const candidate = {
+      x: screen.x - textWidth / 2 - 10,
+      y: screen.y - 12,
+      width: textWidth + 20,
+      height: 24
+    };
+
+    let box = candidate;
+    let attempts = 0;
+    while (placed.some(other => intersects(box, other)) && attempts < 8) {
+      const direction = attempts % 2 === 0 ? 1 : -1;
+      box = { ...candidate, y: candidate.y + direction * Math.ceil((attempts + 1) / 2) * 28 };
+      attempts += 1;
+    }
+
+    if (placed.some(other => intersects(box, other))) continue;
+    placed.push(box);
+
+    ctx.fillStyle = "rgba(7, 9, 13, 0.68)";
+    ctx.globalAlpha = 1;
+    roundRect(ctx, box.x, box.y, box.width, box.height, 7);
+    ctx.fill();
+    ctx.fillStyle = domain.color;
+    ctx.globalAlpha = 0.88;
+    ctx.fillText(label, box.x + box.width / 2, box.y + box.height / 2);
+  }
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+function intersects(a, b) {
+  return !(a.x + a.width < b.x || b.x + b.width < a.x || a.y + a.height < b.y || b.y + b.height < a.y);
+}
+
+function roundRect(context, x, y, width, height, radius) {
+  const r = Math.min(radius, width / 2, height / 2);
+  context.beginPath();
+  context.moveTo(x + r, y);
+  context.arcTo(x + width, y, x + width, y + height, r);
+  context.arcTo(x + width, y + height, x, y + height, r);
+  context.arcTo(x, y + height, x, y, r);
+  context.arcTo(x, y, x + width, y, r);
+  context.closePath();
+}
+
+function isFocusNode(node) {
+  if (!state.selected && !state.hovered) return false;
+  const focus = state.selected || state.hovered;
+  return node === focus || state.adjacency.get(focus.id).some(edge => edge.id === node.id);
+}
+
+function findNodeAt(clientX, clientY) {
+  const rect = canvas.getBoundingClientRect();
+  const world = screenToWorld(clientX - rect.left, clientY - rect.top);
+  let best = null;
+  let bestDistance = Infinity;
+
+  for (const node of state.nodes) {
+    if (!node.visible) continue;
+    const hit = Math.max(8, node.radius + 5 / state.transform.k);
+    const distance = Math.hypot(node.x - world.x, node.y - world.y);
+    if (distance < hit && distance < bestDistance) {
+      best = node;
+      bestDistance = distance;
+    }
+  }
+  return best;
+}
+
+function selectNode(node, center) {
+  if (!node) return;
+  state.selected = node;
+  renderDetail(node);
+  if (center) {
+    const rect = stage.getBoundingClientRect();
+    state.transform.x = rect.width / 2 - node.x * state.transform.k;
+    state.transform.y = rect.height / 2 - node.y * state.transform.k;
+  }
+  draw();
+}
+
+function renderDetail(node) {
+  const neighbors = state.adjacency.get(node.id)
+    .map(edge => ({ ...edge, node: state.nodeById.get(edge.id) }))
+    .filter(edge => edge.node)
+    .sort((a, b) => b.node.degree - a.node.degree)
+    .slice(0, 9);
+
+  const panel = document.getElementById("detailPanel");
+  panel.className = "";
+  panel.innerHTML = `
+    <h3 class="detail-title">${escapeHtml(node.label)}</h3>
+    <div class="detail-sub">${escapeHtml(node.source_file || "No source file")} ${node.source_location ? "at " + escapeHtml(node.source_location) : ""}</div>
+    <div class="tag-row">
+      <span class="tag">${escapeHtml(domainDef(node.domain).label)}</span>
+      <span class="tag">${escapeHtml(node.file_type || "node")}</span>
+      <span class="tag">community ${escapeHtml(node.community ?? "n/a")}</span>
+    </div>
+    <div class="insight-grid">
+      <div class="insight"><strong>${node.degree}</strong><span>degree</span></div>
+      <div class="insight"><strong>${node.bridge}</strong><span>bridges</span></div>
+      <div class="insight"><strong>${neighbors.length}</strong><span>shown</span></div>
+    </div>
+    <div style="height: 14px;"></div>
+    <h2 class="section-title" style="margin-bottom: 8px;">Neighbors</h2>
+    <div class="neighbor-list">
+      ${neighbors.length ? neighbors.map(edge => listItem(edge.node, `${edge.relation} | ${domainDef(edge.node.domain).label}`)).join("") : `<div class="empty-state">No linked nodes in the current graph.</div>`}
+    </div>
+  `;
+
+  panel.querySelectorAll("[data-node]").forEach(item => {
+    item.addEventListener("click", () => selectNode(state.nodeById.get(item.dataset.node), true));
+  });
+}
+
+function updateHover(event) {
+  const node = findNodeAt(event.clientX, event.clientY);
+  if (node !== state.hovered) {
+    state.hovered = node;
+    draw();
+  }
+
+  if (!node) {
+    hoverCard.style.display = "none";
+    return;
+  }
+
+  const rect = stage.getBoundingClientRect();
+  hoverCard.style.left = `${Math.min(rect.width - 320, event.clientX - rect.left + 16)}px`;
+  hoverCard.style.top = `${Math.min(rect.height - 110, event.clientY - rect.top + 16)}px`;
+  hoverCard.style.display = "block";
+  hoverCard.innerHTML = `
+    <strong>${escapeHtml(node.label)}</strong>
+    <span>${escapeHtml(domainDef(node.domain).label)} | degree ${node.degree} | bridges ${node.bridge}</span>
+    <span>${escapeHtml(node.source_file || "")}</span>
+  `;
+}
+
+function exportPng() {
+  const link = document.createElement("a");
+  link.download = "raasa-project-atlas.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+function attachEvents() {
+  document.getElementById("searchBox").addEventListener("input", updateSearchResults);
+  document.getElementById("degreeSlider").addEventListener("input", event => {
+    state.minDegree = Number(event.target.value);
+    document.getElementById("degreeValue").textContent = `${state.minDegree}+`;
+    updateVisibility();
+  });
+  document.getElementById("fitButton").addEventListener("click", fitToView);
+  document.getElementById("hubsButton").addEventListener("click", focusHubs);
+  document.getElementById("exportButton").addEventListener("click", exportPng);
+
+  canvas.addEventListener("mousemove", event => {
+    if (state.isDragging) {
+      state.transform.x = event.clientX - state.dragStart.x;
+      state.transform.y = event.clientY - state.dragStart.y;
+      draw();
+      return;
+    }
+    updateHover(event);
+  });
+
+  canvas.addEventListener("mousedown", event => {
+    state.isDragging = true;
+    state.dragStart = {
+      x: event.clientX - state.transform.x,
+      y: event.clientY - state.transform.y
+    };
+  });
+
+  window.addEventListener("mouseup", () => {
+    state.isDragging = false;
+  });
+
+  canvas.addEventListener("click", event => {
+    if (Math.abs(event.movementX || 0) + Math.abs(event.movementY || 0) > 4) return;
+    const node = findNodeAt(event.clientX, event.clientY);
+    if (node) selectNode(node, false);
+  });
+
+  canvas.addEventListener("wheel", event => {
+    event.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    const before = screenToWorld(mouseX, mouseY);
+    const factor = event.deltaY > 0 ? 0.9 : 1.1;
+    state.transform.k = Math.max(0.18, Math.min(5, state.transform.k * factor));
+    const after = worldToScreen(before.x, before.y);
+    state.transform.x += mouseX - after.x;
+    state.transform.y += mouseY - after.y;
+    draw();
+  }, { passive: false });
+
+  window.addEventListener("resize", resizeCanvas);
+}
+
+async function loadGraphData() {
+  if (window.RAASA_GRAPH_DATA) {
+    return window.RAASA_GRAPH_DATA;
+  }
+
+  try {
+    const response = await fetch("graph.json", { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    throw new Error(`${error.message}. Open through graphify-out/index.html with graph_data.js present, or serve graphify-out over HTTP.`);
+  }
+}
+
+async function boot() {
+  attachEvents();
+  try {
+    const graph = await loadGraphData();
+    prepareGraph(graph);
+    updateVisibility();
+    render();
+  } catch (error) {
+    setStatus(`Graph data could not load: ${error.message}`);
+  }
+}
+
+boot();
+</script>
+</body>
+</html>
