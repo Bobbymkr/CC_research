@@ -1,0 +1,25 @@
+% IEEE include snippet for Table C. Failure and Degraded-Mode Summary
+% Requires in preamble: \usepackage{booktabs,tabularx,array}
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.2pt}
+\renewcommand{\arraystretch}{1.10}
+\caption{Bounded degraded-mode and fail-closed behavior in the fresh-account 3-node K3s campaign.}
+\label{tab:failure-degraded-mode-summary}
+\begin{tabularx}{\textwidth}{p{0.16\textwidth} >{\raggedright\arraybackslash}X p{0.12\textwidth} >{\raggedright\arraybackslash}X p{0.18\textwidth}}
+\toprule
+Injected condition & Observed status & Containment outcome & Interpretation & Evidence bundle \\
+\midrule
+Metrics API outage & 10 audit rows; telemetry complete:1, partial:9; metrics\_ok:1, metrics\_error:9; memory metrics\_ok:1, cadvisor\_fallback:9 & New tiers L3:10 & The controller exposes degraded telemetry instead of silently masking the outage & AWS\_Results\_26\_april/failure\_injection\_2026\_05\_14\_145348 \\
+Syscall probe pause & 11 audit rows; telemetry complete:4, partial:7; probe\_ok:4, probe\_stale:7 & New tiers L3:11 & Probe degradation is explicitly surfaced rather than hidden behind a false clean reading & AWS\_Results\_26\_april/failure\_injection\_2026\_05\_14\_145348 \\
+Fake-pod IPC fail-closed check & IPC response ERR & Rejected as expected & The privileged path fails closed for an invalid target & AWS\_Results\_26\_april/failure\_injection\_2026\_05\_14\_145348 \\
+Agent restart recovery & Agent changed from raasa-agent-9st2t to raasa-agent-2qgvr & Recovery observed after restart & The bounded experiment shows post-restart continuity, not high-availability & AWS\_Results\_26\_april/failure\_injection\_2026\_05\_14\_145348 \\
+Metrics API bounded stress & 30 s, 6 workers, 62 audit rows, telemetry complete:62, metrics\_ok:62, total\_failures=0 & Controller held risk within current tier band for all captured rows & Bounded stress remained interpretable without forcing a collapse in the cloud path & AWS\_Results\_26\_april/metrics\_api\_stress\_probe\_2026\_05\_14\_145915 \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+% Notes
+% - This table is especially useful in discussion/limitations or an appendix.
+% - Its purpose is to show that degraded behavior is explicit rather than silently hidden.

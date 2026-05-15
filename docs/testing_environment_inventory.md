@@ -130,7 +130,7 @@ Evidence:
 
 Current verified state in this workspace:
 
-- `123 passed, 3 skipped` locally via `pytest -q` on `2026-05-12`
+- `124 passed, 3 skipped` locally via `pytest -q` on `2026-05-14`
 - 14 warnings, mainly dependency deprecation warnings from `matplotlib`/`pyparsing`
 - observer regression coverage now includes node-local pod discovery and
   Metrics API timeout/cached-fallback behavior
@@ -175,6 +175,174 @@ The following details are now captured explicitly:
 - local Docker version in [docs/local_environment_snapshot.json](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/local_environment_snapshot.json)
 
 ## AWS testing environment
+
+### Latest free-tier single-host campaign
+
+The 2026-05-13/2026-05-14 free-tier campaign used one cleaned AWS account state
+and one single-node EC2/K3s host:
+
+- AWS region captured via CloudShell: `us-east-1`
+- intended retained EC2 instance: `raasa-free-tier-node` (`i-0588bfb84f8c0215e`)
+- extra stopped instance removed before restart: `RAASA-Research-VM`
+  (`i-0a151cd7eef140ee3`)
+- active load balancer removed before restart: `startup-web-app`
+- Elastic IP allocations removed before restart
+- remaining attached volume after cleanup: `vol-091e4b66e4f23a92e`, `30 GiB`, `gp3`
+- instance family selected by the user: `m7i-flex.large`
+- node hostname across both public-IP windows: `ip-172-31-34-138`
+- public host/IP during fresh bootstrap window: `54.224.245.180`
+- public host/IP after restart for the mini-campaign: `54.164.19.115`
+- OS reported by K3s: Ubuntu 26.04 LTS
+- kernel string: `Linux ip-172-31-34-138 7.0.0-1004-aws ... x86_64 GNU/Linux`
+- K3s version: `v1.35.4+k3s1`
+- container runtime: `containerd://2.2.3-k3s1`
+- security group captured during restart: `sg-0d7d64818ce5c0302`
+- RAASA agent pods observed during the campaign: `raasa-agent-klsbr`,
+  `raasa-agent-w6bgk`, and post-restart `raasa-agent-hxm96`
+
+Evidence:
+
+- [AWS_Results_26_april/bootstrap_freetier_instance_2026_05_13_082837](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/bootstrap_freetier_instance_2026_05_13_082837)
+- [AWS_Results_26_april/live_instance_validation_2026_05_13_083219](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_13_083219)
+- [AWS_Results_26_april/closed_loop_soak_2026_05_13_083459](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/closed_loop_soak_2026_05_13_083459)
+- [AWS_Results_26_april/adversarial_matrix_repeated_freetier_resumed_2026_05_13_094157](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/adversarial_matrix_repeated_freetier_resumed_2026_05_13_094157)
+- [AWS_Results_26_april/failure_injection_2026_05_13_104329](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/failure_injection_2026_05_13_104329)
+- [AWS_Results_26_april/metrics_api_stress_probe_2026_05_13_105523](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/metrics_api_stress_probe_2026_05_13_105523)
+- [AWS_Results_26_april/phase1d_resolution_validation_2026_05_13_105824](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/phase1d_resolution_validation_2026_05_13_105824)
+- [AWS_Results_26_april/live_instance_validation_2026_05_14_082835](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_14_082835)
+- [AWS_Results_26_april/closed_loop_soak_2026_05_14_082943](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/closed_loop_soak_2026_05_14_082943)
+- [AWS_Results_26_april/adversarial_matrix_repeated_2026_05_14_083925](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/adversarial_matrix_repeated_2026_05_14_083925)
+- [AWS_Results_26_april/failure_injection_2026_05_14_091158](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/failure_injection_2026_05_14_091158)
+- [AWS_Results_26_april/metrics_api_stress_probe_2026_05_14_091656](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/metrics_api_stress_probe_2026_05_14_091656)
+- [AWS_Results_26_april/cleanup_verification_2026_05_14_092254](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/cleanup_verification_2026_05_14_092254)
+
+Results:
+
+- live sanity capture succeeded against default test pods
+- closed-loop soak passed `5 / 5` cycles
+- repeated adversarial matrix passed `5 / 5` runs, with all five workloads
+  passing each run
+- failure injection captured explicit partial telemetry during Metrics API
+  outage and syscall probe pause, then recovered the agent pod
+- the 2026-05-14 harness-tightened rerun recorded the fake-pod IPC response
+  as clean `ERR` without a manual retry note
+- Metrics API stress ran for `45 s` with `8` workers and `total_failures=0`
+- L3 containment validation resolved pod interfaces with `fallback_count=0`
+  and collapsed measured L3 traffic to `0 B/s`
+- after an account cleanup and host restart, the bounded mini-campaign on
+  `54.164.19.115` revalidated live sanity, passed a `3 / 3` soak, passed a
+  `1 / 1` five-workload matrix smoke, preserved `45` complete metrics-stress
+  audit rows with `total_failures=0`, and ended with only K3s system pods plus
+  `raasa-agent-hxm96` running
+- post-test cleanup was verified in
+  [AWS_Results_26_april/cleanup_verification_2026_05_13_121927](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/cleanup_verification_2026_05_13_121927):
+  no adversarial/demo/benchmark/default test workloads remained, and only K3s
+  system pods plus the RAASA DaemonSet were running
+
+Interpretation:
+
+- this is useful evidence that the project can be bootstrapped and validated
+  as a single-node free-tier-conscious EC2/K3s research prototype
+- this is not production-readiness evidence and does not support multi-node,
+  multi-tenant, or EKS-scale claims
+- account-level preflight/cleanup inventory was captured through operator-run
+  AWS CloudShell output rather than this workstation's expired local AWS
+  credentials
+
+### Fresh-account credits-only replay and bounded multi-node K3s campaign
+
+The 2026-05-14 fresh-account expansion campaign advanced the evidence from a
+single-node replay to a bounded 3-node K3s validation path on a clean AWS Free
+plan account.
+
+Fresh-account gate:
+
+- AWS plan state captured in CloudShell: `FREE`, `ACTIVE`
+- remaining AWS-issued credits at preflight: `139.92 USD`
+- initial CloudShell inventory was clean: no EC2 instances, EBS volumes,
+  Elastic IPs, NAT Gateways, load balancers, or EKS clusters
+
+Fresh-account single-node replay:
+
+- instance ID: `i-0ae832987f61bf5e2`
+- public host/IP: `13.219.221.75`
+- instance type: `m7i-flex.large`
+- root EBS: `30 GiB gp3`, delete on termination
+- security group: `sg-0a235c5878f10a800`
+- key name: `raasa-fresh-single`
+- live replay evidence:
+  [AWS_Results_26_april/live_instance_validation_2026_05_14_111436](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_14_111436)
+- stable replay soak evidence:
+  [AWS_Results_26_april/closed_loop_soak_2026_05_14_112413](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/closed_loop_soak_2026_05_14_112413)
+- result: the clean-account single-node replay passed after a steady-state
+  rerun, preserving a `2 / 2` soak bundle; the first attempt showed a
+  warm-start wobble and is retained as historical evidence
+
+Fresh-account multi-node K3s cluster:
+
+- control-plane instance: `i-0dc58aea73b59ef3c`
+  - public IP: `44.200.44.207`
+  - private IP: `172.31.12.91`
+- worker-a instance: `i-0eec377ced93d4c30`
+  - public IP: `52.1.139.250`
+  - private IP: `172.31.87.199`
+- worker-b instance: `i-03a4f55da55687a29`
+  - public IP: `3.90.41.117`
+  - private IP: `172.31.27.62`
+- instance type on all three nodes: `m7i-flex.large`
+- root EBS on all three nodes: `30 GiB gp3`
+- shared security group: `sg-0615be39526b79716`
+- required security-group shape:
+  - SSH `22/tcp` from the workstation `/32`
+  - self-referencing `All traffic` ingress so K3s nodes can talk to each other
+- K3s version: `v1.35.4+k3s1`
+- OS image: Ubuntu `24.04.4 LTS`
+- kernel version: `6.17.0-1013-aws`
+- container runtime: `containerd://2.2.3-k3s1`
+
+Evidence:
+
+- node inventory before drain:
+  [AWS_Results_26_april/multinode_reschedule_validation_2026_05_14_151103/nodes_before.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/multinode_reschedule_validation_2026_05_14_151103/nodes_before.txt)
+- multi-node soak:
+  [AWS_Results_26_april/closed_loop_soak_2026_05_14_142154](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/closed_loop_soak_2026_05_14_142154)
+- repeated adversarial matrix:
+  [AWS_Results_26_april/adversarial_matrix_repeated_2026_05_14_143056](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/adversarial_matrix_repeated_2026_05_14_143056)
+- failure injection:
+  [AWS_Results_26_april/failure_injection_2026_05_14_145348](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/failure_injection_2026_05_14_145348)
+- Metrics API stress:
+  [AWS_Results_26_april/metrics_api_stress_probe_2026_05_14_145915](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/metrics_api_stress_probe_2026_05_14_145915)
+- node-drain reschedule validation:
+  [AWS_Results_26_april/multinode_reschedule_validation_2026_05_14_151103](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/multinode_reschedule_validation_2026_05_14_151103)
+
+Results:
+
+- bounded multi-node soak passed `3 / 3`
+- repeated adversarial matrix passed `2 / 2` runs with all `5 / 5` workloads
+  per run and benign total L3 count `0`
+- failure injection preserved explicit degraded telemetry, recorded fake-pod IPC
+  response `ERR`, and observed agent restart recovery from `raasa-agent-9st2t`
+  to `raasa-agent-2qgvr`
+- Metrics API stress ran for `30 s` with `6` workers and preserved `62`
+  complete audit rows with `total_failures=0`
+- the reschedule validation proved cross-node placement, drained worker-a,
+  rescheduled the benign pod onto worker-b, preserved the malicious pod on
+  worker-b, and captured post-drain interpretable audit rows from the worker-b
+  RAASA agent
+- after the reschedule proof, the temporary `raasa-resched` namespace was
+  removed and the cluster returned to the intended RAASA system pods plus the
+  default phase-0 test pods
+
+Interpretation:
+
+- this is the repo's strongest current evidence for a bounded multi-node K3s
+  research prototype under Free-plan AWS credits
+- it supports distributed K3s claims only within the observed 3-node,
+  single-control-plane scope
+- it still does not support EKS robustness, broad multi-tenant safety, or
+  production-readiness claims
+- final CloudShell teardown inventory for this fresh-account 3-node campaign
+  still needs to be preserved in-repo to close the billing-discipline loop
 
 ### Latest live stress status
 
@@ -254,16 +422,18 @@ The AWS/K8s path is well evidenced as:
 - provider: AWS EC2
 - OS family: Ubuntu
 - documented target OS: Ubuntu 24.04 LTS
-- captured live host OS: Ubuntu kernel `6.17.0-1012-aws`
+- captured live host OS examples: Ubuntu kernel `6.17.0-1012-aws` on the older
+  host and Ubuntu kernel `7.0.0-1004-aws` on the 2026-05-13 free-tier host
 - instance family used/documented: `m7i-flex.large`
 - documented capacity for that instance: `2 vCPU`, `8 GiB RAM`
-- cluster model: single-node K3s
+- cluster models now evidenced: single-node K3s and bounded 3-node K3s
 
 Evidence:
 
 - [bootstrap_k8s_ebpf.sh](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/bootstrap_k8s_ebpf.sh)
 - [docs/RAASA_Evaluation_Report.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/RAASA_Evaluation_Report.md)
 - [AWS_Results_26_april/live_instance_validation_restart_2026_04_26/host_identity.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_restart_2026_04_26/host_identity.txt)
+- [AWS_Results_26_april/live_instance_validation_2026_05_13_083219/host_identity.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_13_083219/host_identity.txt)
 
 ### Confirmed live AWS host identity
 
@@ -278,6 +448,30 @@ Evidence:
 
 - [AWS_Results_26_april/live_instance_validation_restart_2026_04_26/host_identity.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_restart_2026_04_26/host_identity.txt)
 - [AWS_Results_26_april/live_instance_validation_restart_2026_04_26/collection_metadata.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_restart_2026_04_26/collection_metadata.txt)
+
+Fresh-host capture from 2026-05-13:
+
+- public host/IP: `54.224.245.180`
+- node hostname: `ip-172-31-34-138`
+- remote user: `ubuntu`
+- kernel string: `Linux ip-172-31-34-138 7.0.0-1004-aws ... x86_64 GNU/Linux`
+
+Evidence:
+
+- [AWS_Results_26_april/live_instance_validation_2026_05_13_083219/host_identity.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_13_083219/host_identity.txt)
+- [AWS_Results_26_april/live_instance_validation_2026_05_13_083219/collection_metadata.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_13_083219/collection_metadata.txt)
+
+Restarted-host capture from 2026-05-14:
+
+- public host/IP: `54.164.19.115`
+- node hostname: `ip-172-31-34-138`
+- remote user: `ubuntu`
+- kernel string: `Linux ip-172-31-34-138 7.0.0-1004-aws ... x86_64 GNU/Linux`
+
+Evidence:
+
+- [AWS_Results_26_april/live_instance_validation_2026_05_14_082835/host_identity.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_14_082835/host_identity.txt)
+- [AWS_Results_26_april/live_instance_validation_2026_05_14_082835/collection_metadata.txt](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/AWS_Results_26_april/live_instance_validation_2026_05_14_082835/collection_metadata.txt)
 
 ### Confirmed AWS/K8s technologies
 
@@ -393,13 +587,10 @@ Evidence:
 
 The repo does **not** clearly preserve:
 
-- AWS region
 - availability zone
 - EC2 AMI ID
-- EBS volume size/type
-- security group rules
+- full security group rule history
 - VPC/subnet IDs
-- exact K3s version
 - exact Tetragon version
 - exact Docker/containerd versions on the EC2 host
 - exact EC2 instance launch timestamp and termination history

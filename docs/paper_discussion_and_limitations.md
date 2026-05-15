@@ -97,10 +97,11 @@ concrete.
 
 Several additional limitations should be stated explicitly.
 
-First, the cloud-native validation is currently grounded in a single-node live
-testbed rather than a multi-node or multi-tenant deployment. This means the
-project cannot yet make broader claims about distributed contention, cluster-
-wide scaling behavior, or multi-tenant blast-radius guarantees.
+First, the cloud-native validation is now grounded in fresh-account single-node
+replay plus a bounded 3-node K3s deployment rather than only a single-node
+testbed. Even so, the project cannot yet make broader claims about
+multi-tenant blast-radius guarantees, managed-control-plane robustness, or
+large-scale distributed behavior.
 
 Second, the workload model is intentionally bounded. The paper focuses on a
 small number of workload classes chosen to make the adaptive trade-off visible
@@ -157,12 +158,13 @@ the clearer research path it creates for future agent-runtime safety work.
 In summary, the discussion supports four points. First, adaptive containment is
 a meaningful alternative to static permissive and static strict sandbox
 allocation. Second, RAASA's modular and privilege-separated architecture is
-itself part of the paper's contribution. Third, the live AWS-hosted Kubernetes
-path materially strengthens the research story by validating pod-specific
-containment behavior beyond the local environment. Fourth, the strongest
-remaining weakness lies in telemetry and control-plane fragility, not in the
-basic adaptive-containment concept. Taken together, these points position RAASA
-as a credible research artifact with a clear boundary, a concrete systems
+itself part of the paper's contribution. Third, the live AWS-hosted K3s path
+materially strengthens the research story by validating pod-specific
+containment behavior, bounded multi-node continuity, and fresh-account
+reproducibility beyond the local environment. Fourth, the strongest remaining
+weakness lies in telemetry and control-plane fragility, not in the basic
+adaptive-containment concept. Taken together, these points position RAASA as a
+credible research artifact with a clear boundary, a concrete systems
 contribution, and a practical path toward a stronger v2.
 
 ## 2. Notes for Revision
@@ -171,5 +173,5 @@ When this section is integrated into the final paper:
 
 - keep the limitation language explicit
 - preserve the tuned-linear-versus-ML distinction
-- retain the single-node limitation
+- retain the bounded multi-node but not EKS / not multi-tenant limitation
 - avoid broadening the claim into enterprise readiness

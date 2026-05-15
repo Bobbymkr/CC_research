@@ -29,16 +29,18 @@ boundary, reducing the risk of coupling autonomous decision-making directly to
 host-level control.
 
 We evaluate RAASA across both local Docker-based experiments and a live
-AWS-hosted K3s deployment. The local path demonstrates the core adaptive
-containment trade-off against static baselines, while the cloud-native path
-shows that the controller can carry over into a Kubernetes setting with
-pod-specific enforcement resolution and closed-loop containment behavior. The
-current strongest evidence supports RAASA as a validated research prototype for
-adaptive containment rather than a production-ready security platform. Our
-results indicate that adaptive containment is a practical and defensible
-direction for modern cloud and AI-agent runtime security, while also revealing
-that telemetry and control-plane fragility in the live Kubernetes path remain
-the main blockers to a stronger v2 candidate.
+AWS-hosted K3s deployments. The local path demonstrates the core adaptive
+containment trade-off against static baselines, while the cloud-native path now
+includes both fresh-account single-node replay and bounded 3-node K3s
+validation with pod-specific enforcement resolution, repeated adversarial
+workloads, explicit degraded/failure signaling, and worker drain/reschedule
+continuity. The current strongest evidence supports RAASA as a validated
+research prototype and a bounded cloud-security feasibility result rather than
+as a production-ready security platform or an EKS-ready system. Our results
+indicate that adaptive containment is a practical and defensible direction for
+modern cloud and AI-agent runtime security, while also revealing that
+telemetry/control-plane fragility and managed-cluster generalization remain the
+main blockers to a stronger v2 candidate.
 
 ## 3. Shorter Abstract Variant
 
@@ -50,12 +52,12 @@ telemetry, bounded risk scoring, policy reasoning, and tiered enforcement.
 RAASA is built as a modular Observe-Assess-Decide-Act-Audit loop and preserves
 privilege separation by decoupling unprivileged reasoning from privileged
 enforcement through a constrained IPC boundary. We validate the approach on
-both local Docker experiments and a live AWS-hosted K3s environment, where the
-system demonstrates pod-specific containment behavior and repeatable closed-loop
-operation. The current evidence supports RAASA as a validated research
-prototype and shows that adaptive containment is a promising direction for
-cloud and AI-agent runtime security, while telemetry/control-plane fragility in
-the Kubernetes path remains the key limitation.
+both local Docker experiments and bounded AWS-hosted K3s environments, where
+the system demonstrates pod-specific containment behavior, repeatable
+closed-loop operation, and bounded multi-node continuity. The current evidence
+supports RAASA as a validated research prototype and bounded feasibility result
+for cloud and AI-agent runtime security, while telemetry/control-plane
+fragility and lack of EKS evidence remain the key limitations.
 
 ## 4. Main Contributions
 
@@ -72,11 +74,12 @@ Recommended contribution list for the paper:
    actions through a constrained IPC boundary.
 4. We extend the architecture from local Docker-based experiments to a live
    AWS-hosted Kubernetes environment and validate pod-specific containment
-   behavior in the cloud-native path.
+   behavior across fresh-account single-node replay and bounded 3-node K3s
+   execution in the cloud-native path.
 5. We provide a reproducible research artifact with local and AWS-backed
-   evaluation material, while identifying telemetry and control-plane fragility
-   as the key remaining blocker between the current prototype and a stronger v2
-   candidate.
+   evaluation material, while identifying telemetry/control-plane fragility and
+   managed-cluster generalization as the key remaining blockers between the
+   current prototype and a stronger v2 candidate.
 
 ## 5. Short Contribution Bullets
 
@@ -86,6 +89,7 @@ Use these when the paper needs a tighter list:
 2. Auditable runtime risk-to-enforcement decision pipeline.
 3. Privilege-separated Kubernetes enforcement architecture.
 4. Local and live AWS/Kubernetes validation.
+5. Fresh-account reproducibility and bounded multi-node K3s continuity.
 
 ## 6. Intro Contribution Paragraph
 
@@ -98,9 +102,11 @@ auditable tier transitions and enforcement actions. Third, it demonstrates a
 privilege-separated enforcement model that decouples unprivileged reasoning
 from privileged control through a constrained IPC boundary. Fourth, it extends
 the architecture into a live AWS-hosted Kubernetes path with pod-specific
-containment behavior. Fifth, it provides a reproducible research artifact and
+containment behavior across both fresh-account single-node replay and bounded
+3-node K3s validation. Fifth, it provides a reproducible research artifact and
 an honest evaluation boundary that identifies telemetry/control-plane fragility
-as the main remaining blocker to a stronger v2 candidate.
+and lack of managed-cluster evidence as the main remaining blockers to a
+stronger v2 candidate.
 
 ## 7. Oral Summary Version
 
@@ -112,9 +118,10 @@ observes runtime behavior, scores risk, shifts workloads across containment
 tiers, and keeps an auditable record of why those decisions were made. Its key
 architectural idea is privilege separation: the reasoning path remains
 unprivileged, while privileged enforcement is isolated behind a constrained IPC
-boundary. The system is validated locally and on AWS-hosted Kubernetes, where
-it demonstrates pod-specific containment, but the main limitation remains
-telemetry and control-plane fragility in the live cloud-native path.
+boundary. The system is validated locally and on bounded AWS-hosted K3s
+deployments, including fresh-account reproducibility and 3-node continuity,
+but the main limitations remain telemetry/control-plane fragility and the lack
+of EKS evidence.
 
 ## 8. Phrases That Are Safe to Reuse
 

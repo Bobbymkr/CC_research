@@ -28,21 +28,22 @@ meaningful scope. In the local path, RAASA demonstrates that adaptive
 containment can outperform both permissive and over-restrictive static
 baselines by preserving benign utility while still escalating malicious
 behavior into stricter containment tiers. In the cloud-native path, the project
-shows that the same architectural ideas can carry over into a live
-AWS-hosted Kubernetes environment with pod-specific containment behavior and a
-privilege-separated enforcement model. These results support RAASA as a
-validated research prototype rather than as a finished production-ready
-security platform.
+shows that the same architectural ideas can carry over into AWS-hosted K3s
+environments through fresh-account single-node replay and bounded 3-node
+validation with pod-specific containment behavior and a privilege-separated
+enforcement model. These results support RAASA as a validated research
+prototype rather than as a finished production-ready security platform.
 
 At the same time, the paper has deliberately maintained a narrow and truthful
 claim boundary. RAASA does not claim to solve container runtime security in
 full. It does not establish complete defense against container escape, lateral
-movement, or all forms of cloud abuse. It does not yet provide multi-node or
-enterprise-grade evidence. Most importantly, the live Kubernetes path reveals
-that telemetry and control-plane fragility, especially around `metrics.k8s.io`
-timeout behavior under stress, remain the main blockers between the current
-system and a stronger v2 candidate. Stating this explicitly is not a weakness
-of the paper; it is part of what makes the contribution credible.
+movement, or all forms of cloud abuse. It does not yet provide EKS,
+multi-tenant, or enterprise-grade evidence. Most importantly, the live
+Kubernetes path reveals that telemetry and control-plane fragility, especially
+around `metrics.k8s.io` timeout behavior under stress, remain the main
+blockers between the current system and a stronger v2 candidate. Stating this
+explicitly is not a weakness of the paper; it is part of what makes the
+contribution credible.
 
 Within those boundaries, RAASA still offers an important result. It shows that
 adaptive containment can be implemented as a modular, auditable, and
@@ -56,9 +57,9 @@ The broader conclusion of the paper is therefore modest but strong: adaptive
 containment is not yet a complete answer to runtime security, but it is already
 a defensible and practically meaningful direction. RAASA demonstrates that this
 direction can be built, evaluated honestly, and extended from local experiments
-into live Kubernetes validation. That result is sufficient to justify both the
-research contribution of the current system and the continued development of a
-more operationally robust v2.
+into fresh-account replay and bounded multi-node Kubernetes validation. That
+result is sufficient to justify both the research contribution of the current
+system and the continued development of a more operationally robust v2.
 
 ## 2. Shorter Conclusion Variant
 
@@ -72,13 +73,13 @@ unprivileged reasoning from privileged enforcement.
 
 Across its bounded evaluation scope, the system demonstrates that adaptive
 containment can preserve benign utility while still escalating malicious
-behavior, and that the architecture can carry over into a live
-AWS-hosted Kubernetes environment with pod-specific containment behavior. The
-main remaining limitation is not the adaptive-containment concept itself, but
-telemetry and control-plane fragility in the cloud-native path. For that
-reason, RAASA should be understood as a validated research prototype with a
-clear systems contribution and a credible path toward a stronger v2, rather
-than as a finished production platform.
+behavior, and that the architecture can carry over into bounded AWS-hosted
+K3s environments with pod-specific containment behavior. The main remaining
+limitation is not the adaptive-containment concept itself, but telemetry and
+control-plane fragility in the cloud-native path. For that reason, RAASA
+should be understood as a validated research prototype with a clear systems
+contribution and a credible path toward a stronger v2, rather than as a
+finished production platform.
 
 ## 3. Notes for Revision
 

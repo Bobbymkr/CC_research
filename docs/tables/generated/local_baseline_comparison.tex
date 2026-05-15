@@ -1,0 +1,24 @@
+% IEEE include snippet for Table A. Local Baseline Comparison
+% Requires in preamble: \usepackage{booktabs,tabularx,array}
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4.0pt}
+\renewcommand{\arraystretch}{1.06}
+\caption{Local baseline comparison.}
+\label{tab:local-baseline-comparison}
+\begin{tabular}{l l l c c c c c}
+\toprule
+Mode & Environment & Scenario & Precision & Recall & FPR & BRR & UE \\
+\midrule
+static\_L1 & Local Docker & small baseline & 0.00 & 0.00 & 0.00 & 0.00 & 0 \\
+static\_L3 & Local Docker & small baseline & 0.33 & 1.00 & 1.00 & 1.00 & 24 \\
+raasa linear & Local Docker & small\_tuned best run & 1.00 & 1.00 & 0.00 & 0.00 & 0 \\
+raasa linear & Local Docker & small\_tuned 3-run mean & 0.87 & 1.00 & 0.11 & 0.11 & 1.3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% Notes
+% - Values are taken from the current paper draft and local evaluation materials.
+% - FPR = false positive rate, BRR = benign restriction rate, UE = unnecessary escalations.

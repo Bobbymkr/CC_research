@@ -3,6 +3,16 @@
 This is the compact paper-first package for preparing RAASA as a defensible
 research artifact.
 
+For the full reviewer-oriented evidence checklist covering tables, figures,
+artifact bundles, negative evidence, and methodology requirements, see
+[docs/paper_evidence_package.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/paper_evidence_package.md).
+
+For the source-controlled paper surfaces themselves, use:
+
+- [docs/tables/README.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/tables/README.md)
+- [docs/figures/README.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/README.md)
+- [docs/paper_ieee_layout.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/paper_ieee_layout.md)
+
 ## Canonical Thesis
 
 RAASA demonstrates that adaptive containment can improve the

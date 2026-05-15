@@ -3,27 +3,26 @@
 ## Abstract
 
 Modern containerized and agentic workloads are poorly served by static
-containment models: permissive sandboxes underreact to malicious or runaway
-behavior, while strict sandboxes overconstrain benign execution and reduce
-system utility. This paper presents RAASA (Risk-Aware Adaptive Sandbox
-Allocation), a research system for adaptive containment of containerized
-workloads. RAASA is organized as a modular
-Observe-Assess-Decide-Act-Audit control loop that collects runtime telemetry,
-converts it into bounded risk signals, selects among tiered containment levels
-(`L1`, `L2`, `L3`), and records auditable reasons for each decision. The
-architecture also separates unprivileged reasoning logic from privileged
-enforcement through a constrained inter-process communication boundary. RAASA
-is evaluated across both local Docker-based experiments and a live
-AWS-hosted K3s deployment. The local path demonstrates the core
-adaptive-containment trade-off against static baselines, while the cloud-native
-path shows that the controller can carry over into Kubernetes with pod-specific
-enforcement resolution and repeatable closed-loop containment behavior. The
-current strongest evidence supports RAASA as a validated research prototype for
-adaptive containment rather than a production-ready security platform. The
-results suggest that adaptive containment is a practical direction for modern
-cloud and AI-agent runtime security, while also showing that telemetry and
-control-plane fragility in the live Kubernetes path remain the main blockers to
-a stronger v2 candidate.
+containment: permissive sandboxes underreact to malicious or runaway behavior,
+while strict sandboxes overconstrain benign execution and reduce system
+utility. This paper presents RAASA (Risk-Aware Adaptive Sandbox Allocation), a
+research system for adaptive containment of containerized workloads. RAASA is
+organized as an Observe-Assess-Decide-Act-Audit control loop that collects
+runtime telemetry, converts it into bounded risk signals, selects among tiered
+containment levels (`L1`, `L2`, `L3`), and records auditable reasons for each
+decision, while separating unprivileged reasoning from privileged enforcement
+through a constrained IPC boundary. RAASA is evaluated in local Docker-based
+experiments and AWS-hosted K3s deployments. Locally, adaptive containment
+outperforms static permissive and static strict baselines. In the cloud path,
+fresh-account single-node replay and bounded 3-node K3s validation show
+pod-specific enforcement resolution, repeated adversarial workloads, explicit
+degraded/failure signaling, and worker drain/reschedule continuity. The
+resulting evidence supports RAASA as a validated research prototype and
+bounded cloud-security feasibility result, not as a production-ready or
+EKS-ready system. Overall, the results suggest that adaptive containment is a
+practical direction for modern cloud and AI-agent runtime security, while
+telemetry and control-plane fragility in the live Kubernetes path remain the
+clearest blockers to a stronger v2 candidate.
 
 **Index Terms**: container security, Kubernetes security, adaptive
 containment, runtime telemetry, sandboxing, cloud security, agent runtime
@@ -78,10 +77,11 @@ Instead, the goal is to show that an adaptive containment loop can be built
 honestly, instrumented clearly, and validated across both local and
 cloud-native execution paths. The strongest current evidence supports the claim
 that RAASA can observe runtime behavior, produce auditable tiered decisions,
-and enforce pod-specific containment in a live Kubernetes environment. At the
-same time, the live cloud-native path reveals the clearest remaining weakness:
-telemetry and control-plane fragility, especially around `metrics.k8s.io`
-timeout behavior under stress.
+and enforce pod-specific containment in live Kubernetes environments, with
+support from both fresh-account single-node replay and bounded 3-node K3s
+validation on AWS. At the same time, the live cloud-native path reveals the
+clearest remaining weakness: telemetry and control-plane fragility, especially
+around `metrics.k8s.io` timeout behavior under stress.
 
 The contributions of this paper are fivefold:
 
@@ -94,10 +94,12 @@ The contributions of this paper are fivefold:
    unprivileged reasoning from privileged control through a constrained IPC
    boundary.
 4. It extends the architecture into a live AWS-hosted Kubernetes path with
-   pod-specific containment behavior.
+   pod-specific containment behavior across both fresh-account single-node
+   replay and bounded 3-node K3s validation.
 5. It provides a reproducible research artifact and an honest evaluation
-   boundary that identifies telemetry/control-plane fragility as the main
-   remaining blocker to a stronger v2 candidate.
+   boundary that identifies telemetry/control-plane fragility and lack of
+   managed-cluster evidence as the main remaining blockers to a stronger v2
+   candidate.
 
 The rest of the paper is organized as follows. Section 2 defines the problem
 statement and threat model. Section 3 presents the system design. Section 4
@@ -124,17 +126,25 @@ workload justifies doing so. The system therefore treats containment as a
 runtime control problem rather than a one-time configuration decision.
 
 The threat model is deliberately limited to workload classes that can be
-measured and discussed honestly in the current research artifact. These include
-`benign_steady`, `benign_bursty`, `suspicious`, and `malicious_pattern`
-workloads. The goal is not to prove comprehensive protection against every
-possible cloud attack, but to make the adaptive-versus-static trade-off
-observable and measurable.
+measured and discussed honestly in the current research artifact. In the local
+path, these include benign steady-state, benign bursty, suspicious, and
+malicious-pattern workloads. In the cloud-native path, they expand into a
+bounded adversarial matrix that includes benign control, syscall storm,
+process fanout, network burst, and agent dependency/exfiltration behaviors. The
+goal is not to prove comprehensive protection against every possible cloud
+attack, but to make the adaptive-versus-static trade-off observable and
+measurable across a truthful set of bounded workload families.
 
 The paper also maintains clear non-claims. RAASA does not claim complete
 defense against container escape, full prevention of exfiltration or lateral
-movement, or enterprise-grade production readiness. The current live validation
-is single-node rather than multi-node or multi-tenant. These boundaries are
-essential to the credibility of the work.
+movement, enterprise-grade production readiness, or EKS robustness. The
+current live validation includes fresh-account single-node replay and bounded
+3-node K3s evidence, but not multi-tenant or managed-control-plane validation.
+These boundaries are essential to the credibility of the work.
+
+For artifact review and rebuttal hygiene, the explicit scope boundary is also
+tracked in the standalone non-claims table:
+[docs/tables/generated/scope_nonclaims.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/tables/generated/scope_nonclaims.md).
 
 ## 3. System Design
 
@@ -148,6 +158,8 @@ both observations and the reasons behind the chosen actions.
 **Fig. 1.** RAASA Observe-Assess-Decide-Act-Audit control loop, showing
 telemetry collection, bounded risk assessment, tiered policy reasoning,
 privilege-separated enforcement, and audit logging.
+
+*Paper asset source:* [docs/figures/raasa_control_loop.dot](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/raasa_control_loop.dot)
 
 This structure serves both technical and research purposes. Technically, it
 keeps telemetry, reasoning, enforcement, and logging separate so each can be
@@ -179,13 +191,13 @@ supports direct comparison between adaptive behavior and static baselines. This
 path is the simplest environment for demonstrating the central adaptive
 containment trade-off.
 
-In the cloud-native path, the architecture is extended into an AWS-hosted K3s
-environment. Here, the observer and enforcement logic operate within a more
-realistic orchestration context where pod identity, namespace context, and
-pod-specific enforcement resolution become central concerns. The implementation
-uses a privilege-separated sidecar model so that containment actions are
-performed through a dedicated enforcement component rather than through a fully
-privileged controller.
+In the cloud-native path, the architecture is extended into AWS-hosted K3s
+environments. Here, the observer and enforcement logic operate within a more
+realistic orchestration context where pod identity, namespace context,
+node-local agent selection, and pod-specific enforcement resolution become
+central concerns. The implementation uses a privilege-separated sidecar model
+so that containment actions are performed through a dedicated enforcement
+component rather than through a fully privileged controller.
 
 The controller stack itself is intentionally framed around one truthful default
 story. The tuned linear controller is the primary controller for the paper. The
@@ -197,6 +209,8 @@ treated as the main reasoning engine in the current paper.
 controller, privileged enforcer sidecar, probe path, and pod-specific
 host-veth enforcement boundary.
 
+*Paper asset source:* [docs/figures/raasa_multinode_k3s.dot](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/raasa_multinode_k3s.dot)
+
 ## 5. Evaluation
 
 This section evaluates whether adaptive containment provides a more balanced
@@ -206,7 +220,8 @@ live Kubernetes deployment. The evaluation is intentionally bounded. The goal
 is not to claim universal cloud-runtime protection, but to test whether RAASA
 can 1) outperform static baselines locally, 2) preserve benign utility while
 still containing malicious behavior, and 3) demonstrate pod-specific
-containment behavior in a live AWS-hosted Kubernetes path.
+containment behavior and bounded multi-node continuity in a live AWS-hosted
+K3s path.
 
 ### 5.1 Evaluation Questions
 
@@ -234,10 +249,19 @@ profiles:
 
 The primary local scenario used for the paper is `small_tuned`, which captures
 the core adaptive-versus-static trade-off without introducing unnecessary scale
-complexity into the main story. The cloud evaluation extends the architecture
-into an AWS-hosted K3s environment, where the local Docker telemetry path is
-replaced by a Kubernetes-oriented observer path and enforcement is routed
-through a privilege-separated sidecar.
+complexity into the main story. The cloud evaluation proceeds in two bounded
+phases. First, the architecture is replayed on a fresh AWS Free-plan account
+as a single-node K3s bootstrap and short soak. Second, it is exercised on a
+3-node K3s cluster where the local Docker telemetry path is replaced by a
+Kubernetes-oriented observer path and enforcement is routed through a
+privilege-separated sidecar.
+
+The evaluated envelope is therefore explicit and narrow: local Docker for the
+adaptive-versus-static comparison, fresh-account single-node K3s for replay
+and short soak, and bounded 3-node K3s for soak, repeated adversarial matrix,
+failure/stress behavior, and worker drain/reschedule continuity. It does not
+include EKS, multi-tenant isolation, long-duration soak, or high-availability
+claims.
 
 ### 5.3 Local Results
 
@@ -267,6 +291,10 @@ behavior justifies tighter control.
 
 Table I summarizes the primary local comparison.
 
+*Canonical table source:* [docs/tables/generated/local_baseline_comparison.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/tables/generated/local_baseline_comparison.md)<br>
+*Companion plot:* [docs/figures/generated/local_baseline_tradeoff.svg](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/generated/local_baseline_tradeoff.svg)<br>
+*Editable plot source:* [docs/figures/plot_local_baseline_tradeoff.py](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/plot_local_baseline_tradeoff.py)
+
 | Mode | Scenario | Precision | Recall | FPR | BRR | UE |
 |------|----------|-----------|--------|-----|-----|----|
 | `static_L1` | small baseline | 0.00 | 0.00 | 0.00 | 0.00 | 0 |
@@ -277,11 +305,13 @@ Table I summarizes the primary local comparison.
 ### 5.4 Cloud-Native Results
 
 To evaluate whether the architecture remains meaningful outside the local
-Docker-based path, RAASA is extended into an AWS-hosted K3s environment. The
+Docker-based path, RAASA is extended into AWS-hosted K3s environments. The
 strongest paper-safe cloud claim is not that the entire Kubernetes path is
 production-ready. Rather, it is that RAASA can perform pod-specific
-containment in a live Kubernetes environment while maintaining a
-privilege-separated controller/enforcer architecture.
+containment in live Kubernetes environments while maintaining a
+privilege-separated controller/enforcer architecture, and that this claim is
+reproducible on a fresh account and remains coherent in a bounded 3-node K3s
+setting.
 
 The AWS results show that the cloud-native path progressed from early
 enforcement ambiguity toward pod-specific host-veth resolution and validated
@@ -291,23 +321,39 @@ rather than as simple throughput reduction. Under refined validation, service
 resolution fails and direct reachability is disrupted, making containment the
 more accurate description of the observed semantics.
 
-The strongest later-stage stability evidence in the repository is the repeated
-closed-loop soak result on the AWS testbed, which records `10 / 10` passing
-cycles on `2026-05-09`. This supports repeatability on the current single-node
-live testbed, though not broad production robustness. The AWS artifacts also
-show that the tuned linear controller remained the most truthful primary
+The canonical authoring version of the cloud-evidence ladder is maintained in
+[docs/tables/generated/cloud_evidence_ladder.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/tables/generated/cloud_evidence_ladder.md),
+with the chronological companion figure sourced from
+[docs/figures/raasa_validation_progression.dot](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/raasa_validation_progression.dot).
+
+The strongest cloud story in the repository now has two layers. The first is a
+fresh-account single-node replay that reproduced bootstrap and soak behavior on
+an AWS Free-plan account, showing that the system can be re-established from a
+clean account state rather than only on a long-lived host. The second is a
+bounded 3-node K3s campaign that passed a `3 / 3` closed-loop soak, a `2 / 2`
+repeated five-workload adversarial matrix, a failure-injection sequence with
+clean fake-pod `ERR` handling, a `30 s / 6` worker Metrics API stress probe
+with `62` complete audit rows and `0` worker failures, and a worker
+drain/reschedule continuity test. Earlier single-node soak evidence remains
+useful as a historical repeatability point, but the bounded 3-node results are
+the strongest current support for distributed K3s claims. The AWS artifacts
+also show that the tuned linear controller remained the most truthful primary
 controller once the live evidence was reconciled against the ML path.
 
 Table II summarizes the main AWS/K3s milestones that support the current
 paper-safe cloud claim.
 
+*Canonical table source:* [docs/tables/generated/cloud_evidence_ladder.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/tables/generated/cloud_evidence_ladder.md)<br>
+*Companion progression figure source:* [docs/figures/raasa_validation_progression.dot](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/raasa_validation_progression.dot)
+
 | Date | Milestone | Evidence | Paper Interpretation |
 |------|-----------|----------|----------------------|
 | 2026-04-26 | Phase 1D universal resolution validation | `raasa-net-server`, `raasa-net-client`, and `raasa-bench-client` resolved cleanly to host-side veth interfaces; benchmark `L1` stayed near `0.014 s`, while `L3` stretched to about `123.05 s` with `0 B/s` | Pod-specific containment works in live K3s rather than only in local Docker |
 | 2026-04-26 | Phase 1F refined semantics | Under `L3`, DNS lookups fail, `ClusterIP` traffic fails, and direct pod-IP traffic also fails with `0 B/s` | `L3` should be described as hard containment, not just bandwidth shaping |
-| 2026-04-26 | Phase 1G live calibration snapshot | `default/raasa-test-benign-compute` held at `L1`, while `default/raasa-test-malicious-cpu` moved `L1 -> L2 -> L3` under calibrated probe-path settings | Tuned linear control is the truthful primary controller story |
-| 2026-05-09 | Closed-loop soak stability | `10 / 10` passing cycles with per-cycle audit capture on the AWS single-node testbed | The current cloud path is repeatable on the captured testbed |
-| 2026-05-09 | Diagnostic control-plane failures | repeated `metrics.k8s.io` errors, `podmetrics ... not found`, and timeout-driven telemetry gaps | The main blocker is telemetry/control-plane fragility, not the basic containment idea |
+| 2026-05-14 | Fresh-account single-node replay | Fresh AWS Free-plan account, `m7i-flex.large` bootstrap, live sanity capture, and stable `2 / 2` replay soak on a clean-account K3s host | The cloud path is reproducible from a clean account state, not only on a previously prepared host |
+| 2026-05-14 | Bounded 3-node K3s soak and repeated adversarial matrix | `3 / 3` closed-loop soak passed and `2 / 2` repeated five-workload matrix runs passed with benign total L3 count `0` | The current cloud path remains coherent beyond single-node replay in a bounded multi-node K3s setting |
+| 2026-05-14 | Failure handling, stress, and reschedule continuity | Failure injection recorded explicit degraded telemetry and fake-pod `ERR`; Metrics API stress preserved `62` complete rows with `0` worker failures; worker drain rescheduled the benign pod while preserving post-drain audit continuity on the surviving worker | The architecture tolerates bounded degraded-mode events and worker drain/reschedule in the current 3-node K3s envelope |
+| 2026-05-09 and 2026-05-14 | Diagnostic control-plane failures and corrections | repeated `metrics.k8s.io` errors, timeout-driven telemetry gaps, and node-local agent-resolution assumptions required explicit handling in the harness | The main blocker is telemetry/control-plane fragility and cloud-path operational complexity, not the basic containment idea |
 
 ### 5.5 Main Limitation Exposed by Evaluation
 
@@ -315,9 +361,30 @@ The most important limitation revealed by the evaluation is not that adaptive
 containment fails conceptually. It is that the cloud-native telemetry and
 control-plane path remains operationally fragile under stress. In the AWS
 artifacts, repeated `metrics.k8s.io` timeout behavior appears as the dominant
-technical blocker. This issue matters because even a correct containment policy
-loses practical strength if the telemetry path used to support it becomes
+technical blocker, and the bounded 3-node campaign further showed that
+node-local agent resolution and workload placement assumptions must be handled
+explicitly for multi-node evidence to remain trustworthy. This issue matters
+because even a correct containment policy loses practical strength if the
+telemetry path or node-local control assumptions used to support it become
 unstable in live execution.
+
+The degraded-mode evidence behind this conclusion is summarized in
+[docs/tables/generated/failure_degraded_mode_summary.md](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/tables/generated/failure_degraded_mode_summary.md)
+and the companion plot
+[docs/figures/generated/cloud_degraded_mode_summary.svg](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/generated/cloud_degraded_mode_summary.svg),
+with the editable plotting source in
+[docs/figures/plot_degraded_mode_summary.py](/C:/Users/Admin/OneDrive/Desktop/CC/CC_research/docs/figures/plot_degraded_mode_summary.py).
+
+Table III gives the compact degraded-mode summary used for paper-facing
+interpretation.
+
+| Injected condition | Observed status | Paper interpretation |
+|--------------------|-----------------|----------------------|
+| Metrics API outage | `10` audit rows, `9` partial telemetry rows, `metrics_error:9`, new tiers `L3:10` | The controller exposes degraded telemetry instead of silently masking the outage |
+| Syscall probe pause | `11` audit rows, `7` partial telemetry rows, `probe_stale:7`, new tiers `L3:11` | Probe degradation is surfaced explicitly rather than hidden behind a false clean reading |
+| Fake-pod IPC fail-closed check | IPC response `ERR` | The privileged path rejects an invalid target and fails closed |
+| Agent restart recovery | agent pod changed after restart and recovery was observed | The bounded experiment shows post-restart continuity, not high availability |
+| Metrics API bounded stress | `30 s`, `6` workers, `62` complete audit rows, `0` worker failures | Bounded stress remained interpretable without collapsing the cloud path |
 
 ### 5.6 Evaluation Summary
 
@@ -325,10 +392,11 @@ Taken together, the evaluation supports four main conclusions. First, adaptive
 containment is superior to both static permissive and static strict baselines
 under the bounded workload model used in the paper. Second, RAASA can preserve
 benign utility while still containing malicious behavior in the local path.
-Third, the architecture can carry over into a live AWS-hosted Kubernetes path
-with pod-specific containment behavior and repeatable closed-loop evidence.
-Fourth, the strongest remaining limitation lies in the telemetry/control-plane
-path rather than in the core adaptive-containment idea itself.
+Third, the architecture can carry over into live AWS-hosted K3s paths with
+fresh-account reproducibility, pod-specific containment behavior, and bounded
+multi-node continuity evidence. Fourth, the strongest remaining limitation lies
+in the telemetry/control-plane path rather than in the core adaptive-
+containment idea itself.
 
 ## 6. Discussion and Limitations
 
@@ -350,10 +418,11 @@ privilege separation.
 
 The AWS-hosted Kubernetes result matters because it validates that the core
 idea survives outside a local harness. However, the cloud-native validation is
-currently grounded in a single-node live testbed rather than a multi-node or
-multi-tenant deployment. The workload model is also intentionally bounded, and
-the strongest validated controller story remains the tuned linear controller,
-not the ML path. The LLM advisor is similarly optional and secondary.
+still bounded: it now includes fresh-account single-node replay and a 3-node
+K3s deployment, but not multi-tenant or managed-control-plane evidence. The
+workload model is also intentionally bounded, and the strongest validated
+controller story remains the tuned linear controller, not the ML path. The LLM
+advisor is similarly optional and secondary.
 
 The clearest limitation of the current system is the live Kubernetes telemetry
 and control-plane path. The strongest evidence in the repository indicates that
@@ -365,8 +434,9 @@ softened, because it improves the credibility of the paper.
 Within these boundaries, the results remain meaningful. The local experiments
 support the adaptive-containment thesis directly. The cloud-native path shows
 that the architecture can move beyond local runtime control into live
-pod-specific containment behavior. The limitations then explain what still
-separates the current system from a stronger v2 candidate.
+pod-specific containment behavior, fresh-account reproducibility, and bounded
+multi-node continuity. The limitations then explain what still separates the
+current system from a stronger v2 candidate.
 
 ## 7. Related Work
 
@@ -436,14 +506,16 @@ current architecture and evidence base.
 Five near-term directions are especially well aligned with the current paper.
 First, the live telemetry path should be made more resilient under stress and
 its degraded-mode behavior should be measured more explicitly. Second, the
-cloud-native evaluation should be extended beyond the current single-node live
-setup. Third, enforcement semantics and observability should be made easier to
-interpret at paper level through clearer degraded-mode metrics. Fourth, the
-project should benchmark AI-agent-specific threat scenarios such as destructive
-command execution, CI/CD exfiltration, suspicious dependency-install behavior,
-and runaway automation. Fifth, the ML path should be revisited only after the
-primary controller and telemetry path are more stable, so that future ablation
-claims rest on a stronger systems foundation.
+cloud-native evaluation should move from bounded 3-node K3s into a tightly
+scoped EKS smoke path and only then toward broader managed-cluster evidence.
+Third, enforcement semantics and observability should be made easier to
+interpret at paper level through clearer degraded-mode metrics and preserved
+before/after cloud inventory artifacts. Fourth, the project should benchmark
+AI-agent-specific threat scenarios such as destructive command execution, CI/CD
+exfiltration, suspicious dependency-install behavior, and runaway automation.
+Fifth, the ML path should be revisited only after the primary controller and
+telemetry path are more stable, so that future ablation claims rest on a
+stronger systems foundation.
 
 ## 9. Conclusion
 
@@ -459,17 +531,18 @@ meaningful scope. In the local path, RAASA demonstrates that adaptive
 containment can outperform both permissive and over-restrictive static
 baselines by preserving benign utility while still escalating malicious
 behavior into stricter containment tiers. In the cloud-native path, the project
-shows that the same architectural ideas can carry over into a live
-AWS-hosted Kubernetes environment with pod-specific containment behavior and a
-privilege-separated enforcement model. These results support RAASA as a
-validated research prototype rather than as a finished production-ready
-security platform.
+shows that the same architectural ideas can carry over into AWS-hosted K3s
+environments through fresh-account single-node replay and bounded 3-node
+validation with pod-specific containment behavior and a privilege-separated
+enforcement model. These results support RAASA as a validated research
+prototype rather than as a finished production-ready security platform.
 
 At the same time, the paper has deliberately maintained a narrow and truthful
 claim boundary. RAASA does not claim to solve container runtime security in
-full, and it does not yet provide multi-node or enterprise-grade evidence. The
-live Kubernetes path reveals that telemetry and control-plane fragility remain
-the main blockers between the current system and a stronger v2 candidate.
+full, and it does not yet provide EKS, multi-tenant, or enterprise-grade
+evidence. The live Kubernetes path reveals that telemetry and control-plane
+fragility remain the main blockers between the current system and a stronger v2
+candidate.
 
 Within those boundaries, RAASA still offers an important result. It shows that
 adaptive containment can be implemented as a modular, auditable, and
@@ -477,7 +550,9 @@ privilege-separated control loop that is more practically balanced than static
 sandbox allocation for modern containerized workloads. The broader conclusion
 of the paper is therefore modest but strong: adaptive containment is not yet a
 complete answer to runtime security, but it is already a defensible and
-practically meaningful direction.
+practically meaningful direction, and one that now carries bounded
+fresh-account and multi-node Kubernetes evidence rather than only a
+single-node proof-of-concept.
 
 ## Provisional IEEE Reference List (2021-2026 Research Papers Only)
 

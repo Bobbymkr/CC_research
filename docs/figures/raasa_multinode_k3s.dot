@@ -1,0 +1,88 @@
+digraph RAASAMultiNodeK3s {
+  graph [
+    rankdir=LR,
+    fontname="Helvetica",
+    fontsize=18,
+    labelloc=t,
+    label="Bounded 3-Node K3s Validation on AWS Free-Plan Credits",
+    splines=ortho,
+    nodesep=0.45,
+    ranksep=0.8,
+    pad=0.2
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    fontname="Helvetica",
+    fontsize=10.5,
+    color="#334155",
+    fillcolor="#F8FAFC",
+    margin="0.10,0.06"
+  ];
+
+  edge [
+    color="#475569",
+    penwidth=1.3,
+    arrowsize=0.8,
+    fontname="Helvetica",
+    fontsize=9.5
+  ];
+
+  operator [label="Operator workstation\nSSH / kubectl / evidence scripts", fillcolor="#EFF6FF", color="#2563EB"];
+
+  subgraph cluster_aws {
+    label="AWS EC2 / K3s Cluster";
+    color="#CBD5E1";
+    style="rounded";
+    penwidth=1.3;
+
+    subgraph cluster_cp {
+      label="Control-plane node\n44.200.44.207";
+      color="#93C5FD";
+      style="rounded";
+
+      cp_api [label="K3s API server\n172.31.12.91:6443", fillcolor="#DBEAFE", color="#2563EB"];
+      cp_agent [label="RAASA DaemonSet pod\nobserver + controller + enforcer", fillcolor="#FCE7F3", color="#BE185D"];
+    }
+
+    subgraph cluster_worker_a {
+      label="Worker A\n52.1.139.250";
+      color="#A7F3D0";
+      style="rounded";
+
+      wa_agent [label="RAASA DaemonSet pod\nnode-local agent", fillcolor="#ECFDF5", color="#059669"];
+      wa_benign [label="Benign workload pods\nsteady / compute", fillcolor="#F0FDF4", color="#16A34A"];
+      wa_veth [label="Pod-specific host-veth\nresolved for enforcement", fillcolor="#F8FAFC"];
+    }
+
+    subgraph cluster_worker_b {
+      label="Worker B\n3.90.41.117";
+      color="#FECACA";
+      style="rounded";
+
+      wb_agent [label="RAASA DaemonSet pod\nnode-local agent", fillcolor="#FEF2F2", color="#DC2626"];
+      wb_mal [label="Malicious workload pod\nsyscall / network / process fanout", fillcolor="#FEE2E2", color="#B91C1C"];
+      wb_veth [label="Pod-specific host-veth\nresolved for enforcement", fillcolor="#F8FAFC"];
+    }
+  }
+
+  operator -> cp_api [label="fresh-account bootstrap,\nsoak, matrix, failure, reschedule"];
+  cp_api -> cp_agent [label="control-plane scheduling"];
+  cp_api -> wa_agent [label="DaemonSet placement"];
+  cp_api -> wb_agent [label="DaemonSet placement"];
+  cp_api -> wa_benign [label="phase-0 and reschedule workloads"];
+  cp_api -> wb_mal [label="phase-0 malicious workload"];
+
+  wa_benign -> wa_agent [label="observe and decide", dir=both];
+  wa_agent -> wa_veth [label="node-local enforcement"];
+  wa_veth -> wa_benign [label="containment effect"];
+
+  wb_mal -> wb_agent [label="observe and decide", dir=both];
+  wb_agent -> wb_veth [label="node-local enforcement"];
+  wb_veth -> wb_mal [label="containment effect"];
+
+  wa_agent -> wb_agent [label="cluster continuity only\nnot shared enforcement", style=dashed, color="#94A3B8"];
+  cp_api -> wa_agent [label="drain / reschedule signals", style=dashed, color="#94A3B8"];
+  cp_api -> wb_agent [label="post-drain continuity", style=dashed, color="#94A3B8"];
+}
