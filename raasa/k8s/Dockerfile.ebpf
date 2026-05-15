@@ -11,9 +11,9 @@ LABEL maintainer="RAASA Research Team"
 LABEL description="Risk-Adaptive Autonomous Security Agent — eBPF Syscall Probe"
 LABEL version="1.0.0"
 
-# Install bpftrace and dependencies
+# Install bpftrace and dependencies. The Python-managed BPF loader runs from
+# the raasa-agent image, so this probe image does not need bpftool.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    bpftool \
     bpftrace \
     bc \
     clang \
@@ -26,9 +26,9 @@ WORKDIR /app
 COPY raasa/k8s/ebpf_probe.sh /app/ebpf_probe.sh
 COPY raasa/k8s/sock_ops_probe.bpf.c /app/raasa/k8s/sock_ops_probe.bpf.c
 COPY raasa/k8s/lsm_exec_block.bpf.c /app/raasa/k8s/lsm_exec_block.bpf.c
-RUN chmod +x /app/ebpf_probe.sh
+RUN sed -i 's/\r$//' /app/ebpf_probe.sh && chmod +x /app/ebpf_probe.sh
 
 # Note: The probe MUST run as root to access eBPF subsystems (SYS_ADMIN capability required).
 # This is handled by the securityContext in daemonset.yaml.
 
-ENTRYPOINT ["/app/ebpf_probe.sh"]
+ENTRYPOINT ["bash", "/app/ebpf_probe.sh"]

@@ -65,6 +65,19 @@ function Invoke-Aws {
     }
 }
 
+function Set-Utf8NoBomContent {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Value
+    )
+
+    $encoding = New-Object System.Text.UTF8Encoding -ArgumentList $false
+    [System.IO.File]::WriteAllText($Path, $Value, $encoding)
+}
+
 if (-not (Get-Command aws -ErrorAction SilentlyContinue)) {
     throw "aws CLI was not found on PATH."
 }
@@ -133,7 +146,7 @@ $policy = [ordered]@{
 }
 
 $policyPath = Join-Path $OutputDir "$PolicyName.json"
-$policy | ConvertTo-Json -Depth 16 | Set-Content -Path $policyPath -Encoding utf8
+Set-Utf8NoBomContent -Path $policyPath -Value ($policy | ConvertTo-Json -Depth 16)
 
 $summaryPath = Join-Path $OutputDir "summary.md"
 @(
@@ -224,7 +237,7 @@ if ($Validate) {
         }
     }
 
-    $results | ConvertTo-Json -Depth 8 | Set-Content -Path (Join-Path $OutputDir "validation_results.json") -Encoding utf8
+    Set-Utf8NoBomContent -Path (Join-Path $OutputDir "validation_results.json") -Value ($results | ConvertTo-Json -Depth 8)
     $results | Format-Table check, ok, exit_code -AutoSize
 
     $failed = @($results | Where-Object { -not $_.ok })

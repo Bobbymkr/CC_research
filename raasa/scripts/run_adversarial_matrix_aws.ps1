@@ -529,6 +529,9 @@ try {
             [int[]]$AllowExitCodes = @(0)
         )
 
+        $normalizedRemoteCommand = $RemoteCommand.Replace("`r`n", "`n").Replace("`r", "`n")
+        $encodedRemoteCommand = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($normalizedRemoteCommand))
+        $remoteRunner = "printf %s '$encodedRemoteCommand' | base64 -d | bash"
         $args = @(
             "-n",
             "-i", $tempKey,
@@ -539,7 +542,7 @@ try {
             "-o", "ServerAliveInterval=5",
             "-o", "ServerAliveCountMax=6",
             "$User@$TargetHost",
-            $RemoteCommand
+            $remoteRunner
         )
 
         $result = Invoke-NativeCapture `
@@ -617,8 +620,11 @@ fi
 if [ -n "$node_name" ]; then
   agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent --field-selector spec.nodeName="$node_name" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
 fi
+if [ -z "$agent" ]; then
+  agent=$(sudo k3s kubectl get pods -n raasa-system -l app=raasa-agent -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+fi
 if [ -n "$agent" ]; then
-  log=$(sudo k3s kubectl exec -n raasa-system "$agent" -c raasa-agent -- sh -c 'ls /app/raasa/logs/*.jsonl 2>/dev/null | tail -1' 2>/dev/null)
+  log=$(sudo k3s kubectl exec -n raasa-system "$agent" -c raasa-agent -- sh -c 'ls -t /app/raasa/logs/*.jsonl 2>/dev/null | head -1' 2>/dev/null)
   if [ -n "$log" ]; then
     count=$(sudo k3s kubectl exec -n raasa-system "$agent" -c raasa-agent -- env TARGET_LOG="$log" POD_REF='__POD_REF__' sh -c 'cat "$TARGET_LOG" | grep -F -c "$POD_REF" 2>/dev/null' 2>/dev/null || echo 0)
   fi
@@ -656,9 +662,11 @@ printf 'count=%s\n' "$count"
     function Get-RemoteAuditLines {
         param(
             [Parameter(Mandatory = $true)]
+            [AllowEmptyString()]
             [string]$AgentPod,
 
             [Parameter(Mandatory = $true)]
+            [AllowEmptyString()]
             [string]$LogFile,
 
             [Parameter(Mandatory = $true)]

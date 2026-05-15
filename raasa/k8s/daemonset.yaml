@@ -85,6 +85,8 @@ spec:
             medium: Memory         # Per-pod signed IPC keys and socket
         - name: audit-logs
           emptyDir: {}
+        - name: tmp
+          emptyDir: {}
         - name: config
           configMap:
             name: raasa-config
@@ -121,6 +123,8 @@ spec:
               value: "/app"
             - name: PYTHONUNBUFFERED
               value: "1"
+            - name: TMPDIR
+              value: "/tmp"
             - name: RAASA_OVERRIDE_PATH
               value: "/app/raasa/logs/overrides.json"
             - name: RAASA_APPROVAL_PATH
@@ -144,15 +148,17 @@ spec:
               mountPath: /var/run/raasa/ipc
             - name: audit-logs
               mountPath: /app/raasa/logs
+            - name: tmp
+              mountPath: /tmp
             - name: config
               mountPath: /etc/raasa
           resources:
             requests:
-              cpu: "50m"           # ~0.05 vCPU at steady state
-              memory: "128Mi"
+              cpu: "100m"          # TensorFlow/LSTM import needs a larger floor
+              memory: "512Mi"
             limits:
-              cpu: "200m"          # Never exceed 0.2 vCPU
-              memory: "512Mi"      # Bounded memory footprint
+              cpu: "1000m"
+              memory: "3Gi"
           ports:
             - name: metrics
               containerPort: 9090
@@ -214,13 +220,15 @@ spec:
               mountPath: /sys             # For cgroups memory.max writes
             - name: bpf-fs
               mountPath: /sys/fs/bpf      # For eBPF LSM block map updates
+            - name: tmp
+              mountPath: /tmp
           resources:
             requests:
               cpu: "10m"
-              memory: "32Mi"
+              memory: "64Mi"
             limits:
               cpu: "100m"
-              memory: "64Mi"
+              memory: "512Mi"
 
         # ── eBPF Sidecar: Syscall Rate Probe ─────────────────────────────────
         # The enforcer's Python BPF loader owns sock_ops + LSM load/attach and
@@ -254,13 +262,15 @@ spec:
               readOnly: true
             - name: raasa-probe-dir
               mountPath: /var/run/raasa  # Writes syscall_rate files here
+            - name: tmp
+              mountPath: /tmp
           resources:
             requests:
               cpu: "20m"
-              memory: "32Mi"
+              memory: "64Mi"
             limits:
               cpu: "100m"
-              memory: "64Mi"
+              memory: "256Mi"
 
       # ── Scheduling ────────────────────────────────────────────────────────
       terminationGracePeriodSeconds: 30
