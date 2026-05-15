@@ -1,8 +1,0 @@
-{
-  "precision": 0.9523809523809523,
-  "recall": 1.0,
-  "false_positive_rate": 0.037037037037037035,
-  "switching_rate": 0.011111111111111112,
-  "benign_restriction_rate": 0.037037037037037035,
-  "malicious_containment_rate": 1.0
-}

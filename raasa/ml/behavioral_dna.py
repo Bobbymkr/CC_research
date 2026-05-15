@@ -97,12 +97,13 @@ class BehavioralDNARegistry:
         return min(1.0, z_score / 6.0)
 
     def feature_anomaly_signal(self, feature: FeatureVector) -> tuple[float, str]:
-        image = image_fingerprint(feature.telemetry_metadata)
-        if not image:
+        images = image_fingerprints(feature.telemetry_metadata)
+        if not images:
             return 0.0, "behavioral_dna_image_missing"
-        if image not in self.baselines:
-            return 0.0, "behavioral_dna_baseline_missing"
-        return self.anomaly_signal(image, feature_to_vector(feature)), "behavioral_dna_ok"
+        for image in images:
+            if image in self.baselines:
+                return self.anomaly_signal(image, feature_to_vector(feature)), "behavioral_dna_ok"
+        return 0.0, "behavioral_dna_baseline_missing"
 
     def save(self, path: str | Path) -> None:
         output_path = Path(path)
@@ -118,11 +119,19 @@ class BehavioralDNARegistry:
 
 
 def image_fingerprint(metadata: Mapping[str, object]) -> str:
+    fingerprints = image_fingerprints(metadata)
+    return fingerprints[0] if fingerprints else ""
+
+
+def image_fingerprints(metadata: Mapping[str, object]) -> list[str]:
+    fingerprints: list[str] = []
     for key in ("image_sha", "image_id", "imageID", "image"):
         value = metadata.get(key)
         if value:
-            return str(value).strip()
-    return ""
+            fingerprint = str(value).strip()
+            if fingerprint and fingerprint not in fingerprints:
+                fingerprints.append(fingerprint)
+    return fingerprints
 
 
 def record_to_vector(record: Mapping[str, object]) -> list[float]:

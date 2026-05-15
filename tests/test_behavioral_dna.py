@@ -114,6 +114,33 @@ class BehavioralDNARegistryTests(unittest.TestCase):
         self.assertTrue(any(reason.startswith("behavioral_dna=") for reason in result.reasons))
         self.assertEqual(len(feature_to_vector(feature)), 9)
 
+    def test_feature_signal_falls_back_to_image_when_digest_baseline_missing(self) -> None:
+        registry = BehavioralDNARegistry(min_samples=6, max_components=1)
+        registry.fit_records(self._records(image="ubuntu:24.04"))
+
+        signal, status = registry.feature_anomaly_signal(
+            FeatureVector(
+                container_id="c1",
+                timestamp=datetime.now(timezone.utc),
+                cpu_signal=0.90,
+                memory_signal=0.90,
+                process_signal=0.90,
+                network_signal=0.90,
+                syscall_signal=0.90,
+                syscall_jsd_signal=0.90,
+                file_entropy_signal=0.90,
+                network_entropy_signal=0.90,
+                dns_entropy_signal=0.90,
+                telemetry_metadata={
+                    "image_id": "docker-pullable://ubuntu@sha256:missing-from-registry",
+                    "image": "ubuntu:24.04",
+                },
+            )
+        )
+
+        self.assertEqual(status, "behavioral_dna_ok")
+        self.assertGreater(signal, 0.9)
+
 
 if __name__ == "__main__":
     unittest.main()

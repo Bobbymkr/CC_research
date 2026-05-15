@@ -6,7 +6,7 @@ param(
 
     [string]$KeyPath = $env:RAASA_AWS_KEY_PATH,
 
-    [string]$ConfigPath = (Join-Path (Get-Location) "raasa\configs\config_tuned_small_linear_probe.yaml"),
+    [string]$ConfigPath = (Join-Path (Get-Location) "raasa\configs\config_v2_full_pipeline.yaml"),
 
     [string]$ConfigMapNamespace = "raasa-system",
 

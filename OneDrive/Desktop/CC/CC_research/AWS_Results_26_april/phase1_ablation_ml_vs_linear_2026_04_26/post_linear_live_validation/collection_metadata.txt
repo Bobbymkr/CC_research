@@ -1,7 +1,0 @@
-Host=54.227.40.170
-User=ubuntu
-CollectedAtLocal=
-2026-04-26T11:16:55.8881152+05:30
-AgentPod=raasa-agent-xbtwc
-MaliciousPod=raasa-test-malicious-cpu
-MaliciousUid=fb426540-0948-4317-9851-0c0e2a3d2a31

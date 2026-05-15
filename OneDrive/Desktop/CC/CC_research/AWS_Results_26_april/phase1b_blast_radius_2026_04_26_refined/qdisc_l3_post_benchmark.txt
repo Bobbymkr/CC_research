@@ -1,3 +1,0 @@
-qdisc tbf 8020: root refcnt 2 rate 1Mbit burst 4Kb lat 400ms 
- Sent 59380 bytes 289 pkt (dropped 23, overlimits 33 requeues 0) 
- backlog 0b 0p requeues 0

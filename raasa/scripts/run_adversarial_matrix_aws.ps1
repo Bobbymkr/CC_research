@@ -139,6 +139,8 @@ function Get-AuditSummary {
     $telemetryStatuses = @{}
     $syscallStatuses = @{}
     $reasons = @{}
+    $behavioralDnaReasons = @{}
+    $temporalLstmReasons = @{}
     $rows = 0
     $parseErrors = 0
     $maxCpu = 0.0
@@ -159,6 +161,15 @@ function Get-AuditSummary {
                 Add-MapCount -Map $telemetryStatuses -Value ([string]$record.metadata.telemetry_status)
                 Add-MapCount -Map $syscallStatuses -Value ([string]$record.metadata.syscall_status)
                 Add-MapCount -Map $reasons -Value ([string]$record.reason)
+                foreach ($assessmentReason in @($record.assessment_reasons)) {
+                    $reasonText = [string]$assessmentReason
+                    if ($reasonText.StartsWith("behavioral_dna=")) {
+                        Add-MapCount -Map $behavioralDnaReasons -Value $reasonText
+                    }
+                    if ($reasonText.StartsWith("temporal_lstm=")) {
+                        Add-MapCount -Map $temporalLstmReasons -Value $reasonText
+                    }
+                }
 
                 $cpuValue = if ($null -ne $record.cpu) { [double]$record.cpu } else { 0.0 }
                 $processSignalValue = if ($null -ne $record.f_proc) { [double]$record.f_proc } else { 0.0 }
@@ -185,6 +196,8 @@ function Get-AuditSummary {
         telemetry_statuses = (Format-MapSummary -Map $telemetryStatuses)
         syscall_statuses = (Format-MapSummary -Map $syscallStatuses)
         reasons = (Format-MapSummary -Map $reasons)
+        behavioral_dna_reasons = (Format-MapSummary -Map $behavioralDnaReasons)
+        temporal_lstm_reasons = (Format-MapSummary -Map $temporalLstmReasons)
         max_cpu = [Math]::Round($maxCpu, 4)
         max_process_signal = [Math]::Round($maxProcessSignal, 4)
         max_network_signal = [Math]::Round($maxNetworkSignal, 4)
@@ -784,6 +797,8 @@ sudo k3s kubectl exec -n raasa-system __AGENT_POD__ -c raasa-agent -- env TARGET
         Add-Content -Path $summaryPath -Value "- Max signals: cpu=$($auditSummary.max_cpu), proc=$($auditSummary.max_process_signal), net=$($auditSummary.max_network_signal), sys=$($auditSummary.max_syscall_signal)"
         Add-Content -Path $summaryPath -Value "- Telemetry statuses: $($auditSummary.telemetry_statuses)"
         Add-Content -Path $summaryPath -Value "- Syscall statuses: $($auditSummary.syscall_statuses)"
+        Add-Content -Path $summaryPath -Value "- Behavioral DNA reasons: $($auditSummary.behavioral_dna_reasons)"
+        Add-Content -Path $summaryPath -Value "- Temporal LSTM reasons: $($auditSummary.temporal_lstm_reasons)"
         Add-Content -Path $summaryPath -Value ""
 
         Invoke-SSH -RemoteCommand "sudo k3s kubectl delete ns $namespace --ignore-not-found --wait=false" -TimeoutSeconds 120 -AllowExitCodes @(0, 1) |

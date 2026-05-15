@@ -1,2 +1,0 @@
-NAME                READY   STATUS    RESTARTS   AGE   IP              NODE               NOMINATED NODE   READINESS GATES
-raasa-agent-kkgmn   3/3     Running   0          10s   172.31.16.234   ip-172-31-16-234   <none>           <none>

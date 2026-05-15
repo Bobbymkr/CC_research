@@ -1,4 +1,0 @@
-namespace/raasa-bench unchanged
-deployment.apps/raasa-bench-server unchanged
-service/raasa-bench-server unchanged
-deployment.apps/raasa-bench-client unchanged

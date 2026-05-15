@@ -1,8 +1,0 @@
-Host=54.227.40.170
-User=ubuntu
-CollectedAtLocal=
-2026-04-26T14:13:46.8793983+05:30
-AgentPod=raasa-agent-4hq5z
-BenchClientRef=raasa-bench/raasa-bench-client-5fd64dcfbf-hvl28
-DemoClientRef=raasa-demo/raasa-net-client-669f7c4cf8-2d9w8
-DemoServerRef=raasa-demo/raasa-net-server-79c9b5b7d6-5jfk2

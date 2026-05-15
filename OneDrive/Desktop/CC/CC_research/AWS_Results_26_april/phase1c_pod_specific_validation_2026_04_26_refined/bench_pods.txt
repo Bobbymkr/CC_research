@@ -1,3 +1,0 @@
-NAME                                  READY   STATUS    RESTARTS   AGE   IP           NODE               NOMINATED NODE   READINESS GATES
-raasa-bench-client-5fd64dcfbf-hvl28   1/1     Running   0          32m   10.42.0.39   ip-172-31-16-234   <none>           <none>
-raasa-bench-server-7c49558994-2nmcp   1/1     Running   0          24m   10.42.0.41   ip-172-31-16-234   <none>           <none>

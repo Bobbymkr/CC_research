@@ -1,4 +1,0 @@
-namespace/raasa-demo unchanged
-deployment.apps/raasa-net-server unchanged
-service/raasa-net-server unchanged
-deployment.apps/raasa-net-client unchanged

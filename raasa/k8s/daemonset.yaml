@@ -184,6 +184,16 @@ spec:
               value: "60"
             - name: RAASA_LSM_BLOCK_MAP_PIN
               value: "/sys/fs/bpf/raasa/maps/raasa_lsm_blocked_tgids"
+            - name: RAASA_ENFORCER_LOAD_BPF
+              value: "true"
+            - name: RAASA_BPF_PROBE_DIR
+              value: "/var/run/raasa"
+            - name: RAASA_BPF_PIN_DIR
+              value: "/sys/fs/bpf/raasa"
+            - name: RAASA_BPF_CGROUP_PATH
+              value: "/sys/fs/cgroup"
+            - name: RAASA_BPF_EXPORT_INTERVAL_SECONDS
+              value: "5"
           securityContext:
             runAsUser: 0                  # Override Dockerfile USER to run as root
             runAsGroup: 1000
@@ -196,6 +206,8 @@ spec:
                 - NET_ADMIN              # For tc shaping on host veths
                 - SYS_ADMIN              # For cgroup v2 memory.max writes
           volumeMounts:
+            - name: raasa-probe-dir
+              mountPath: /var/run/raasa   # Exports pod_edges.jsonl for ObserverK8s
             - name: raasa-ipc
               mountPath: /var/run/raasa/ipc  # For signed IPC socket and keys
             - name: sys
@@ -211,11 +223,17 @@ spec:
               memory: "64Mi"
 
         # ── eBPF Sidecar: Syscall Rate Probe ─────────────────────────────────
-        # In production, replace with Tetragon or Falco sidecar.
-        # This placeholder reads /proc/<pid>/status syscall counts per pod cgroup.
+        # The enforcer's Python BPF loader owns sock_ops + LSM load/attach and
+        # exports pod_edges.jsonl. This sidecar keeps per-pod syscall, file,
+        # and DNS sample collection isolated in the probe image.
         - name: syscall-probe
           image: raasa/ebpf-probe:1.0.0   # Custom bpftrace image
           imagePullPolicy: IfNotPresent
+          env:
+            - name: ENABLE_SOCK_OPS_PROBE
+              value: "0"
+            - name: ENABLE_LSM_EXEC_BLOCKING
+              value: "0"
           securityContext:
             privileged: true              # Required for eBPF BPF syscall
             capabilities:
@@ -340,9 +358,9 @@ data:
     ml:
       use_ml_model: false
       model_path: "/app/raasa/models/model.joblib"
-      use_behavioral_dna: false
+      use_behavioral_dna: true
       behavioral_dna_model_path: "/app/raasa/models/behavioral_dna_registry.joblib"
-      use_temporal_lstm: false
+      use_temporal_lstm: true
       temporal_lstm_model_path: "/app/raasa/models/temporal_lstm.keras"
 
     audit:
@@ -365,4 +383,4 @@ data:
         default_smoke_duration_seconds: 30
 
     evaluation:
-      controller_variant: linear_tuned
+      controller_variant: v2_full_pipeline

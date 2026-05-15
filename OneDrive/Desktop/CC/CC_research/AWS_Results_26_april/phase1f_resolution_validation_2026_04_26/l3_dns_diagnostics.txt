@@ -1,9 +1,0 @@
-service_host=raasa-bench-server.raasa-bench.svc.cluster.local
---- resolv.conf ---
-search raasa-bench.svc.cluster.local svc.cluster.local cluster.local ec2.internal
-nameserver 10.43.0.10
-options ndots:5
---- getent ---
---- nslookup ---
-;; connection timed out; no servers could be reached
-

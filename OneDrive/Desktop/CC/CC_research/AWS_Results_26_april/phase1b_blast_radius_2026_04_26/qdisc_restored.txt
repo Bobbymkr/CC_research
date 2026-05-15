@@ -1,1 +1,0 @@
-qdisc tbf 801a: root refcnt 2 rate 1Gbit burst 4Kb lat 400ms 

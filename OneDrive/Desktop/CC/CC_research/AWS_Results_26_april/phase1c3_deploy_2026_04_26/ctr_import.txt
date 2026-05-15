@@ -1,3 +1,0 @@
-docker.io/raasa/agent:phase1c3          	saved	
-application/vnd.oci.image.index.v1+json sha256:835d4e65eff40cef9e9ea2b8eb38cb9993ad9ae25b057682a9a78f5f4fecb2c9
-Importing	elapsed: 3.0 s	total:   0.0 B	(0.0 B/s)	

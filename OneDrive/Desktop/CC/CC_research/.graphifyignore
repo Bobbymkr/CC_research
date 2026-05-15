@@ -1,8 +1,0 @@
-node_modules/
-__pycache__/
-.git/
-graphify-out/
-*.log
-dist/
-build/
-.venv/

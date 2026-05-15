@@ -30,6 +30,11 @@ from raasa.core.ipc import (
     ipc_gid_from_env,
 )
 
+try:
+    from raasa.k8s.bpf_loader import BpfLoader
+except Exception:  # pragma: no cover - loader failures degrade at startup
+    BpfLoader = None  # type: ignore[assignment]
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(name)s: %(message)s'
@@ -73,6 +78,7 @@ _K8S_CORE_API: Optional[Any] = None
 _K8S_NETWORKING_API: Optional[Any] = None
 _LAST_INTERFACE_BY_CONTAINER: Dict[str, str] = {}
 _LSM_TRACKED_PIDS_BY_CONTAINER: Dict[str, set[int]] = {}
+_BPF_LOADER: Optional[Any] = None
 _HOST_INTERFACE_SKIPLIST = {"lo", "eth0", DEFAULT_INTERFACE}
 _TRUTHY_ENV_VALUES = {"1", "true", "yes", "on"}
 NETWORK_POLICY_LABEL_KEY = "raasa.io/contained-pod"
@@ -345,6 +351,53 @@ def _apply_network_policy(container_id: str, tier: str) -> bool:
 
 def _allow_default_interface_fallback() -> bool:
     return os.environ.get("RAASA_ALLOW_DEFAULT_INTERFACE_FALLBACK", "").strip().lower() in _TRUTHY_ENV_VALUES
+
+
+def _enforcer_bpf_loader_enabled() -> bool:
+    raw = os.environ.get("RAASA_ENFORCER_LOAD_BPF", "true")
+    return raw.strip().lower() in _TRUTHY_ENV_VALUES
+
+
+def _bpf_export_interval_seconds() -> float:
+    try:
+        return max(1.0, float(os.environ.get("RAASA_BPF_EXPORT_INTERVAL_SECONDS", "5")))
+    except ValueError:
+        return 5.0
+
+
+def _init_bpf_loader_from_env() -> Optional[Any]:
+    global _BPF_LOADER
+    if not _enforcer_bpf_loader_enabled():
+        logger.info("RAASA eBPF loader disabled by RAASA_ENFORCER_LOAD_BPF")
+        _BPF_LOADER = None
+        return None
+    if BpfLoader is None:
+        logger.warning("RAASA eBPF loader module could not be imported; eBPF programs will not be loaded.")
+        _BPF_LOADER = None
+        return None
+
+    try:
+        loader = BpfLoader.from_env()
+        results = loader.load_all()
+        for result in results.values():
+            log = logger.info if result.ok else logger.warning
+            log("RAASA eBPF %s: %s", result.component, result.status_line)
+        _BPF_LOADER = loader
+        return loader
+    except Exception as exc:
+        logger.warning("RAASA eBPF loader startup failed: %s", exc)
+        _BPF_LOADER = None
+        return None
+
+
+def _export_bpf_edges_once(loader: Any) -> None:
+    try:
+        result = loader.export_pod_edges()
+    except Exception as exc:
+        logger.debug("RAASA eBPF pod edge export failed: %s", exc)
+        return
+    if not result.ok and result.status not in {"edge_map_missing", "edge_map_empty"}:
+        logger.debug("RAASA eBPF pod edge export status: %s", result.status_line)
 
 
 def _find_host_pids_for_pod_uid(pod_uid: str) -> list[int]:
@@ -651,6 +704,7 @@ def main():
         exit(1)
 
     logger.info("Starting Privileged Enforcer Sidecar")
+    bpf_loader = _init_bpf_loader_from_env()
     ipc_gid = ipc_gid_from_env(default=1000)
     public_key_path = os.environ.get("RAASA_IPC_SIGNING_PUBLIC_KEY", DEFAULT_PUBLIC_KEY_PATH)
     socket_path = os.environ.get("RAASA_IPC_SOCKET_PATH", DEFAULT_SOCKET_PATH)
@@ -674,7 +728,11 @@ def main():
     # Keep daemon alive
     try:
         while True:
-            time.sleep(3600)
+            if bpf_loader is not None:
+                _export_bpf_edges_once(bpf_loader)
+                time.sleep(_bpf_export_interval_seconds())
+            else:
+                time.sleep(3600)
     except KeyboardInterrupt:
         logger.info("Shutting down...")
         server.stop()

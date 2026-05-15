@@ -69,6 +69,13 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(config.syscall_source, "probe")
         self.assertEqual(config.syscall_cap, 5000.0)
 
+    def test_v2_full_pipeline_config_enables_dna_and_lstm(self) -> None:
+        config = load_config("raasa/configs/config_v2_full_pipeline.yaml")
+        self.assertEqual(config.syscall_source, "probe")
+        self.assertTrue(config.use_behavioral_dna)
+        self.assertTrue(config.use_temporal_lstm)
+        self.assertEqual(config.controller_variant, "v2_full_pipeline")
+
 
 class ExperimentCliTests(unittest.TestCase):
     def test_run_experiment_accepts_iteration_count_for_repro_commands(self) -> None:
