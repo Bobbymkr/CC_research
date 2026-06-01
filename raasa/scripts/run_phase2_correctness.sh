@@ -81,6 +81,7 @@ prepare_workloads() {
   sleep 5
 
   local pod keep_pod wanted
+  local delete_pods=()
   for pod in "${WORKLOAD_PODS[@]}"; do
     wanted=false
     for keep_pod in "${keep[@]}"; do
@@ -90,9 +91,19 @@ prepare_workloads() {
       fi
     done
     if [[ "$wanted" == "false" ]]; then
-      kubectl delete pod "$pod" --ignore-not-found=true --wait=true --timeout=60s >/dev/null 2>&1 || true
+      delete_pods+=("$pod")
     fi
   done
+
+  if [[ ${#delete_pods[@]} -gt 0 ]]; then
+    kubectl delete pod "${delete_pods[@]}" \
+      --ignore-not-found=true \
+      --wait=false \
+      --grace-period=0 \
+      --force \
+      >/dev/null 2>&1 || true
+    sleep 3
+  fi
 
   for pod in "${keep[@]}"; do
     wait_pod_running "$pod" default 120 || return 1

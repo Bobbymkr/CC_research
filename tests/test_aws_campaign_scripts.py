@@ -120,4 +120,5 @@ def test_phase2_isolates_requested_workloads_per_test() -> None:
     text = read_script("run_phase2_correctness.sh")
 
     assert "prepare_workloads" in text
-    assert 'kubectl delete pod "$pod"' in text
+    assert 'kubectl delete pod "${delete_pods[@]}"' in text
+    assert "--wait=false" in text
