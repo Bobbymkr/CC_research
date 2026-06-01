@@ -105,3 +105,19 @@ def test_phase1_cpu_variance_is_warning_only() -> None:
 
     assert "Phase 2 performs classification gates" in text
     assert "Workload $pod non-deterministic" not in text
+
+
+def test_phase2_uses_exact_audit_and_structured_tier_parsing() -> None:
+    text = read_script("run_phase2_correctness.sh")
+
+    assert "audit_for_run" in text
+    assert "run_${run_id}.jsonl" in text
+    assert "json.loads" in text
+    assert "new_tier" in text
+
+
+def test_phase2_isolates_requested_workloads_per_test() -> None:
+    text = read_script("run_phase2_correctness.sh")
+
+    assert "prepare_workloads" in text
+    assert 'kubectl delete pod "$pod"' in text

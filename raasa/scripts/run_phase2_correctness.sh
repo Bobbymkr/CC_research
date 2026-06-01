@@ -31,6 +31,17 @@ CONFIG="${RAASA_CONFIG:-$RASA_BASE/raasa/configs/config_tuned_small_linear_probe
 LOG_DIR="$RASA_BASE/raasa/logs"
 mkdir -p "$LOG_DIR"
 WORKLOADS_YAML="$RASA_BASE/raasa/k8s/workloads.yaml"
+WORKLOAD_PODS=(
+  ws-benign-idle
+  ws-benign-compute
+  ws-benign-bursty
+  ws-suspicious-proc
+  ws-malicious-cpu
+  ws-malicious-net
+  ws-malicious-syscall
+  ws-blast-client-a
+  ws-blast-client-b
+)
 
 info "RAASA Phase 2 — Closed-Loop Correctness Tests"
 info "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -63,8 +74,42 @@ wait_pod_running() {
 }
 
 # ── Helper: get latest audit log ───────────────────────────────────────────────
-latest_audit() {
-  find "$LOG_DIR" -maxdepth 1 -name '*.jsonl' 2>/dev/null | sort -r | head -1 || echo ""
+prepare_workloads() {
+  local keep=("$@")
+
+  kubectl apply -f "$WORKLOADS_YAML" 2>&1 || true
+  sleep 5
+
+  local pod keep_pod wanted
+  for pod in "${WORKLOAD_PODS[@]}"; do
+    wanted=false
+    for keep_pod in "${keep[@]}"; do
+      if [[ "$pod" == "$keep_pod" ]]; then
+        wanted=true
+        break
+      fi
+    done
+    if [[ "$wanted" == "false" ]]; then
+      kubectl delete pod "$pod" --ignore-not-found=true --wait=true --timeout=60s >/dev/null 2>&1 || true
+    fi
+  done
+
+  for pod in "${keep[@]}"; do
+    wait_pod_running "$pod" default 120 || return 1
+  done
+  wait_pod_running raasa-net-server default 120 || true
+}
+
+audit_for_run() {
+  local run_id=$1
+  local exact="$LOG_DIR/run_${run_id}.jsonl"
+  if [[ -f "$exact" ]]; then
+    echo "$exact"
+    return
+  fi
+  find "$LOG_DIR" -maxdepth 1 -name "run_${run_id}*.jsonl" -printf '%T@ %p\n' 2>/dev/null \
+    | sort -nr \
+    | awk 'NR==1 {sub(/^[^ ]+ /, ""); print}'
 }
 
 # ── Helper: run one experiment and collect audit log ───────────────────────────
@@ -74,6 +119,10 @@ run_test() {
   local pods=("$@")
 
   sep
+  if ! prepare_workloads "${pods[@]}"; then
+    fail "C2 $test_id: One or more requested pods failed to reach Running state."
+    return
+  fi
   info "TEST $test_id — Pods: ${pods[*]} | Duration: ${duration}s"
 
   # Start background observer (trap ensures cleanup on any exit)
@@ -105,7 +154,7 @@ run_test() {
 
   # Collect audit log
   local audit
-  audit=$(latest_audit)
+  audit=$(audit_for_run "$run_id")
   if [[ -n "$audit" ]]; then
     cp "$audit" "$RESULTS_DIR/${test_id}_audit.jsonl"
     info "  Audit: $RESULTS_DIR/${test_id}_audit.jsonl"
@@ -158,6 +207,89 @@ check_tier() {
 }
 
 # ── Deploy all workloads ───────────────────────────────────────────────────────
+check_tier() {
+  local test_id=$1 pod=$2 expected=$3
+  local audit="$RESULTS_DIR/${test_id}_audit.jsonl"
+
+  if [[ ! -f "$audit" ]]; then
+    fail "C2 $test_id/$pod: No audit log — cannot verify tier."
+    return
+  fi
+
+  local tiers
+  tiers=$(python3 - "$audit" "default/$pod" <<'PY'
+import collections
+import json
+import sys
+
+audit, container_id = sys.argv[1], sys.argv[2]
+counts = collections.Counter()
+with open(audit, encoding="utf-8") as fh:
+    for line in fh:
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if row.get("container_id") != container_id:
+            continue
+        tier = row.get("new_tier") or row.get("applied_tier") or row.get("proposed_tier")
+        if tier:
+            counts[tier] += 1
+print(" ".join(f"{count} {tier}" for tier, count in sorted(counts.items())))
+PY
+  )
+  info "  $pod tiers observed: $tiers"
+
+  case "$expected" in
+    never_L3)
+      if python3 - "$audit" "default/$pod" <<'PY'
+import json
+import sys
+
+audit, container_id = sys.argv[1], sys.argv[2]
+with open(audit, encoding="utf-8") as fh:
+    for line in fh:
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if row.get("container_id") == container_id and (row.get("new_tier") or row.get("applied_tier")) == "L3":
+            sys.exit(0)
+sys.exit(1)
+PY
+      then
+        fail "C2 FAILED: $pod reached L3 (expected: never L3)"
+      else
+        info "  ✓ $pod never reached L3 (C2 PASSED for this pod)"
+      fi
+      ;;
+    must_L3)
+      local time_to_l3
+      time_to_l3=$(python3 - "$audit" "default/$pod" <<'PY'
+import json
+import sys
+
+audit, container_id = sys.argv[1], sys.argv[2]
+with open(audit, encoding="utf-8") as fh:
+    for line in fh:
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if row.get("container_id") == container_id and (row.get("new_tier") or row.get("applied_tier")) == "L3":
+            print(row.get("timestamp", "unknown"))
+            break
+PY
+      )
+      if [[ -n "$time_to_l3" ]]; then
+        info "  ✓ $pod reached L3 at $time_to_l3 (C2 PASSED for this pod)"
+      else
+        fail "C2 FAILED: $pod never reached L3 within test window (expected: must_L3)"
+      fi
+      ;;
+  esac
+}
+
 info "Deploying all workloads..."
 kubectl apply -f "$WORKLOADS_YAML" 2>&1 || true
 sleep 15
