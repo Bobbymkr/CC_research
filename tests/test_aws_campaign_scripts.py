@@ -6,6 +6,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_DIR = REPO_ROOT / "raasa" / "scripts"
+WORKLOADS_YAML = REPO_ROOT / "raasa" / "k8s" / "workloads.yaml"
 
 PHASE_SCRIPTS = [
     "run_phase0_foundation.sh",
@@ -83,3 +84,17 @@ def test_phase7_uses_safe_failure_injection_primitives() -> None:
 def test_tracked_legacy_shell_scripts_are_not_empty() -> None:
     for script in TRACKED_LEGACY_SCRIPTS:
         assert (SCRIPT_DIR / script).stat().st_size > 0, script
+
+
+def test_blast_clients_have_enough_memory_for_iperf_startup() -> None:
+    text = WORKLOADS_YAML.read_text(encoding="utf-8")
+
+    for pod in ["ws-blast-client-a", "ws-blast-client-b"]:
+        match = re.search(
+            rf"name: {pod}\b.*?limits:\s*\n\s*cpu: \"300m\"\s*\n\s*memory: \"(\d+)Mi\"",
+            text,
+            re.DOTALL,
+        )
+
+        assert match, pod
+        assert int(match.group(1)) >= 128, pod

@@ -1,11 +1,11 @@
 # Graph Report - CC_research  (2026-06-01)
 
 ## Corpus Check
-- 149 files · ~2,406,813 words
+- 149 files · ~2,406,852 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3646 nodes · 5029 edges · 323 communities detected
+- 3647 nodes · 5030 edges · 323 communities detected
 - Extraction: 77% EXTRACTED · 23% INFERRED · 0% AMBIGUOUS · INFERRED: 1180 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
@@ -717,16 +717,16 @@ Cohesion: 0.2
 Nodes (1): experiments/__init__.py note L1
 
 ### Community 89 - "Community 89"
-Cohesion: 0.2
-Nodes (9): 1. Executive Summary & Core Paradigm, 2. What is this project currently capable of?, 3. Current Performance & Relevancy to the "World of Today and Tomorrow", 4. What changes does it require to push it further?, 5. In which new areas should this project be tested?, 🛡️ Cloud Security & K8s Native Defense, Comprehensive Evaluation Report: RAASA Architecture, 🤖 Multi-Agent OS & AI Execution Runtimes (+1 more)
+Cohesion: 0.33
+Nodes (7): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_duplicate_grep_count_zeroes(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
 
 ### Community 90 - "Community 90"
 Cohesion: 0.2
-Nodes (9): Activity Log, Current status after May 11 bounded Metrics API stress probing, Current status after May 11 live hardening, Current status after May 11 observer hardening, Current status after May 11 override-path and harness hardening, Current status after Phase 1D, Immediate next actions, Objectives for Phase 1 (+1 more)
+Nodes (9): 1. Executive Summary & Core Paradigm, 2. What is this project currently capable of?, 3. Current Performance & Relevancy to the "World of Today and Tomorrow", 4. What changes does it require to push it further?, 5. In which new areas should this project be tested?, 🛡️ Cloud Security & K8s Native Defense, Comprehensive Evaluation Report: RAASA Architecture, 🤖 Multi-Agent OS & AI Execution Runtimes (+1 more)
 
 ### Community 91 - "Community 91"
 Cohesion: 0.2
-Nodes (7): Adversarial Workload Matrix Summary, agent-dependency-exfiltration, benign-control, network-burst, Overall, process-fanout, syscall-storm
+Nodes (9): Activity Log, Current status after May 11 bounded Metrics API stress probing, Current status after May 11 live hardening, Current status after May 11 observer hardening, Current status after May 11 override-path and harness hardening, Current status after Phase 1D, Immediate next actions, Objectives for Phase 1 (+1 more)
 
 ### Community 92 - "Community 92"
 Cohesion: 0.2
@@ -734,7 +734,7 @@ Nodes (7): Adversarial Workload Matrix Summary, agent-dependency-exfiltration, b
 
 ### Community 93 - "Community 93"
 Cohesion: 0.2
-Nodes (9): 1. Executive Summary & Core Paradigm, 2. What is this project currently capable of?, 3. Current Performance & Relevancy to the "World of Today and Tomorrow", 4. What changes does it require to push it further?, 5. In which new areas should this project be tested?, 🛡️ Cloud Security & K8s Native Defense, Comprehensive Evaluation Report: RAASA Architecture, 🤖 Multi-Agent OS & AI Execution Runtimes (+1 more)
+Nodes (7): Adversarial Workload Matrix Summary, agent-dependency-exfiltration, benign-control, network-burst, Overall, process-fanout, syscall-storm
 
 ### Community 94 - "Community 94"
 Cohesion: 0.2
@@ -757,20 +757,20 @@ Cohesion: 0.2
 Nodes (9): 1. Executive Summary & Core Paradigm, 2. What is this project currently capable of?, 3. Current Performance & Relevancy to the "World of Today and Tomorrow", 4. What changes does it require to push it further?, 5. In which new areas should this project be tested?, 🛡️ Cloud Security & K8s Native Defense, Comprehensive Evaluation Report: RAASA Architecture, 🤖 Multi-Agent OS & AI Execution Runtimes (+1 more)
 
 ### Community 99 - "Community 99"
+Cohesion: 0.2
+Nodes (9): 1. Executive Summary & Core Paradigm, 2. What is this project currently capable of?, 3. Current Performance & Relevancy to the "World of Today and Tomorrow", 4. What changes does it require to push it further?, 5. In which new areas should this project be tested?, 🛡️ Cloud Security & K8s Native Defense, Comprehensive Evaluation Report: RAASA Architecture, 🤖 Multi-Agent OS & AI Execution Runtimes (+1 more)
+
+### Community 100 - "Community 100"
 Cohesion: 0.42
 Nodes (8): build_tables(), _default_column_spec(), _latex_escape(), main(), render_csv(), render_latex(), render_markdown(), TableSpec
 
-### Community 100 - "Community 100"
+### Community 101 - "Community 101"
 Cohesion: 0.39
 Nodes (7): Get-AgentPodOnNode(), Get-PodNodeName(), Get-WorkerNodeNames(), Invoke-NativeCapture(), Invoke-SSH(), Save-RemoteOutput(), Wait-ForAuditEvidence()
 
-### Community 101 - "Community 101"
+### Community 102 - "Community 102"
 Cohesion: 0.47
 Nodes (7): Copy-Remote(), Get-MetricSummary(), Get-QdiscStats(), Invoke-Benchmark(), Invoke-SSH(), New-RestrictedKeyCopy(), Set-QdiscRate()
-
-### Community 102 - "Community 102"
-Cohesion: 0.39
-Nodes (7): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_duplicate_grep_count_zeroes(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
 
 ### Community 103 - "Community 103"
 Cohesion: 0.22
@@ -1994,11 +1994,11 @@ Nodes (1): Start the socket listener in a background thread.
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `ContainerTelemetry` connect `Community 1` to `Community 0`, `Community 15`?**
-  _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **Why does `ObserverK8s` connect `Community 1` to `Community 0`, `Community 15`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `run_controller()` connect `Community 0` to `Community 1`, `Community 4`, `Community 14`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `solve_stackelberg_game()` connect `Community 19` to `Community 4`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `handle_command()` connect `Community 9` to `Community 4`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Are the 149 inferred relationships involving `ContainerTelemetry` (e.g. with `BaseObserver` and `base_observer.py note L1`) actually correct?**
   _`ContainerTelemetry` has 149 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 118 inferred relationships involving `BaseObserver` (e.g. with `ContainerTelemetry` and `Observer`) actually correct?**

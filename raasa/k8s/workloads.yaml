@@ -295,10 +295,10 @@ spec:
       resources:
         requests:
           cpu: "50m"
-          memory: "32Mi"
+          memory: "64Mi"
         limits:
           cpu: "300m"
-          memory: "64Mi"
+          memory: "256Mi"
 
 ---
 apiVersion: v1
@@ -331,10 +331,10 @@ spec:
       resources:
         requests:
           cpu: "50m"
-          memory: "32Mi"
+          memory: "64Mi"
         limits:
           cpu: "300m"
-          memory: "64Mi"
+          memory: "256Mi"
 
 ---
 # ─── Network Benchmark Server (iperf3 + HTTP) ────────────────────────────────
