@@ -405,7 +405,7 @@
       "source_file": "raasa\\__init__.py",
       "source_location": "L1",
       "id": "raasa_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -413,7 +413,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/experiments/__init__.py",
       "source_location": "L1",
-      "community": 88,
+      "community": 89,
       "norm_label": "experiments/__init__.py note l1",
       "degree": 8,
       "raw_label": "experiments/__init__.py note L1",
@@ -429,7 +429,7 @@
       "source_file": "raasa\\analysis\\metrics.py",
       "source_location": "L1",
       "id": "raasa_analysis_metrics_py",
-      "community": 12,
+      "community": 13,
       "norm_label": "metrics.py"
     },
     {
@@ -438,7 +438,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L15",
       "id": "metrics_load_records",
-      "community": 12,
+      "community": 13,
       "norm_label": "load_records()"
     },
     {
@@ -447,7 +447,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L23",
       "id": "metrics_compute_metrics",
-      "community": 12,
+      "community": 13,
       "norm_label": "compute_metrics()"
     },
     {
@@ -456,7 +456,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L140",
       "id": "metrics_compute_grouped_metrics",
-      "community": 12,
+      "community": 13,
       "norm_label": "compute_grouped_metrics()"
     },
     {
@@ -465,7 +465,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L157",
       "id": "metrics_write_metrics_summary",
-      "community": 12,
+      "community": 13,
       "norm_label": "write_metrics_summary()"
     },
     {
@@ -474,7 +474,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L169",
       "id": "metrics_write_grouped_metrics_summary",
-      "community": 12,
+      "community": 13,
       "norm_label": "write_grouped_metrics_summary()"
     },
     {
@@ -483,7 +483,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L182",
       "id": "metrics_get_tier",
-      "community": 12,
+      "community": 13,
       "norm_label": "_get_tier()"
     },
     {
@@ -492,7 +492,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L186",
       "id": "metrics_summary_path_for",
-      "community": 12,
+      "community": 13,
       "norm_label": "_summary_path_for()"
     },
     {
@@ -501,7 +501,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L193",
       "id": "metrics_grouped_summary_path_for",
-      "community": 12,
+      "community": 13,
       "norm_label": "_grouped_summary_path_for()"
     },
     {
@@ -510,7 +510,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L201",
       "id": "metrics_safe_divide",
-      "community": 12,
+      "community": 13,
       "norm_label": "_safe_divide()"
     },
     {
@@ -519,7 +519,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L207",
       "id": "metrics_mean",
-      "community": 12,
+      "community": 13,
       "norm_label": "_mean()"
     },
     {
@@ -528,7 +528,7 @@
       "source_file": "raasa\\analysis\\overhead.py",
       "source_location": "L1",
       "id": "raasa_analysis_overhead_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "overhead.py"
     },
     {
@@ -537,7 +537,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L22",
       "id": "overhead_summarize_overhead_report",
-      "community": 14,
+      "community": 12,
       "norm_label": "summarize_overhead_report()"
     },
     {
@@ -546,7 +546,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L52",
       "id": "overhead_measure_benign_only_overhead",
-      "community": 14,
+      "community": 12,
       "norm_label": "measure_benign_only_overhead()"
     },
     {
@@ -555,7 +555,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L96",
       "id": "overhead_measure_baseline_cpu",
-      "community": 14,
+      "community": 12,
       "norm_label": "_measure_baseline_cpu()"
     },
     {
@@ -564,7 +564,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L115",
       "id": "overhead_measure_controller_cpu",
-      "community": 14,
+      "community": 12,
       "norm_label": "_measure_controller_cpu()"
     },
     {
@@ -573,7 +573,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L166",
       "id": "overhead_load_loop_durations",
-      "community": 14,
+      "community": 12,
       "norm_label": "_load_loop_durations()"
     },
     {
@@ -582,7 +582,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L174",
       "id": "overhead_prime_cpu_samplers",
-      "community": 14,
+      "community": 12,
       "norm_label": "_prime_cpu_samplers()"
     },
     {
@@ -591,7 +591,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L180",
       "id": "overhead_percentile",
-      "community": 14,
+      "community": 12,
       "norm_label": "_percentile()"
     },
     {
@@ -600,7 +600,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L193",
       "id": "overhead_mean",
-      "community": 14,
+      "community": 12,
       "norm_label": "_mean()"
     },
     {
@@ -609,7 +609,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L199",
       "id": "overhead_require_psutil",
-      "community": 14,
+      "community": 12,
       "norm_label": "_require_psutil()"
     },
     {
@@ -618,7 +618,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L204",
       "id": "overhead_build_parser",
-      "community": 14,
+      "community": 12,
       "norm_label": "_build_parser()"
     },
     {
@@ -627,7 +627,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L216",
       "id": "overhead_cli",
-      "community": 14,
+      "community": 12,
       "norm_label": "_cli()"
     },
     {
@@ -636,7 +636,7 @@
       "source_file": "raasa\\analysis\\plots.py",
       "source_location": "L1",
       "id": "raasa_analysis_plots_py",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py"
     },
     {
@@ -645,7 +645,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L55",
       "id": "plots_bar_group",
-      "community": 12,
+      "community": 13,
       "norm_label": "_bar_group()"
     },
     {
@@ -654,7 +654,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L110",
       "id": "plots_plot_detection_comparison",
-      "community": 12,
+      "community": 13,
       "norm_label": "plot_detection_comparison()"
     },
     {
@@ -663,7 +663,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L141",
       "id": "plots_plot_cost_comparison",
-      "community": 12,
+      "community": 13,
       "norm_label": "plot_cost_comparison()"
     },
     {
@@ -672,7 +672,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L171",
       "id": "plots_plot_stability_comparison",
-      "community": 12,
+      "community": 13,
       "norm_label": "plot_stability_comparison()"
     },
     {
@@ -681,7 +681,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L201",
       "id": "plots_plot_tier_occupancy",
-      "community": 12,
+      "community": 13,
       "norm_label": "plot_tier_occupancy()"
     },
     {
@@ -690,7 +690,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L244",
       "id": "plots_plot_tier_trajectory",
-      "community": 12,
+      "community": 13,
       "norm_label": "plot_tier_trajectory()"
     },
     {
@@ -699,7 +699,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L301",
       "id": "plots_generate_all_plots",
-      "community": 12,
+      "community": 13,
       "norm_label": "generate_all_plots()"
     },
     {
@@ -708,7 +708,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L318",
       "id": "plots_build_plot_manifest",
-      "community": 12,
+      "community": 13,
       "norm_label": "build_plot_manifest()"
     },
     {
@@ -717,7 +717,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L358",
       "id": "plots_write_plot_manifest",
-      "community": 12,
+      "community": 13,
       "norm_label": "write_plot_manifest()"
     },
     {
@@ -726,7 +726,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L368",
       "id": "plots_mean_summary",
-      "community": 12,
+      "community": 13,
       "norm_label": "_mean_summary()"
     },
     {
@@ -735,7 +735,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L390",
       "id": "plots_cli",
-      "community": 12,
+      "community": 13,
       "norm_label": "_cli()"
     },
     {
@@ -743,7 +743,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L1",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l1",
       "degree": 2,
       "raw_label": "plots.py note L1",
@@ -758,7 +758,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L64",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l64",
       "degree": 1,
       "raw_label": "plots.py note L64",
@@ -773,7 +773,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L114",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l114",
       "degree": 1,
       "raw_label": "plots.py note L114",
@@ -788,7 +788,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L145",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l145",
       "degree": 1,
       "raw_label": "plots.py note L145",
@@ -803,7 +803,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L175",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l175",
       "degree": 1,
       "raw_label": "plots.py note L175",
@@ -818,7 +818,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L205",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l205",
       "degree": 1,
       "raw_label": "plots.py note L205",
@@ -833,7 +833,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L305",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l305",
       "degree": 1,
       "raw_label": "plots.py note L305",
@@ -848,7 +848,7 @@
       "file_type": "rationale",
       "source_file": "RM_practical/code/analysis/plots.py",
       "source_location": "L369",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py note l369",
       "degree": 1,
       "raw_label": "plots.py note L369",
@@ -1062,7 +1062,7 @@
       "source_file": "raasa\\analysis\\__init__.py",
       "source_location": "L1",
       "id": "raasa_analysis_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -1827,7 +1827,7 @@
       "source_file": "RM_practical\\code\\core\\config.py",
       "source_location": "L121",
       "id": "config_load_config",
-      "community": 4,
+      "community": 12,
       "norm_label": "load_config()"
     },
     {
@@ -2463,7 +2463,7 @@
       "source_file": "raasa\\core\\logger.py",
       "source_location": "L1",
       "id": "raasa_core_logger_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "logger.py"
     },
     {
@@ -2481,7 +2481,7 @@
       "source_file": "RM_practical\\code\\core\\logger.py",
       "source_location": "L15",
       "id": "logger_auditlogger_init",
-      "community": 14,
+      "community": 12,
       "norm_label": ".__init__()"
     },
     {
@@ -2499,7 +2499,7 @@
       "source_file": "RM_practical\\code\\core\\logger.py",
       "source_location": "L78",
       "id": "logger_build_run_filename",
-      "community": 14,
+      "community": 12,
       "norm_label": "build_run_filename()"
     },
     {
@@ -2508,7 +2508,7 @@
       "source_file": "RM_practical\\code\\core\\logger.py",
       "source_location": "L91",
       "id": "logger_build_run_path",
-      "community": 14,
+      "community": 12,
       "norm_label": "build_run_path()"
     },
     {
@@ -2517,7 +2517,7 @@
       "source_file": "RM_practical\\code\\core\\logger.py",
       "source_location": "L95",
       "id": "logger_sanitize_run_label",
-      "community": 14,
+      "community": 12,
       "norm_label": "_sanitize_run_label()"
     },
     {
@@ -3345,7 +3345,7 @@
       "source_file": "raasa\\core\\__init__.py",
       "source_location": "L1",
       "id": "raasa_core_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -3354,7 +3354,7 @@
       "source_file": "raasa\\experiments\\run_experiment.py",
       "source_location": "L1",
       "id": "raasa_experiments_run_experiment_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "run_experiment.py"
     },
     {
@@ -3363,7 +3363,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L20",
       "id": "run_experiment_startedcontainer",
-      "community": 14,
+      "community": 12,
       "norm_label": "startedcontainer"
     },
     {
@@ -3372,7 +3372,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L27",
       "id": "run_experiment_docker_runner",
-      "community": 14,
+      "community": 12,
       "norm_label": "_docker_runner()"
     },
     {
@@ -3381,7 +3381,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L31",
       "id": "run_experiment_build_parser",
-      "community": 14,
+      "community": 12,
       "norm_label": "build_parser()"
     },
     {
@@ -3390,7 +3390,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L52",
       "id": "run_experiment_main",
-      "community": 14,
+      "community": 12,
       "norm_label": "main()"
     },
     {
@@ -3399,7 +3399,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L142",
       "id": "run_experiment_start_scenario",
-      "community": 14,
+      "community": 12,
       "norm_label": "start_scenario()"
     },
     {
@@ -3408,7 +3408,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L180",
       "id": "run_experiment_cleanup_scenario",
-      "community": 14,
+      "community": 12,
       "norm_label": "cleanup_scenario()"
     },
     {
@@ -3417,7 +3417,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L188",
       "id": "run_experiment_write_manifest_row",
-      "community": 14,
+      "community": 12,
       "norm_label": "_write_manifest_row()"
     },
     {
@@ -3426,7 +3426,7 @@
       "source_file": "raasa\\experiments\\scenarios.py",
       "source_location": "L1",
       "id": "raasa_experiments_scenarios_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "scenarios.py"
     },
     {
@@ -3435,7 +3435,7 @@
       "source_file": "RM_practical\\code\\experiments\\scenarios.py",
       "source_location": "L10",
       "id": "scenarios_scenarioitem",
-      "community": 14,
+      "community": 12,
       "norm_label": "scenarioitem"
     },
     {
@@ -3444,7 +3444,7 @@
       "source_file": "RM_practical\\code\\experiments\\scenarios.py",
       "source_location": "L68",
       "id": "scenarios_build_scenario",
-      "community": 14,
+      "community": 12,
       "norm_label": "build_scenario()"
     },
     {
@@ -3453,7 +3453,7 @@
       "source_file": "raasa\\experiments\\__init__.py",
       "source_location": "L1",
       "id": "raasa_experiments_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -6636,7 +6636,7 @@
       "source_file": "raasa\\scripts\\__init__.py",
       "source_location": "L1",
       "id": "raasa_scripts_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -6645,7 +6645,7 @@
       "source_file": "raasa\\workloads\\catalog.py",
       "source_location": "L1",
       "id": "raasa_workloads_catalog_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "catalog.py"
     },
     {
@@ -6654,7 +6654,7 @@
       "source_file": "RM_practical\\code\\workloads\\catalog.py",
       "source_location": "L7",
       "id": "catalog_workloadspec",
-      "community": 14,
+      "community": 12,
       "norm_label": "workloadspec"
     },
     {
@@ -6663,7 +6663,7 @@
       "source_file": "raasa\\workloads\\__init__.py",
       "source_location": "L1",
       "id": "raasa_workloads_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -6720,7 +6720,7 @@
       "source_file": "RM_practical\\scenarios.py",
       "source_location": "L1",
       "id": "rm_practical_scenarios_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "scenarios.py"
     },
     {
@@ -6729,7 +6729,7 @@
       "source_file": "RM_practical\\code\\analysis\\metrics.py",
       "source_location": "L1",
       "id": "rm_practical_code_analysis_metrics_py",
-      "community": 12,
+      "community": 13,
       "norm_label": "metrics.py"
     },
     {
@@ -6738,7 +6738,7 @@
       "source_file": "RM_practical\\code\\analysis\\overhead.py",
       "source_location": "L1",
       "id": "rm_practical_code_analysis_overhead_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "overhead.py"
     },
     {
@@ -6747,7 +6747,7 @@
       "source_file": "RM_practical\\code\\analysis\\plots.py",
       "source_location": "L1",
       "id": "rm_practical_code_analysis_plots_py",
-      "community": 12,
+      "community": 13,
       "norm_label": "plots.py"
     },
     {
@@ -6756,7 +6756,7 @@
       "source_file": "RM_practical\\code\\analysis\\__init__.py",
       "source_location": "L1",
       "id": "rm_practical_code_analysis_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -6927,7 +6927,7 @@
       "source_file": "RM_practical\\code\\core\\logger.py",
       "source_location": "L1",
       "id": "rm_practical_code_core_logger_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "logger.py"
     },
     {
@@ -7044,7 +7044,7 @@
       "source_file": "RM_practical\\code\\core\\__init__.py",
       "source_location": "L1",
       "id": "rm_practical_code_core_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -7053,7 +7053,7 @@
       "source_file": "RM_practical\\code\\experiments\\run_experiment.py",
       "source_location": "L1",
       "id": "rm_practical_code_experiments_run_experiment_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "run_experiment.py"
     },
     {
@@ -7062,7 +7062,7 @@
       "source_file": "RM_practical\\code\\experiments\\scenarios.py",
       "source_location": "L1",
       "id": "rm_practical_code_experiments_scenarios_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "scenarios.py"
     },
     {
@@ -7071,7 +7071,7 @@
       "source_file": "RM_practical\\code\\experiments\\__init__.py",
       "source_location": "L1",
       "id": "rm_practical_code_experiments_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -7374,7 +7374,7 @@
       "source_file": "RM_practical\\code\\workloads\\catalog.py",
       "source_location": "L1",
       "id": "rm_practical_code_workloads_catalog_py",
-      "community": 14,
+      "community": 12,
       "norm_label": "catalog.py"
     },
     {
@@ -7401,7 +7401,7 @@
       "source_file": "RM_practical\\verification\\tests\\test_analysis.py",
       "source_location": "L1",
       "id": "rm_practical_verification_tests_test_analysis_py",
-      "community": 12,
+      "community": 13,
       "norm_label": "test_analysis.py"
     },
     {
@@ -7410,7 +7410,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L16",
       "id": "test_analysis_analysistests",
-      "community": 12,
+      "community": 13,
       "norm_label": "analysistests"
     },
     {
@@ -7419,7 +7419,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L17",
       "id": "test_analysis_analysistests_test_compute_metrics_returns_core_fields",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_compute_metrics_returns_core_fields()"
     },
     {
@@ -7428,7 +7428,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L96",
       "id": "test_analysis_analysistests_test_compute_metrics_supports_alternate_tier_field",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_compute_metrics_supports_alternate_tier_field()"
     },
     {
@@ -7437,7 +7437,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L116",
       "id": "test_analysis_analysistests_test_compute_grouped_metrics_by_workload_key",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_compute_grouped_metrics_by_workload_key()"
     },
     {
@@ -7446,7 +7446,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L151",
       "id": "test_analysis_analysistests_test_write_metrics_summary_outputs_json",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_write_metrics_summary_outputs_json()"
     },
     {
@@ -7455,7 +7455,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L175",
       "id": "test_analysis_analysistests_test_write_grouped_metrics_summary_outputs_json",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_write_grouped_metrics_summary_outputs_json()"
     },
     {
@@ -7464,7 +7464,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L203",
       "id": "test_analysis_analysistests_test_build_plot_manifest",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_build_plot_manifest()"
     },
     {
@@ -7473,7 +7473,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L217",
       "id": "test_analysis_analysistests_test_plot_tier_trajectory_writes_png",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_plot_tier_trajectory_writes_png()"
     },
     {
@@ -7482,7 +7482,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L240",
       "id": "test_analysis_analysistests_test_summarize_overhead_report_schema",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_summarize_overhead_report_schema()"
     },
     {
@@ -7572,7 +7572,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L10",
       "id": "test_experiments_scenariotests",
-      "community": 14,
+      "community": 12,
       "norm_label": "scenariotests"
     },
     {
@@ -7581,7 +7581,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L11",
       "id": "test_experiments_scenariotests_test_small_scenario_has_expected_mix",
-      "community": 14,
+      "community": 12,
       "norm_label": ".test_small_scenario_has_expected_mix()"
     },
     {
@@ -7590,7 +7590,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L17",
       "id": "test_experiments_scenariotests_test_large_scenario_count",
-      "community": 14,
+      "community": 12,
       "norm_label": ".test_large_scenario_count()"
     },
     {
@@ -7599,7 +7599,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L21",
       "id": "test_experiments_scenariotests_test_small_tuned_uses_heavier_malicious_workload",
-      "community": 14,
+      "community": 12,
       "norm_label": ".test_small_tuned_uses_heavier_malicious_workload()"
     },
     {
@@ -7608,7 +7608,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L26",
       "id": "test_experiments_scenariotests_test_benign_only_scenario_has_expected_mix",
-      "community": 14,
+      "community": 12,
       "norm_label": ".test_benign_only_scenario_has_expected_mix()"
     },
     {
@@ -7617,7 +7617,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L32",
       "id": "test_experiments_scenariotests_test_mixed_adversarial_scenario_has_expected_mix",
-      "community": 14,
+      "community": 12,
       "norm_label": ".test_mixed_adversarial_scenario_has_expected_mix()"
     },
     {
@@ -7626,7 +7626,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L49",
       "id": "test_experiments_configtests",
-      "community": 4,
+      "community": 12,
       "norm_label": "configtests"
     },
     {
@@ -7635,7 +7635,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L57",
       "id": "test_experiments_configtests_test_linear_tuned_config_disables_ml_model",
-      "community": 4,
+      "community": 12,
       "norm_label": ".test_linear_tuned_config_disables_ml_model()"
     },
     {
@@ -8394,7 +8394,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L1",
       "id": "tests_test_analysis_py",
-      "community": 12,
+      "community": 13,
       "norm_label": "test_analysis.py"
     },
     {
@@ -8403,7 +8403,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L52",
       "id": "test_analysis_analysistests_test_strict_metrics_expose_l2_when_l3_was_expected",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_strict_metrics_expose_l2_when_l3_was_expected()"
     },
     {
@@ -8412,7 +8412,7 @@
       "source_file": "tests\\test_analysis.py",
       "source_location": "L75",
       "id": "test_analysis_analysistests_test_under_containment_ignores_benign_expected_l2_labels",
-      "community": 12,
+      "community": 13,
       "norm_label": ".test_under_containment_ignores_benign_expected_l2_labels()"
     },
     {
@@ -8511,7 +8511,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L1",
       "id": "tests_test_aws_campaign_scripts_py",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_aws_campaign_scripts.py"
     },
     {
@@ -8520,7 +8520,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L34",
       "id": "test_aws_campaign_scripts_read_script",
-      "community": 89,
+      "community": 82,
       "norm_label": "read_script()"
     },
     {
@@ -8529,7 +8529,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L38",
       "id": "test_aws_campaign_scripts_test_orchestrator_self_relocates_to_repository_root",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_orchestrator_self_relocates_to_repository_root()"
     },
     {
@@ -8538,7 +8538,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L45",
       "id": "test_aws_campaign_scripts_test_phase_scripts_are_not_sensitive_to_sudo_home",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_phase_scripts_are_not_sensitive_to_sudo_home()"
     },
     {
@@ -8547,7 +8547,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L54",
       "id": "test_aws_campaign_scripts_test_phase_scripts_do_not_use_fragile_audit_globs",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_phase_scripts_do_not_use_fragile_audit_globs()"
     },
     {
@@ -8556,7 +8556,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L61",
       "id": "test_aws_campaign_scripts_test_phase_scripts_do_not_duplicate_grep_count_zeroes",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_phase_scripts_do_not_duplicate_grep_count_zeroes()"
     },
     {
@@ -8565,7 +8565,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L68",
       "id": "test_aws_campaign_scripts_test_phase_scripts_use_current_raasa_cli_flags",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_phase_scripts_use_current_raasa_cli_flags()"
     },
     {
@@ -8574,7 +8574,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L77",
       "id": "test_aws_campaign_scripts_test_phase7_uses_safe_failure_injection_primitives",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_phase7_uses_safe_failure_injection_primitives()"
     },
     {
@@ -8583,7 +8583,7 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L84",
       "id": "test_aws_campaign_scripts_test_tracked_legacy_shell_scripts_are_not_empty",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_tracked_legacy_shell_scripts_are_not_empty()"
     },
     {
@@ -8592,8 +8592,17 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L89",
       "id": "test_aws_campaign_scripts_test_blast_clients_have_enough_memory_for_iperf_startup",
-      "community": 89,
+      "community": 82,
       "norm_label": "test_blast_clients_have_enough_memory_for_iperf_startup()"
+    },
+    {
+      "label": "test_phase1_bursty_variance_is_warning_only()",
+      "file_type": "code",
+      "source_file": "tests\\test_aws_campaign_scripts.py",
+      "source_location": "L103",
+      "id": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "community": 82,
+      "norm_label": "test_phase1_bursty_variance_is_warning_only()"
     },
     {
       "label": "test_behavioral_dna.py",
@@ -9060,7 +9069,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L38",
       "id": "test_experiments_scenariotests_test_agent_misuse_scenario_has_agent_like_exfiltration_probe",
-      "community": 14,
+      "community": 12,
       "norm_label": ".test_agent_misuse_scenario_has_agent_like_exfiltration_probe()"
     },
     {
@@ -9069,7 +9078,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L50",
       "id": "test_experiments_configtests_test_default_config_uses_linear_tuned_story",
-      "community": 4,
+      "community": 12,
       "norm_label": ".test_default_config_uses_linear_tuned_story()"
     },
     {
@@ -9078,7 +9087,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L62",
       "id": "test_experiments_configtests_test_local_linear_config_uses_docker_scale_syscall_cap",
-      "community": 4,
+      "community": 12,
       "norm_label": ".test_local_linear_config_uses_docker_scale_syscall_cap()"
     },
     {
@@ -9087,7 +9096,7 @@
       "source_file": "tests\\test_experiments.py",
       "source_location": "L67",
       "id": "test_experiments_configtests_test_probe_linear_config_keeps_k8s_scale_syscall_cap",
-      "community": 4,
+      "community": 12,
       "norm_label": ".test_probe_linear_config_keeps_k8s_scale_syscall_cap()"
     },
     {
@@ -12479,7 +12488,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L1",
-      "community": 82,
+      "community": 83,
       "norm_label": "aws_phase0_evaluation_report.md",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_md"
     },
@@ -12488,7 +12497,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L1",
-      "community": 82,
+      "community": 83,
       "norm_label": "raasa phase 0 aws evaluation report: the telemetry resilience dilemma",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_raasa_phase_0_aws_evaluation_report_the_telemetry_resilience_dilemma"
     },
@@ -12497,7 +12506,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L8",
-      "community": 82,
+      "community": 83,
       "norm_label": "1. executive summary",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_1_executive_summary"
     },
@@ -12506,7 +12515,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L14",
-      "community": 82,
+      "community": 83,
       "norm_label": "2. empirical findings",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_2_empirical_findings"
     },
@@ -12515,7 +12524,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L16",
-      "community": 82,
+      "community": 83,
       "norm_label": "2.1 the fragility of cloud-native telemetry (k8s metrics api)",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_2_1_the_fragility_of_cloud_native_telemetry_k8s_metrics_api"
     },
@@ -12524,7 +12533,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L26",
-      "community": 82,
+      "community": 83,
       "norm_label": "2.2 the resilience of out-of-band ebpf probes",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_2_2_the_resilience_of_out_of_band_ebpf_probes"
     },
@@ -12533,7 +12542,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L33",
-      "community": 82,
+      "community": 83,
       "norm_label": "3. paper contribution & relevance",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_3_paper_contribution_relevance"
     },
@@ -12542,7 +12551,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L37",
-      "community": 82,
+      "community": 83,
       "norm_label": "today's world:",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_today_s_world"
     },
@@ -12551,7 +12560,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L40",
-      "community": 82,
+      "community": 83,
       "norm_label": "tomorrow's world (agentic & adaptive systems):",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_tomorrow_s_world_agentic_adaptive_systems"
     },
@@ -12560,7 +12569,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L43",
-      "community": 82,
+      "community": 83,
       "norm_label": "why this strengthens the paper:",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_why_this_strengthens_the_paper"
     },
@@ -12569,7 +12578,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase0_Evaluation_Report.md",
       "source_location": "L49",
-      "community": 82,
+      "community": 83,
       "norm_label": "4. next steps (phase 1)",
       "id": "aws_results_26_april_aws_phase0_evaluation_report_4_next_steps_phase_1"
     },
@@ -12722,7 +12731,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L1",
-      "community": 83,
+      "community": 84,
       "norm_label": "aws_phase1c_pod_specific_enforcement_report_2026_04_26.md",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_md"
     },
@@ -12731,7 +12740,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L1",
-      "community": 83,
+      "community": 84,
       "norm_label": "aws phase 1c pod-specific enforcement report",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_aws_phase_1c_pod_specific_enforcement_report"
     },
@@ -12740,7 +12749,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L7",
-      "community": 83,
+      "community": 84,
       "norm_label": "executive verdict",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_executive_verdict"
     },
@@ -12749,7 +12758,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L18",
-      "community": 83,
+      "community": 84,
       "norm_label": "what changed",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_what_changed"
     },
@@ -12758,7 +12767,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L35",
-      "community": 83,
+      "community": 84,
       "norm_label": "deployment evidence",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_deployment_evidence"
     },
@@ -12767,7 +12776,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L46",
-      "community": 83,
+      "community": 84,
       "norm_label": "validation design",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_validation_design"
     },
@@ -12776,7 +12785,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L58",
-      "community": 83,
+      "community": 84,
       "norm_label": "the key breakthrough",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_the_key_breakthrough"
     },
@@ -12785,7 +12794,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L69",
-      "community": 83,
+      "community": 84,
       "norm_label": "quantitative result",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_quantitative_result"
     },
@@ -12794,7 +12803,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L89",
-      "community": 83,
+      "community": 84,
       "norm_label": "interpretation",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_interpretation"
     },
@@ -12803,7 +12812,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L104",
-      "community": 83,
+      "community": 84,
       "norm_label": "remaining caveat",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_remaining_caveat"
     },
@@ -12812,7 +12821,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/AWS_Phase1C_Pod_Specific_Enforcement_Report_2026_04_26.md",
       "source_location": "L110",
-      "community": 83,
+      "community": 84,
       "norm_label": "research-grade conclusion",
       "id": "aws_results_26_april_aws_phase1c_pod_specific_enforcement_report_2026_04_26_research_grade_conclusion"
     },
@@ -15989,7 +15998,7 @@
       "file_type": "document",
       "source_file": "docs/future_implementation.md",
       "source_location": "L1",
-      "community": 87,
+      "community": 88,
       "norm_label": "future_implementation.md",
       "id": "docs_future_implementation_md"
     },
@@ -15998,7 +16007,7 @@
       "file_type": "document",
       "source_file": "docs/future_implementation.md",
       "source_location": "L1",
-      "community": 87,
+      "community": 88,
       "norm_label": "raasa v2 candidate: kubernetes/ebpf implementation progress",
       "id": "docs_future_implementation_raasa_v2_candidate_kubernetes_ebpf_implementation_progress"
     },
@@ -16007,7 +16016,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L10",
-      "community": 87,
+      "community": 88,
       "norm_label": "1. hardware & os requirements",
       "id": "docs_future_implementation_1_hardware_os_requirements"
     },
@@ -16016,7 +16025,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L16",
-      "community": 87,
+      "community": 88,
       "norm_label": "2. orchestration & container layer",
       "id": "docs_future_implementation_2_orchestration_container_layer"
     },
@@ -16025,7 +16034,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L21",
-      "community": 87,
+      "community": 88,
       "norm_label": "3. the sensory layer (ebpf detection)",
       "id": "docs_future_implementation_3_the_sensory_layer_ebpf_detection"
     },
@@ -16034,7 +16043,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L27",
-      "community": 87,
+      "community": 88,
       "norm_label": "4. the enforcement layer (network & memory throttling)",
       "id": "docs_future_implementation_4_the_enforcement_layer_network_memory_throttling"
     },
@@ -16043,7 +16052,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L33",
-      "community": 87,
+      "community": 88,
       "norm_label": "5. programming languages & sdks",
       "id": "docs_future_implementation_5_programming_languages_sdks"
     },
@@ -16052,7 +16061,7 @@
       "file_type": "document",
       "source_file": "docs/future_implementation.md",
       "source_location": "L50",
-      "community": 87,
+      "community": 88,
       "norm_label": "summary of the v2 candidate upgrade path",
       "id": "docs_future_implementation_summary_of_the_v2_candidate_upgrade_path"
     },
@@ -17429,7 +17438,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "paper_outline.md",
       "id": "docs_paper_outline_md"
     },
@@ -17438,7 +17447,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "raasa paper outline",
       "id": "docs_paper_outline_raasa_paper_outline"
     },
@@ -17447,7 +17456,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L3",
-      "community": 13,
+      "community": 14,
       "norm_label": "1. working title options",
       "id": "docs_paper_outline_1_working_title_options"
     },
@@ -17456,7 +17465,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L17",
-      "community": 13,
+      "community": 14,
       "norm_label": "2. target paper shape",
       "id": "docs_paper_outline_2_target_paper_shape"
     },
@@ -17465,7 +17474,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L35",
-      "community": 13,
+      "community": 14,
       "norm_label": "3. abstract outline",
       "id": "docs_paper_outline_3_abstract_outline"
     },
@@ -17474,7 +17483,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L37",
-      "community": 13,
+      "community": 14,
       "norm_label": "goal",
       "id": "docs_paper_outline_goal"
     },
@@ -17483,7 +17492,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L48",
-      "community": 13,
+      "community": 14,
       "norm_label": "suggested paragraph structure",
       "id": "docs_paper_outline_suggested_paragraph_structure"
     },
@@ -17492,7 +17501,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L63",
-      "community": 13,
+      "community": 14,
       "norm_label": "4. introduction outline",
       "id": "docs_paper_outline_4_introduction_outline"
     },
@@ -17501,7 +17510,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L65",
-      "community": 13,
+      "community": 14,
       "norm_label": "4.1 opening problem",
       "id": "docs_paper_outline_4_1_opening_problem"
     },
@@ -17510,7 +17519,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L74",
-      "community": 13,
+      "community": 14,
       "norm_label": "4.2 why this matters now",
       "id": "docs_paper_outline_4_2_why_this_matters_now"
     },
@@ -17519,7 +17528,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L83",
-      "community": 13,
+      "community": 14,
       "norm_label": "4.3 what raasa does",
       "id": "docs_paper_outline_4_3_what_raasa_does"
     },
@@ -17528,7 +17537,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L91",
-      "community": 13,
+      "community": 14,
       "norm_label": "4.4 main contributions paragraph",
       "id": "docs_paper_outline_4_4_main_contributions_paragraph"
     },
@@ -17537,7 +17546,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L101",
-      "community": 13,
+      "community": 14,
       "norm_label": "5. problem statement and threat model",
       "id": "docs_paper_outline_5_problem_statement_and_threat_model"
     },
@@ -17546,7 +17555,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L103",
-      "community": 13,
+      "community": 14,
       "norm_label": "5.1 problem definition",
       "id": "docs_paper_outline_5_1_problem_definition"
     },
@@ -17555,7 +17564,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L110",
-      "community": 13,
+      "community": 14,
       "norm_label": "5.2 scope",
       "id": "docs_paper_outline_5_2_scope"
     },
@@ -17564,7 +17573,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L118",
-      "community": 13,
+      "community": 14,
       "norm_label": "5.3 threat classes",
       "id": "docs_paper_outline_5_3_threat_classes"
     },
@@ -17573,7 +17582,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L128",
-      "community": 13,
+      "community": 14,
       "norm_label": "5.4 what is out of scope",
       "id": "docs_paper_outline_5_4_what_is_out_of_scope"
     },
@@ -17582,7 +17591,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L139",
-      "community": 13,
+      "community": 14,
       "norm_label": "6. system design",
       "id": "docs_paper_outline_6_system_design"
     },
@@ -17591,7 +17600,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L141",
-      "community": 13,
+      "community": 14,
       "norm_label": "6.1 design goals",
       "id": "docs_paper_outline_6_1_design_goals"
     },
@@ -17600,7 +17609,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L150",
-      "community": 13,
+      "community": 14,
       "norm_label": "6.2 high-level loop",
       "id": "docs_paper_outline_6_2_high_level_loop"
     },
@@ -17609,7 +17618,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L160",
-      "community": 13,
+      "community": 14,
       "norm_label": "6.3 data flow",
       "id": "docs_paper_outline_6_3_data_flow"
     },
@@ -17618,7 +17627,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L171",
-      "community": 13,
+      "community": 14,
       "norm_label": "6.4 privilege separation",
       "id": "docs_paper_outline_6_4_privilege_separation"
     },
@@ -17627,7 +17636,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L182",
-      "community": 13,
+      "community": 14,
       "norm_label": "6.5 tier semantics",
       "id": "docs_paper_outline_6_5_tier_semantics"
     },
@@ -17636,7 +17645,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L191",
-      "community": 13,
+      "community": 14,
       "norm_label": "7. implementation",
       "id": "docs_paper_outline_7_implementation"
     },
@@ -17645,7 +17654,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L193",
-      "community": 13,
+      "community": 14,
       "norm_label": "7.1 local path",
       "id": "docs_paper_outline_7_1_local_path"
     },
@@ -17654,7 +17663,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L201",
-      "community": 13,
+      "community": 14,
       "norm_label": "7.2 cloud path",
       "id": "docs_paper_outline_7_2_cloud_path"
     },
@@ -17663,7 +17672,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L211",
-      "community": 13,
+      "community": 14,
       "norm_label": "7.3 controller options",
       "id": "docs_paper_outline_7_3_controller_options"
     },
@@ -17672,7 +17681,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L219",
-      "community": 13,
+      "community": 14,
       "norm_label": "7.4 reproducibility",
       "id": "docs_paper_outline_7_4_reproducibility"
     },
@@ -17681,7 +17690,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L226",
-      "community": 13,
+      "community": 14,
       "norm_label": "8. evaluation",
       "id": "docs_paper_outline_8_evaluation"
     },
@@ -17690,7 +17699,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L228",
-      "community": 13,
+      "community": 14,
       "norm_label": "8.1 evaluation questions",
       "id": "docs_paper_outline_8_1_evaluation_questions"
     },
@@ -17699,7 +17708,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L237",
-      "community": 13,
+      "community": 14,
       "norm_label": "8.2 local evaluation",
       "id": "docs_paper_outline_8_2_local_evaluation"
     },
@@ -17708,7 +17717,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L253",
-      "community": 13,
+      "community": 14,
       "norm_label": "8.3 cloud evaluation",
       "id": "docs_paper_outline_8_3_cloud_evaluation"
     },
@@ -17717,7 +17726,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L264",
-      "community": 13,
+      "community": 14,
       "norm_label": "8.4 calibration and controller truthfulness",
       "id": "docs_paper_outline_8_4_calibration_and_controller_truthfulness"
     },
@@ -17726,7 +17735,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L276",
-      "community": 13,
+      "community": 14,
       "norm_label": "8.5 summary table",
       "id": "docs_paper_outline_8_5_summary_table"
     },
@@ -17735,7 +17744,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L293",
-      "community": 13,
+      "community": 14,
       "norm_label": "9. discussion and limitations",
       "id": "docs_paper_outline_9_discussion_and_limitations"
     },
@@ -17744,7 +17753,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L297",
-      "community": 13,
+      "community": 14,
       "norm_label": "9.1 what the results mean",
       "id": "docs_paper_outline_9_1_what_the_results_mean"
     },
@@ -17753,7 +17762,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L304",
-      "community": 13,
+      "community": 14,
       "norm_label": "9.2 main limitation",
       "id": "docs_paper_outline_9_2_main_limitation"
     },
@@ -17762,7 +17771,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L311",
-      "community": 13,
+      "community": 14,
       "norm_label": "9.3 other limitations",
       "id": "docs_paper_outline_9_3_other_limitations"
     },
@@ -17771,7 +17780,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L320",
-      "community": 13,
+      "community": 14,
       "norm_label": "9.4 why the limitations are acceptable",
       "id": "docs_paper_outline_9_4_why_the_limitations_are_acceptable"
     },
@@ -17780,7 +17789,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L325",
-      "community": 13,
+      "community": 14,
       "norm_label": "10. related work",
       "id": "docs_paper_outline_10_related_work"
     },
@@ -17789,7 +17798,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L341",
-      "community": 13,
+      "community": 14,
       "norm_label": "11. future work",
       "id": "docs_paper_outline_11_future_work"
     },
@@ -17798,7 +17807,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L353",
-      "community": 13,
+      "community": 14,
       "norm_label": "12. conclusion",
       "id": "docs_paper_outline_12_conclusion"
     },
@@ -17807,7 +17816,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L369",
-      "community": 13,
+      "community": 14,
       "norm_label": "13. writing priorities",
       "id": "docs_paper_outline_13_writing_priorities"
     },
@@ -17816,7 +17825,7 @@
       "file_type": "document",
       "source_file": "docs/paper_outline.md",
       "source_location": "L384",
-      "community": 13,
+      "community": 14,
       "norm_label": "14. immediate next drafting tasks",
       "id": "docs_paper_outline_14_immediate_next_drafting_tasks"
     },
@@ -25556,7 +25565,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L1",
-      "community": 84,
+      "community": 85,
       "norm_label": "master_results_table.md",
       "id": "paper_03_results_data_master_results_table_md"
     },
@@ -25565,7 +25574,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L1",
-      "community": 84,
+      "community": 85,
       "norm_label": "raasa \u2014 master results table",
       "id": "03_results_data_master_results_table_raasa_master_results_table"
     },
@@ -25574,7 +25583,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L2",
-      "community": 84,
+      "community": 85,
       "norm_label": "all scenarios \u00d7 all modes \u00d7 all metrics",
       "id": "03_results_data_master_results_table_all_scenarios_all_modes_all_metrics"
     },
@@ -25583,7 +25592,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L13",
-      "community": 84,
+      "community": 85,
       "norm_label": "table 1 \u2014 baseline comparison (primary claim)",
       "id": "03_results_data_master_results_table_table_1_baseline_comparison_primary_claim"
     },
@@ -25592,7 +25601,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L28",
-      "community": 84,
+      "community": 85,
       "norm_label": "table 2 \u2014 scalability study (raasa linear controller)",
       "id": "03_results_data_master_results_table_table_2_scalability_study_raasa_linear_controller"
     },
@@ -25601,7 +25610,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L46",
-      "community": 84,
+      "community": 85,
       "norm_label": "table 3 \u2014 cloud-native deployment (aws ec2, k3s, tetragon ebpf)",
       "id": "03_results_data_master_results_table_table_3_cloud_native_deployment_aws_ec2_k3s_tetragon_ebpf"
     },
@@ -25610,7 +25619,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L58",
-      "community": 84,
+      "community": 85,
       "norm_label": "table 4 \u2014 ablation study: linear controller vs. isolation forest",
       "id": "03_results_data_master_results_table_table_4_ablation_study_linear_controller_vs_isolation_forest"
     },
@@ -25619,7 +25628,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L77",
-      "community": 84,
+      "community": 85,
       "norm_label": "table 5 \u2014 syscall-extended signal test",
       "id": "03_results_data_master_results_table_table_5_syscall_extended_signal_test"
     },
@@ -25628,7 +25637,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L89",
-      "community": 84,
+      "community": 85,
       "norm_label": "table 6 \u2014 benign-only overhead measurement",
       "id": "03_results_data_master_results_table_table_6_benign_only_overhead_measurement"
     },
@@ -25637,7 +25646,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L103",
-      "community": 84,
+      "community": 85,
       "norm_label": "summary \u2014 three claims supported by this table",
       "id": "03_results_data_master_results_table_summary_three_claims_supported_by_this_table"
     },
@@ -25646,7 +25655,7 @@
       "file_type": "document",
       "source_file": "paper/03_results_data/master_results_table.md",
       "source_location": "L113",
-      "community": 84,
+      "community": 85,
       "norm_label": "notes for paper submission",
       "id": "03_results_data_master_results_table_notes_for_paper_submission"
     },
@@ -31487,7 +31496,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L1",
-      "community": 85,
+      "community": 86,
       "norm_label": "27_manuscript_figure_integration_notes.md",
       "id": "rm_practical_27_manuscript_figure_integration_notes_md"
     },
@@ -31496,7 +31505,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L1",
-      "community": 85,
+      "community": 86,
       "norm_label": "manuscript figure integration notes",
       "id": "rm_practical_27_manuscript_figure_integration_notes_manuscript_figure_integration_notes"
     },
@@ -31505,7 +31514,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L5",
-      "community": 85,
+      "community": 86,
       "norm_label": "recommended final figure order",
       "id": "rm_practical_27_manuscript_figure_integration_notes_recommended_final_figure_order"
     },
@@ -31514,7 +31523,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L14",
-      "community": 85,
+      "community": 86,
       "norm_label": "section-by-section placement",
       "id": "rm_practical_27_manuscript_figure_integration_notes_section_by_section_placement"
     },
@@ -31523,7 +31532,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L16",
-      "community": 85,
+      "community": 86,
       "norm_label": "section 5 - framework / architecture",
       "id": "rm_practical_27_manuscript_figure_integration_notes_section_5_framework_architecture"
     },
@@ -31532,7 +31541,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L26",
-      "community": 85,
+      "community": 86,
       "norm_label": "section 7 - results",
       "id": "rm_practical_27_manuscript_figure_integration_notes_section_7_results"
     },
@@ -31541,7 +31550,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L35",
-      "community": 85,
+      "community": 86,
       "norm_label": "section 8 - ablation",
       "id": "rm_practical_27_manuscript_figure_integration_notes_section_8_ablation"
     },
@@ -31550,7 +31559,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L45",
-      "community": 85,
+      "community": 86,
       "norm_label": "text alignment rules",
       "id": "rm_practical_27_manuscript_figure_integration_notes_text_alignment_rules"
     },
@@ -31559,7 +31568,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L51",
-      "community": 85,
+      "community": 86,
       "norm_label": "phrases to use in the manuscript",
       "id": "rm_practical_27_manuscript_figure_integration_notes_phrases_to_use_in_the_manuscript"
     },
@@ -31568,7 +31577,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L73",
-      "community": 85,
+      "community": 86,
       "norm_label": "phrases to avoid",
       "id": "rm_practical_27_manuscript_figure_integration_notes_phrases_to_avoid"
     },
@@ -31577,7 +31586,7 @@
       "file_type": "document",
       "source_file": "RM_practical/27_manuscript_figure_integration_notes.md",
       "source_location": "L79",
-      "community": 85,
+      "community": 86,
       "norm_label": "best final writing sequence",
       "id": "rm_practical_27_manuscript_figure_integration_notes_best_final_writing_sequence"
     },
@@ -31784,7 +31793,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L1",
-      "community": 86,
+      "community": 87,
       "norm_label": "master_results_table.md",
       "id": "rm_practical_master_results_table_md"
     },
@@ -31793,7 +31802,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L1",
-      "community": 86,
+      "community": 87,
       "norm_label": "raasa \u2014 master results table",
       "id": "rm_practical_master_results_table_raasa_master_results_table"
     },
@@ -31802,7 +31811,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L2",
-      "community": 86,
+      "community": 87,
       "norm_label": "all scenarios \u00d7 all modes \u00d7 all metrics",
       "id": "rm_practical_master_results_table_all_scenarios_all_modes_all_metrics"
     },
@@ -31811,7 +31820,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L13",
-      "community": 86,
+      "community": 87,
       "norm_label": "table 1 \u2014 baseline comparison (primary claim)",
       "id": "rm_practical_master_results_table_table_1_baseline_comparison_primary_claim"
     },
@@ -31820,7 +31829,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L28",
-      "community": 86,
+      "community": 87,
       "norm_label": "table 2 \u2014 scalability study (raasa linear controller)",
       "id": "rm_practical_master_results_table_table_2_scalability_study_raasa_linear_controller"
     },
@@ -31829,7 +31838,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L46",
-      "community": 86,
+      "community": 87,
       "norm_label": "table 3 \u2014 cloud-native deployment (aws ec2, k3s, tetragon ebpf)",
       "id": "rm_practical_master_results_table_table_3_cloud_native_deployment_aws_ec2_k3s_tetragon_ebpf"
     },
@@ -31838,7 +31847,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L58",
-      "community": 86,
+      "community": 87,
       "norm_label": "table 4 \u2014 ablation study: linear controller vs. isolation forest",
       "id": "rm_practical_master_results_table_table_4_ablation_study_linear_controller_vs_isolation_forest"
     },
@@ -31847,7 +31856,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L77",
-      "community": 86,
+      "community": 87,
       "norm_label": "table 5 \u2014 syscall-extended signal test",
       "id": "rm_practical_master_results_table_table_5_syscall_extended_signal_test"
     },
@@ -31856,7 +31865,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L89",
-      "community": 86,
+      "community": 87,
       "norm_label": "table 6 \u2014 benign-only overhead measurement",
       "id": "rm_practical_master_results_table_table_6_benign_only_overhead_measurement"
     },
@@ -31865,7 +31874,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L103",
-      "community": 86,
+      "community": 87,
       "norm_label": "summary \u2014 three claims supported by this table",
       "id": "rm_practical_master_results_table_summary_three_claims_supported_by_this_table"
     },
@@ -31874,7 +31883,7 @@
       "file_type": "document",
       "source_file": "RM_practical/master_results_table.md",
       "source_location": "L113",
-      "community": 86,
+      "community": 87,
       "norm_label": "notes for paper submission",
       "id": "rm_practical_master_results_table_notes_for_paper_submission"
     },
@@ -32054,7 +32063,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L1",
-      "community": 87,
+      "community": 88,
       "norm_label": "future_implementation.md",
       "id": "rm_practical_docs_future_implementation_md"
     },
@@ -32063,7 +32072,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L1",
-      "community": 87,
+      "community": 88,
       "norm_label": "raasa v2: production-grade ebpf implementation (achieved)",
       "id": "docs_future_implementation_raasa_v2_production_grade_ebpf_implementation_achieved"
     },
@@ -32072,7 +32081,7 @@
       "file_type": "document",
       "source_file": "RM_practical/docs/future_implementation.md",
       "source_location": "L39",
-      "community": 87,
+      "community": 88,
       "norm_label": "summary of the achieved v2 upgrade path",
       "id": "docs_future_implementation_summary_of_the_achieved_v2_upgrade_path"
     },
@@ -65818,6 +65827,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests\\test_aws_campaign_scripts.py",
+      "source_location": "L103",
+      "weight": 1.0,
+      "_src": "tests_test_aws_campaign_scripts_py",
+      "_tgt": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "source": "tests_test_aws_campaign_scripts_py",
+      "target": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
@@ -65887,6 +65908,18 @@
       "_tgt": "test_aws_campaign_scripts_read_script",
       "source": "test_aws_campaign_scripts_read_script",
       "target": "test_aws_campaign_scripts_test_phase7_uses_safe_failure_injection_primitives",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "tests\\test_aws_campaign_scripts.py",
+      "source_location": "L104",
+      "weight": 1.0,
+      "_src": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "_tgt": "test_aws_campaign_scripts_read_script",
+      "source": "test_aws_campaign_scripts_read_script",
+      "target": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
       "confidence_score": 1.0
     },
     {

@@ -98,3 +98,10 @@ def test_blast_clients_have_enough_memory_for_iperf_startup() -> None:
 
         assert match, pod
         assert int(match.group(1)) >= 128, pod
+
+
+def test_phase1_bursty_variance_is_warning_only() -> None:
+    text = read_script("run_phase1_workload_validation.sh")
+
+    assert 'if [[ "$pod" == "ws-benign-bursty" ]]' in text
+    assert "intentionally burst/idle phase-dependent" in text

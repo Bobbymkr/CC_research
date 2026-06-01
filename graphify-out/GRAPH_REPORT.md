@@ -1,11 +1,11 @@
 # Graph Report - CC_research  (2026-06-01)
 
 ## Corpus Check
-- 149 files · ~2,406,852 words
+- 149 files · ~2,406,874 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3647 nodes · 5030 edges · 323 communities detected
+- 3648 nodes · 5032 edges · 323 communities detected
 - Extraction: 77% EXTRACTED · 23% INFERRED · 0% AMBIGUOUS · INFERRED: 1180 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
@@ -378,7 +378,7 @@ Nodes (139): 10. Verification Status in This Workspace, 11. Practical Run Flow, 
 
 ### Community 4 - "Community 4"
 Cohesion: 0.03
-Nodes (87): AppConfig, audit_kms_key_id(), audit_kms_mac_algorithm(), audit_kms_profile(), audit_kms_region(), confidence_window(), controller_variant(), cooldown_seconds() (+79 more)
+Nodes (85): AppConfig, audit_kms_key_id(), audit_kms_mac_algorithm(), audit_kms_profile(), audit_kms_region(), confidence_window(), controller_variant(), cooldown_seconds() (+77 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.02
@@ -410,15 +410,15 @@ Nodes (52): A/B â€” Scale gate + ML ablation, Adaptive, Architecture Design
 
 ### Community 12 - "Community 12"
 Cohesion: 0.09
-Nodes (30): compute_grouped_metrics(), compute_metrics(), _get_tier(), _grouped_summary_path_for(), load_records(), _mean(), _safe_divide(), _summary_path_for() (+22 more)
+Nodes (27): WorkloadSpec, load_config(), build_run_filename(), build_run_path(), _sanitize_run_label(), _build_parser(), _cli(), _load_loop_durations() (+19 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.05
-Nodes (43): 10. Related Work, 11. Future Work, 12. Conclusion, 13. Writing Priorities, 14. Immediate Next Drafting Tasks, 1. Working Title Options, 2. Target Paper Shape, 3. Abstract Outline (+35 more)
+Cohesion: 0.09
+Nodes (30): compute_grouped_metrics(), compute_metrics(), _get_tier(), _grouped_summary_path_for(), load_records(), _mean(), _safe_divide(), _summary_path_for() (+22 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.1
-Nodes (25): WorkloadSpec, build_run_filename(), build_run_path(), _sanitize_run_label(), _build_parser(), _cli(), _load_loop_durations(), _mean() (+17 more)
+Cohesion: 0.05
+Nodes (43): 10. Related Work, 11. Future Work, 12. Conclusion, 13. Writing Priorities, 14. Immediate Next Drafting Tasks, 1. Working Title Options, 2. Target Paper Shape, 3. Abstract Outline (+35 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.12
@@ -689,36 +689,36 @@ Cohesion: 0.31
 Nodes (9): Add-MapCount(), Copy-Remote(), Format-MapSummary(), Get-AuditSummary(), Get-RemoteAuditLines(), Get-RemoteAuditState(), Invoke-NativeCapture(), Invoke-SSH() (+1 more)
 
 ### Community 82 - "Community 82"
-Cohesion: 0.18
-Nodes (10): 1. Executive Summary, 2.1 The Fragility of Cloud-Native Telemetry (K8s Metrics API), 2.2 The Resilience of Out-of-Band eBPF Probes, 2. Empirical Findings, 3. Paper Contribution & Relevance, 4. Next Steps (Phase 1), RAASA Phase 0 AWS Evaluation Report: The Telemetry Resilience Dilemma, Today's World: (+2 more)
+Cohesion: 0.31
+Nodes (8): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase1_bursty_variance_is_warning_only(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_duplicate_grep_count_zeroes(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
 
 ### Community 83 - "Community 83"
 Cohesion: 0.18
-Nodes (10): AWS Phase 1C Pod-Specific Enforcement Report, Deployment evidence, Executive verdict, Interpretation, Quantitative result, Remaining caveat, Research-grade conclusion, The key breakthrough (+2 more)
+Nodes (10): 1. Executive Summary, 2.1 The Fragility of Cloud-Native Telemetry (K8s Metrics API), 2.2 The Resilience of Out-of-Band eBPF Probes, 2. Empirical Findings, 3. Paper Contribution & Relevance, 4. Next Steps (Phase 1), RAASA Phase 0 AWS Evaluation Report: The Telemetry Resilience Dilemma, Today's World: (+2 more)
 
 ### Community 84 - "Community 84"
 Cohesion: 0.18
-Nodes (10): All Scenarios × All Modes × All Metrics, Notes for Paper Submission, RAASA — Master Results Table, Summary — Three Claims Supported by This Table, Table 1 — Baseline Comparison (Primary Claim), Table 2 — Scalability Study (RAASA Linear Controller), Table 3 — Cloud-Native Deployment (AWS EC2, K3s, Tetragon eBPF), Table 4 — Ablation Study: Linear Controller vs. Isolation Forest (+2 more)
+Nodes (10): AWS Phase 1C Pod-Specific Enforcement Report, Deployment evidence, Executive verdict, Interpretation, Quantitative result, Remaining caveat, Research-grade conclusion, The key breakthrough (+2 more)
 
 ### Community 85 - "Community 85"
 Cohesion: 0.18
-Nodes (10): Best final writing sequence, Manuscript Figure Integration Notes, Phrases to avoid, Phrases to use in the manuscript, Recommended final figure order, Section 5 - Framework / architecture, Section 7 - Results, Section 8 - Ablation (+2 more)
+Nodes (10): All Scenarios × All Modes × All Metrics, Notes for Paper Submission, RAASA — Master Results Table, Summary — Three Claims Supported by This Table, Table 1 — Baseline Comparison (Primary Claim), Table 2 — Scalability Study (RAASA Linear Controller), Table 3 — Cloud-Native Deployment (AWS EC2, K3s, Tetragon eBPF), Table 4 — Ablation Study: Linear Controller vs. Isolation Forest (+2 more)
 
 ### Community 86 - "Community 86"
 Cohesion: 0.18
-Nodes (10): All Scenarios × All Modes × All Metrics, Notes for Paper Submission, RAASA — Master Results Table, Summary — Three Claims Supported by This Table, Table 1 — Baseline Comparison (Primary Claim), Table 2 — Scalability Study (RAASA Linear Controller), Table 3 — Cloud-Native Deployment (AWS EC2, K3s, Tetragon eBPF), Table 4 — Ablation Study: Linear Controller vs. Isolation Forest (+2 more)
+Nodes (10): Best final writing sequence, Manuscript Figure Integration Notes, Phrases to avoid, Phrases to use in the manuscript, Recommended final figure order, Section 5 - Framework / architecture, Section 7 - Results, Section 8 - Ablation (+2 more)
 
 ### Community 87 - "Community 87"
+Cohesion: 0.18
+Nodes (10): All Scenarios × All Modes × All Metrics, Notes for Paper Submission, RAASA — Master Results Table, Summary — Three Claims Supported by This Table, Table 1 — Baseline Comparison (Primary Claim), Table 2 — Scalability Study (RAASA Linear Controller), Table 3 — Cloud-Native Deployment (AWS EC2, K3s, Tetragon eBPF), Table 4 — Ablation Study: Linear Controller vs. Isolation Forest (+2 more)
+
+### Community 88 - "Community 88"
 Cohesion: 0.25
 Nodes (9): 1. Hardware & OS Requirements, 2. Orchestration & Container Layer, 3. The Sensory Layer (eBPF Detection), 4. The Enforcement Layer (Network & Memory Throttling), 5. Programming Languages & SDKs, RAASA v2 Candidate: Kubernetes/eBPF Implementation Progress, RAASA v2: Production-Grade eBPF Implementation (ACHIEVED), Summary of the Achieved v2 Upgrade Path (+1 more)
 
-### Community 88 - "Community 88"
+### Community 89 - "Community 89"
 Cohesion: 0.2
 Nodes (1): experiments/__init__.py note L1
-
-### Community 89 - "Community 89"
-Cohesion: 0.33
-Nodes (7): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_duplicate_grep_count_zeroes(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
 
 ### Community 90 - "Community 90"
 Cohesion: 0.2
@@ -1655,7 +1655,7 @@ Nodes (1): Start the socket listener in a background thread.
 ## Knowledge Gaps
 - **1870 isolated node(s):** `Quick diagnostic: trace malicious container risk scores from latest JSONL run.`, `Compute mean metrics across the 3 latest tuned adaptive runs.`, `RAASA Paper Figure Generator Uses real experiment summary JSONs to produce all p`, `Plot live tier transitions from the small_tuned_raasa_r1 run.`, `Render the degraded-mode and bounded-stress summary figure.      Source values c` (+1865 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 88`** (10 nodes): `experiments/__init__.py note L1`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`
+- **Thin community `Community 89`** (10 nodes): `experiments/__init__.py note L1`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`, `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 118`** (7 nodes): `Add-MarkdownLine()`, `Convert-ToPercent()`, `Get-AwsBaseArgs()`, `Get-ObjectPropertyValue()`, `Get-ValueOrDefault()`, `Invoke-AwsJson()`, `check_aws_free_tier.ps1`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -1994,11 +1994,11 @@ Nodes (1): Start the socket listener in a background thread.
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `ContainerTelemetry` connect `Community 1` to `Community 0`, `Community 15`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
 - **Why does `solve_stackelberg_game()` connect `Community 19` to `Community 4`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `handle_command()` connect `Community 9` to `Community 4`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `ObserverK8s` connect `Community 1` to `Community 0`, `Community 15`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Are the 149 inferred relationships involving `ContainerTelemetry` (e.g. with `BaseObserver` and `base_observer.py note L1`) actually correct?**
   _`ContainerTelemetry` has 149 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 118 inferred relationships involving `BaseObserver` (e.g. with `ContainerTelemetry` and `Observer`) actually correct?**
