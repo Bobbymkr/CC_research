@@ -1,0 +1,394 @@
+---
+# RAASA AWS Live Testing — Complete Workload Manifests
+# Expert plan: 7 workloads covering benign, suspicious, and malicious classes.
+# Each pod has raasa.class and raasa.expected_tier labels for ground truth.
+# All workloads are deterministic with fixed durations and controlled resource usage.
+#
+# Deploy: kubectl apply -f workloads.yaml
+# Remove: kubectl delete -f workloads.yaml
+
+# ─── Workload 1: Benign Idle ─────────────────────────────────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-benign-idle
+  namespace: default
+  labels:
+    app: raasa-workload
+    raasa.class: benign
+    raasa.expected_tier: L1
+    raasa.workload_id: ws-benign-idle
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          # Serve static content with netcat — minimal CPU, minimal network
+          apt-get update -qq && apt-get install -y -qq ncat >/dev/null 2>&1
+          while true; do
+            echo -e 'HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\nHello, RAASA!' | ncat -l -p 8080 -q 1 2>/dev/null || true
+            sleep 1
+          done
+      ports:
+        - containerPort: 8080
+      resources:
+        requests:
+          cpu: "20m"
+          memory: "32Mi"
+        limits:
+          cpu: "100m"
+          memory: "128Mi"
+
+---
+# ─── Workload 2: Benign Compute Heavy ────────────────────────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-benign-compute
+  namespace: default
+  labels:
+    app: raasa-workload
+    raasa.class: benign
+    raasa.expected_tier: L1
+    raasa.workload_id: ws-benign-compute
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          # Legitimate batch compute: stress one CPU for 60s, rest 30s, repeat.
+          # Should NOT trigger L3 — tests that RAASA distinguishes compute from attack.
+          apt-get update -qq && apt-get install -y -qq stress-ng >/dev/null 2>&1
+          while true; do
+            stress-ng --cpu 1 --timeout 60s --quiet
+            sleep 30
+          done
+      resources:
+        requests:
+          cpu: "200m"
+          memory: "128Mi"
+        limits:
+          cpu: "900m"
+          memory: "256Mi"
+
+---
+# ─── Workload 3: Benign Bursty ───────────────────────────────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-benign-bursty
+  namespace: default
+  labels:
+    app: raasa-workload
+    raasa.class: benign
+    raasa.expected_tier: L1
+    raasa.workload_id: ws-benign-bursty
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          # 10s burst at 100% CPU then 20s idle — tests hysteresis and cooldown.
+          apt-get update -qq && apt-get install -y -qq stress-ng >/dev/null 2>&1
+          while true; do
+            stress-ng --cpu 1 --timeout 10s --quiet
+            sleep 20
+          done
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "32Mi"
+        limits:
+          cpu: "800m"
+          memory: "128Mi"
+
+---
+# ─── Workload 4: Suspicious Process Fan-out ──────────────────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-suspicious-proc
+  namespace: default
+  labels:
+    app: raasa-workload
+    raasa.class: suspicious
+    raasa.expected_tier: L2
+    raasa.workload_id: ws-suspicious-proc
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          # Spawn 5 subprocesses every 30s — moderate process fan-out pattern.
+          # Simulates a suspicious but not yet malicious workload.
+          while true; do
+            for i in $(seq 1 5); do
+              sleep 25 &
+            done
+            sleep 30
+            # Clean up background jobs to avoid unbounded growth
+            kill $(jobs -p) 2>/dev/null || true
+            wait 2>/dev/null || true
+          done
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "32Mi"
+        limits:
+          cpu: "400m"
+          memory: "128Mi"
+
+---
+# ─── Workload 5: Malicious CPU + Process Abuse ───────────────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-malicious-cpu
+  namespace: default
+  labels:
+    app: raasa-workload
+    raasa.class: malicious
+    raasa.expected_tier: L3
+    raasa.workload_id: ws-malicious-cpu
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          # CPU saturation + process fan-out: primary malicious workload.
+          # Combination of CPU and process signals should push risk past L3 threshold.
+          apt-get update -qq && apt-get install -y -qq stress-ng >/dev/null 2>&1
+          stress-ng --cpu 2 --fork 4 --vm 1 --timeout 0 --quiet
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "1500m"
+          memory: "512Mi"
+
+---
+# ─── Workload 6: Malicious Network Heavy (Internal Flood) ────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-malicious-net
+  namespace: default
+  labels:
+    app: raasa-workload
+    raasa.class: malicious
+    raasa.expected_tier: L3
+    raasa.workload_id: ws-malicious-net
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          # Internal network flood using iperf3 against the benchmark server.
+          # RAASA_NET_SERVER env var must be set to the iperf3 server ClusterIP.
+          apt-get update -qq && apt-get install -y -qq iperf3 >/dev/null 2>&1
+          SERVER=${RAASA_NET_SERVER:-raasa-net-server}
+          while true; do
+            iperf3 -c "${SERVER}" -t 30 -P 4 --bidir 2>/dev/null || sleep 5
+          done
+      env:
+        - name: RAASA_NET_SERVER
+          value: "raasa-net-server"  # Override with Service ClusterIP
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "800m"
+          memory: "256Mi"
+
+---
+# ─── Workload 7: Malicious Syscall Storm ─────────────────────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-malicious-syscall
+  namespace: default
+  labels:
+    app: raasa-workload
+    raasa.class: malicious
+    raasa.expected_tier: L3
+    raasa.workload_id: ws-malicious-syscall
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          # Rapid openat/getdents loop — metadata harvesting / syscall storm pattern.
+          # High syscall rate with low actual CPU should trigger syscall signal.
+          apt-get update -qq && apt-get install -y -qq findutils >/dev/null 2>&1
+          while true; do
+            find /proc -maxdepth 2 -name 'status' 2>/dev/null | head -200 | xargs cat >/dev/null 2>&1
+            ls -la /proc/*/fd 2>/dev/null | head -500 >/dev/null
+            sleep 0.1
+          done
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "32Mi"
+        limits:
+          cpu: "600m"
+          memory: "128Mi"
+
+---
+# ─── Blast-Radius Test: Benign Traffic Clients A and B ───────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-blast-client-a
+  namespace: default
+  labels:
+    app: raasa-blast-test
+    raasa.class: benign
+    raasa.expected_tier: L1
+    raasa.workload_id: ws-blast-client-a
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          apt-get update -qq && apt-get install -y -qq iperf3 >/dev/null 2>&1
+          SERVER=${RAASA_NET_SERVER:-raasa-net-server}
+          while true; do
+            iperf3 -c "${SERVER}" -t 10 -i 1 2>/dev/null || sleep 3
+          done
+      env:
+        - name: RAASA_NET_SERVER
+          value: "raasa-net-server"
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "32Mi"
+        limits:
+          cpu: "300m"
+          memory: "64Mi"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ws-blast-client-b
+  namespace: default
+  labels:
+    app: raasa-blast-test
+    raasa.class: benign
+    raasa.expected_tier: L1
+    raasa.workload_id: ws-blast-client-b
+spec:
+  restartPolicy: Always
+  containers:
+    - name: workload
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          apt-get update -qq && apt-get install -y -qq iperf3 >/dev/null 2>&1
+          SERVER=${RAASA_NET_SERVER:-raasa-net-server}
+          while true; do
+            iperf3 -c "${SERVER}" -t 10 -i 1 -p 5202 2>/dev/null || sleep 3
+          done
+      env:
+        - name: RAASA_NET_SERVER
+          value: "raasa-net-server"
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "32Mi"
+        limits:
+          cpu: "300m"
+          memory: "64Mi"
+
+---
+# ─── Network Benchmark Server (iperf3 + HTTP) ────────────────────────────────
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raasa-net-server
+  namespace: default
+  labels:
+    app: raasa-net-server
+    raasa.class: infra
+    raasa.expected_tier: L1
+    raasa.workload_id: raasa-net-server
+spec:
+  restartPolicy: Always
+  containers:
+    - name: server
+      image: ubuntu:24.04
+      command:
+        - sh
+        - -c
+        - |
+          apt-get update -qq && apt-get install -y -qq iperf3 ncat >/dev/null 2>&1
+          # Run two iperf3 servers on different ports for blast-radius A/B test
+          iperf3 -s -p 5201 -D
+          iperf3 -s -p 5202 -D
+          # Keep alive
+          while true; do sleep 60; done
+      ports:
+        - containerPort: 5201
+        - containerPort: 5202
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "32Mi"
+        limits:
+          cpu: "500m"
+          memory: "128Mi"
+
+---
+# ─── Service for net-server ───────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: raasa-net-server
+  namespace: default
+spec:
+  selector:
+    app: raasa-net-server
+  ports:
+    - name: iperf3-primary
+      port: 5201
+      targetPort: 5201
+    - name: iperf3-secondary
+      port: 5202
+      targetPort: 5202
+  clusterIP: None  # Headless — use DNS resolution
