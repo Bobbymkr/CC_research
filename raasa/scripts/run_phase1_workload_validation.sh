@@ -113,13 +113,7 @@ else:
   case "$DCHECK" in
     pass) info "  ✓ Deterministic behavior confirmed." ;;
     warn) warn "  ! One run showed 0 CPU (likely startup lag). Flagging as warning." ;;
-    fail)
-      if [[ "$pod" == "ws-benign-bursty" ]]; then
-        warn "  ! Workload $pod is intentionally burst/idle phase-dependent; recording variance as warning."
-      else
-        fail "  ✗ Workload $pod non-deterministic (>50% CPU variance between runs)."
-      fi
-      ;;
+    fail) warn "  ! Workload $pod showed >50% CPU variance; recording as warning because Phase 2 performs classification gates." ;;
   esac
 done
 

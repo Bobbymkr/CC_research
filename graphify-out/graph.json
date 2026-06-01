@@ -8596,13 +8596,13 @@
       "norm_label": "test_blast_clients_have_enough_memory_for_iperf_startup()"
     },
     {
-      "label": "test_phase1_bursty_variance_is_warning_only()",
+      "label": "test_phase1_cpu_variance_is_warning_only()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L103",
-      "id": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "id": "test_aws_campaign_scripts_test_phase1_cpu_variance_is_warning_only",
       "community": 82,
-      "norm_label": "test_phase1_bursty_variance_is_warning_only()"
+      "norm_label": "test_phase1_cpu_variance_is_warning_only()"
     },
     {
       "label": "test_behavioral_dna.py",
@@ -65833,9 +65833,9 @@
       "source_location": "L103",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
-      "_tgt": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "_tgt": "test_aws_campaign_scripts_test_phase1_cpu_variance_is_warning_only",
       "source": "tests_test_aws_campaign_scripts_py",
-      "target": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "target": "test_aws_campaign_scripts_test_phase1_cpu_variance_is_warning_only",
       "confidence_score": 1.0
     },
     {
@@ -65916,10 +65916,10 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L104",
       "weight": 1.0,
-      "_src": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "_src": "test_aws_campaign_scripts_test_phase1_cpu_variance_is_warning_only",
       "_tgt": "test_aws_campaign_scripts_read_script",
       "source": "test_aws_campaign_scripts_read_script",
-      "target": "test_aws_campaign_scripts_test_phase1_bursty_variance_is_warning_only",
+      "target": "test_aws_campaign_scripts_test_phase1_cpu_variance_is_warning_only",
       "confidence_score": 1.0
     },
     {

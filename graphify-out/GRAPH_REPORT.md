@@ -690,7 +690,7 @@ Nodes (9): Add-MapCount(), Copy-Remote(), Format-MapSummary(), Get-AuditSummary(
 
 ### Community 82 - "Community 82"
 Cohesion: 0.31
-Nodes (8): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase1_bursty_variance_is_warning_only(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_duplicate_grep_count_zeroes(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
+Nodes (8): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase1_cpu_variance_is_warning_only(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_duplicate_grep_count_zeroes(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
 
 ### Community 83 - "Community 83"
 Cohesion: 0.18
