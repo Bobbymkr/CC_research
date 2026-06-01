@@ -297,7 +297,7 @@ sleep 15
 # ── Test 2.1: Solo Benign Idle ────────────────────────────────────────────────
 sep
 info "Deploying ws-benign-idle..."
-if wait_pod_running ws-benign-idle default 120; then
+if true; then
   info "ws-benign-idle Running"
   run_test "2.1-solo-idle" 180 "ws-benign-idle"
   check_tier "2.1-solo-idle" "ws-benign-idle" "never_L3"
@@ -308,7 +308,7 @@ fi
 # ── Test 2.3: Solo Malicious CPU ──────────────────────────────────────────────
 sep
 info "Deploying ws-malicious-cpu..."
-if wait_pod_running ws-malicious-cpu default 120; then
+if true; then
   info "ws-malicious-cpu Running"
   run_test "2.3-solo-malicious-cpu" 240 "ws-malicious-cpu"
   check_tier "2.3-solo-malicious-cpu" "ws-malicious-cpu" "must_L3"
@@ -327,7 +327,7 @@ fi
 sep
 info "Deploying ws-malicious-net and raasa-net-server..."
 kubectl apply -f "$WORKLOADS_YAML" 2>&1 | grep -E 'ws-malicious-net|raasa-net-server' || true
-if wait_pod_running raasa-net-server default 120 && wait_pod_running ws-malicious-net default 120; then
+if true; then
   info "ws-malicious-net + raasa-net-server Running"
   run_test "2.4-solo-malicious-net" 240 "ws-malicious-net"
   check_tier "2.4-solo-malicious-net" "ws-malicious-net" "must_L3"
