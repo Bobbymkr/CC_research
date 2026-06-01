@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 
@@ -54,6 +55,13 @@ def test_phase_scripts_do_not_use_fragile_audit_globs() -> None:
         text = read_script(script)
 
         assert 'ls -t "$LOG_DIR"/*.jsonl' not in text, script
+
+
+def test_phase_scripts_do_not_duplicate_grep_count_zeroes() -> None:
+    for script in PHASE_SCRIPTS:
+        text = read_script(script)
+
+        assert not re.search(r"grep\s+-c[^\n]+?\|\|\s+echo\s+0", text), script
 
 
 def test_phase_scripts_use_current_raasa_cli_flags() -> None:

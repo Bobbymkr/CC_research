@@ -95,8 +95,10 @@ if [[ -z "$LATEST_LOG" ]]; then
   warn "C0.4 SKIPPED: No audit log yet — RAASA has not run. This is expected before Phase 2."
   echo "NETWORK_TELEMETRY_OK=unknown" >> "$RESULTS_DIR/phase0_flags.env"
 else
-  NET_OK=$(grep -c '"network_status":"metrics_ok"' "$LATEST_LOG" 2>/dev/null || echo 0)
-  NET_FAIL=$(grep -c '"network_status":"metrics_unavailable"' "$LATEST_LOG" 2>/dev/null || echo 0)
+  NET_OK=$(grep -c '"network_status":"metrics_ok"' "$LATEST_LOG" 2>/dev/null || true)
+  NET_FAIL=$(grep -c '"network_status":"metrics_unavailable"' "$LATEST_LOG" 2>/dev/null || true)
+  NET_OK=${NET_OK:-0}
+  NET_FAIL=${NET_FAIL:-0}
   info "  Audit: $LATEST_LOG"
   info "  network_status=metrics_ok: $NET_OK | network_status=metrics_unavailable: $NET_FAIL"
   if [[ "$NET_OK" -gt 0 ]]; then

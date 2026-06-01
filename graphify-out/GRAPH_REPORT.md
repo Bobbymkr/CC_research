@@ -1,11 +1,11 @@
 # Graph Report - CC_research  (2026-06-01)
 
 ## Corpus Check
-- 149 files · ~2,406,795 words
+- 149 files · ~2,406,813 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3645 nodes · 5027 edges · 323 communities detected
+- 3646 nodes · 5029 edges · 323 communities detected
 - Extraction: 77% EXTRACTED · 23% INFERRED · 0% AMBIGUOUS · INFERRED: 1180 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
@@ -362,7 +362,7 @@
 
 ### Community 0 - "Community 0"
 Cohesion: 0.03
-Nodes (108): _apply_mode_override(), _build_audit_signer(), _build_backend(), build_parser(), _containment_profile_for_tier(), app.py note L16, app.py note L182, Factory function: selects and initialises the Observer + Enforcer pair     that (+100 more)
+Nodes (107): _apply_mode_override(), _build_audit_signer(), _build_backend(), build_parser(), _containment_profile_for_tier(), app.py note L16, app.py note L182, Factory function: selects and initialises the Observer + Enforcer pair     that (+99 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.02
@@ -378,7 +378,7 @@ Nodes (139): 10. Verification Status in This Workspace, 11. Practical Run Flow, 
 
 ### Community 4 - "Community 4"
 Cohesion: 0.03
-Nodes (88): AppConfig, audit_kms_key_id(), audit_kms_mac_algorithm(), audit_kms_profile(), audit_kms_region(), confidence_window(), controller_variant(), cooldown_seconds() (+80 more)
+Nodes (87): AppConfig, audit_kms_key_id(), audit_kms_mac_algorithm(), audit_kms_profile(), audit_kms_region(), confidence_window(), controller_variant(), cooldown_seconds() (+79 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.02
@@ -394,11 +394,11 @@ Nodes (102): 1. More ML experiments, 2. Multi-node scaling, 3. Fancy dashboards 
 
 ### Community 8 - "Community 8"
 Cohesion: 0.05
-Nodes (55): clear_approval(), get_approval_path(), load_approvals(), main(), save_approvals(), set_approval(), BehavioralDNABaseline, BehavioralDNARegistry (+47 more)
+Nodes (56): clear_approval(), get_approval_path(), load_approvals(), main(), save_approvals(), set_approval(), BehavioralDNABaseline, BehavioralDNARegistry (+48 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.07
-Nodes (43): _allow_default_interface_fallback(), _api_status(), _apply_lsm_exec_block(), _apply_memory_limit(), _apply_network_policy(), _apply_network_throttle(), _bpftool_available(), _clear_l3_network_policy() (+35 more)
+Nodes (44): _allow_default_interface_fallback(), _api_status(), _apply_lsm_exec_block(), _apply_memory_limit(), _apply_network_policy(), _apply_network_throttle(), _bpftool_available(), _clear_l3_network_policy() (+36 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.04
@@ -769,16 +769,16 @@ Cohesion: 0.47
 Nodes (7): Copy-Remote(), Get-MetricSummary(), Get-QdiscStats(), Invoke-Benchmark(), Invoke-SSH(), New-RestrictedKeyCopy(), Set-QdiscRate()
 
 ### Community 102 - "Community 102"
-Cohesion: 0.22
-Nodes (8): Architecture, code:text (raasa/), Current State, Key Evidence in This Repo, RAASA, Recommended Reading Order, Repository Layout, Research Focus
+Cohesion: 0.39
+Nodes (7): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_duplicate_grep_count_zeroes(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
 
 ### Community 103 - "Community 103"
 Cohesion: 0.22
-Nodes (7): Adversarial Workload Matrix Summary, agent-dependency-exfiltration, benign-control, network-burst, Overall, process-fanout, syscall-storm
+Nodes (8): Architecture, code:text (raasa/), Current State, Key Evidence in This Repo, RAASA, Recommended Reading Order, Repository Layout, Research Focus
 
 ### Community 104 - "Community 104"
 Cohesion: 0.22
-Nodes (8): Also good, Best paper-safe interpretation, Clear win, Phase 1 Ablation (ML vs Linear) - April 26, 2026, Remaining problem, What the ablation showed, What this means for the next phase, Why this matters
+Nodes (7): Adversarial Workload Matrix Summary, agent-dependency-exfiltration, benign-control, network-burst, Overall, process-fanout, syscall-storm
 
 ### Community 105 - "Community 105"
 Cohesion: 0.22
@@ -786,19 +786,19 @@ Nodes (8): Also good, Best paper-safe interpretation, Clear win, Phase 1 Ablatio
 
 ### Community 106 - "Community 106"
 Cohesion: 0.22
-Nodes (8): Annotation rules across all figures, Figure 1 caption draft, Figure 2 caption draft, Figure 3 caption draft, Figure 4 caption draft, Figure 5 caption draft, Figure 6 caption draft, Figure Caption and Annotation Plan
+Nodes (8): Also good, Best paper-safe interpretation, Clear win, Phase 1 Ablation (ML vs Linear) - April 26, 2026, Remaining problem, What the ablation showed, What this means for the next phase, Why this matters
 
 ### Community 107 - "Community 107"
+Cohesion: 0.22
+Nodes (8): Annotation rules across all figures, Figure 1 caption draft, Figure 2 caption draft, Figure 3 caption draft, Figure 4 caption draft, Figure 5 caption draft, Figure 6 caption draft, Figure Caption and Annotation Plan
+
+### Community 108 - "Community 108"
 Cohesion: 0.43
 Nodes (6): Copy-Remote(), Get-RemoteAuditLines(), Get-RemoteAuditState(), Invoke-NativeCapture(), Invoke-SSH(), Save-RemoteOutput()
 
-### Community 108 - "Community 108"
+### Community 109 - "Community 109"
 Cohesion: 0.54
 Nodes (6): Copy-Remote(), Get-MetricSummary(), Invoke-Benchmark(), Invoke-SSH(), New-RestrictedKeyCopy(), Send-EnforcementCommand()
-
-### Community 109 - "Community 109"
-Cohesion: 0.43
-Nodes (6): read_script(), test_orchestrator_self_relocates_to_repository_root(), test_phase7_uses_safe_failure_injection_primitives(), test_phase_scripts_are_not_sensitive_to_sudo_home(), test_phase_scripts_do_not_use_fragile_audit_globs(), test_phase_scripts_use_current_raasa_cli_flags()
 
 ### Community 110 - "Community 110"
 Cohesion: 0.25
@@ -1998,7 +1998,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `ObserverK8s` connect `Community 1` to `Community 0`, `Community 15`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Why does `run_controller()` connect `Community 0` to `Community 1`, `Community 4`, `Community 14`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **Are the 149 inferred relationships involving `ContainerTelemetry` (e.g. with `BaseObserver` and `base_observer.py note L1`) actually correct?**
   _`ContainerTelemetry` has 149 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 118 inferred relationships involving `BaseObserver` (e.g. with `ContainerTelemetry` and `Observer`) actually correct?**

@@ -74,7 +74,8 @@ generate_ablation_config() {
   # Verify at least one patch happened for non-D conditions
   if [[ "$condition" != "D" ]]; then
     local zero_count
-    zero_count=$(grep -c ': 0.0' "$out_config" 2>/dev/null || echo 0)
+    zero_count=$(grep -c ': 0.0' "$out_config" 2>/dev/null || true)
+    zero_count=${zero_count:-0}
     [[ $zero_count -eq 0 ]] && warn "  Condition $condition: no weights were zeroed — config may not have expected keys!"
   fi
 

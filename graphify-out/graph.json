@@ -3855,7 +3855,7 @@
       "source_file": "RM_practical\\code\\k8s\\enforcer_sidecar.py",
       "source_location": "L349",
       "id": "enforcer_sidecar_main",
-      "community": 4,
+      "community": 9,
       "norm_label": "main()"
     },
     {
@@ -4548,7 +4548,7 @@
       "source_file": "raasa\\ml\\behavioral_dna.py",
       "source_location": "L99",
       "id": "behavioral_dna_behavioraldnaregistry_feature_anomaly_signal",
-      "community": 0,
+      "community": 8,
       "norm_label": ".feature_anomaly_signal()"
     },
     {
@@ -4593,7 +4593,7 @@
       "source_file": "raasa\\ml\\behavioral_dna.py",
       "source_location": "L132",
       "id": "behavioral_dna_feature_to_vector",
-      "community": 0,
+      "community": 8,
       "norm_label": "feature_to_vector()"
     },
     {
@@ -5835,7 +5835,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L1",
       "id": "raasa_scripts_run_closed_loop_soak_aws_ps1",
-      "community": 107,
+      "community": 108,
       "norm_label": "run_closed_loop_soak_aws.ps1"
     },
     {
@@ -5844,7 +5844,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L23",
       "id": "run_closed_loop_soak_aws_new_restrictedkeycopy",
-      "community": 107,
+      "community": 108,
       "norm_label": "new-restrictedkeycopy()"
     },
     {
@@ -5853,7 +5853,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L42",
       "id": "run_closed_loop_soak_aws_invoke_nativecapture",
-      "community": 107,
+      "community": 108,
       "norm_label": "invoke-nativecapture()"
     },
     {
@@ -5862,7 +5862,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L127",
       "id": "run_closed_loop_soak_aws_invoke_ssh",
-      "community": 107,
+      "community": 108,
       "norm_label": "invoke-ssh()"
     },
     {
@@ -5871,7 +5871,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L162",
       "id": "run_closed_loop_soak_aws_copy_remote",
-      "community": 107,
+      "community": 108,
       "norm_label": "copy-remote()"
     },
     {
@@ -5880,7 +5880,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L189",
       "id": "run_closed_loop_soak_aws_save_remoteoutput",
-      "community": 107,
+      "community": 108,
       "norm_label": "save-remoteoutput()"
     },
     {
@@ -5889,7 +5889,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L206",
       "id": "run_closed_loop_soak_aws_get_remoteauditstate",
-      "community": 107,
+      "community": 108,
       "norm_label": "get-remoteauditstate()"
     },
     {
@@ -5898,7 +5898,7 @@
       "source_file": "raasa\\scripts\\run_closed_loop_soak_aws.ps1",
       "source_location": "L263",
       "id": "run_closed_loop_soak_aws_get_remoteauditlines",
-      "community": 107,
+      "community": 108,
       "norm_label": "get-remoteauditlines()"
     },
     {
@@ -6339,7 +6339,7 @@
       "source_file": "raasa\\scripts\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L1",
       "id": "raasa_scripts_run_phase1c_pod_specific_validation_ps1",
-      "community": 108,
+      "community": 109,
       "norm_label": "run_phase1c_pod_specific_validation.ps1"
     },
     {
@@ -6348,7 +6348,7 @@
       "source_file": "RM_practical\\code\\k8s\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L17",
       "id": "run_phase1c_pod_specific_validation_new_restrictedkeycopy",
-      "community": 108,
+      "community": 109,
       "norm_label": "new-restrictedkeycopy()"
     },
     {
@@ -6357,7 +6357,7 @@
       "source_file": "RM_practical\\code\\k8s\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L48",
       "id": "run_phase1c_pod_specific_validation_invoke_ssh",
-      "community": 108,
+      "community": 109,
       "norm_label": "invoke-ssh()"
     },
     {
@@ -6366,7 +6366,7 @@
       "source_file": "RM_practical\\code\\k8s\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L61",
       "id": "run_phase1c_pod_specific_validation_copy_remote",
-      "community": 108,
+      "community": 109,
       "norm_label": "copy-remote()"
     },
     {
@@ -6375,7 +6375,7 @@
       "source_file": "RM_practical\\code\\k8s\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L76",
       "id": "run_phase1c_pod_specific_validation_invoke_benchmark",
-      "community": 108,
+      "community": 109,
       "norm_label": "invoke-benchmark()"
     },
     {
@@ -6384,7 +6384,7 @@
       "source_file": "RM_practical\\code\\k8s\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L95",
       "id": "run_phase1c_pod_specific_validation_send_enforcementcommand",
-      "community": 108,
+      "community": 109,
       "norm_label": "send-enforcementcommand()"
     },
     {
@@ -6393,7 +6393,7 @@
       "source_file": "RM_practical\\code\\k8s\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L130",
       "id": "run_phase1c_pod_specific_validation_get_metricsummary",
-      "community": 108,
+      "community": 109,
       "norm_label": "get-metricsummary()"
     },
     {
@@ -7338,7 +7338,7 @@
       "source_file": "RM_practical\\code\\k8s\\run_phase1c_pod_specific_validation.ps1",
       "source_location": "L1",
       "id": "rm_practical_code_k8s_run_phase1c_pod_specific_validation_ps1",
-      "community": 108,
+      "community": 109,
       "norm_label": "run_phase1c_pod_specific_validation.ps1"
     },
     {
@@ -8511,70 +8511,79 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L1",
       "id": "tests_test_aws_campaign_scripts_py",
-      "community": 109,
+      "community": 102,
       "norm_label": "test_aws_campaign_scripts.py"
     },
     {
       "label": "read_script()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L32",
+      "source_location": "L33",
       "id": "test_aws_campaign_scripts_read_script",
-      "community": 109,
+      "community": 102,
       "norm_label": "read_script()"
     },
     {
       "label": "test_orchestrator_self_relocates_to_repository_root()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L36",
+      "source_location": "L37",
       "id": "test_aws_campaign_scripts_test_orchestrator_self_relocates_to_repository_root",
-      "community": 109,
+      "community": 102,
       "norm_label": "test_orchestrator_self_relocates_to_repository_root()"
     },
     {
       "label": "test_phase_scripts_are_not_sensitive_to_sudo_home()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L43",
+      "source_location": "L44",
       "id": "test_aws_campaign_scripts_test_phase_scripts_are_not_sensitive_to_sudo_home",
-      "community": 109,
+      "community": 102,
       "norm_label": "test_phase_scripts_are_not_sensitive_to_sudo_home()"
     },
     {
       "label": "test_phase_scripts_do_not_use_fragile_audit_globs()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L52",
+      "source_location": "L53",
       "id": "test_aws_campaign_scripts_test_phase_scripts_do_not_use_fragile_audit_globs",
-      "community": 109,
+      "community": 102,
       "norm_label": "test_phase_scripts_do_not_use_fragile_audit_globs()"
+    },
+    {
+      "label": "test_phase_scripts_do_not_duplicate_grep_count_zeroes()",
+      "file_type": "code",
+      "source_file": "tests\\test_aws_campaign_scripts.py",
+      "source_location": "L60",
+      "id": "test_aws_campaign_scripts_test_phase_scripts_do_not_duplicate_grep_count_zeroes",
+      "community": 102,
+      "norm_label": "test_phase_scripts_do_not_duplicate_grep_count_zeroes()"
     },
     {
       "label": "test_phase_scripts_use_current_raasa_cli_flags()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L59",
+      "source_location": "L67",
       "id": "test_aws_campaign_scripts_test_phase_scripts_use_current_raasa_cli_flags",
-      "community": 109,
+      "community": 102,
       "norm_label": "test_phase_scripts_use_current_raasa_cli_flags()"
     },
     {
       "label": "test_phase7_uses_safe_failure_injection_primitives()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L68",
+      "source_location": "L76",
       "id": "test_aws_campaign_scripts_test_phase7_uses_safe_failure_injection_primitives",
-      "community": 109,
+      "community": 102,
       "norm_label": "test_phase7_uses_safe_failure_injection_primitives()"
     },
     {
       "label": "test_tracked_legacy_shell_scripts_are_not_empty()",
       "file_type": "code",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L75",
+      "source_location": "L83",
       "id": "test_aws_campaign_scripts_test_tracked_legacy_shell_scripts_are_not_empty",
-      "community": 109,
+      "community": 102,
       "norm_label": "test_tracked_legacy_shell_scripts_are_not_empty()"
     },
     {
@@ -8646,7 +8655,7 @@
       "source_file": "tests\\test_behavioral_dna.py",
       "source_location": "L75",
       "id": "test_behavioral_dna_behavioraldnaregistrytests_test_risk_assessor_uses_behavioral_dna_when_configured",
-      "community": 0,
+      "community": 8,
       "norm_label": ".test_risk_assessor_uses_behavioral_dna_when_configured()"
     },
     {
@@ -12038,7 +12047,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L1",
-      "community": 102,
+      "community": 103,
       "norm_label": "readme.md",
       "id": "readme_md"
     },
@@ -12047,7 +12056,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L1",
-      "community": 102,
+      "community": 103,
       "norm_label": "raasa",
       "id": "cc_research_readme_raasa"
     },
@@ -12056,7 +12065,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L11",
-      "community": 102,
+      "community": 103,
       "norm_label": "research focus",
       "id": "cc_research_readme_research_focus"
     },
@@ -12065,7 +12074,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L23",
-      "community": 102,
+      "community": 103,
       "norm_label": "architecture",
       "id": "cc_research_readme_architecture"
     },
@@ -12074,7 +12083,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L45",
-      "community": 102,
+      "community": 103,
       "norm_label": "current state",
       "id": "cc_research_readme_current_state"
     },
@@ -12083,7 +12092,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L65",
-      "community": 102,
+      "community": 103,
       "norm_label": "key evidence in this repo",
       "id": "cc_research_readme_key_evidence_in_this_repo"
     },
@@ -12092,7 +12101,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L86",
-      "community": 102,
+      "community": 103,
       "norm_label": "repository layout",
       "id": "cc_research_readme_repository_layout"
     },
@@ -12101,7 +12110,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L88",
-      "community": 102,
+      "community": 103,
       "norm_label": "code:text (raasa/)",
       "id": "cc_research_readme_codeblock_1"
     },
@@ -12110,7 +12119,7 @@
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L102",
-      "community": 102,
+      "community": 103,
       "norm_label": "recommended reading order",
       "id": "cc_research_readme_recommended_reading_order"
     },
@@ -14180,7 +14189,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_freetier_resumed_2026_05_13_094157/run_03/summary.md",
       "source_location": "L1",
-      "community": 103,
+      "community": 104,
       "norm_label": "summary.md",
       "id": "aws_results_26_april_adversarial_matrix_repeated_freetier_resumed_2026_05_13_094157_run_03_summary_md"
     },
@@ -14189,7 +14198,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_quiesced_2026_05_12_154335/run_03/summary.md",
       "source_location": "L1",
-      "community": 103,
+      "community": 104,
       "norm_label": "adversarial workload matrix summary",
       "id": "run_03_summary_adversarial_workload_matrix_summary"
     },
@@ -14198,7 +14207,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_quiesced_2026_05_12_154335/run_03/summary.md",
       "source_location": "L8",
-      "community": 103,
+      "community": 104,
       "norm_label": "benign-control",
       "id": "run_03_summary_benign_control"
     },
@@ -14207,7 +14216,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_quiesced_2026_05_12_154335/run_03/summary.md",
       "source_location": "L21",
-      "community": 103,
+      "community": 104,
       "norm_label": "syscall-storm",
       "id": "run_03_summary_syscall_storm"
     },
@@ -14216,7 +14225,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_quiesced_2026_05_12_154335/run_03/summary.md",
       "source_location": "L34",
-      "community": 103,
+      "community": 104,
       "norm_label": "process-fanout",
       "id": "run_03_summary_process_fanout"
     },
@@ -14225,7 +14234,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_quiesced_2026_05_12_154335/run_03/summary.md",
       "source_location": "L47",
-      "community": 103,
+      "community": 104,
       "norm_label": "network-burst",
       "id": "run_03_summary_network_burst"
     },
@@ -14234,7 +14243,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_freetier_resumed_2026_05_13_094157/run_03/summary.md",
       "source_location": "L60",
-      "community": 103,
+      "community": 104,
       "norm_label": "agent-dependency-exfiltration",
       "id": "run_03_summary_agent_dependency_exfiltration"
     },
@@ -14243,7 +14252,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_quiesced_2026_05_12_154335/run_03/summary.md",
       "source_location": "L60",
-      "community": 103,
+      "community": 104,
       "norm_label": "overall",
       "id": "run_03_summary_overall"
     },
@@ -14468,7 +14477,7 @@
       "file_type": "document",
       "source_file": "AWS_Results_26_april/adversarial_matrix_repeated_quiesced_2026_05_12_154335/run_03/summary.md",
       "source_location": "L1",
-      "community": 103,
+      "community": 104,
       "norm_label": "summary.md",
       "id": "aws_results_26_april_adversarial_matrix_repeated_quiesced_2026_05_12_154335_run_03_summary_md"
     },
@@ -25403,7 +25412,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L1",
-      "community": 104,
+      "community": 105,
       "norm_label": "11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "id": "paper_02_supporting_docs_phases_11_phase1_ablation_ml_vs_linear_2026_04_26_md"
     },
@@ -25412,7 +25421,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L1",
-      "community": 104,
+      "community": 105,
       "norm_label": "phase 1 ablation (ml vs linear) - april 26, 2026",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_phase_1_ablation_ml_vs_linear_april_26_2026"
     },
@@ -25421,7 +25430,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L10",
-      "community": 104,
+      "community": 105,
       "norm_label": "why this matters",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_why_this_matters"
     },
@@ -25430,7 +25439,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L21",
-      "community": 104,
+      "community": 105,
       "norm_label": "what the ablation showed",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_what_the_ablation_showed"
     },
@@ -25439,7 +25448,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L23",
-      "community": 104,
+      "community": 105,
       "norm_label": "clear win",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_clear_win"
     },
@@ -25448,7 +25457,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L31",
-      "community": 104,
+      "community": 105,
       "norm_label": "also good",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_also_good"
     },
@@ -25457,7 +25466,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L37",
-      "community": 104,
+      "community": 105,
       "norm_label": "remaining problem",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_remaining_problem"
     },
@@ -25466,7 +25475,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L55",
-      "community": 104,
+      "community": 105,
       "norm_label": "best paper-safe interpretation",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_best_paper_safe_interpretation"
     },
@@ -25475,7 +25484,7 @@
       "file_type": "document",
       "source_file": "paper/02_supporting_docs/phases/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L65",
-      "community": 104,
+      "community": 105,
       "norm_label": "what this means for the next phase",
       "id": "phases_11_phase1_ablation_ml_vs_linear_2026_04_26_what_this_means_for_the_next_phase"
     },
@@ -30002,7 +30011,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L1",
-      "community": 105,
+      "community": 106,
       "norm_label": "11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_md"
     },
@@ -30011,7 +30020,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L1",
-      "community": 105,
+      "community": 106,
       "norm_label": "phase 1 ablation (ml vs linear) - april 26, 2026",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_phase_1_ablation_ml_vs_linear_april_26_2026"
     },
@@ -30020,7 +30029,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L10",
-      "community": 105,
+      "community": 106,
       "norm_label": "why this matters",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_why_this_matters"
     },
@@ -30029,7 +30038,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L21",
-      "community": 105,
+      "community": 106,
       "norm_label": "what the ablation showed",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_what_the_ablation_showed"
     },
@@ -30038,7 +30047,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L23",
-      "community": 105,
+      "community": 106,
       "norm_label": "clear win",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_clear_win"
     },
@@ -30047,7 +30056,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L31",
-      "community": 105,
+      "community": 106,
       "norm_label": "also good",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_also_good"
     },
@@ -30056,7 +30065,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L37",
-      "community": 105,
+      "community": 106,
       "norm_label": "remaining problem",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_remaining_problem"
     },
@@ -30065,7 +30074,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L55",
-      "community": 105,
+      "community": 106,
       "norm_label": "best paper-safe interpretation",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_best_paper_safe_interpretation"
     },
@@ -30074,7 +30083,7 @@
       "file_type": "document",
       "source_file": "RM_practical/11_phase1_ablation_ml_vs_linear_2026_04_26.md",
       "source_location": "L65",
-      "community": 105,
+      "community": 106,
       "norm_label": "what this means for the next phase",
       "id": "rm_practical_11_phase1_ablation_ml_vs_linear_2026_04_26_what_this_means_for_the_next_phase"
     },
@@ -30974,7 +30983,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L1",
-      "community": 106,
+      "community": 107,
       "norm_label": "23_figure_caption_and_annotation_plan.md",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_md"
     },
@@ -30983,7 +30992,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L1",
-      "community": 106,
+      "community": 107,
       "norm_label": "figure caption and annotation plan",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_figure_caption_and_annotation_plan"
     },
@@ -30992,7 +31001,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L5",
-      "community": 106,
+      "community": 107,
       "norm_label": "figure 1 caption draft",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_figure_1_caption_draft"
     },
@@ -31001,7 +31010,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L15",
-      "community": 106,
+      "community": 107,
       "norm_label": "figure 2 caption draft",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_figure_2_caption_draft"
     },
@@ -31010,7 +31019,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L25",
-      "community": 106,
+      "community": 107,
       "norm_label": "figure 3 caption draft",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_figure_3_caption_draft"
     },
@@ -31019,7 +31028,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L34",
-      "community": 106,
+      "community": 107,
       "norm_label": "figure 4 caption draft",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_figure_4_caption_draft"
     },
@@ -31028,7 +31037,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L44",
-      "community": 106,
+      "community": 107,
       "norm_label": "figure 5 caption draft",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_figure_5_caption_draft"
     },
@@ -31037,7 +31046,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L54",
-      "community": 106,
+      "community": 107,
       "norm_label": "figure 6 caption draft",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_figure_6_caption_draft"
     },
@@ -31046,7 +31055,7 @@
       "file_type": "document",
       "source_file": "RM_practical/23_figure_caption_and_annotation_plan.md",
       "source_location": "L64",
-      "community": 106,
+      "community": 107,
       "norm_label": "annotation rules across all figures",
       "id": "rm_practical_23_figure_caption_and_annotation_plan_annotation_rules_across_all_figures"
     },
@@ -65695,7 +65704,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
       "_tgt": "test_aws_campaign_scripts_read_script",
@@ -65707,7 +65716,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
       "_tgt": "test_aws_campaign_scripts_test_orchestrator_self_relocates_to_repository_root",
@@ -65719,7 +65728,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
       "_tgt": "test_aws_campaign_scripts_test_phase_scripts_are_not_sensitive_to_sudo_home",
@@ -65731,7 +65740,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L52",
+      "source_location": "L53",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
       "_tgt": "test_aws_campaign_scripts_test_phase_scripts_do_not_use_fragile_audit_globs",
@@ -65743,7 +65752,19 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L59",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_src": "tests_test_aws_campaign_scripts_py",
+      "_tgt": "test_aws_campaign_scripts_test_phase_scripts_do_not_duplicate_grep_count_zeroes",
+      "source": "tests_test_aws_campaign_scripts_py",
+      "target": "test_aws_campaign_scripts_test_phase_scripts_do_not_duplicate_grep_count_zeroes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests\\test_aws_campaign_scripts.py",
+      "source_location": "L67",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
       "_tgt": "test_aws_campaign_scripts_test_phase_scripts_use_current_raasa_cli_flags",
@@ -65755,7 +65776,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L68",
+      "source_location": "L76",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
       "_tgt": "test_aws_campaign_scripts_test_phase7_uses_safe_failure_injection_primitives",
@@ -65767,7 +65788,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L75",
+      "source_location": "L83",
       "weight": 1.0,
       "_src": "tests_test_aws_campaign_scripts_py",
       "_tgt": "test_aws_campaign_scripts_test_tracked_legacy_shell_scripts_are_not_empty",
@@ -65779,7 +65800,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0,
       "_src": "test_aws_campaign_scripts_test_orchestrator_self_relocates_to_repository_root",
       "_tgt": "test_aws_campaign_scripts_read_script",
@@ -65791,7 +65812,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L45",
+      "source_location": "L46",
       "weight": 1.0,
       "_src": "test_aws_campaign_scripts_test_phase_scripts_are_not_sensitive_to_sudo_home",
       "_tgt": "test_aws_campaign_scripts_read_script",
@@ -65803,7 +65824,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0,
       "_src": "test_aws_campaign_scripts_test_phase_scripts_do_not_use_fragile_audit_globs",
       "_tgt": "test_aws_campaign_scripts_read_script",
@@ -65817,6 +65838,18 @@
       "source_file": "tests\\test_aws_campaign_scripts.py",
       "source_location": "L62",
       "weight": 1.0,
+      "_src": "test_aws_campaign_scripts_test_phase_scripts_do_not_duplicate_grep_count_zeroes",
+      "_tgt": "test_aws_campaign_scripts_read_script",
+      "source": "test_aws_campaign_scripts_read_script",
+      "target": "test_aws_campaign_scripts_test_phase_scripts_do_not_duplicate_grep_count_zeroes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "tests\\test_aws_campaign_scripts.py",
+      "source_location": "L70",
+      "weight": 1.0,
       "_src": "test_aws_campaign_scripts_test_phase_scripts_use_current_raasa_cli_flags",
       "_tgt": "test_aws_campaign_scripts_read_script",
       "source": "test_aws_campaign_scripts_read_script",
@@ -65827,7 +65860,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "tests\\test_aws_campaign_scripts.py",
-      "source_location": "L69",
+      "source_location": "L77",
       "weight": 1.0,
       "_src": "test_aws_campaign_scripts_test_phase7_uses_safe_failure_injection_primitives",
       "_tgt": "test_aws_campaign_scripts_read_script",

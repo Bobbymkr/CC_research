@@ -204,8 +204,10 @@ for iface in $INTERFACES; do
 done
 
 # Compare tc states
-TC_BEFORE=$(grep -c 'netem\|tbf\|loss' "$check_c73_dir/tc_before_kill.txt" 2>/dev/null || echo 0)
-TC_AFTER=$(grep -c 'netem\|tbf\|loss' "$check_c73_dir/tc_after_kill.txt" 2>/dev/null || echo 0)
+TC_BEFORE=$(grep -c 'netem\|tbf\|loss' "$check_c73_dir/tc_before_kill.txt" 2>/dev/null || true)
+TC_AFTER=$(grep -c 'netem\|tbf\|loss' "$check_c73_dir/tc_after_kill.txt" 2>/dev/null || true)
+TC_BEFORE=${TC_BEFORE:-0}
+TC_AFTER=${TC_AFTER:-0}
 
 info "  tc netem/tbf rules BEFORE kill: $TC_BEFORE"
 info "  tc netem/tbf rules AFTER kill:  $TC_AFTER"

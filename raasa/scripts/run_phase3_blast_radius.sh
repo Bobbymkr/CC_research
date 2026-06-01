@@ -219,9 +219,11 @@ check "C3.1 — Malicious pod throughput should drop to ~0 after L3"
 AUDIT_FILE=$(latest_audit)
 if [[ -n "$AUDIT_FILE" ]]; then
   cp "$AUDIT_FILE" "$RESULTS_DIR/phase3_audit.jsonl"
-  MAL_L3=$(grep -c '"container_id":"default/ws-malicious-cpu".*"applied_tier":"L3"' "$RESULTS_DIR/phase3_audit.jsonl" 2>/dev/null || echo 0)
+  MAL_L3=$(grep -c '"container_id":"default/ws-malicious-cpu".*"applied_tier":"L3"' "$RESULTS_DIR/phase3_audit.jsonl" 2>/dev/null || true)
   # Also try multiline match
-  MAL_L3_ALT=$(grep '"container_id":"default/ws-malicious-cpu"' "$RESULTS_DIR/phase3_audit.jsonl" 2>/dev/null | grep -c '"applied_tier":"L3"' || echo 0)
+  MAL_L3_ALT=$(grep '"container_id":"default/ws-malicious-cpu"' "$RESULTS_DIR/phase3_audit.jsonl" 2>/dev/null | grep -c '"applied_tier":"L3"' || true)
+  MAL_L3=${MAL_L3:-0}
+  MAL_L3_ALT=${MAL_L3_ALT:-0}
   TOTAL_MAL_L3=$(( MAL_L3 > MAL_L3_ALT ? MAL_L3 : MAL_L3_ALT ))
   if [[ $TOTAL_MAL_L3 -gt 0 ]]; then
     info "C3.1 PASSED: ws-malicious-cpu was in L3 for $TOTAL_MAL_L3 tick(s)."
